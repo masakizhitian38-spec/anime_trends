@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>戦争・軍隊の描き方 — 視点別分析 028</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0f1419;--card:#1a2230;--card2:#222c3d;--ink:#e8eef5;--mut:#9fb0c3;--ac:#e0563b;--ac2:#4a86c5;--ok:#3fb27f;--warn:#d9a441;--line:#33415a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;line-height:1.7}
+.wrap{max-width:1160px;margin:0 auto;padding:26px 18px 80px}
+h1{font-size:26px;margin:0 0 4px;border-left:6px solid var(--ac);padding-left:12px}
+h2{font-size:20px;margin:38px 0 14px;border-bottom:1px solid var(--line);padding-bottom:6px}
+h3{font-size:16px;color:var(--ac2);margin:20px 0 8px}
+.sub{color:var(--mut);font-size:14px;margin-bottom:8px}
+.warn{background:#2b2417;border:1px solid var(--warn);border-radius:10px;padding:12px 16px;font-size:13px;color:#e8d4a8;margin:16px 0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:18px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.kpi .b{font-size:25px;font-weight:700;color:var(--ac)}
+.kpi .l{font-size:12.5px;color:var(--mut);margin-top:3px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:14px 0}
+.card.full{grid-column:1/-1}
+canvas{max-height:330px}
+.note{font-size:12.5px;color:var(--mut);margin-top:8px}
+.disc{background:var(--card2);border-left:4px solid var(--ac2);border-radius:8px;padding:12px 16px;margin:12px 0;font-size:14px}
+.disc b{color:var(--ink)}
+.quotes{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.q{border-radius:10px;padding:13px 15px;font-size:13px;border:1px solid var(--line)}
+.q.pro{background:#16261d;border-left:4px solid var(--ok)}
+.q.con{background:#2a1a18;border-left:4px solid var(--ac)}
+.q .t{font-weight:700;margin-bottom:4px}
+.q a{color:var(--ac2);word-break:break-all}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px}
+th,td{border-bottom:1px solid var(--line);padding:6px 7px;text-align:left}
+th{position:sticky;top:0;background:var(--card2);cursor:pointer;user-select:none;color:var(--mut)}
+.tw{max-height:560px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.ctr{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0}
+select,input{background:var(--card2);color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:5px 9px;font-size:13px}
+.tag{display:inline-block;padding:1px 7px;border-radius:5px;font-size:11px}
+@media(max-width:780px){.grid,.quotes{grid-template-columns:1fr}}
+</style></head><body><div class="wrap">
+<h1>戦争・軍隊の描き方</h1>
+<div class="sub">視点別分析 028 / id74 / 横断モチーフクラスタ第3作 — 戦後〜現在 全<span id="nn"></span>作のコード化分析</div>
+<div class="warn"><b>読み方の留保:</b> 戦争を「主題化」した著名作中心の選定バイアスがあり、賛美的・娯楽的作品は過小代表の可能性。<b>指数の絶対値でなく相対変化(分布の系統的移動)のみを読む</b>。1960s(n=6)/2020s(n=14)は薄く両端は方向の示唆。明示的反戦/寓意の境界は解釈依存。時代事件との符合は事後解釈の危険(相関≠因果)。</div>
+
+<div class="kpis">
+<div class="kpi"><div class="b">0 作</div><div class="l">war_stanceが「英雄・賛美」=戦争の美化はほぼ皆無</div></div>
+<div class="kpi"><div class="b">0.33→≈0</div><div class="l">軍を「好意的」に描く比率(1970s→1980s以降崩落)</div></div>
+<div class="kpi"><div class="b">0.44→0.85</div><div class="l">死の重み指数(1960s→1980s以降高止まり)</div></div>
+<div class="kpi"><div class="b">1979</div><div class="l">転換点=ガンダム(好意的軍の崩落・リアル戦争へ)</div></div>
+<div class="kpi"><div class="b">軍事娯楽</div><div class="l">1990s〜出現(ストパン/ガルパン)=死を不在化</div></div>
+</div>
+
+<h2>1. 全体分布</h2>
+<div class="grid">
+<div class="card"><h3>戦争スタンス(war_stance)</h3><canvas id="d_ws"></canvas><div class="note">両義・群像が過半。英雄・賛美は0。</div></div>
+<div class="card"><h3>軍・組織の描き方(military_portrayal)</h3><canvas id="d_mp"></canvas><div class="note">批判的+両義で7割。好意的は12作。</div></div>
+</div>
+<div class="card full"><h3>兵士・軍人像(soldier_image)</h3><canvas id="d_si"></canvas><div class="note">苦悩する個人が最多。加害・狂気はわずか3作(=被害者意識の偏り)。</div></div>
+
+<h2>2. 年代変遷 — 指数</h2>
+<div class="card full"><h3>反戦度・死の重み・軍批判/好意的・軍事娯楽の推移</h3><canvas id="l_idx"></canvas>
+<div class="note">反戦度=明示的反戦1/寓意0.66/中立0.33/賛美0の平均。死の重み=重い1/中0.66/軽い0.33(不在除外)。</div></div>
+<div class="disc"><b>死の重みは単調深化、反戦度は波(ピーク1980s)。</b>後者は「明示的反戦(火垂る/はだしのゲン/ナウシカ)→寓意・批評(ボトムズ/銀英伝/コードギアス/進撃)」への質的転換であり、反戦の後退ではない。青年向けが反戦度最低なのに死の重み最高なのはこの「明示しないが最も重く描く」モードの影。</div>
+
+<h2>3. 年代変遷 — 構成比</h2>
+<div class="card full"><h3>戦争スタンス × 年代 (100%積み上げ)</h3><canvas id="s_ws"></canvas>
+<div class="note">軍事活劇(スーパーロボ防衛戦)が1970sに厚く、以後 両義・群像へ。軍事娯楽は1990s以降の新顔。</div></div>
+<div class="grid">
+<div class="card"><h3>軍・組織の描き方 × 年代</h3><canvas id="s_mp"></canvas><div class="note">好意的(青)が1970s以降崩落、批判的+両義へ。</div></div>
+<div class="card"><h3>前線か銃後か × 年代</h3><canvas id="s_pv"></canvas><div class="note">1970sは前線一辺倒。銃後は劇場・一般の伝統。</div></div>
+</div>
+<div class="card full"><h3>戦争の種類 × 年代 (100%積み上げ)</h3><canvas id="s_wt"></canvas>
+<div class="note">宇宙・SF/対異種という「鏡」で描く基調。史実・現実は1990s以降に回帰(銃後映画/日露/源平)。</div></div>
+
+<h2>4. クロス集計 — 対象層・種別</h2>
+<div class="grid">
+<div class="card"><h3>対象層別(反戦度/死の重み/軍批判)</h3><canvas id="c_demo"></canvas><div class="note">一般(=劇場映画)が反戦・死の重み最高。青年は反戦度最低だが死の重み高=寓意モード。</div></div>
+<div class="card"><h3>種別別(反戦度/軍批判)</h3><canvas id="c_type"></canvas><div class="note">劇場が反戦・軍批判とも最高。テレビは前線・寓意に分業。</div></div>
+</div>
+
+<h2>5. 考察(要点)</h2>
+<div class="disc"><b>① 賛美の不在と好意的軍の崩落。</b>英雄・賛美0作、好意的軍は1979『ガンダム』を蝶番に崩落。富野「ミリタリーはかっこよくない、戦争はあっちゃいけない」(東京新聞)と符合。run#26(メカ:スーパー→リアル)と同型の転換。</div>
+<div class="disc"><b>② 告発から寓意へ。</b>明示的反戦は1980sの一般・劇場に集中、以後テレビ(青年)は思考実験の寓意・批評へ。run#9道徳の灰色化・run#5正義→自己探求と同じ大潮流の戦争版。</div>
+<div class="disc"><b>③ 軍事娯楽の分岐と両極化。</b>死を不在化する萌えミリタリー(ストパン/ガルパン)が、死の重みを深める本流と同年代に併存。run#3/run#10と同型の両極化の罠。</div>
+<div class="disc"><b>④ 被害者意識の留保。</b>加害・狂気わずか3作=日本反戦アニメは民間人被害中心で加害視点が薄い(victim's history批判)。鋼錬/進撃が内側から乗り越え途上。</div>
+
+<h2>6. 他者の論評との対話</h2>
+<div class="quotes">
+<div class="q pro"><div class="t">A: 戦後アニメ=反戦(支持)</div>富野由悠季「ミリタリーは半分妄想、かっこいいことなんて一切ない、戦争はあっちゃいけない」。民間人が容赦なく死ぬ描写でリアリズム=反戦を訴えた。→「好意的軍の崩落・賛美0」の機序と一致。<br><a href="https://www.tokyo-np.co.jp/article/49096">東京新聞</a></div>
+<div class="q con"><div class="t">B: 単純な反戦/被害者語りへの懐疑</div>高畑勲(火垂るの墓監督)自身「この映画では戦争は止められない」。Napier/Springerの「victim's history(被害者意識)」批判=被害中心で加害が薄い。→本データ「加害・狂気3作」が正確に裏づけ。<br><a href="https://gendai.media/articles/-/98902">現代ビジネス</a> / <a href="https://link.springer.com/chapter/10.1057/9780312299408_9">Springer(Napier)</a></div>
+<div class="q con"><div class="t">C: ミリタリー萌えの娯楽化(批判)</div>美少女ミリタリーは「死・負傷から安全に単離されたミリタリー」。戦死者を侮辱との批判。一方ガルパン=死なき戦争を反戦と読む擁護も。→「軍事娯楽=死の不在」の両義性そのもの。<br><a href="https://www.otalog.jp/entry/2018/06/03/213350">アニ録ブログ</a> / <a href="https://note.com/yoh160/n/n5142b5d82e96">note(反戦読み)</a></div>
+<div class="q con"><div class="t">D: GATE/進撃の賛美・ナショナリズム論争</div>GATEは自衛隊を過度に有能に描き「プロパガンダ的」と批判。進撃は調査兵団を称揚しつつ反戦に転じ「作者の沈黙が解釈の投影を許す」。→「賛美0/両義59」=賛美を抑制し両義へ吸収する慣性ゆえ突出が目立つ。<br><a href="https://www.excite.co.jp/news/article/E1439867935066/">エキサイトニュース(GATE)</a> / <a href="https://newrepublic.com/article/160193/attack-titan-alt-rights-favorite-manga">New Republic(進撃)</a></div>
+</div>
+
+<h2>7. 全121作データ</h2>
+<div class="ctr">
+<label>年代 <select id="fdec"><option value="">全て</option></select></label>
+<label>対象層 <select id="fdemo"><option value="">全て</option></select></label>
+<label>スタンス <select id="fws"><option value="">全て</option></select></label>
+<input id="fq" placeholder="作品名で検索"/>
+<span id="cnt" class="note"></span></div>
+<div class="tw"><table id="tb"><thead><tr>
+<th data-k="0">作品</th><th data-k="1">年</th><th data-k="2">年代</th><th data-k="3">対象層</th><th data-k="4">種別</th>
+<th data-k="5">スタンス</th><th data-k="6">視点</th><th data-k="7">組織描写</th><th data-k="8">反戦M</th><th data-k="9">死の重み</th><th data-k="10">戦争種</th><th data-k="11">兵士像</th><th data-k="12">確度</th>
+</tr></thead><tbody></tbody></table></div>
+
+<p class="note" style="margin-top:30px">生成: 視点別分析スケジューラ run#28 / 単一HTML(Chart.js CDN) / データ=analysis/viewpoints/028_war_military/</p>
+</div>
+<script>
+const P={"decs": ["1960s", "1970s", "1980s", "1990s", "2000s", "2010s", "2020s"], "antiwar": [0.665, 0.595, 0.722, 0.624, 0.661, 0.606, 0.614], "death": [0.44, 0.663, 0.845, 0.718, 0.831, 0.838, 0.806], "crit": [0.667, 0.467, 0.773, 0.611, 0.818, 0.75, 0.714], "favor": [0.333, 0.333, 0.045, 0.056, 0.0, 0.083, 0.071], "moe": [0.0, 0.0, 0.0, 0.056, 0.045, 0.083, 0.071], "home": [0.167, 0.0, 0.273, 0.222, 0.045, 0.208, 0.143], "front": [0.667, 0.867, 0.5, 0.389, 0.591, 0.5, 0.571], "hist": [0.167, 0.067, 0.182, 0.333, 0.318, 0.292, 0.286], "ws_order": ["反戦・告発", "悲劇・哀悼", "両義・群像", "軍事活劇", "軍事娯楽", "英雄・賛美"], "ws_comp": {"反戦・告発": [50.0, 13.3, 13.6, 16.7, 18.2, 0.0, 21.4], "悲劇・哀悼": [0.0, 13.3, 9.1, 5.6, 9.1, 12.5, 7.1], "両義・群像": [0.0, 26.7, 59.1, 55.6, 54.5, 58.3, 42.9], "軍事活劇": [50.0, 46.7, 18.2, 16.7, 13.6, 20.8, 21.4], "軍事娯楽": [0.0, 0.0, 0.0, 5.6, 4.5, 8.3, 7.1], "英雄・賛美": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}, "pv_order": ["前線", "前線+銃後", "銃後", "後方・組織", "事後・戦間"], "pv_comp": {"前線": [66.7, 86.7, 50.0, 38.9, 59.1, 50.0, 57.1], "前線+銃後": [16.7, 13.3, 22.7, 38.9, 27.3, 20.8, 21.4], "銃後": [16.7, 0.0, 27.3, 16.7, 0.0, 12.5, 7.1], "後方・組織": [0.0, 0.0, 0.0, 0.0, 9.1, 8.3, 7.1], "事後・戦間": [0.0, 0.0, 0.0, 5.6, 4.5, 8.3, 7.1]}, "mp_order": ["批判的", "両義", "中立・職業", "好意的", "娯楽・記号", "不在"], "mp_comp": {"批判的": [50.0, 13.3, 40.9, 33.3, 31.8, 12.5, 14.3], "両義": [16.7, 33.3, 36.4, 27.8, 50.0, 62.5, 57.1], "中立・職業": [0.0, 20.0, 13.6, 22.2, 13.6, 0.0, 14.3], "好意的": [33.3, 33.3, 4.5, 5.6, 0.0, 8.3, 7.1], "娯楽・記号": [0.0, 0.0, 0.0, 5.6, 4.5, 12.5, 7.1], "不在": [0.0, 0.0, 4.5, 5.6, 0.0, 4.2, 0.0]}, "wt_order": ["史実・現実", "架空国家間", "宇宙・SF", "対異種・怪獣", "異世界FT", "内戦・革命・テロ"], "wt_comp": {"史実・現実": [16.7, 6.7, 18.2, 33.3, 31.8, 29.2, 28.6], "架空国家間": [50.0, 0.0, 13.6, 5.6, 27.3, 20.8, 14.3], "宇宙・SF": [33.3, 60.0, 54.5, 50.0, 13.6, 25.0, 28.6], "対異種・怪獣": [0.0, 26.7, 0.0, 11.1, 22.7, 12.5, 21.4], "異世界FT": [0.0, 0.0, 9.1, 0.0, 4.5, 12.5, 7.1], "内戦・革命・テロ": [0.0, 6.7, 4.5, 0.0, 0.0, 0.0, 0.0]}, "ws_dist": [18, 11, 59, 28, 5, 0], "mp_dist": [32, 53, 15, 12, 6, 3], "si_order": ["苦悩する個人", "職業人・プロ", "英雄", "犠牲・被害者", "記号的", "加害・狂気"], "si_dist": [43, 29, 20, 19, 7, 3], "demos": ["児童", "少年", "青年", "一般"], "demo_antiwar": [0.598, 0.654, 0.594, 0.898], "demo_death": [0.396, 0.744, 0.805, 0.898], "demo_crit": [0.6, 0.711, 0.7, 0.7], "types": ["TV", "劇場", "OVA", "配信"], "type_antiwar": [0.619, 0.813, 0.54, 0.578], "type_crit": [0.709, 0.8, 0.545, 0.5], "rows": [["ゼロ戦はやと", 1964, "1960s", "児童", "TV", "軍事活劇", "前線", "好意的", "賛美・肯定", "軽い", "史実・現実", "英雄", "high"], ["W3 ワンダースリー", 1965, "1960s", "児童", "TV", "反戦・告発", "銃後", "批判的", "明示的反戦", "軽い", "架空国家間", "記号的", "medium"], ["ビッグX", 1964, "1960s", "児童", "TV", "軍事活劇", "前線", "批判的", "寓意・批評", "軽い", "架空国家間", "英雄", "medium"], ["サイボーグ009", 1968, "1960s", "少年", "TV", "反戦・告発", "前線+銃後", "批判的", "明示的反戦", "中程度", "架空国家間", "苦悩する個人", "high"], ["レインボー戦隊ロビン", 1966, "1960s", "児童", "TV", "軍事活劇", "前線", "好意的", "中立", "軽い", "宇宙・SF", "英雄", "medium"], ["遊星仮面", 1966, "1960s", "児童", "TV", "反戦・告発", "前線", "両義", "明示的反戦", "中程度", "宇宙・SF", "苦悩する個人", "medium"], ["宇宙戦艦ヤマト", 1974, "1970s", "少年", "TV", "両義・群像", "前線", "中立・職業", "寓意・批評", "重い", "宇宙・SF", "英雄", "high"], ["機動戦士ガンダム", 1979, "1970s", "少年", "TV", "両義・群像", "前線", "両義", "寓意・批評", "重い", "宇宙・SF", "苦悩する個人", "high"], ["無敵超人ザンボット3", 1977, "1970s", "少年", "TV", "反戦・告発", "前線+銃後", "両義", "明示的反戦", "重い", "対異種・怪獣", "犠牲・被害者", "high"], ["科学忍者隊ガッチャマン", 1972, "1970s", "少年", "TV", "軍事活劇", "前線", "好意的", "中立", "軽い", "内戦・革命・テロ", "英雄", "high"], ["宇宙海賊キャプテンハーロック", 1978, "1970s", "少年", "TV", "軍事活劇", "前線", "批判的", "寓意・批評", "中程度", "宇宙・SF", "英雄", "high"], ["ベルサイユのばら", 1979, "1970s", "少女", "TV", "悲劇・哀悼", "前線+銃後", "両義", "寓意・批評", "重い", "史実・現実", "苦悩する個人", "high"], ["闘将ダイモス", 1978, "1970s", "少年", "TV", "反戦・告発", "前線", "両義", "明示的反戦", "中程度", "宇宙・SF", "苦悩する個人", "medium"], ["超電磁マシーン ボルテスV", 1977, "1970s", "少年", "TV", "軍事活劇", "前線", "好意的", "寓意・批評", "中程度", "宇宙・SF", "英雄", "medium"], ["海のトリトン", 1972, "1970s", "少年", "TV", "両義・群像", "前線", "両義", "寓意・批評", "中程度", "対異種・怪獣", "英雄", "medium"], ["勇者ライディーン", 1975, "1970s", "少年", "TV", "軍事活劇", "前線", "好意的", "中立", "軽い", "対異種・怪獣", "英雄", "medium"], ["ゲッターロボ", 1974, "1970s", "少年", "TV", "軍事活劇", "前線", "好意的", "中立", "軽い", "対異種・怪獣", "英雄", "medium"], ["さらば宇宙戦艦ヤマト", 1978, "1970s", "少年", "劇場", "悲劇・哀悼", "前線", "中立・職業", "寓意・批評", "重い", "宇宙・SF", "英雄", "high"], ["超電磁ロボ コン・バトラーV", 1976, "1970s", "少年", "TV", "軍事活劇", "前線", "好意的", "中立", "軽い", "宇宙・SF", "英雄", "medium"], ["惑星ロボ ダンガードA", 1977, "1970s", "少年", "TV", "軍事活劇", "前線", "中立・職業", "中立", "軽い", "宇宙・SF", "職業人・プロ", "medium"], ["銀河鉄道999(劇場版)", 1979, "1970s", "少年", "劇場", "両義・群像", "前線", "批判的", "寓意・批評", "中程度", "宇宙・SF", "苦悩する個人", "medium"], ["伝説巨神イデオン", 1980, "1980s", "少年", "劇場", "反戦・告発", "前線", "両義", "明示的反戦", "重い", "宇宙・SF", "犠牲・被害者", "high"], ["機動戦士Zガンダム", 1985, "1980s", "少年", "TV", "両義・群像", "前線", "批判的", "寓意・批評", "重い", "宇宙・SF", "苦悩する個人", "high"], ["機動戦士ガンダムZZ", 1986, "1980s", "少年", "TV", "両義・群像", "前線", "両義", "寓意・批評", "重い", "宇宙・SF", "苦悩する個人", "medium"], ["機動戦士ガンダム 逆襲のシャア", 1988, "1980s", "少年", "劇場", "両義・群像", "前線", "両義", "寓意・批評", "重い", "宇宙・SF", "苦悩する個人", "high"], ["太陽の牙ダグラム", 1981, "1980s", "少年", "TV", "両義・群像", "前線+銃後", "批判的", "寓意・批評", "中程度", "架空国家間", "苦悩する個人", "high"], ["装甲騎兵ボトムズ", 1983, "1980s", "青年", "TV", "軍事活劇", "前線", "中立・職業", "寓意・批評", "重い", "架空国家間", "職業人・プロ", "high"], ["銀河英雄伝説", 1988, "1980s", "青年", "OVA", "両義・群像", "前線+銃後", "両義", "寓意・批評", "重い", "宇宙・SF", "職業人・プロ", "high"], ["超時空要塞マクロス", 1982, "1980s", "少年", "TV", "両義・群像", "前線+銃後", "中立・職業", "寓意・批評", "中程度", "宇宙・SF", "英雄", "high"], ["風の谷のナウシカ", 1984, "1980s", "一般", "劇場", "反戦・告発", "前線+銃後", "批判的", "明示的反戦", "重い", "異世界FT", "苦悩する個人", "high"], ["火垂るの墓", 1988, "1980s", "一般", "劇場", "悲劇・哀悼", "銃後", "批判的", "明示的反戦", "重い", "史実・現実", "犠牲・被害者", "high"], ["AKIRA", 1988, "1980s", "青年", "劇場", "両義・群像", "銃後", "批判的", "寓意・批評", "重い", "史実・現実", "加害・狂気", "high"], ["エリア88", 1985, "1980s", "青年", "OVA", "軍事活劇", "前線", "両義", "寓意・批評", "重い", "内戦・革命・テロ", "職業人・プロ", "high"], ["蒼き流星SPTレイズナー", 1985, "1980s", "少年", "TV", "両義・群像", "前線", "批判的", "寓意・批評", "中程度", "宇宙・SF", "苦悩する個人", "medium"], ["はだしのゲン", 1983, "1980s", "一般", "劇場", "反戦・告発", "銃後", "批判的", "明示的反戦", "重い", "史実・現実", "犠牲・被害者", "high"], ["対馬丸-さよなら沖縄-", 1982, "1980s", "一般", "劇場", "悲劇・哀悼", "銃後", "不在", "明示的反戦", "重い", "史実・現実", "犠牲・被害者", "high"], ["銀河漂流バイファム", 1983, "1980s", "少年", "TV", "両義・群像", "前線+銃後", "両義", "寓意・批評", "中程度", "宇宙・SF", "犠牲・被害者", "medium"], ["重戦機エルガイム", 1984, "1980s", "少年", "TV", "両義・群像", "前線", "批判的", "寓意・批評", "中程度", "宇宙・SF", "苦悩する個人", "medium"], ["機甲界ガリアン", 1984, "1980s", "少年", "TV", "軍事活劇", "前線", "両義", "寓意・批評", "中程度", "異世界FT", "英雄", "medium"], ["メガゾーン23", 1985, "1980s", "青年", "OVA", "両義・群像", "銃後", "批判的", "寓意・批評", "中程度", "宇宙・SF", "苦悩する個人", "medium"], ["機甲戦記ドラグナー", 1987, "1980s", "少年", "TV", "両義・群像", "前線", "中立・職業", "寓意・批評", "中程度", "宇宙・SF", "苦悩する個人", "medium"], ["超獣機神ダンクーガ", 1985, "1980s", "少年", "TV", "軍事活劇", "前線", "好意的", "中立", "中程度", "宇宙・SF", "英雄", "medium"], ["王立宇宙軍 オネアミスの翼", 1987, "1980s", "青年", "劇場", "両義・群像", "銃後", "両義", "寓意・批評", "中程度", "架空国家間", "職業人・プロ", "high"], ["機動戦士ガンダムF91", 1991, "1990s", "少年", "劇場", "両義・群像", "前線+銃後", "批判的", "寓意・批評", "重い", "宇宙・SF", "苦悩する個人", "medium"], ["機動戦士Vガンダム", 1993, "1990s", "少年", "TV", "反戦・告発", "前線+銃後", "批判的", "寓意・批評", "重い", "宇宙・SF", "苦悩する個人", "high"], ["新機動戦記ガンダムW", 1995, "1990s", "少年", "TV", "両義・群像", "前線", "両義", "寓意・批評", "中程度", "宇宙・SF", "苦悩する個人", "high"], ["機動新世紀ガンダムX", 1996, "1990s", "少年", "TV", "両義・群像", "前線+銃後", "両義", "寓意・批評", "重い", "宇宙・SF", "苦悩する個人", "medium"], ["新世紀エヴァンゲリオン", 1995, "1990s", "青年", "TV", "両義・群像", "前線+銃後", "批判的", "寓意・批評", "重い", "対異種・怪獣", "苦悩する個人", "high"], ["機動警察パトレイバー2 the Movie", 1993, "1990s", "青年", "劇場", "反戦・告発", "銃後", "両義", "明示的反戦", "中程度", "史実・現実", "職業人・プロ", "high"], ["紅の豚", 1992, "1990s", "一般", "劇場", "両義・群像", "事後・戦間", "批判的", "寓意・批評", "中程度", "史実・現実", "苦悩する個人", "high"], ["マクロスプラス", 1994, "1990s", "青年", "OVA", "軍事活劇", "前線+銃後", "中立・職業", "中立", "中程度", "宇宙・SF", "職業人・プロ", "medium"], ["マクロス7", 1994, "1990s", "少年", "TV", "両義・群像", "前線", "中立・職業", "寓意・批評", "軽い", "宇宙・SF", "英雄", "medium"], ["機動戦艦ナデシコ", 1996, "1990s", "青年", "TV", "両義・群像", "前線", "両義", "寓意・批評", "中程度", "宇宙・SF", "苦悩する個人", "medium"], ["青の6号", 1998, "1990s", "青年", "OVA", "両義・群像", "前線", "中立・職業", "寓意・批評", "中程度", "対異種・怪獣", "職業人・プロ", "medium"], ["ガサラキ", 1998, "1990s", "青年", "TV", "両義・群像", "前線+銃後", "両義", "寓意・批評", "中程度", "史実・現実", "職業人・プロ", "medium"], ["ふしぎの海のナディア", 1990, "1990s", "少年", "TV", "軍事活劇", "前線", "批判的", "寓意・批評", "中程度", "史実・現実", "英雄", "medium"], ["紺碧の艦隊", 1993, "1990s", "青年", "OVA", "軍事活劇", "前線", "好意的", "賛美・肯定", "中程度", "史実・現実", "英雄", "high"], ["機動戦士ガンダム 第08MS小隊", 1996, "1990s", "青年", "OVA", "両義・群像", "前線", "中立・職業", "寓意・批評", "重い", "宇宙・SF", "職業人・プロ", "high"], ["無責任艦長タイラー", 1993, "1990s", "青年", "TV", "軍事娯楽", "前線+銃後", "娯楽・記号", "中立", "軽い", "宇宙・SF", "記号的", "medium"], ["MEMORIES 大砲の街", 1995, "1990s", "青年", "OVA", "反戦・告発", "銃後", "批判的", "寓意・批評", "軽い", "架空国家間", "記号的", "high"], ["うしろの正面だあれ", 1991, "1990s", "一般", "劇場", "悲劇・哀悼", "銃後", "不在", "明示的反戦", "重い", "史実・現実", "犠牲・被害者", "medium"], ["攻殻機動隊 STAND ALONE COMPLEX", 2002, "2000s", "青年", "TV", "両義・群像", "後方・組織", "両義", "寓意・批評", "中程度", "史実・現実", "職業人・プロ", "high"], ["機動戦士ガンダムSEED", 2002, "2000s", "少年", "TV", "両義・群像", "前線", "両義", "寓意・批評", "重い", "宇宙・SF", "苦悩する個人", "high"], ["機動戦士ガンダムSEED DESTINY", 2004, "2000s", "少年", "TV", "両義・群像", "前線", "批判的", "寓意・批評", "重い", "宇宙・SF", "苦悩する個人", "medium"], ["機動戦士ガンダム00", 2007, "2000s", "少年", "TV", "両義・群像", "前線+銃後", "両義", "寓意・批評", "重い", "史実・現実", "苦悩する個人", "high"], ["鋼の錬金術師", 2009, "2000s", "少年", "TV", "両義・群像", "前線+銃後", "批判的", "明示的反戦", "重い", "架空国家間", "加害・狂気", "high"], ["フルメタル・パニック!", 2002, "2000s", "少年", "TV", "軍事活劇", "前線", "中立・職業", "寓意・批評", "中程度", "史実・現実", "職業人・プロ", "high"], ["戦闘妖精雪風", 2002, "2000s", "青年", "OVA", "軍事活劇", "前線", "中立・職業", "寓意・批評", "中程度", "対異種・怪獣", "職業人・プロ", "medium"], ["コードギアス 反逆のルルーシュ", 2006, "2000s", "青年", "TV", "両義・群像", "前線+銃後", "両義", "寓意・批評", "重い", "架空国家間", "苦悩する個人", "high"], ["今、そこにいる僕", 2000, "2000s", "青年", "TV", "反戦・告発", "前線+銃後", "批判的", "明示的反戦", "重い", "異世界FT", "犠牲・被害者", "high"], ["交響詩篇エウレカセブン", 2005, "2000s", "少年", "TV", "両義・群像", "前線", "批判的", "寓意・批評", "中程度", "宇宙・SF", "苦悩する個人", "medium"], ["蒼穹のファフナー", 2004, "2000s", "青年", "TV", "悲劇・哀悼", "前線+銃後", "中立・職業", "寓意・批評", "重い", "対異種・怪獣", "犠牲・被害者", "medium"], ["ストライクウィッチーズ", 2008, "2000s", "青年", "TV", "軍事娯楽", "前線", "娯楽・記号", "中立", "軽い", "対異種・怪獣", "記号的", "high"], ["スカイ・クロラ", 2008, "2000s", "青年", "劇場", "反戦・告発", "前線", "批判的", "寓意・批評", "重い", "架空国家間", "職業人・プロ", "high"], ["BLOOD+", 2005, "2000s", "青年", "TV", "両義・群像", "前線", "両義", "寓意・批評", "中程度", "対異種・怪獣", "苦悩する個人", "medium"], ["戦場のヴァルキュリア", 2009, "2000s", "青年", "TV", "両義・群像", "前線+銃後", "両義", "寓意・批評", "重い", "架空国家間", "職業人・プロ", "medium"], ["プラネテス", 2003, "2000s", "青年", "TV", "両義・群像", "後方・組織", "両義", "寓意・批評", "軽い", "史実・現実", "職業人・プロ", "medium"], ["ガンスリンガー・ガール", 2003, "2000s", "青年", "TV", "反戦・告発", "前線", "批判的", "寓意・批評", "重い", "史実・現実", "犠牲・被害者", "high"], ["パンプキン・シザーズ", 2006, "2000s", "青年", "TV", "反戦・告発", "事後・戦間", "両義", "寓意・批評", "中程度", "架空国家間", "苦悩する個人", "medium"], ["ラストエグザイル", 2003, "2000s", "青年", "TV", "両義・群像", "前線", "両義", "寓意・批評", "中程度", "架空国家間", "職業人・プロ", "medium"], ["ヘルシング(OVA)", 2006, "2000s", "青年", "OVA", "軍事活劇", "前線", "両義", "中立", "重い", "史実・現実", "加害・狂気", "medium"], ["ジパング", 2004, "2000s", "青年", "TV", "両義・群像", "前線", "両義", "寓意・批評", "重い", "史実・現実", "職業人・プロ", "high"], ["ぼくらの", 2007, "2000s", "青年", "TV", "悲劇・哀悼", "前線", "批判的", "寓意・批評", "重い", "対異種・怪獣", "犠牲・被害者", "medium"], ["進撃の巨人", 2013, "2010s", "少年", "TV", "両義・群像", "前線+銃後", "両義", "寓意・批評", "重い", "対異種・怪獣", "苦悩する個人", "high"], ["ガールズ&パンツァー", 2012, "2010s", "青年", "TV", "軍事娯楽", "前線", "娯楽・記号", "中立", "不在", "史実・現実", "記号的", "high"], ["ヨルムンガンド", 2012, "2010s", "青年", "TV", "両義・群像", "後方・組織", "両義", "寓意・批評", "中程度", "史実・現実", "職業人・プロ", "high"], ["アルドノア・ゼロ", 2014, "2010s", "青年", "TV", "両義・群像", "前線", "両義", "寓意・批評", "重い", "宇宙・SF", "苦悩する個人", "medium"], ["終末のイゼッタ", 2016, "2010s", "青年", "TV", "両義・群像", "前線+銃後", "両義", "寓意・批評", "重い", "架空国家間", "犠牲・被害者", "medium"], ["幼女戦記", 2017, "2010s", "青年", "TV", "軍事活劇", "前線", "両義", "寓意・批評", "重い", "架空国家間", "職業人・プロ", "high"], ["機動戦士ガンダム 鉄血のオルフェンズ", 2015, "2010s", "少年", "TV", "両義・群像", "前線", "批判的", "寓意・批評", "重い", "宇宙・SF", "犠牲・被害者", "high"], ["機動戦士ガンダムUC", 2010, "2010s", "青年", "OVA", "両義・群像", "前線", "両義", "寓意・批評", "重い", "宇宙・SF", "苦悩する個人", "high"], ["ジョーカー・ゲーム", 2016, "2010s", "青年", "TV", "両義・群像", "後方・組織", "批判的", "寓意・批評", "中程度", "史実・現実", "職業人・プロ", "high"], ["GATE 自衛隊 彼の地にて、斯く戦えり", 2015, "2010s", "青年", "TV", "軍事活劇", "前線", "好意的", "賛美・肯定", "中程度", "異世界FT", "職業人・プロ", "high"], ["アルスラーン戦記", 2015, "2010s", "少年", "TV", "両義・群像", "前線", "両義", "寓意・批評", "中程度", "異世界FT", "英雄", "medium"], ["ヴァイオレット・エヴァーガーデン", 2018, "2010s", "青年", "TV", "悲劇・哀悼", "事後・戦間", "両義", "寓意・批評", "重い", "架空国家間", "犠牲・被害者", "high"], ["ゴールデンカムイ", 2018, "2010s", "青年", "TV", "両義・群像", "事後・戦間", "両義", "寓意・批評", "中程度", "史実・現実", "職業人・プロ", "medium"], ["ドリフターズ", 2016, "2010s", "青年", "TV", "軍事活劇", "前線", "好意的", "中立", "重い", "異世界FT", "英雄", "medium"], ["甲鉄城のカバネリ", 2016, "2010s", "青年", "TV", "軍事活劇", "前線", "両義", "寓意・批評", "重い", "対異種・怪獣", "苦悩する個人", "medium"], ["この世界の片隅に", 2016, "2010s", "一般", "劇場", "悲劇・哀悼", "銃後", "不在", "明示的反戦", "重い", "史実・現実", "犠牲・被害者", "high"], ["風立ちぬ", 2013, "2010s", "一般", "劇場", "両義・群像", "銃後", "両義", "寓意・批評", "中程度", "史実・現実", "苦悩する個人", "high"], ["ジョバンニの島", 2014, "2010s", "一般", "劇場", "悲劇・哀悼", "銃後", "両義", "明示的反戦", "重い", "史実・現実", "犠牲・被害者", "medium"], ["シドニアの騎士", 2014, "2010s", "青年", "TV", "両義・群像", "前線+銃後", "両義", "寓意・批評", "重い", "対異種・怪獣", "職業人・プロ", "medium"], ["革命機ヴァルヴレイヴ", 2013, "2010s", "青年", "TV", "両義・群像", "前線+銃後", "批判的", "寓意・批評", "重い", "宇宙・SF", "犠牲・被害者", "medium"], ["ハイスクール・フリート", 2016, "2010s", "青年", "TV", "軍事娯楽", "前線", "娯楽・記号", "中立", "軽い", "架空国家間", "記号的", "medium"], ["荒野のコトブキ飛行隊", 2019, "2010s", "青年", "TV", "軍事活劇", "前線", "娯楽・記号", "中立", "軽い", "架空国家間", "職業人・プロ", "medium"], ["ガンダム Gのレコンギスタ", 2014, "2010s", "少年", "TV", "両義・群像", "前線", "両義", "寓意・批評", "中程度", "宇宙・SF", "苦悩する個人", "medium"], ["銀河英雄伝説 Die Neue These", 2018, "2010s", "青年", "TV", "両義・群像", "前線+銃後", "両義", "寓意・批評", "重い", "宇宙・SF", "職業人・プロ", "high"], ["86-エイティシックス-", 2021, "2020s", "青年", "TV", "反戦・告発", "前線", "批判的", "寓意・批評", "重い", "架空国家間", "犠牲・被害者", "high"], ["進撃の巨人 The Final Season", 2022, "2020s", "青年", "TV", "両義・群像", "前線+銃後", "両義", "寓意・批評", "重い", "架空国家間", "苦悩する個人", "high"], ["ヴィンランド・サガ", 2023, "2020s", "青年", "TV", "反戦・告発", "前線+銃後", "両義", "明示的反戦", "重い", "史実・現実", "苦悩する個人", "high"], ["機動戦士ガンダム 水星の魔女", 2022, "2020s", "少年", "TV", "両義・群像", "後方・組織", "批判的", "寓意・批評", "中程度", "宇宙・SF", "苦悩する個人", "high"], ["怪獣8号", 2024, "2020s", "青年", "TV", "軍事活劇", "前線", "好意的", "中立", "中程度", "対異種・怪獣", "職業人・プロ", "high"], ["平家物語", 2021, "2020s", "青年", "配信", "悲劇・哀悼", "前線+銃後", "両義", "寓意・批評", "重い", "史実・現実", "犠牲・被害者", "high"], ["戦翼のシグルドリーヴァ", 2020, "2020s", "青年", "TV", "軍事娯楽", "前線", "娯楽・記号", "中立", "中程度", "対異種・怪獣", "記号的", "medium"], ["ガンダム 復讐のレクイエム", 2024, "2020s", "青年", "配信", "軍事活劇", "前線", "中立・職業", "寓意・批評", "重い", "宇宙・SF", "職業人・プロ", "medium"], ["勇気爆発バーンブレイバーン", 2024, "2020s", "青年", "配信", "軍事活劇", "前線", "中立・職業", "中立", "中程度", "対異種・怪獣", "職業人・プロ", "medium"], ["君たちはどう生きるか", 2023, "2020s", "一般", "劇場", "両義・群像", "銃後", "両義", "寓意・批評", "中程度", "史実・現実", "苦悩する個人", "medium"], ["葬送のフリーレン", 2023, "2020s", "少年", "TV", "両義・群像", "事後・戦間", "両義", "寓意・批評", "中程度", "異世界FT", "苦悩する個人", "medium"], ["ムーンライズ", 2025, "2020s", "青年", "配信", "両義・群像", "前線", "両義", "寓意・批評", "重い", "宇宙・SF", "苦悩する個人", "medium"], ["戦国妖狐", 2024, "2020s", "青年", "TV", "両義・群像", "前線", "両義", "寓意・批評", "中程度", "史実・現実", "苦悩する個人", "medium"], ["機動戦士ガンダム ククルス・ドアンの島", 2022, "2020s", "青年", "劇場", "反戦・告発", "前線", "両義", "寓意・批評", "中程度", "宇宙・SF", "苦悩する個人", "medium"]], "N": 121};
+document.getElementById('nn').textContent=P.N;
+const CO=['#e0563b','#4a86c5','#3fb27f','#d9a441','#9b6bd0','#5fb0c0','#c0607f','#7f8c9b'];
+const gridc='#2a3647',tick='#9fb0c3';
+Chart.defaults.color=tick;Chart.defaults.borderColor=gridc;Chart.defaults.font.size=11;
+function donut(id,labels,data){new Chart(document.getElementById(id),{type:'doughnut',
+ data:{labels:labels,datasets:[{data:data,backgroundColor:CO,borderColor:'#1a2230',borderWidth:2}]},
+ options:{plugins:{legend:{position:'right',labels:{boxWidth:12}}}}});}
+donut('d_ws',P.ws_order,P.ws_dist);donut('d_mp',P.mp_order,P.mp_dist);
+new Chart(document.getElementById('d_si'),{type:'bar',data:{labels:P.si_order,datasets:[{label:'作品数',data:P.si_dist,backgroundColor:CO}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{grid:{color:gridc}}}}});
+// index lines
+new Chart(document.getElementById('l_idx'),{type:'line',data:{labels:P.decs,datasets:[
+ {label:'反戦度',data:P.antiwar,borderColor:CO[0],backgroundColor:'transparent',tension:.3,borderWidth:3},
+ {label:'死の重み',data:P.death,borderColor:CO[1],backgroundColor:'transparent',tension:.3,borderWidth:3},
+ {label:'軍批判/両義シェア',data:P.crit,borderColor:CO[2],backgroundColor:'transparent',tension:.3},
+ {label:'好意的軍シェア',data:P.favor,borderColor:CO[3],backgroundColor:'transparent',tension:.3},
+ {label:'軍事娯楽シェア',data:P.moe,borderColor:CO[4],backgroundColor:'transparent',tension:.3,borderDash:[5,4]}
+]},options:{scales:{y:{min:0,max:1,grid:{color:gridc}}}}});
+// stacked helpers
+function stack(id,labels,order,comp,pct){const ds=order.map((c,i)=>({label:c,data:comp[c],backgroundColor:CO[i%CO.length]}));
+ new Chart(document.getElementById(id),{type:'bar',data:{labels:labels,datasets:ds},
+ options:{scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,max:pct?100:undefined,grid:{color:gridc},ticks:{callback:v=>pct?v+'%':v}}},plugins:{legend:{labels:{boxWidth:12}}}}});}
+stack('s_ws',P.decs,P.ws_order,P.ws_comp,true);
+stack('s_mp',P.decs,P.mp_order,P.mp_comp,true);
+stack('s_pv',P.decs,P.pv_order,P.pv_comp,true);
+stack('s_wt',P.decs,P.wt_order,P.wt_comp,true);
+// cross demographic
+new Chart(document.getElementById('c_demo'),{type:'bar',data:{labels:P.demos,datasets:[
+ {label:'反戦度',data:P.demo_antiwar,backgroundColor:CO[0]},
+ {label:'死の重み',data:P.demo_death,backgroundColor:CO[1]},
+ {label:'軍批判/両義',data:P.demo_crit,backgroundColor:CO[2]}
+]},options:{scales:{y:{min:0,max:1,grid:{color:gridc}}}}});
+new Chart(document.getElementById('c_type'),{type:'bar',data:{labels:P.types,datasets:[
+ {label:'反戦度',data:P.type_antiwar,backgroundColor:CO[0]},
+ {label:'軍批判/両義',data:P.type_crit,backgroundColor:CO[2]}
+]},options:{scales:{y:{min:0,max:1,grid:{color:gridc}}}}});
+// table
+const tb=document.querySelector('#tb tbody');
+const decS=[...new Set(P.rows.map(r=>r[2]))],demoS=[...new Set(P.rows.map(r=>r[3]))],wsS=[...new Set(P.rows.map(r=>r[5]))];
+function opt(sel,arr){arr.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;document.getElementById(sel).appendChild(o);});}
+opt('fdec',decS);opt('fdemo',demoS);opt('fws',wsS);
+const cm={'重い':'#e0563b','中程度':'#d9a441','軽い':'#3fb27f','不在':'#5b6b7d'};
+let sortk=1,sortd=1;
+function render(){const fd=fdec.value,fm=fdemo.value,fw=fws.value,fq=document.getElementById('fq').value.trim();
+ let rs=P.rows.filter(r=>(!fd||r[2]==fd)&&(!fm||r[3]==fm)&&(!fw||r[5]==fw)&&(!fq||r[0].includes(fq)));
+ rs.sort((a,b)=>{let x=a[sortk],y=b[sortk];if(typeof x==='string'){return sortd*x.localeCompare(y,'ja');}return sortd*(x-y);});
+ tb.innerHTML='';rs.forEach(r=>{const tr=document.createElement('tr');
+  const dc=cm[r[9]]||'#5b6b7d';
+  tr.innerHTML=`<td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td><td>${r[7]}</td><td>${r[8]}</td><td><span class="tag" style="background:${dc}22;color:${dc}">${r[9]}</span></td><td>${r[10]}</td><td>${r[11]}</td><td>${r[12]}</td>`;
+  tb.appendChild(tr);});
+ document.getElementById('cnt').textContent=rs.length+' 作';}
+document.querySelectorAll('#tb th').forEach(th=>th.addEventListener('click',()=>{const k=+th.dataset.k;if(sortk==k)sortd*=-1;else{sortk=k;sortd=1;}render();}));
+['fdec','fdemo','fws'].forEach(id=>document.getElementById(id).addEventListener('change',render));
+document.getElementById('fq').addEventListener('input',render);
+render();
+</script></body></html>

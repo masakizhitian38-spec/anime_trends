@@ -1,0 +1,119 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>視点042 魔法・能力・超自然の体系</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0e1020;--card:#191c32;--ink:#e9ecf6;--sub:#a3a9c9;--acc:#a78bfa;--acc2:#67e8f9;--line:#2c3050}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#0e1020,#141228);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.75}
+.wrap{max-width:1080px;margin:0 auto;padding:32px 20px 80px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:20px;margin:38px 0 12px;border-left:4px solid var(--acc);padding-left:12px}
+.sub{color:var(--sub);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.kpi .n{font-size:26px;font-weight:700;color:var(--acc2)}.kpi .l{font-size:12px;color:var(--sub);margin-top:4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:16px 0}
+canvas{max-height:340px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.two{grid-template-columns:1fr}}
+p{margin:10px 0}.note{color:var(--sub);font-size:13px}
+.quote{background:#20243f;border-left:3px solid var(--acc2);border-radius:8px;padding:12px 14px;margin:12px 0}
+.quote a{color:var(--acc2);text-decoration:none;font-size:12px;word-break:break-all}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{position:sticky;top:0;background:#20243f;cursor:pointer;user-select:none}
+.tbox{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:12px}
+.ctrl{margin:10px 0}.ctrl input,.ctrl select{background:#20243f;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px}
+.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;background:#2c3050;color:var(--acc)}
+b.hl{color:var(--acc2)}
+</style></head><body><div class="wrap">
+<h1>魔法・能力・超自然の体系 — 視点別分析</h1>
+<div class="sub">アニメ視点別統計分析 #042　母集団 113作（1958–2024）／力の正当化様式の60年史</div>
+
+<div class="grid">
+<div class="kpi"><div class="n">113</div><div class="l">対象作品（1958–2024）</div></div>
+<div class="kpi"><div class="n">0.21→0.77→0.67</div><div class="l">体系性指数（60s→90s山→20s）</div></div>
+<div class="kpi"><div class="n">0.07→0.33</div><div class="l">代償(顕著)シェア 90s跳躍</div></div>
+<div class="kpi"><div class="n">0→0.23</div><div class="l">ゲーム的源泉 2010s突出</div></div>
+</div>
+
+<div class="card"><b class="hl">要旨：</b>魔法・能力体系の歴史は「力をどう正当化し観客に納得させるか」の様式史。<b>①神秘・伝承で語る黎明期</b>（おまじない魔法少女／妖怪）→<b>②ルールと代償で語る能力バトル期</b>（1990sが転換点・念能力と等価交換が双璧、ルール明示0.87ピーク）→<b>③2010s以降の二極化</b>（なろうのゲーム的インターフェース化＋2020sの和の民俗オカルト再神話化）。深層トレンドは<b>力の有償化・条件化</b>（無償の贈り物→ルールに縛られ代償を伴う力）。</div>
+
+<h2>1. 体系性とルール明示度の変遷</h2>
+<div class="card"><canvas id="c1"></canvas>
+<p class="note">体系性指数（体系的=1/半体系的=0.5/曖昧・なし=0）とルール明示指数（明示=1/部分=0.5/暗黙=0）は黎明期0近傍から段階上昇し<b class="hl">1990sでピーク</b>。2000sの凹みは退化でなく<b>分母効果</b>（深夜枠拡大でソフト情緒型〔夏目/精霊の守り人〕が同時供給され平均が薄まった）。1990s n=15と小さく選定効果の留保あり。</p></div>
+
+<h2>2. 体系性タイプの構成比（年代別）</h2>
+<div class="card"><canvas id="c2"></canvas>
+<p class="note">「体系的＋半体系的」が1980s以降に過半を占め定着。一方「曖昧（ソフト魔法）」は2020sにも健在（フリーレン/王様ランキング）で、体系化＝進歩という単調史観への恒常的反証。</p></div>
+
+<h2>3. 代償・神話引用・ゲーム的源泉</h2>
+<div class="two">
+<div class="card"><canvas id="c3"></canvas><p class="note">代償(顕著)は1990s 0.33で跳躍し定着。中身が「MP消費＝限定リソース」から「魂・人間性・寿命＝取り返しのつかない喪失＝テーマ」へ質的転換（等価交換／ソウルジェム／縛り）。</p></div>
+<div class="card"><canvas id="c4"></canvas><p class="note">ゲーム的源泉（スキル/ステータス）は2010sにのみ突出（なろう/RPG世代）。神話引用(顕著)は2020sで0.67へ再上昇（呪術/鬼滅/もののがたり＝和の民俗オカルト回帰）。二様式が併走。</p></div>
+</div>
+
+<h2>4. 力の源泉の全体分布</h2>
+<div class="card"><canvas id="c5"></canvas><p class="note">魔法28が最多、和の妖怪霊17、改造遺伝13、固有異能11、気内功10、ゲーム的9と続く。源泉は多源的で、時代ごとに重心が移動する。</p></div>
+
+<h2>5. 考察（要点）</h2>
+<div class="card">
+<p><b class="hl">力の正当化様式の三体制。</b>第I（〜70s）＝説明しない神秘（Soft Magic）。第II（80s–2000s）＝説明できるルール（Hard Magic、念能力で頂点）＋代償の世界法則化（等価交換）。第III（2010s〜）＝ゲーム的インターフェース化（なろう）と再神話化（和オカルト）への二極化。</p>
+<p><b class="hl">なぜ体系化したか。</b>①少年バトル漫画のフェアプレイ要請（Sanderson第一法則：読者が理解できる力ほど対立解決に使える）。②データベース消費（東浩紀）＝力の属性・系統のカタログ化（run#35萌え属性カタログ化と同期）。</p>
+<p><b class="hl">代償の前景化。</b>1990s以降、力を得る行為自体が取り返しのつかない喪失を伴う物語が定着。run#29（喪失の死生観）・run#9（道徳の灰色化）・run#24/37（努力主義の退潮）と通底し、バブル崩壊後の喪失感（run#20）と緩やかに共変動。</p>
+<p class="note">留保：選定バイアスで体系性の絶対水準は過大評価されうる→信頼できるのは分布の相対的移動。ソフト魔法の継続的成功は体系化史観への反証として併走。相関≠因果。</p>
+</div>
+
+<h2>6. 他者の論評（出典つき）</h2>
+<div class="card">
+<div class="quote">Sanderson第一法則：「作者が魔法で対立を解決できる度合いは、読者がその魔法をどれだけ理解しているかに比例する」。FMA等価交換＝Hard、DB気＝中間。<br><a href="https://tvtropes.org/pmwiki/pmwiki.php/Main/SandersonsFirstLaw">tvtropes.org — Sanderson's First Law</a> / <a href="https://gamerant.com/hard-soft-magic-explained/">gamerant.com</a></div>
+<div class="quote">念能力「制約と誓約」＝自らルールを課して威力を上げるケルト神話のゲッシュ型。代償を「罰」から「自己賦課で強くなる装置」へ反転。<br><a href="https://huncyclopedia.com/336">huncyclopedia.com</a> / <a href="https://note.com/maku1560/n/n23d68752810c">note(maku) 念能力と少年漫画バトルの進化</a></div>
+<div class="quote">等価交換は世界原理・人生訓として提示されるが、核は「人の命は等価交換できない＝原則の否定」。代償の倫理的・実存的テーマ化。<br><a href="https://note.com/soramine8/n/n0d8b79e0fa29">note(池橋弥助)</a> / <a href="https://hijikichi.hatenablog.com/entry/2019/07/15/200000">はてな 等価交換の否定</a></div>
+<div class="quote">ソウルジェムは契約の代償で魂を物体化＝魔法少女の本体。願いを代償に契約するファウスト型悲劇。<br><a href="https://zero-animelife.com/mado-magi">虹見式 まどマギ「願いの代償」</a> / <a href="https://note.com/chi_ba/n/n31c48bf1062e">note(千葉) 契約の論理</a></div>
+<div class="quote">東浩紀『ゲーム的リアリズムの誕生』：異世界のステータス/ギルド/ランクは「ゲーム的リアリズム」が舞台設定に浸透した例。データベース消費の最新型がなろう系。<br><a href="https://www.kinokuniya.co.jp/f/dsg-01-9784061498839">紀伊國屋書店</a> / <a href="https://www.jstage.jst.go.jp/article/jinbunxshakai/2/7/2_39/_pdf/-char/ja">J-STAGE 異世界もののゲーム的世界考察</a></div>
+<div class="quote">妖怪研究の小松和彦：呪術廻戦の呪い＝「負の感情から生まれる」アニミズムの反映、「日本版ハリポタ」。呪力・領域展開＝ロジカルで戦略的な体系。<br><a href="https://voice.php.co.jp/detail/9187">PHP voice 小松和彦</a> / <a href="https://www.maruhan.co.jp/east/media/new/1413/">ヲトナ基地 螺旋進化する異能バトル</a></div>
+<div class="quote">反論：体系化＝進歩ではない。「設定の説明過多でつまらない」批判（呪術）／「ステータス画面が出るのはおかしい」没入派の違和感。ソフト魔法の支持は健在。<br><a href="https://manga-collection.com/jujutsukaisen-boring/">manga-collection</a> / <a href="https://animanch.com/archives/17899444.html">あにまんch</a></div>
+</div>
+
+<h2>7. 作品一覧（ソート・絞り込み）</h2>
+<div class="ctrl">
+<input id="q" placeholder="作品名で検索"> 
+<select id="fsys"><option value="">体系性すべて</option><option>体系的</option><option>半体系的</option><option>曖昧</option><option>なし</option></select>
+<select id="fsrc"><option value="">源泉すべて</option></select>
+</div>
+<div class="tbox"><table id="tbl"><thead><tr><th data-k="y">年</th><th data-k="t">作品</th><th data-k="sys">体系性</th><th data-k="src">力の源泉</th><th data-k="cost">代償</th><th data-k="rule">ルール明示</th><th data-k="myth">神話引用</th></tr></thead><tbody></tbody></table></div>
+<p class="note">列見出しクリックで並び替え。コード根拠(basis)と確信度は data.json を参照。</p>
+
+<script>
+const DATA={"labels": ["1950s", "1960s", "1970s", "1980s", "1990s", "2000s", "2010s", "2020s"], "sysidx": [0.0, 0.214, 0.278, 0.5, 0.767, 0.619, 0.65, 0.667], "ruleidx": [0.0, 0.286, 0.444, 0.6, 0.867, 0.738, 0.75, 0.833], "cost": [0.0, 0.0, 0.111, 0.067, 0.333, 0.333, 0.3, 0.267], "myth": [1.0, 0.286, 0.222, 0.467, 0.6, 0.619, 0.433, 0.667], "game": [0.0, 0.0, 0.0, 0.0, 0.067, 0.0, 0.233, 0.067], "stack": {"体系的": [0, 0, 0, 0.333, 0.533, 0.476, 0.5, 0.467], "半体系的": [0, 0.429, 0.556, 0.333, 0.467, 0.286, 0.3, 0.4], "曖昧": [1.0, 0.571, 0.222, 0.333, 0, 0.143, 0.067, 0.133], "なし": [0, 0, 0.222, 0, 0, 0.095, 0.133, 0]}, "cats": ["体系的", "半体系的", "曖昧", "なし"], "psd": {"魔法": 28, "妖怪霊": 17, "改造遺伝": 13, "異能": 11, "気内功": 10, "ゲーム的": 9, "超能力": 6, "悪魔契約": 6, "神話神格": 6, "錬金科学魔法": 2, "呪い": 2, "精霊": 2, "なし": 1}, "rows": [{"y": 1958, "t": "白蛇伝", "sys": "曖昧", "src": "妖怪霊", "cost": "なし", "rule": "暗黙", "myth": "顕著"}, {"y": 1960, "t": "西遊記(少年猿飛佐助/東映)", "sys": "曖昧", "src": "気内功", "cost": "なし", "rule": "暗黙", "myth": "顕著"}, {"y": 1963, "t": "鉄腕アトム", "sys": "半体系的", "src": "改造遺伝", "cost": "なし", "rule": "部分的", "myth": "なし"}, {"y": 1966, "t": "魔法使いサリー", "sys": "曖昧", "src": "魔法", "cost": "なし", "rule": "暗黙", "myth": "部分"}, {"y": 1968, "t": "ゲゲゲの鬼太郎(第1期)", "sys": "半体系的", "src": "妖怪霊", "cost": "限定的", "rule": "部分的", "myth": "顕著"}, {"y": 1968, "t": "サイボーグ009", "sys": "半体系的", "src": "改造遺伝", "cost": "限定的", "rule": "明示的", "myth": "なし"}, {"y": 1968, "t": "妖怪人間ベム", "sys": "曖昧", "src": "妖怪霊", "cost": "なし", "rule": "暗黙", "myth": "部分"}, {"y": 1969, "t": "ひみつのアッコちゃん", "sys": "曖昧", "src": "魔法", "cost": "なし", "rule": "暗黙", "myth": "なし"}, {"y": 1972, "t": "デビルマン", "sys": "半体系的", "src": "悪魔契約", "cost": "顕著", "rule": "部分的", "myth": "顕著"}, {"y": 1972, "t": "マジンガーZ", "sys": "なし", "src": "改造遺伝", "cost": "なし", "rule": "暗黙", "myth": "なし"}, {"y": 1973, "t": "どろろん閻魔くん", "sys": "半体系的", "src": "妖怪霊", "cost": "限定的", "rule": "部分的", "myth": "顕著"}, {"y": 1973, "t": "キューティーハニー", "sys": "半体系的", "src": "改造遺伝", "cost": "限定的", "rule": "明示的", "myth": "なし"}, {"y": 1973, "t": "バビル2世", "sys": "半体系的", "src": "超能力", "cost": "限定的", "rule": "明示的", "myth": "なし"}, {"y": 1973, "t": "新造人間キャシャーン", "sys": "半体系的", "src": "改造遺伝", "cost": "なし", "rule": "明示的", "myth": "なし"}, {"y": 1974, "t": "魔女っ子メグちゃん", "sys": "曖昧", "src": "魔法", "cost": "なし", "rule": "暗黙", "myth": "部分"}, {"y": 1975, "t": "UFOロボ グレンダイザー", "sys": "なし", "src": "改造遺伝", "cost": "なし", "rule": "暗黙", "myth": "なし"}, {"y": 1979, "t": "花の子ルンルン", "sys": "曖昧", "src": "精霊", "cost": "なし", "rule": "暗黙", "myth": "部分"}, {"y": 1981, "t": "うる星やつら", "sys": "曖昧", "src": "妖怪霊", "cost": "なし", "rule": "暗黙", "myth": "顕著"}, {"y": 1982, "t": "魔法のプリンセス ミンキーモモ", "sys": "曖昧", "src": "魔法", "cost": "限定的", "rule": "部分的", "myth": "部分"}, {"y": 1983, "t": "幻魔大戦", "sys": "半体系的", "src": "超能力", "cost": "限定的", "rule": "部分的", "myth": "顕著"}, {"y": 1983, "t": "魔法の天使クリィミーマミ", "sys": "曖昧", "src": "魔法", "cost": "限定的", "rule": "部分的", "myth": "なし"}, {"y": 1984, "t": "北斗の拳", "sys": "体系的", "src": "気内功", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 1984, "t": "超人ロック", "sys": "半体系的", "src": "超能力", "cost": "限定的", "rule": "明示的", "myth": "なし"}, {"y": 1985, "t": "吸血鬼ハンターD", "sys": "半体系的", "src": "改造遺伝", "cost": "限定的", "rule": "部分的", "myth": "顕著"}, {"y": 1986, "t": "ドラゴンボール", "sys": "体系的", "src": "気内功", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 1986, "t": "天空の城ラピュタ", "sys": "曖昧", "src": "魔法", "cost": "なし", "rule": "暗黙", "myth": "顕著"}, {"y": 1986, "t": "聖闘士星矢", "sys": "体系的", "src": "神話神格", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 1987, "t": "妖獣都市", "sys": "半体系的", "src": "妖怪霊", "cost": "限定的", "rule": "部分的", "myth": "顕著"}, {"y": 1988, "t": "AKIRA", "sys": "半体系的", "src": "超能力", "cost": "顕著", "rule": "部分的", "myth": "なし"}, {"y": 1988, "t": "帝都物語", "sys": "体系的", "src": "妖怪霊", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 1988, "t": "鎧伝サムライトルーパー", "sys": "体系的", "src": "神話神格", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 1989, "t": "魔女の宅急便", "sys": "曖昧", "src": "魔法", "cost": "限定的", "rule": "暗黙", "myth": "部分"}, {"y": 1991, "t": "3×3 EYES", "sys": "半体系的", "src": "妖怪霊", "cost": "顕著", "rule": "部分的", "myth": "顕著"}, {"y": 1991, "t": "ダイの大冒険", "sys": "体系的", "src": "魔法", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 1992, "t": "幽☆遊☆白書", "sys": "体系的", "src": "気内功", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 1992, "t": "美少女戦士セーラームーン", "sys": "半体系的", "src": "神話神格", "cost": "限定的", "rule": "部分的", "myth": "顕著"}, {"y": 1994, "t": "魔法騎士レイアース", "sys": "体系的", "src": "魔法", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 1995, "t": "スレイヤーズ", "sys": "体系的", "src": "魔法", "cost": "顕著", "rule": "明示的", "myth": "顕著"}, {"y": 1995, "t": "新世紀エヴァンゲリオン", "sys": "半体系的", "src": "神話神格", "cost": "顕著", "rule": "部分的", "myth": "顕著"}, {"y": 1996, "t": "るろうに剣心", "sys": "半体系的", "src": "気内功", "cost": "限定的", "rule": "明示的", "myth": "なし"}, {"y": 1996, "t": "地獄先生ぬ〜べ〜", "sys": "半体系的", "src": "妖怪霊", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 1997, "t": "ベルセルク", "sys": "半体系的", "src": "悪魔契約", "cost": "顕著", "rule": "部分的", "myth": "顕著"}, {"y": 1997, "t": "烈火の炎", "sys": "体系的", "src": "異能", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 1998, "t": "カードキャプターさくら", "sys": "体系的", "src": "魔法", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 1999, "t": "HUNTER×HUNTER", "sys": "体系的", "src": "異能", "cost": "顕著", "rule": "明示的", "myth": "なし"}, {"y": 1999, "t": "おジャ魔女どれみ", "sys": "半体系的", "src": "魔法", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 1999, "t": "デジモンアドベンチャー", "sys": "体系的", "src": "ゲーム的", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 2000, "t": "犬夜叉", "sys": "半体系的", "src": "妖怪霊", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2000, "t": "遊☆戯☆王デュエルモンスターズ", "sys": "体系的", "src": "神話神格", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2001, "t": "シャーマンキング", "sys": "体系的", "src": "妖怪霊", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2002, "t": "NARUTO", "sys": "体系的", "src": "気内功", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2004, "t": "BLEACH", "sys": "体系的", "src": "気内功", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 2004, "t": "MONSTER", "sys": "なし", "src": "異能", "cost": "なし", "rule": "暗黙", "myth": "なし"}, {"y": 2005, "t": "地獄少女", "sys": "半体系的", "src": "呪い", "cost": "顕著", "rule": "明示的", "myth": "顕著"}, {"y": 2005, "t": "灼眼のシャナ", "sys": "体系的", "src": "異能", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2006, "t": "D.Gray-man", "sys": "半体系的", "src": "悪魔契約", "cost": "顕著", "rule": "部分的", "myth": "顕著"}, {"y": 2006, "t": "DEATH NOTE", "sys": "体系的", "src": "悪魔契約", "cost": "顕著", "rule": "明示的", "myth": "顕著"}, {"y": 2006, "t": "xxxHOLiC", "sys": "半体系的", "src": "妖怪霊", "cost": "顕著", "rule": "明示的", "myth": "顕著"}, {"y": 2006, "t": "コードギアス", "sys": "半体系的", "src": "悪魔契約", "cost": "顕著", "rule": "明示的", "myth": "なし"}, {"y": 2006, "t": "ゼロの使い魔", "sys": "体系的", "src": "魔法", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2006, "t": "ブラック・ラグーン", "sys": "なし", "src": "異能", "cost": "なし", "rule": "暗黙", "myth": "なし"}, {"y": 2006, "t": "結界師", "sys": "体系的", "src": "妖怪霊", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 2007, "t": "クレイモア", "sys": "半体系的", "src": "改造遺伝", "cost": "顕著", "rule": "明示的", "myth": "部分"}, {"y": 2007, "t": "精霊の守り人", "sys": "曖昧", "src": "精霊", "cost": "限定的", "rule": "暗黙", "myth": "顕著"}, {"y": 2008, "t": "To LOVEる", "sys": "曖昧", "src": "異能", "cost": "なし", "rule": "暗黙", "myth": "なし"}, {"y": 2008, "t": "とある魔術の禁書目録", "sys": "体系的", "src": "異能", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2008, "t": "夏目友人帳", "sys": "曖昧", "src": "妖怪霊", "cost": "限定的", "rule": "暗黙", "myth": "顕著"}, {"y": 2009, "t": "鋼の錬金術師", "sys": "体系的", "src": "錬金科学魔法", "cost": "顕著", "rule": "明示的", "myth": "部分"}, {"y": 2011, "t": "Fate/Zero", "sys": "体系的", "src": "魔法", "cost": "顕著", "rule": "明示的", "myth": "顕著"}, {"y": 2011, "t": "魔法少女まどか☆マギカ", "sys": "体系的", "src": "魔法", "cost": "顕著", "rule": "明示的", "myth": "顕著"}, {"y": 2012, "t": "PSYCHO-PASS", "sys": "半体系的", "src": "ゲーム的", "cost": "限定的", "rule": "明示的", "myth": "なし"}, {"y": 2012, "t": "ソードアート・オンライン", "sys": "体系的", "src": "ゲーム的", "cost": "限定的", "rule": "明示的", "myth": "なし"}, {"y": 2013, "t": "進撃の巨人", "sys": "半体系的", "src": "改造遺伝", "cost": "顕著", "rule": "部分的", "myth": "部分"}, {"y": 2014, "t": "Fate/stay night [UBW]", "sys": "体系的", "src": "魔法", "cost": "顕著", "rule": "明示的", "myth": "顕著"}, {"y": 2014, "t": "ご注文はうさぎですか", "sys": "なし", "src": "なし", "cost": "なし", "rule": "暗黙", "myth": "なし"}, {"y": 2014, "t": "ノーゲーム・ノーライフ", "sys": "体系的", "src": "ゲーム的", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2014, "t": "七つの大罪", "sys": "半体系的", "src": "魔法", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2014, "t": "東京喰種", "sys": "半体系的", "src": "改造遺伝", "cost": "限定的", "rule": "部分的", "myth": "なし"}, {"y": 2014, "t": "魔法科高校の劣等生", "sys": "体系的", "src": "錬金科学魔法", "cost": "限定的", "rule": "明示的", "myth": "なし"}, {"y": 2015, "t": "オーバーロード", "sys": "体系的", "src": "ゲーム的", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 2015, "t": "ダンジョンに出会いを求めるのは間違っているだろうか", "sys": "体系的", "src": "神話神格", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2015, "t": "ワンパンマン", "sys": "曖昧", "src": "異能", "cost": "なし", "rule": "暗黙", "myth": "なし"}, {"y": 2016, "t": "Re:ゼロから始める異世界生活", "sys": "半体系的", "src": "魔法", "cost": "顕著", "rule": "部分的", "myth": "顕著"}, {"y": 2016, "t": "この素晴らしい世界に祝福を", "sys": "体系的", "src": "ゲーム的", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2016, "t": "僕のヒーローアカデミア", "sys": "体系的", "src": "異能", "cost": "限定的", "rule": "明示的", "myth": "なし"}, {"y": 2016, "t": "文豪ストレイドッグス", "sys": "体系的", "src": "異能", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 2017, "t": "ブラッククローバー", "sys": "体系的", "src": "魔法", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 2017, "t": "プリンセス・プリンシパル", "sys": "半体系的", "src": "超能力", "cost": "限定的", "rule": "明示的", "myth": "なし"}, {"y": 2017, "t": "メイドインアビス", "sys": "半体系的", "src": "呪い", "cost": "顕著", "rule": "部分的", "myth": "部分"}, {"y": 2017, "t": "リトルウィッチアカデミア", "sys": "半体系的", "src": "魔法", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 2017, "t": "幼女戦記", "sys": "半体系的", "src": "魔法", "cost": "顕著", "rule": "明示的", "myth": "顕著"}, {"y": 2017, "t": "魔法使いの嫁", "sys": "曖昧", "src": "魔法", "cost": "顕著", "rule": "部分的", "myth": "顕著"}, {"y": 2018, "t": "ヴァイオレット・エヴァーガーデン", "sys": "なし", "src": "改造遺伝", "cost": "なし", "rule": "暗黙", "myth": "なし"}, {"y": 2018, "t": "転生したらスライムだった件", "sys": "体系的", "src": "ゲーム的", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2019, "t": "SPY×FAMILY", "sys": "なし", "src": "超能力", "cost": "なし", "rule": "暗黙", "myth": "なし"}, {"y": 2019, "t": "盾の勇者の成り上がり", "sys": "体系的", "src": "ゲーム的", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2019, "t": "約束のネバーランド", "sys": "なし", "src": "妖怪霊", "cost": "なし", "rule": "暗黙", "myth": "部分"}, {"y": 2019, "t": "鬼滅の刃", "sys": "体系的", "src": "気内功", "cost": "顕著", "rule": "明示的", "myth": "顕著"}, {"y": 2020, "t": "呪術廻戦", "sys": "体系的", "src": "異能", "cost": "顕著", "rule": "明示的", "myth": "顕著"}, {"y": 2021, "t": "不滅のあなたへ", "sys": "半体系的", "src": "改造遺伝", "cost": "限定的", "rule": "部分的", "myth": "顕著"}, {"y": 2021, "t": "無職転生", "sys": "体系的", "src": "魔法", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2021, "t": "王様ランキング", "sys": "曖昧", "src": "魔法", "cost": "限定的", "rule": "暗黙", "myth": "顕著"}, {"y": 2021, "t": "蜘蛛ですが、なにか?", "sys": "体系的", "src": "ゲーム的", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 2022, "t": "BLEACH 千年血戦篇", "sys": "体系的", "src": "気内功", "cost": "限定的", "rule": "明示的", "myth": "部分"}, {"y": 2022, "t": "チェンソーマン", "sys": "半体系的", "src": "悪魔契約", "cost": "顕著", "rule": "明示的", "myth": "顕著"}, {"y": 2022, "t": "異世界おじさん", "sys": "体系的", "src": "魔法", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2023, "t": "もののがたり", "sys": "半体系的", "src": "妖怪霊", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2023, "t": "ダークギャザリング", "sys": "半体系的", "src": "妖怪霊", "cost": "顕著", "rule": "部分的", "myth": "顕著"}, {"y": 2023, "t": "マッシュル", "sys": "体系的", "src": "魔法", "cost": "なし", "rule": "明示的", "myth": "部分"}, {"y": 2023, "t": "地獄楽", "sys": "半体系的", "src": "気内功", "cost": "限定的", "rule": "明示的", "myth": "顕著"}, {"y": 2023, "t": "葬送のフリーレン", "sys": "曖昧", "src": "魔法", "cost": "限定的", "rule": "部分的", "myth": "部分"}, {"y": 2024, "t": "ダンジョン飯", "sys": "体系的", "src": "魔法", "cost": "顕著", "rule": "明示的", "myth": "顕著"}, {"y": 2024, "t": "怪獣8号", "sys": "半体系的", "src": "改造遺伝", "cost": "限定的", "rule": "明示的", "myth": "なし"}]};
+const ink='#e9ecf6',sub='#a3a9c9',line='#2c3050';
+Chart.defaults.color=sub;Chart.defaults.borderColor=line;Chart.defaults.font.family='sans-serif';
+const L=DATA.labels;
+new Chart(c1,{type:'line',data:{labels:L,datasets:[
+{label:'体系性指数',data:DATA.sysidx,borderColor:'#a78bfa',backgroundColor:'#a78bfa33',tension:.3,fill:true},
+{label:'ルール明示指数',data:DATA.ruleidx,borderColor:'#67e8f9',backgroundColor:'#67e8f922',tension:.3}
+]},options:{scales:{y:{min:0,max:1}}}});
+const palette=['#a78bfa','#67e8f9','#f0abfc','#94a3b8'];
+new Chart(c2,{type:'bar',data:{labels:L,datasets:DATA.cats.map((c,i)=>({label:c,data:DATA.stack[c],backgroundColor:palette[i]}))},
+options:{scales:{x:{stacked:true},y:{stacked:true,min:0,max:1}}}});
+new Chart(c3,{type:'line',data:{labels:L,datasets:[{label:'代償(顕著)シェア',data:DATA.cost,borderColor:'#f0abfc',backgroundColor:'#f0abfc33',tension:.3,fill:true}]},options:{scales:{y:{min:0,max:.5}}}});
+new Chart(c4,{type:'line',data:{labels:L,datasets:[
+{label:'神話引用(顕著)',data:DATA.myth,borderColor:'#fbbf24',tension:.3},
+{label:'ゲーム的源泉',data:DATA.game,borderColor:'#34d399',tension:.3}
+]},options:{scales:{y:{min:0,max:1}}}});
+const pk=Object.keys(DATA.psd),pv=Object.values(DATA.psd);
+new Chart(c5,{type:'bar',data:{labels:pk,datasets:[{label:'作品数',data:pv,backgroundColor:'#a78bfa'}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
+
+// table
+const tb=document.querySelector('#tbl tbody');
+const srcs=[...new Set(DATA.rows.map(r=>r.src))];const fsrc=document.getElementById('fsrc');
+srcs.forEach(s=>{const o=document.createElement('option');o.textContent=s;fsrc.appendChild(o)});
+let rows=[...DATA.rows];let sortk='y',asc=true;
+function render(){
+ const q=document.getElementById('q').value.trim();const fs=document.getElementById('fsys').value;const fr=fsrc.value;
+ let r=rows.filter(x=>(!q||x.t.includes(q))&&(!fs||x.sys===fs)&&(!fr||x.src===fr));
+ r.sort((a,b)=>{let v=a[sortk]>b[sortk]?1:a[sortk]<b[sortk]?-1:0;return asc?v:-v});
+ tb.innerHTML=r.map(x=>`<tr><td>${x.y}</td><td>${x.t}</td><td><span class="tag">${x.sys}</span></td><td>${x.src}</td><td>${x.cost}</td><td>${x.rule}</td><td>${x.myth}</td></tr>`).join('');
+}
+document.querySelectorAll('#tbl th').forEach(th=>th.onclick=()=>{const k=th.dataset.k;if(k===sortk)asc=!asc;else{sortk=k;asc=true}render()});
+['q','fsys'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+fsrc.addEventListener('change',render);
+render();
+</script>
+</div></body></html>

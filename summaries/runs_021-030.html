@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>横断サマリー runs 021–030</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0f1116;--card:#1a1d27;--card2:#222633;--ink:#e7e9ef;--mut:#9aa3b5;--acc:#6ea8fe;--warm:#ffb86b;--ind:#9b8cff;--soc:#3ddc97;--line:#2c3142}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;line-height:1.75}
+.wrap{max-width:1160px;margin:0 auto;padding:30px 20px 90px}
+h1{font-size:27px;margin:0 0 4px}
+h2{font-size:21px;margin:40px 0 12px;border-left:5px solid var(--acc);padding-left:12px}
+h3{font-size:16px;color:var(--warm);margin:20px 0 6px}
+.sub{color:var(--mut);font-size:14px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g5{grid-template-columns:repeat(5,1fr)}
+@media(max-width:980px){.g3,.g5{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.g2,.g3,.g5{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.run{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px}
+.run .no{font-size:12px;color:var(--acc);font-weight:700}
+.run .t{font-size:15px;font-weight:700;margin:2px 0 6px}
+.run .k{font-size:13px;color:#c7cdda}
+.run .n{font-size:11px;color:var(--mut);margin-top:6px}
+.chartbox{position:relative;height:330px}
+p{margin:10px 0}
+.big{font-size:18px;line-height:1.85}
+.warn{background:#2a1f13;border:1px solid #5a3d1a;border-radius:12px;padding:14px;color:#ffd9a8;font-size:14px}
+.pill{display:inline-block;background:#243049;color:#bcd0ff;border-radius:20px;padding:3px 11px;font-size:12px;margin:2px}
+.lead{font-size:17px;color:#dfe3ec}
+em{color:var(--warm);font-style:normal;font-weight:600}
+ul{margin:8px 0 8px 18px}li{margin:5px 0}
+.axis{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:14px}
+.axis .from{color:var(--mut)}.axis .to{color:var(--soc);font-weight:600}.axis .arr{color:var(--acc)}
+</style></head>
+<body><div class="wrap">
+
+<h1>横断サマリー ｜ runs 021–030</h1>
+<div class="sub">変遷メタ(021)・影響系譜クラスタ(022–025)・横断モチーフクラスタ(026–030) の10視点を貫く考察 ｜ 計約1,200作のコード化 ｜ 2026-06-10</div>
+
+<p class="lead" style="margin-top:18px">runs 011–020 が<b>作品を取り巻く産業・受容構造</b>を扱ったのに対し、本ブロック021–030は二つの問いに移った――<b>「誰の作品が後続の文法になったか」（影響・系譜）</b>と<b>「ロボット・AI・戦争・死・強さといった反復モチーフはどう変質したか」（横断モチーフ）</b>。さらに021はそれらを束ねる変遷メタ視点である。10視点はバラバラのテーマに見えて、<em>二つの共通法則</em>に貫かれていた。</p>
+
+<h2>1. 10視点の要約</h2>
+<div class="grid g2">
+<div class="run"><div class="no">run #21 ｜ 変遷</div><div class="t">変遷上の位置づけ（127作）</div><div class="k">歴史的役割の六段弧：創成(60s)→確立(80s)→再発明(90s)→デジタル拡散(2000s谷)→爆発(2010s)→成熟回帰(2020s)。辺境(少女/児童/青年)が革新し本流(少年)が大衆化。</div><div class="n">氷川の転換点リストと一致＝外部妥当性</div></div>
+<div class="run"><div class="no">run #22 ｜ 系譜</div><div class="t">鳥山明の影響（104作）</div><div class="k">浸透度2010s 0.53頂点。強系譜シェアは2010s 59%→2020s 27%へ急落＝「広がって薄まる」。直系から遍在する<b>文法(grammar)</b>へ昇格。最濃の遺産=ギャグ⇄シリアス両立。</div><div class="n">少年向けTVバトルに限定(少年0.55≫少女0.00)</div></div>
+<div class="run"><div class="no">run #23 ｜ 系譜</div><div class="t">庵野秀明・エヴァの影響（126作）</div><div class="k">下流影響は2010s 0.48ピーク→2020s希釈。強い系譜は2割で頭打ち＝鳥山同様「文法化」。謎・考察誘発が2010sピーク。青年0.55≫少年0.10＝<b>鳥山の完全な鏡像</b>。</div><div class="n">「外の仕組み(鳥山)vs内の構造(庵野)」の二軸</div></div>
+<div class="run"><div class="no">run #24 ｜ 系譜</div><div class="t">ジャンプ「努力・友情・勝利」（118作）</div><div class="k">鳥山/庵野と違い「薄まる」乖離が起きない（強系譜2020s 63%高位）＝一作家のDNAでなく<b>少年向け本流の憲法</b>。友情は単調上昇の耐力壁、努力は横ばいで才能・血統型が反発。</div><div class="n">少年0.65≫青年0.15＝本流側(鳥山と同じ)</div></div>
+<div class="run"><div class="no">run #25 ｜ 系譜</div><div class="t">なろう系テンプレ（111作）</div><div class="k">初の「作者なきテンプレート」。2012–13年に一点局在の段差。強い系譜2020s 65%上昇継続＝ジャンルそれ自体。ステータス制度化、ざまぁ台頭。青年深夜の現象だが量的に本流化。</div><div class="n">庵野と同じ青年辺境側だが本流化した稀有例</div></div>
+<div class="run"><div class="no">run #26 ｜ モチーフ</div><div class="t">ロボット・メカとの向き合い方（114作）</div><div class="k">四相の弧：相棒(60s)→道具(70s)→兵器(80s)→分身(90s〜)。技術楽観指数0.78→0.41単調低下。脅威stanceは1/114＝「日本は脅威として描かない」を支持しつつ主流は兵器。</div><div class="n">人間とメカの距離がゼロ→正→拡大→負へ振動</div></div>
+<div class="run"><div class="no">run #27 ｜ モチーフ</div><div class="t">AIの扱われ方（116作）</div><div class="k">四相の弧：道具→仲間→心(被造物)→超越。純粋脅威7.8%＝アトム・パラダイム。最大転換点2000s（萌えアンドロイド＋哲学AIの同時噴出、人権倫理0.52→0.75）。脱身体化。</div><div class="n">青年/劇場/配信が人権主題を独占</div></div>
+<div class="run"><div class="no">run #28 ｜ モチーフ</div><div class="t">戦争・軍隊の描き方（121作）</div><div class="k">英雄賛美0作、好意的軍シェア70s 33%→80s 4.5%崩落（転換点=1979ガンダム）。反戦は明示(80s劇場)→寓意・批評(青年TV)へ質的転換。ミリタリー萌えが死を不在化し両極化。</div><div class="n">戦後アニメは戦争をほぼ美化しない</div></div>
+<div class="run"><div class="no">run #29 ｜ モチーフ</div><div class="t">死の描き方・死生観（124作）</div><div class="k">主役が死ぬ者→遺される者へ（英雄的犠牲37.5%→0%、グリーフ指数0.25→0.68）。死の重みは2010s–20sが60年最高＝「死が軽くなった」を反証。あの世は彼岸→制度化(2000s)→世俗の喪→鎮魂の作法。</div><div class="n">3.11後10年の喪の成熟（すずめ/ルックバック）</div></div>
+<div class="run" style="border-color:#5a4628"><div class="no">run #30 ｜ モチーフ</div><div class="t">「最強主人公」化の度合い（121作）</div><div class="k">最強化は2010s前半の段差(op 0.56→0.68)。無双の二峰=70s超ロボ/2010sなろう、谷=80s–00s修行主義。〈与えられる力→勝ち取る力→再び与えられる力〉の振動。緊張は鏡像で低下(0.74→0.52)。2020s両極化。</div><div class="n">青年0.70≫一般0.35。最新作</div></div>
+</div>
+
+<h2>2. 第一の法則 — 影響は「文法化して遍在」する。だが二種類ある</h2>
+<div class="card">
+<p class="big">影響・系譜の4視点(022–025)を並べると、影響の伝わり方に<em>二つの型</em>があることが見えた。鳥山と庵野は、影響が広がるほど<b>「強い直系」が薄まり、誰もが無自覚に使う文法(grammar)へ昇格</b>する（鳥山の強系譜シェア2010s 59%→2020s 27%、庵野も2割で頭打ち）。一方ジャンプ定式となろうテンプレは、広がっても<b>強い系譜シェアが高位のまま（63%・65%）</b>。なぜか――前者は<u>一人の作家のDNA</u>で、模倣されるほど出自が見えなくなるが、後者は<u>ジャンル（憲法・規約）それ自体</u>だから、測れば常にそこに在るからだ。</p>
+<div class="chartbox"><canvas id="cInfl"></canvas></div>
+<p class="sub">強い系譜シェア（近年値）。鳥山・庵野＝文法化して薄まる／ジャンプ・なろう＝ジャンルそれ自体ゆえ残る。run#22–25のコードより。</p>
+</div>
+
+<h2>3. 第二の法則 — 横断モチーフは「外的に与えられたもの → 内的に引き受けるもの」へ移行する</h2>
+<div class="card">
+<p class="big">ロボット・AI・戦争・死・強さ――5つの横断モチーフ(026–030)は、扱う対象も時代も違うのに、<em>同じ向きの弧</em>を描いた。いずれも「外側にある与件」から「内側で引き受ける問い」へと重心を移している。</p>
+<div class="axis"><span class="from">ロボ：相棒・道具（外から与えられる力）</span><span class="arr">→</span><span class="to">分身（自己・身体の延長）</span></div>
+<div class="axis"><span class="from">AI：道具・脅威（外なる他者）</span><span class="arr">→</span><span class="to">心・超越（人権と存在の問い）</span></div>
+<div class="axis"><span class="from">戦争：好意的な軍・英雄（外的善悪）</span><span class="arr">→</span><span class="to">寓意・内省（当事者の倫理）</span></div>
+<div class="axis"><span class="from">死：死なせ方（死ぬ者の英雄的犠牲）</span><span class="arr">→</span><span class="to">死なれ方（遺された者の喪）</span></div>
+<div class="axis"><span class="from">強さ：与えられる力（機械・チート）⇄</span><span class="arr">→</span><span class="to">勝ち取る力（修行）の間で振動</span></div>
+<p>注目すべきは、この「内面化」が<b>技術楽観の後退と同時進行</b>することだ。run#26のメカ技術楽観指数は0.78→0.41へ単調低下し、AIの人権倫理（0.52→0.75）・死のグリーフ（0.25→0.68）の上昇と逆向きに走る。<em>外なる力への素朴な信頼が薄れるほど、モチーフは内面の問いへ引き寄せられる</em>。下のグラフは、最も新しいrun#30を例に、その内面化を「最強度↑と緊張感↓の交差反転」として可視化したものである。</p>
+<div class="chartbox"><canvas id="cArc"></canvas></div>
+<p class="sub">run#30の最強度指数 vs 緊張感指数（年代）。2010sで交差反転。「与えられた最強」が緊張（外的拮抗）を溶かす構造は、メカの兵器化・死の内面化と同じ地層。</p>
+</div>
+
+<h2>4. 二つの法則を貫く軸 — 「外の仕組み」と「内の構造」、辺境と本流</h2>
+<div class="card">
+<p>第一・第二の法則は、一つの対象層軸で結ばれる。<b>少年向け本流</b>は「外の仕組み」を担う――鳥山の身体的バトル文法、ジャンプの努力・友情・勝利、メカの兵器、最強の無双。<b>青年向け辺境（深夜・OVA・配信）</b>は「内の構造」を担う――庵野の内省、なろうの思考実験、AIの人権、死の操作（ループ・死に戻り）、最強の脱構築（ワンパンマン）。run#23で鳥山(少年0.55/少女0.00)と庵野(青年0.55/少年0.10)が<em>完全な鏡像</em>を成したように、本ブロック全体が「外の仕組み＝少年本流／内の構造＝青年辺境」の二極で整理できる。</p>
+<p>そして<b>辺境が革新し、本流が大衆化する</b>（run#21）。なろうは青年辺境で生まれて本流化し、考察誘発（庵野の遺産）は2010sに全ジャンルへ拡散した。ただし2020sには逆流も起きている――最強化に抗って努力主義を保持したのは、辺境のなろうではなく<u>本流の少年向け（鬼滅・呪術）</u>だった。辺境と本流の役割は固定でなく、たえず入れ替わる。</p>
+</div>
+
+<h2>5. 共通する方法論的留保</h2>
+<div class="warn">
+<b>① 「広がって薄まる」乖離の罠。</b> 影響系視点では「何らかの影響シェア」と「強い系譜シェア」を必ず分離せよ（鳥山2020s 80%が影響を受けつつ強系譜は27%）。混同すると文法化を見逃す。<br>
+<b>② 分母効果・両極化の罠（全ブロック共通）。</b> 指数の凹凸は退潮でなく構成変化のことが多い（メカ90s兵器化の凹み＝分身+勇者の併存、最強2000s無双0%＝空気系の分母希釈、戦争のミリタリー萌えと死の深化の併存）。指数と必ずシェア内訳を併記。<br>
+<b>③ 二重バイアス（run#21）。</b> 選定バイアス（象徴作の過剰代表）＋時間による正典化バイアス（2020sは構造的に過小評価）。絶対値は不可信、相対変化のみ。<br>
+<b>④ 社会反映論は留保つきで併走。</b> 1979ガンダム/1995エヴァ/2011まどか・3.11/なろうの能力主義疲労――転換点と社会史の共変動は認めるが、相関≠因果。努力回帰の鬼滅・呪託が最大ヒットした事実が逃避一元論への反証になる（run#29/#30）。
+</div>
+
+<h2>6. 結論 — このブロックが描いたもの</h2>
+<div class="card">
+<p class="big">021–030は、アニメ史を<em>二つのダイナミクス</em>として描いた。一つは<b>影響の伝播</b>――個人の発明が文法へと溶け、ジャンルが憲法として固着する垂直の力学。もう一つは<b>モチーフの内面化</b>――ロボット・AI・戦争・死・強さという外的与件が、技術楽観の後退とともに内なる問いへ引き寄せられる水平の力学。両者は「外の仕組み＝少年本流／内の構造＝青年辺境」という対象層の二極で結ばれ、辺境が革新し本流が大衆化する循環の中で、たえず役割を交換し続けている。次の10視点（031以降）は、この垂直・水平の力学が個別ジャンル（異世界転生・デスゲーム・セカイ系・学園）でどう作動するかを問うことになる。</p>
+</div>
+
+<p class="sub" style="margin-top:30px">各視点の詳細図表・考察・他者論評は analysis/viewpoints/&lt;NNN&gt;_*/report.html を参照。本サマリーは completed_runs=30 到達時の横断まとめ。</p>
+
+<script>
+Chart.defaults.color="#aeb6c6";Chart.defaults.borderColor="#2c3142";Chart.defaults.font.family="'Hiragino Kaku Gothic ProN','Yu Gothic',Meiryo,sans-serif";
+new Chart(cInfl,{type:'bar',data:{labels:['鳥山明\n(2020s)','庵野・エヴァ\n(2010s頭打ち)','ジャンプ定式\n(2020s)','なろう\n(2020s)'],
+ datasets:[{label:'強い系譜シェア（近年値）',data:[0.27,0.25,0.63,0.65],
+ backgroundColor:['#9b8cff','#9b8cff','#ffb86b','#ffb86b']}]},
+ options:{plugins:{legend:{display:false},title:{display:true,text:'文法化して薄まる（紫）vs ジャンルそれ自体で残る（橙）'}},
+ scales:{y:{min:0,max:.8,ticks:{callback:v=>Math.round(v*100)+'%'}}}}});
+
+const DL=['1960s','1970s','1980s','1990s','2000s','2010s','2020s'];
+new Chart(cArc,{type:'line',data:{labels:DL,datasets:[
+ {label:'最強度指数（op）',data:[0.532,0.529,0.516,0.522,0.560,0.680,0.650],borderColor:'#ffb86b',backgroundColor:'#ffb86b22',borderWidth:3,tension:.3,fill:true},
+ {label:'緊張感指数（tension）',data:[0.631,0.741,0.664,0.662,0.681,0.573,0.517],borderColor:'#6ea8fe',backgroundColor:'#6ea8fe22',borderWidth:3,tension:.3,fill:true}
+]},options:{plugins:{title:{display:true,text:'run#30：最強度↑と緊張感↓の交差反転（2010s）'}},scales:{y:{min:0,max:1}}}});
+</script>
+</div></body></html>

@@ -1,0 +1,36 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日本アニメ 視点別データ分析</title>
+<style>
+:root{--bg:#0f1115;--card:#171a21;--fg:#e8eaed;--mut:#9aa0aa;--ac:#6ea8fe;--line:#262b35}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;line-height:1.6}
+header{padding:48px 24px 28px;max-width:1040px;margin:0 auto}
+h1{font-size:1.9rem;margin:0 0 8px}
+.lead{color:var(--mut);max-width:72ch}
+.meta{color:var(--mut);font-size:.85rem;margin-top:10px}
+main{max-width:1040px;margin:0 auto;padding:0 24px 64px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.grp{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.grp.wide{grid-column:1/-1}
+.grp h2{font-size:1.05rem;margin:0 0 10px;color:var(--ac)}
+ul{list-style:none;margin:0;padding:0}
+ul.row{display:flex;flex-wrap:wrap;gap:8px}
+li{margin:2px 0}
+a{color:var(--fg);text-decoration:none;display:flex;gap:8px;padding:6px 8px;border-radius:8px}
+ul.row a{background:#222732}
+a:hover{background:#2b313d}
+.rk{color:var(--mut);font-variant-numeric:tabular-nums;font-size:.85rem;min-width:38px}
+footer{max-width:1040px;margin:0 auto;padding:24px;color:var(--mut);font-size:.8rem;border-top:1px solid var(--line)}
+</style></head><body>
+<header>
+<h1>日本アニメ 視点別データ分析</h1>
+<p class="lead">アニメ作品を「視点」ごとに100作以上コード化し、年代による変遷を中心に統計・考察・他者論評をまとめたレポート集。</p>
+<p class="meta">公開視点数: 43 ／ 最終更新: 2026-06-10　｜　データ出典: MyAnimeList(Jikan API)等。分析・コード化・考察は独自。非営利・研究用途。</p>
+</header>
+<main><div class="grid">
+<section class="grp wide"><h2>10回ごとのまとめ</h2><ul class="row"><li><a href="summaries/runs_001-010.html">runs_001-010</a></li><li><a href="summaries/runs_011-020.html">runs_011-020</a></li><li><a href="summaries/runs_021-030.html">runs_021-030</a></li><li><a href="summaries/runs_031-040.html">runs_031-040</a></li></ul></section>
+<section class="grp"><h2>ビジネス</h2><ul><li><a href="reports/014_marketing_promotion/"><span class="rk">#014</span>マーケティング・プロモーション</a></li><li><a href="reports/015_distribution_overseas/"><span class="rk">#015</span>配信・海外展開</a></li><li><a href="reports/016_commercial_success/"><span class="rk">#016</span>商業的成否</a></li></ul></section><section class="grp"><h2>人物</h2><ul><li><a href="reports/001_protagonist_attributes/"><span class="rk">#001</span>主人公の属性</a></li><li><a href="reports/002_heroine_attributes/"><span class="rk">#002</span>ヒロインの属性</a></li><li><a href="reports/003_antagonist_design/"><span class="rk">#003</span>敵役・ライバルの造形</a></li><li><a href="reports/034_protagonist_weapons_abilities/"><span class="rk">#034</span>主人公の武器・能力</a></li><li><a href="reports/035_supporting_cast_archetypes/"><span class="rk">#035</span>脇役・キャラ類型の構成</a></li><li><a href="reports/036_character_relationship_network/"><span class="rk">#036</span>キャラクター同士の関係網</a></li><li><a href="reports/037_growth_arc/"><span class="rk">#037</span>主人公の成長アーク</a></li></ul></section><section class="grp"><h2>制作</h2><ul><li><a href="reports/011_production_system/"><span class="rk">#011</span>制作体制（スタジオ・監督）</a></li><li><a href="reports/012_broadcast_format/"><span class="rk">#012</span>放送形態・話数規模</a></li><li><a href="reports/013_source_mediamix/"><span class="rk">#013</span>原作・メディアミックス</a></li></ul></section><section class="grp"><h2>受容</h2><ul><li><a href="reports/017_target_audience/"><span class="rk">#017</span>ターゲット層</a></li><li><a href="reports/018_evaluation_awards/"><span class="rk">#018</span>評価・受賞</a></li></ul></section><section class="grp"><h2>変遷</h2><ul><li><a href="reports/020_zeitgeist_reflection/"><span class="rk">#020</span>時代背景の反映</a></li><li><a href="reports/021_transition_positioning/"><span class="rk">#021</span>変遷上の位置づけ</a></li></ul></section><section class="grp"><h2>変遷観</h2><ul><li><a href="reports/033_protagonist_image_transition/"><span class="rk">#033</span>主人公像の変遷上の位置</a></li></ul></section><section class="grp"><h2>影響・系譜</h2><ul><li><a href="reports/022_toriyama_influence/"><span class="rk">#022</span>鳥山明の影響</a></li><li><a href="reports/023_anno_eva_influence/"><span class="rk">#023</span>庵野秀明・エヴァの影響</a></li><li><a href="reports/024_jump_formula_influence/"><span class="rk">#024</span>ジャンプ「努力・友情・勝利」の影響</a></li><li><a href="reports/025_narou_template_influence/"><span class="rk">#025</span>なろう系テンプレの影響</a></li></ul></section><section class="grp"><h2>映像</h2><ul><li><a href="reports/010_animation_characteristics/"><span class="rk">#010</span>作画の特徴</a></li><li><a href="reports/043_character_design/"><span class="rk">#043</span>キャラクターデザインの傾向</a></li></ul></section><section class="grp"><h2>横断モチーフ</h2><ul><li><a href="reports/026_robot_mecha_stance/"><span class="rk">#026</span>ロボット・メカとの向き合い方</a></li><li><a href="reports/027_ai_treatment/"><span class="rk">#027</span>AIの扱われ方</a></li><li><a href="reports/028_war_military/"><span class="rk">#028</span>戦争・軍隊の描き方</a></li><li><a href="reports/029_death_depiction/"><span class="rk">#029</span>死の描き方・死生観</a></li><li><a href="reports/030_overpowered_protagonist/"><span class="rk">#030</span>「最強主人公」化の度合い</a></li><li><a href="reports/031_isekai_type/"><span class="rk">#031</span>異世界転生・転移の型</a></li></ul></section><section class="grp"><h2>物語</h2><ul><li><a href="reports/004_story_structure/"><span class="rk">#004</span>物語の構造</a></li><li><a href="reports/005_story_theme/"><span class="rk">#005</span>物語のテーマ</a></li><li><a href="reports/006_ending_tone/"><span class="rk">#006</span>物語の結末・トーン</a></li><li><a href="reports/007_genre_composition/"><span class="rk">#007</span>ジャンル構成</a></li><li><a href="reports/008_setting_worldview/"><span class="rk">#008</span>舞台・世界観</a></li><li><a href="reports/009_violence_morality/"><span class="rk">#009</span>暴力・道徳の描写</a></li><li><a href="reports/038_era_time_setting/"><span class="rk">#038</span>時代・時間設定</a></li><li><a href="reports/039_romance_relationship/"><span class="rk">#039</span>恋愛・関係性の描写</a></li><li><a href="reports/040_action_battle_depiction/"><span class="rk">#040</span>アクション・バトルの描写</a></li><li><a href="reports/041_gag_comedy/"><span class="rk">#041</span>ギャグ・コメディ要素</a></li><li><a href="reports/042_magic_power_system/"><span class="rk">#042</span>魔法・能力・超自然の体系</a></li></ul></section><section class="grp"><h2>産業メタ</h2><ul><li><a href="reports/032_disc_to_subscription/"><span class="rk">#032</span>円盤からサブスクへの移行</a></li></ul></section><section class="grp"><h2>社会</h2><ul><li><a href="reports/019_gender_representation/"><span class="rk">#019</span>ジェンダー表象</a></li></ul></section>
+</div></main>
+<footer>各レポートは独立した分析です。数値はコード化に基づく相対比較で絶対値の精密性は保証しません。引用・論評は各レポート内に出典(URL)を明示。</footer>
+</body></html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>視点031 異世界転生・転移の型 — 統計分析</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0f1117;--card:#181b24;--card2:#1f2430;--ink:#e8ebf2;--mut:#9aa3b5;--acc:#7c9cff;--acc2:#ff9e64;--grn:#76d39b;--red:#ff7a85;--pur:#c4a7ff;--bd:#2a3040;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;line-height:1.75}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 18px 90px}
+h1{font-size:26px;margin:0 0 6px}
+h2{font-size:20px;margin:40px 0 12px;border-left:5px solid var(--acc);padding-left:11px}
+h3{font-size:16px;margin:22px 0 8px;color:var(--acc2)}
+.sub{color:var(--mut);font-size:14px;margin-bottom:18px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:18px 20px;margin:16px 0}
+.warn{background:#2a221b;border:1px solid #5a4326}
+.kpis{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.kpi{background:var(--card2);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;flex:1;min-width:160px}
+.kpi b{display:block;font-size:22px;color:var(--acc)}
+.kpi span{font-size:12.5px;color:var(--mut)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.chartbox{position:relative;height:310px}
+.chartbox.tall{height:350px}
+canvas{max-width:100%}
+p{margin:10px 0}
+.quote{background:var(--card2);border-left:4px solid var(--acc);border-radius:8px;padding:12px 15px;margin:11px 0}
+.quote.con{border-left-color:var(--red)}
+.quote.pro{border-left-color:var(--grn)}
+.quote .src{font-size:12.5px;color:var(--mut);margin-top:6px}
+.quote a{color:var(--acc);text-decoration:none}
+.tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:20px;margin-right:6px}
+.tag.pro{background:#1f3a2a;color:var(--grn)}
+.tag.con{background:#3a1f24;color:var(--red)}
+.tag.neu{background:#26314a;color:var(--acc)}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px}
+th,td{border-bottom:1px solid var(--bd);padding:6px 7px;text-align:left}
+th{cursor:pointer;color:var(--acc);position:sticky;top:0;background:var(--card)}
+tr:hover td{background:#1c212c}
+input,select{background:var(--card2);color:var(--ink);border:1px solid var(--bd);border-radius:7px;padding:6px 9px;font-size:13px;margin:0 6px 8px 0}
+.note{font-size:13px;color:var(--mut)}
+.flex{display:flex;flex-wrap:wrap;align-items:center}
+.big{font-size:15px}
+ul{margin:8px 0 8px 2px}
+li{margin:5px 0}
+</style></head><body><div class="wrap">
+<h1>視点031 ｜ 異世界転生・転移の型</h1>
+<div class="sub">横断モチーフクラスタ 第6作 ｜ 母集団 102作（1965–2024）｜ aspects＝転生か転移か／原因／前世知識の活用／帰還願望 ｜ run#31</div>
+
+<div class="card warn">
+<b>⚠ 読み方の前提（必読）</b>
+<p class="note">①<b>極端な年代偏在は史実</b>: decade別n＝1960s:1／1970s:1／1980s:4／1990s:9／2000s:11／2010s:37／2020s:39。これは選定ミスでなく<b>ジャンル自体が2010年代以降に爆発した</b>事実の反映。1960s–1980sのシェアは統計でなく<b>例示</b>。<br>
+②<b>読むのは構成比の移動</b>: 絶対数の年代比較でなく、型（召喚／転移／転生…）の<b>構成比の系統的移動</b>を読む。<br>
+③<b>選定バイアス</b>: 著名・アニメ化作中心。テンプレ凡作の裾野は過小代表→質・多様性を上方に見せうる。相関≠因果。</p>
+</div>
+
+<div class="kpis">
+<div class="kpi"><b id="k1"></b><span>転生シェア 2020s（1990s=0%）</span></div>
+<div class="kpi"><b id="k2"></b><span>帰還願望シェア 2020s（1960-90s≒100%）</span></div>
+<div class="kpi"><b id="k3"></b><span>定住・帰還拒否シェア 2020s</span></div>
+<div class="kpi"><b id="k4"></b><span>op指数 2020s（1980s=0.20）</span></div>
+</div>
+
+<h2>1. 移行の型の年代変遷 — 召喚→転移→転生</h2>
+<div class="grid">
+<div class="card"><h3>型の構成比（100%積み上げ・decade）</h3><div class="chartbox tall"><canvas id="cTT"></canvas></div>
+<p class="note">重心が <b>召喚（80–90s）→ 迷い込み等へ多様化（00s）→ 転移（10s）→ 転生（20s 過半）</b> へ移動。召喚＝向こうが呼ぶ／転移＝偶発／転生＝古い身体ごと死ぬ、という<b>故郷との絆の段階的切断</b>。</p></div>
+<div class="card"><h3>★帰還願望の消失（帰還願望 vs 定住・帰還拒否）</h3><div class="chartbox tall"><canvas id="cRD"></canvas></div>
+<p class="note">「行って帰る物語」→「帰らない物語」。<b>転換点は2000年代</b>（帰還願望と定住が逆転）。本視点で最も雄弁な単調変化。</p></div>
+</div>
+
+<h2>2. 力と知識 — 与えられる力／前世知識</h2>
+<div class="grid">
+<div class="card"><h3>op指数・前世/現代知識の活用指数（decade平均）</h3><div class="chartbox"><canvas id="cIDX"></canvas></div>
+<p class="note">op指数（最強1／チート0.8／現代知0.5／成長0.2／弱小0）はほぼ単調上昇＝<b>与えられる力の増大</b>。知識活用は2000s（迷い込み期）で凹み、転生主流化の2020sで0.72へ跳躍。</p></div>
+<div class="card"><h3>行き先「ゲーム的世界」・非人間転生・ゲームキャラ（悪役令嬢）シェア</h3><div class="chartbox"><canvas id="cSH"></canvas></div>
+<p class="note">異世界の<b>RPG/VRMMO化</b>（2010s 43%）。2020s固有で<b>非人間（スライム/剣）・ゲームキャラ（悪役令嬢15.4%）</b>＝「元の身体すら不要」の身体可換化。</p></div>
+</div>
+
+<h2>3. 対象層クロス — 異世界は青年（深夜）の現象</h2>
+<div class="grid">
+<div class="card"><h3>対象層別 op指数</h3><div class="chartbox"><canvas id="cDEMO"></canvas></div>
+<p class="note">青年0.58 ≫ 少女0.39 ＞ 一般0.22 ＞ 児童0.20。母集団の75%が青年。少女＝転生45%（悪役令嬢/転生王女）、児童＝召喚43%（ワタル/デジモン）、一般＝迷い込み50%（千と千尋/異世界食堂）。</p></div>
+<div class="card"><h3>原因（cause）全体構成</h3><div class="chartbox"><canvas id="cCAU"></canvas></div>
+<p class="note">全体は偶発転移33%が最多だが、<b>死を契機にする転生</b>（事故死・過労死・殺害・病死・老衰）が2010s–2020sで増大（無職転生＝トラック事故／神達に拾われた男＝過労死／転スラ＝刺殺）。</p></div>
+</div>
+
+<h2>4. 考察（要旨）</h2>
+<div class="card big">
+<p><b>大きな物語＝「故郷との絆の段階的切断」。</b>7軸を貫く線は、主人公と元の世界をつなぐ糸が漸進的に断たれること。①移行の型＝<b>召喚→転移→転生</b>（呼ばれる→偶発→死んで帰る身体すら無い）②帰還願望＝<b>100%→18%</b>（帰る場所から帰りたくない場所へ反転）③転生する身体＝<b>自分のまま→別の存在へ</b>（非人間・悪役令嬢・別人）。異世界は<b>「訪れて変わって帰る教養の旅（ポータル・ファンタジー）」から「死んで生まれ直す移住・転生」へ</b>60年かけて移動した。</p>
+<ul>
+<li><b>転換点① 1983ダンバイン</b>：TV異世界召喚の発明。だが器（深夜枠・Web小説・配信）が揃うまで約30年潜伏（90sは少女向け召喚・往復が牽引）。</li>
+<li><b>転換点② 2000年代＝扉が閉じる</b>：千と千尋(2001 帰還)／十二国記(2002 王として定住)／ゼロ魔(2006 居続ける)が並び、帰還願望と定住が逆転。背景は深夜・コア層化（世界に留まりたい視聴へ）と「現世＝帰りたくない場所」化。<b>なろうブームに先行</b>するため、純経済決定論では早すぎる＝メディア構造の寄与を分離できない。</li>
+<li><b>転換点③ 2012–2018</b>：SAO(2012)が仮想世界を結晶化＋なろう供給機構（深夜/1クール/配信の量産）。RPG文法（ステータス/スキル）と「攻略可能な世界」への欲望。op指数 0.36→0.54 段差。</li>
+<li><b>転換点④ 2020年代</b>：転生51%で確定。だが一枚岩でなく三分岐＝<b>誠実な転生</b>（無職転生＝努力回帰）／<b>反テンプレ</b>（Re:ゼロ/グリムガル/盾の弱小スタート）／<b>身体可換化と女性の再参入</b>（悪役令嬢＝ゲームキャラ転生15.4%）。</li>
+<li><b>故郷を悪役にする鏡像</b>：逆異世界（はたらく魔王さま/異世界おじさん/Re:CREATORS）と帰還拒否（このすば/NGNL）が、現世をディストピア／喜劇の舞台へ降格させる。</li>
+</ul>
+</div>
+
+<h2>5. 他者の論評との対話（賛・否・留保）</h2>
+<div class="card">
+<div class="flex"><span class="tag neu">系譜</span></div>
+<div class="quote"><b>召喚→転移→転生という順序の裏づけ。</b>「1991年頃から社会情勢を背景に異世界ものが増え、召喚・転移は一旦退潮、2011年にネット小説で爆発」——本データの型の時系列と符合。ダンバイン(1983)を元祖とする位置づけも一致。
+<div class="src">ブックオフ年表 <a href="https://shopping.bookoff.co.jp/lightnovel/feature/isekai-history">link</a> ／ ふたまん＋ <a href="https://futaman.futabanet.jp/articles/-/81644">link</a> ／ note(jv44) <a href="https://note.com/jv44/n/nce1d616d7160">link</a></div></div>
+
+<div class="quote pro"><span class="tag pro">一致</span><b>「なぜ帰ってこないのか」。</b>かつての異世界ものは往復・帰還だったが、近年は転生して帰らない形式が主流化——本データの帰還願望（100%→18%）と完全に一致する一次的考察。「転生＝死を経由する現代の死生観」も死因コードの増加と接続。
+<div class="src">ふーらいの思うこと <a href="https://fukoto.com/different-world-reincarnation-consideration/">link</a> ／ HITE-Media <a href="https://hite-media.jp/journal/789/">link</a></div></div>
+
+<div class="quote pro"><span class="tag pro">一致（社会反映）</span><b>逃避・やり直し論。</b>「努力しても報われない社会→努力不要でチート」「現実の日常が窮屈→異世界スローライフに日常を求める」「過労死スタート＝労働文化への心理的反応で死だけが脱出」。本データのop指数上昇・帰還拒否・死因と整合。
+<div class="src">ワーカホリックダイアリー <a href="https://workaholicdiary.com/analysis/different-world">link</a> ／ Real Sound <a href="https://realsound.jp/book/2024/09/post-1789356.html">link</a> ／ CBR(escapism) <a href="https://www.cbr.com/isekai-anime-reflect-modern-society-escapism/">link</a></div></div>
+
+<div class="quote con"><span class="tag con">留保・批判</span><b>飽和とテンプレ。</b>「過剰供給・最強主人公で緊張感が消える＝挑戦のない世界は退屈」「量産・受動的主人公」。op指数0.65・転生過半という本データと整合する負の側面。ただし本データの<b>両極化</b>（無職転生の努力回帰/Re:ゼロの弱小）は自己批評の存在も示す。
+<div class="src">GameRant <a href="https://gamerant.com/isekai-oversaturation-and-the-genres-future/">link</a> ／ Gamerescape <a href="https://gamerescape.com/2024/11/08/modern-animes-isekai-problem/">link</a> ／ CBR(2026) <a href="https://www.cbr.com/anime-isekai-problem-worse-2026-sales-report/">link</a></div></div>
+
+<div class="quote pro"><span class="tag pro">補強（ジェンダー）</span><b>悪役令嬢＝男性パワーファンタジーの裏返し。</b>起点は2013年Web小説、2014『はめふら』で定着。「破滅の定まった令嬢が前世知識という先見で運命を書き換え主体性を取り戻す」。本データのゲームキャラ転生が2020s固有（0→15.4%）であることを補強し、メカニズムに<b>主体奪還</b>の読みを与える。
+<div class="src">Anime News Network <a href="https://www.animenewsnetwork.com/feature/2020-06-12/welcome-to-the-isekai-otome-game-villainesses/.159287">link</a> ／ Anime Feminist <a href="https://www.animefeminist.com/rise-of-the-villainess-how-the-reborn-bad-girls-of-otome-games-are-defying-shoujo-stereotypes/">link</a></div></div>
+
+<div class="quote con"><span class="tag con">留保（海外）</span><b>国内/海外受容の乖離。</b>CrunchyrollはBest Isekai賞を専用部門化（2021〜）し異世界は同社視聴時間の相当部分を占める一方、『転スラ』が国内首位でも英語圏トップ10に不在。本サンプルは日本の制作・国内人気側に寄るため海外選好は測れない（限界）。
+<div class="src">Crunchyroll Award(Wiki) <a href="https://en.wikipedia.org/wiki/Crunchyroll_Anime_Award_for_Best_Isekai_Anime">link</a> ／ CBR(Slime) <a href="https://www.cbr.com/reincarnated-as-a-slime-top-ranking-vs-overseas-sales/">link</a></div></div>
+</div>
+
+<h2>6. 作品テーブル（102作・ソート/絞り込み）</h2>
+<div class="card">
+<div class="flex">
+<input id="q" placeholder="作品名で検索">
+<select id="fTT"><option value="">移行の型：全</option></select>
+<select id="fRD"><option value="">帰還願望：全</option></select>
+<select id="fDM"><option value="">対象層：全</option></select>
+<select id="fDC"><option value="">年代：全</option></select>
+</div>
+<div style="max-height:560px;overflow:auto">
+<table id="tb"><thead><tr>
+<th data-k="t">作品</th><th data-k="y">年</th><th data-k="tp">種別</th><th data-k="dm">対象層</th>
+<th data-k="tt">移行の型</th><th data-k="ca">原因</th><th data-k="pk">前世知識</th><th data-k="rd">帰還願望</th>
+<th data-k="ds">行き先</th><th data-k="ap">到達時の力</th><th data-k="ra">転生先</th><th data-k="c">確度</th>
+</tr></thead><tbody></tbody></table>
+</div>
+<p class="note">confidence: high＝周知の安定情報／medium・low＝古い年代・解釈的判断（最強度・主体性等）。</p>
+</div>
+
+<div class="card note">
+母集団102作（1965–2024）。コード化・統計・出典は同フォルダの data.json / stats.json / sources.md / analysis.md を参照。
+数値は出典・周知情報に基づくが選定バイアスと小サンプル年代（1960s–1980s）を含むため、絶対値でなく相対変化を読むこと。
+</div>
+
+<script>
+var P={"stats": {"n": 102, "year_range": [1965, 2024], "ndec": {"1960": 1, "1970": 1, "1980": 4, "1990": 9, "2000": 11, "2010": 37, "2020": 39}, "overall": {"transition_type": {"転生": 0.265, "転移": 0.245, "召喚": 0.206, "仮想世界": 0.108, "迷い込み": 0.088, "逆異世界": 0.088}, "cause": {"偶発転移": 0.333, "召喚": 0.196, "ゲーム・VR": 0.167, "事故死": 0.098, "神の介入": 0.078, "不明": 0.049, "殺害・戦死": 0.049, "過労死": 0.01, "病死・衰弱": 0.01, "老衰・寿命": 0.01}, "past_life_knowledge": {"活用": 0.294, "希薄": 0.245, "中核": 0.235, "部分": 0.225}, "return_desire": {"帰還不可・定住": 0.529, "強い帰還願望": 0.186, "帰還可能・往復": 0.176, "言及なし": 0.078, "帰還拒否・新生活": 0.029}, "destination": {"剣と魔法FT": 0.382, "ゲーム的世界": 0.324, "歴史・別の地球": 0.078, "近未来・SF": 0.069, "現代日本(逆)": 0.069, "異界・神話": 0.049, "おとぎ話・童話": 0.02, "終末・改変": 0.01}, "arrival_power": {"普通・成長型": 0.324, "最初から最強": 0.235, "チート・特典付与": 0.167, "現代知識アドバンテージ": 0.167, "弱小・ハンデ": 0.108}, "reincarnated_as": {"自分のまま": 0.676, "人間(転生)": 0.157, "ゲームキャラ": 0.059, "その他": 0.039, "非人間": 0.039, "既存人物に憑依": 0.029}}, "overall_counts": {"transition_type": {"転生": 27, "転移": 25, "召喚": 21, "仮想世界": 11, "迷い込み": 9, "逆異世界": 9}, "cause": {"偶発転移": 34, "召喚": 20, "ゲーム・VR": 17, "事故死": 10, "神の介入": 8, "不明": 5, "殺害・戦死": 5, "過労死": 1, "病死・衰弱": 1, "老衰・寿命": 1}, "destination": {"剣と魔法FT": 39, "ゲーム的世界": 33, "歴史・別の地球": 8, "近未来・SF": 7, "現代日本(逆)": 7, "異界・神話": 5, "おとぎ話・童話": 2, "終末・改変": 1}, "reincarnated_as": {"自分のまま": 69, "人間(転生)": 16, "ゲームキャラ": 6, "その他": 4, "非人間": 4, "既存人物に憑依": 3}}, "tt_share_by_decade": {"1960": {"転移": 1.0}, "1970": {"迷い込み": 1.0}, "1980": {"迷い込み": 0.25, "召喚": 0.5, "仮想世界": 0.25}, "1990": {"召喚": 0.333, "迷い込み": 0.111, "転移": 0.333, "逆異世界": 0.111, "仮想世界": 0.111}, "2000": {"迷い込み": 0.273, "召喚": 0.182, "仮想世界": 0.182, "逆異世界": 0.182, "転生": 0.091, "転移": 0.091}, "2010": {"転移": 0.378, "召喚": 0.216, "仮想世界": 0.108, "逆異世界": 0.081, "転生": 0.162, "迷い込み": 0.054}, "2020": {"転生": 0.513, "仮想世界": 0.077, "転移": 0.154, "逆異世界": 0.077, "召喚": 0.154, "迷い込み": 0.026}}, "tt_grouped_by_decade": {"1960": {"転生": 0.0, "転移": 1.0, "召喚": 0.0, "仮想世界": 0.0, "迷い込み": 0.0, "逆異世界": 0.0}, "1970": {"転生": 0.0, "転移": 0.0, "召喚": 0.0, "仮想世界": 0.0, "迷い込み": 1.0, "逆異世界": 0.0}, "1980": {"転生": 0.0, "転移": 0.0, "召喚": 0.5, "仮想世界": 0.25, "迷い込み": 0.25, "逆異世界": 0.0}, "1990": {"転生": 0.0, "転移": 0.333, "召喚": 0.333, "仮想世界": 0.111, "迷い込み": 0.111, "逆異世界": 0.111}, "2000": {"転生": 0.091, "転移": 0.091, "召喚": 0.182, "仮想世界": 0.182, "迷い込み": 0.273, "逆異世界": 0.182}, "2010": {"転生": 0.162, "転移": 0.378, "召喚": 0.216, "仮想世界": 0.108, "迷い込み": 0.054, "逆異世界": 0.081}, "2020": {"転生": 0.513, "転移": 0.154, "召喚": 0.154, "仮想世界": 0.077, "迷い込み": 0.026, "逆異世界": 0.077}}, "cause_share_by_decade": {"1960": {"偶発転移": 1.0}, "1970": {"偶発転移": 1.0}, "1980": {"偶発転移": 0.25, "召喚": 0.25, "ゲーム・VR": 0.25, "神の介入": 0.25}, "1990": {"ゲーム・VR": 0.222, "召喚": 0.333, "偶発転移": 0.444}, "2000": {"偶発転移": 0.455, "召喚": 0.182, "ゲーム・VR": 0.182, "神の介入": 0.091, "不明": 0.091}, "2010": {"偶発転移": 0.378, "召喚": 0.189, "ゲーム・VR": 0.216, "神の介入": 0.054, "事故死": 0.108, "不明": 0.027, "殺害・戦死": 0.027}, "2020": {"事故死": 0.154, "神の介入": 0.103, "過労死": 0.026, "ゲーム・VR": 0.103, "殺害・戦死": 0.103, "偶発転移": 0.205, "不明": 0.077, "召喚": 0.179, "病死・衰弱": 0.026, "老衰・寿命": 0.026}}, "dest_share_by_decade": {"1960": {"近未来・SF": 1.0}, "1970": {"おとぎ話・童話": 1.0}, "1980": {"おとぎ話・童話": 0.25, "異界・神話": 0.25, "近未来・SF": 0.25, "ゲーム的世界": 0.25}, "1990": {"ゲーム的世界": 0.444, "剣と魔法FT": 0.222, "歴史・別の地球": 0.111, "異界・神話": 0.111, "現代日本(逆)": 0.111}, "2000": {"異界・神話": 0.273, "歴史・別の地球": 0.364, "ゲーム的世界": 0.091, "現代日本(逆)": 0.091, "剣と魔法FT": 0.091, "近未来・SF": 0.091}, "2010": {"近未来・SF": 0.081, "ゲーム的世界": 0.432, "歴史・別の地球": 0.081, "現代日本(逆)": 0.081, "剣と魔法FT": 0.324}, "2020": {"ゲーム的世界": 0.282, "剣と魔法FT": 0.615, "現代日本(逆)": 0.051, "終末・改変": 0.026, "近未来・SF": 0.026}}, "ra_share_by_decade": {"1960": {"自分のまま": 1.0}, "1970": {"自分のまま": 1.0}, "1980": {"自分のまま": 1.0}, "1990": {"自分のまま": 1.0}, "2000": {"自分のまま": 0.727, "その他": 0.182, "既存人物に憑依": 0.091}, "2010": {"自分のまま": 0.757, "既存人物に憑依": 0.027, "非人間": 0.054, "人間(転生)": 0.135, "その他": 0.027}, "2020": {"ゲームキャラ": 0.154, "人間(転生)": 0.282, "自分のまま": 0.462, "非人間": 0.051, "既存人物に憑依": 0.026, "その他": 0.026}}, "ap_share_by_decade": {"1960": {"普通・成長型": 1.0}, "1970": {"普通・成長型": 1.0}, "1980": {"普通・成長型": 1.0}, "1990": {"普通・成長型": 0.889, "チート・特典付与": 0.111}, "2000": {"普通・成長型": 0.636, "現代知識アドバンテージ": 0.273, "最初から最強": 0.091}, "2010": {"チート・特典付与": 0.189, "最初から最強": 0.243, "普通・成長型": 0.162, "弱小・ハンデ": 0.189, "現代知識アドバンテージ": 0.216}, "2020": {"弱小・ハンデ": 0.103, "最初から最強": 0.359, "チート・特典付与": 0.231, "普通・成長型": 0.154, "現代知識アドバンテージ": 0.154}}, "op_index_by_decade": {"1960": 0.2, "1970": 0.2, "1980": 0.2, "1990": 0.267, "2000": 0.355, "2010": 0.535, "2020": 0.651}, "past_knowledge_index_by_decade": {"1960": 0.0, "1970": 0.0, "1980": 0.0, "1990": 0.33, "2000": 0.21, "2010": 0.483, "2020": 0.724}, "return_desire_grouped_by_decade": {"1960": {"帰還願望(強い+往復)": 1.0, "定住・帰還拒否": 0.0, "言及なし": 0.0}, "1970": {"帰還願望(強い+往復)": 1.0, "定住・帰還拒否": 0.0, "言及なし": 0.0}, "1980": {"帰還願望(強い+往復)": 0.75, "定住・帰還拒否": 0.0, "言及なし": 0.25}, "1990": {"帰還願望(強い+往復)": 0.889, "定住・帰還拒否": 0.0, "言及なし": 0.111}, "2000": {"帰還願望(強い+往復)": 0.364, "定住・帰還拒否": 0.455, "言及なし": 0.182}, "2010": {"帰還願望(強い+往復)": 0.351, "定住・帰還拒否": 0.541, "言及なし": 0.108}, "2020": {"帰還願望(強い+往復)": 0.179, "定住・帰還拒否": 0.821, "言及なし": 0.0}}, "game_destination_share_by_decade": {"1960": 0.0, "1970": 0.0, "1980": 0.25, "1990": 0.444, "2000": 0.091, "2010": 0.432, "2020": 0.282}, "nonhuman_share_by_decade": {"1960": 0.0, "1970": 0.0, "1980": 0.0, "1990": 0.0, "2000": 0.0, "2010": 0.054, "2020": 0.051}, "gamechar_share_by_decade": {"1960": 0.0, "1970": 0.0, "1980": 0.0, "1990": 0.0, "2000": 0.0, "2010": 0.0, "2020": 0.154}, "cross_demo_n": {"児童": 7, "青年": 77, "少女": 11, "一般": 6, "少年": 1}, "cross_demo_transition": {"青年": {"転移": 0.273, "転生": 0.273, "召喚": 0.208, "仮想世界": 0.117, "逆異世界": 0.091, "迷い込み": 0.039}, "少女": {"転生": 0.455, "仮想世界": 0.182, "召喚": 0.091, "迷い込み": 0.091, "転移": 0.091, "逆異世界": 0.091}, "児童": {"召喚": 0.429, "転移": 0.286, "迷い込み": 0.286}, "一般": {"迷い込み": 0.5, "転移": 0.167, "逆異世界": 0.167, "転生": 0.167}, "少年": {"召喚": 1.0}}, "cross_demo_op_index": {"青年": 0.581, "少女": 0.391, "児童": 0.2, "一般": 0.217, "少年": 1.0}, "cross_type_op_index": {"TV": 0.528, "劇場": 0.275, "OVA": 0.5}}, "rows": [{"t": "ガリバーの宇宙旅行", "y": 1965, "tp": "劇場", "dm": "児童", "tt": "転移", "ca": "偶発転移", "pk": "希薄", "rd": "強い帰還願望", "ds": "近未来・SF", "ap": "普通・成長型", "ra": "自分のまま", "c": "medium"}, {"t": "ジャックと豆の木", "y": 1974, "tp": "劇場", "dm": "児童", "tt": "迷い込み", "ca": "偶発転移", "pk": "希薄", "rd": "強い帰還願望", "ds": "おとぎ話・童話", "ap": "普通・成長型", "ra": "自分のまま", "c": "medium"}, {"t": "ふしぎの国のアリス", "y": 1983, "tp": "TV", "dm": "児童", "tt": "迷い込み", "ca": "偶発転移", "pk": "希薄", "rd": "強い帰還願望", "ds": "おとぎ話・童話", "ap": "普通・成長型", "ra": "自分のまま", "c": "medium"}, {"t": "聖戦士ダンバイン", "y": 1983, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "希薄", "rd": "強い帰還願望", "ds": "異界・神話", "ap": "普通・成長型", "ra": "自分のまま", "c": "high"}, {"t": "メガゾーン23", "y": 1985, "tp": "OVA", "dm": "青年", "tt": "仮想世界", "ca": "ゲーム・VR", "pk": "希薄", "rd": "言及なし", "ds": "近未来・SF", "ap": "普通・成長型", "ra": "自分のまま", "c": "medium"}, {"t": "魔神英雄伝ワタル", "y": 1988, "tp": "TV", "dm": "児童", "tt": "召喚", "ca": "神の介入", "pk": "希薄", "rd": "強い帰還願望", "ds": "ゲーム的世界", "ap": "普通・成長型", "ra": "自分のまま", "c": "high"}, {"t": "NG騎士ラムネ&40", "y": 1990, "tp": "TV", "dm": "児童", "tt": "召喚", "ca": "ゲーム・VR", "pk": "活用", "rd": "強い帰還願望", "ds": "ゲーム的世界", "ap": "普通・成長型", "ra": "自分のまま", "c": "high"}, {"t": "魔法騎士レイアース", "y": 1994, "tp": "TV", "dm": "少女", "tt": "召喚", "ca": "召喚", "pk": "希薄", "rd": "強い帰還願望", "ds": "剣と魔法FT", "ap": "普通・成長型", "ra": "自分のまま", "c": "high"}, {"t": "ふしぎ遊戯", "y": 1995, "tp": "TV", "dm": "少女", "tt": "迷い込み", "ca": "偶発転移", "pk": "部分", "rd": "強い帰還願望", "ds": "歴史・別の地球", "ap": "普通・成長型", "ra": "自分のまま", "c": "high"}, {"t": "神秘の世界エルハザール", "y": 1995, "tp": "OVA", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "活用", "rd": "強い帰還願望", "ds": "異界・神話", "ap": "チート・特典付与", "ra": "自分のまま", "c": "medium"}, {"t": "天空のエスカフローネ", "y": 1996, "tp": "TV", "dm": "少女", "tt": "転移", "ca": "召喚", "pk": "希薄", "rd": "帰還可能・往復", "ds": "剣と魔法FT", "ap": "普通・成長型", "ra": "自分のまま", "c": "high"}, {"t": "VS騎士ラムネ&40炎", "y": 1996, "tp": "TV", "dm": "児童", "tt": "召喚", "ca": "召喚", "pk": "活用", "rd": "強い帰還願望", "ds": "ゲーム的世界", "ap": "普通・成長型", "ra": "自分のまま", "c": "medium"}, {"t": "プリンセス・ローゲ", "y": 1997, "tp": "OVA", "dm": "青年", "tt": "逆異世界", "ca": "偶発転移", "pk": "希薄", "rd": "言及なし", "ds": "現代日本(逆)", "ap": "普通・成長型", "ra": "自分のまま", "c": "low"}, {"t": "コレクター・ユイ", "y": 1999, "tp": "TV", "dm": "少女", "tt": "仮想世界", "ca": "ゲーム・VR", "pk": "部分", "rd": "帰還可能・往復", "ds": "ゲーム的世界", "ap": "普通・成長型", "ra": "自分のまま", "c": "medium"}, {"t": "デジモンアドベンチャー", "y": 1999, "tp": "TV", "dm": "児童", "tt": "転移", "ca": "偶発転移", "pk": "部分", "rd": "強い帰還願望", "ds": "ゲーム的世界", "ap": "普通・成長型", "ra": "自分のまま", "c": "high"}, {"t": "千と千尋の神隠し", "y": 2001, "tp": "劇場", "dm": "一般", "tt": "迷い込み", "ca": "偶発転移", "pk": "希薄", "rd": "強い帰還願望", "ds": "異界・神話", "ap": "普通・成長型", "ra": "自分のまま", "c": "high"}, {"t": "十二国記", "y": 2002, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "部分", "rd": "帰還不可・定住", "ds": "歴史・別の地球", "ap": "普通・成長型", "ra": "自分のまま", "c": "high"}, {"t": ".hack//SIGN", "y": 2002, "tp": "TV", "dm": "青年", "tt": "仮想世界", "ca": "ゲーム・VR", "pk": "活用", "rd": "強い帰還願望", "ds": "ゲーム的世界", "ap": "普通・成長型", "ra": "自分のまま", "c": "high"}, {"t": "IZUMO -猛き剣の閃記-", "y": 2005, "tp": "TV", "dm": "青年", "tt": "迷い込み", "ca": "偶発転移", "pk": "希薄", "rd": "帰還不可・定住", "ds": "歴史・別の地球", "ap": "普通・成長型", "ra": "自分のまま", "c": "low"}, {"t": "鋼の錬金術師 シャンバラを征く者", "y": 2005, "tp": "劇場", "dm": "青年", "tt": "逆異世界", "ca": "偶発転移", "pk": "部分", "rd": "帰還可能・往復", "ds": "歴史・別の地球", "ap": "現代知識アドバンテージ", "ra": "自分のまま", "c": "medium"}, {"t": "ああっ女神さまっ", "y": 2005, "tp": "TV", "dm": "青年", "tt": "逆異世界", "ca": "神の介入", "pk": "希薄", "rd": "言及なし", "ds": "現代日本(逆)", "ap": "普通・成長型", "ra": "その他", "c": "low"}, {"t": "ゼロの使い魔", "y": 2006, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "活用", "rd": "帰還可能・往復", "ds": "剣と魔法FT", "ap": "現代知識アドバンテージ", "ra": "自分のまま", "c": "high"}, {"t": "うたわれるもの", "y": 2006, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "不明", "pk": "希薄", "rd": "帰還不可・定住", "ds": "異界・神話", "ap": "最初から最強", "ra": "既存人物に憑依", "c": "medium"}, {"t": "ゼーガペイン", "y": 2006, "tp": "TV", "dm": "青年", "tt": "仮想世界", "ca": "ゲーム・VR", "pk": "希薄", "rd": "帰還不可・定住", "ds": "近未来・SF", "ap": "普通・成長型", "ra": "その他", "c": "medium"}, {"t": "ロザリオとバンパイア", "y": 2008, "tp": "TV", "dm": "青年", "tt": "迷い込み", "ca": "偶発転移", "pk": "希薄", "rd": "言及なし", "ds": "異界・神話", "ap": "普通・成長型", "ra": "自分のまま", "c": "low"}, {"t": "真・恋姫†無双", "y": 2009, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "部分", "rd": "帰還不可・定住", "ds": "歴史・別の地球", "ap": "現代知識アドバンテージ", "ra": "自分のまま", "c": "low"}, {"t": "聖機師物語", "y": 2010, "tp": "OVA", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "部分", "rd": "帰還不可・定住", "ds": "近未来・SF", "ap": "チート・特典付与", "ra": "自分のまま", "c": "low"}, {"t": "DOG DAYS", "y": 2011, "tp": "TV", "dm": "少年", "tt": "召喚", "ca": "召喚", "pk": "部分", "rd": "帰還可能・往復", "ds": "ゲーム的世界", "ap": "最初から最強", "ra": "自分のまま", "c": "medium"}, {"t": "戦国乙女〜桃色パラドックス〜", "y": 2011, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "部分", "rd": "強い帰還願望", "ds": "歴史・別の地球", "ap": "普通・成長型", "ra": "自分のまま", "c": "low"}, {"t": "ソードアート・オンライン", "y": 2012, "tp": "TV", "dm": "青年", "tt": "仮想世界", "ca": "ゲーム・VR", "pk": "活用", "rd": "強い帰還願望", "ds": "ゲーム的世界", "ap": "最初から最強", "ra": "自分のまま", "c": "high"}, {"t": "アクセル・ワールド", "y": 2012, "tp": "TV", "dm": "青年", "tt": "仮想世界", "ca": "ゲーム・VR", "pk": "活用", "rd": "帰還可能・往復", "ds": "ゲーム的世界", "ap": "弱小・ハンデ", "ra": "自分のまま", "c": "medium"}, {"t": "ログ・ホライズン", "y": 2013, "tp": "TV", "dm": "青年", "tt": "仮想世界", "ca": "ゲーム・VR", "pk": "活用", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "現代知識アドバンテージ", "ra": "自分のまま", "c": "high"}, {"t": "はたらく魔王さま!", "y": 2013, "tp": "TV", "dm": "青年", "tt": "逆異世界", "ca": "偶発転移", "pk": "希薄", "rd": "強い帰還願望", "ds": "現代日本(逆)", "ap": "弱小・ハンデ", "ra": "自分のまま", "c": "high"}, {"t": "アウトブレイク・カンパニー", "y": 2013, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "中核", "rd": "帰還可能・往復", "ds": "剣と魔法FT", "ap": "現代知識アドバンテージ", "ra": "自分のまま", "c": "medium"}, {"t": "問題児たちが異世界から来るそうですよ?", "y": 2013, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "活用", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "チート・特典付与", "ra": "自分のまま", "c": "medium"}, {"t": "翠星のガルガンティア", "y": 2013, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "部分", "rd": "帰還不可・定住", "ds": "近未来・SF", "ap": "現代知識アドバンテージ", "ra": "自分のまま", "c": "medium"}, {"t": "ノーゲーム・ノーライフ", "y": 2014, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "神の介入", "pk": "活用", "rd": "帰還拒否・新生活", "ds": "ゲーム的世界", "ap": "現代知識アドバンテージ", "ra": "自分のまま", "c": "high"}, {"t": "信長協奏曲", "y": 2014, "tp": "TV", "dm": "一般", "tt": "転移", "ca": "偶発転移", "pk": "中核", "rd": "帰還不可・定住", "ds": "歴史・別の地球", "ap": "現代知識アドバンテージ", "ra": "既存人物に憑依", "c": "medium"}, {"t": "ゲート 自衛隊 彼の地にて、斯く戦えり", "y": 2015, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "中核", "rd": "帰還可能・往復", "ds": "剣と魔法FT", "ap": "現代知識アドバンテージ", "ra": "自分のまま", "c": "high"}, {"t": "オーバーロード", "y": 2015, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "ゲーム・VR", "pk": "部分", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "最初から最強", "ra": "非人間", "c": "high"}, {"t": "Re:ゼロから始める異世界生活", "y": 2016, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "希薄", "rd": "言及なし", "ds": "剣と魔法FT", "ap": "弱小・ハンデ", "ra": "自分のまま", "c": "high"}, {"t": "この素晴らしい世界に祝福を!", "y": 2016, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "事故死", "pk": "部分", "rd": "帰還拒否・新生活", "ds": "ゲーム的世界", "ap": "弱小・ハンデ", "ra": "人間(転生)", "c": "high"}, {"t": "灰と幻想のグリムガル", "y": 2016, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "不明", "pk": "希薄", "rd": "言及なし", "ds": "剣と魔法FT", "ap": "弱小・ハンデ", "ra": "自分のまま", "c": "medium"}, {"t": "異世界はスマートフォンとともに。", "y": 2017, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "神の介入", "pk": "活用", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "チート・特典付与", "ra": "人間(転生)", "c": "high"}, {"t": "ナイツ&マジック", "y": 2017, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "事故死", "pk": "中核", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "現代知識アドバンテージ", "ra": "人間(転生)", "c": "medium"}, {"t": "異世界食堂", "y": 2017, "tp": "TV", "dm": "一般", "tt": "迷い込み", "ca": "偶発転移", "pk": "希薄", "rd": "帰還可能・往復", "ds": "剣と魔法FT", "ap": "普通・成長型", "ra": "自分のまま", "c": "medium"}, {"t": "Re:CREATORS", "y": 2017, "tp": "TV", "dm": "青年", "tt": "逆異世界", "ca": "偶発転移", "pk": "希薄", "rd": "言及なし", "ds": "現代日本(逆)", "ap": "最初から最強", "ra": "その他", "c": "medium"}, {"t": "転生したらスライムだった件", "y": 2018, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "殺害・戦死", "pk": "活用", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "最初から最強", "ra": "非人間", "c": "high"}, {"t": "異世界魔王と召喚少女の奴隷魔術", "y": 2018, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "活用", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "最初から最強", "ra": "自分のまま", "c": "medium"}, {"t": "デスマーチからはじまる異世界狂想曲", "y": 2018, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "ゲーム・VR", "pk": "活用", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "チート・特典付与", "ra": "自分のまま", "c": "medium"}, {"t": "百錬の覇王と聖約の戦乙女", "y": 2018, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "中核", "rd": "帰還不可・定住", "ds": "歴史・別の地球", "ap": "現代知識アドバンテージ", "ra": "自分のまま", "c": "low"}, {"t": "異世界居酒屋のぶ", "y": 2018, "tp": "TV", "dm": "一般", "tt": "迷い込み", "ca": "偶発転移", "pk": "希薄", "rd": "帰還可能・往復", "ds": "剣と魔法FT", "ap": "普通・成長型", "ra": "自分のまま", "c": "low"}, {"t": "盾の勇者の成り上がり", "y": 2019, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "部分", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "弱小・ハンデ", "ra": "自分のまま", "c": "high"}, {"t": "賢者の孫", "y": 2019, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "事故死", "pk": "活用", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "最初から最強", "ra": "人間(転生)", "c": "medium"}, {"t": "私、能力は平均値でって言ったよね!", "y": 2019, "tp": "TV", "dm": "少女", "tt": "転生", "ca": "事故死", "pk": "部分", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "チート・特典付与", "ra": "人間(転生)", "c": "medium"}, {"t": "異世界かるてっと", "y": 2019, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "部分", "rd": "帰還可能・往復", "ds": "ゲーム的世界", "ap": "最初から最強", "ra": "自分のまま", "c": "low"}, {"t": "ありふれた職業で世界最強", "y": 2019, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "部分", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "弱小・ハンデ", "ra": "自分のまま", "c": "medium"}, {"t": "異世界チート魔術師", "y": 2019, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "活用", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "チート・特典付与", "ra": "自分のまま", "c": "low"}, {"t": "通常攻撃が全体攻撃で二回攻撃のお母さんは好きですか?", "y": 2019, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "ゲーム・VR", "pk": "活用", "rd": "帰還可能・往復", "ds": "ゲーム的世界", "ap": "チート・特典付与", "ra": "自分のまま", "c": "low"}, {"t": "魔王様、リトライ!", "y": 2019, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "ゲーム・VR", "pk": "活用", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "最初から最強", "ra": "自分のまま", "c": "low"}, {"t": "彼方のアストラ", "y": 2019, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "部分", "rd": "強い帰還願望", "ds": "近未来・SF", "ap": "普通・成長型", "ra": "自分のまま", "c": "medium"}, {"t": "コップクラフト", "y": 2019, "tp": "TV", "dm": "青年", "tt": "逆異世界", "ca": "偶発転移", "pk": "希薄", "rd": "言及なし", "ds": "現代日本(逆)", "ap": "普通・成長型", "ra": "自分のまま", "c": "low"}, {"t": "ぱすてるメモリーズ", "y": 2019, "tp": "TV", "dm": "少女", "tt": "仮想世界", "ca": "ゲーム・VR", "pk": "活用", "rd": "帰還可能・往復", "ds": "ゲーム的世界", "ap": "普通・成長型", "ra": "自分のまま", "c": "low"}, {"t": "乙女ゲームの破滅フラグしかない悪役令嬢に転生してしまった…", "y": 2020, "tp": "TV", "dm": "少女", "tt": "転生", "ca": "事故死", "pk": "中核", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "弱小・ハンデ", "ra": "ゲームキャラ", "c": "high"}, {"t": "魔王学院の不適合者", "y": 2020, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "神の介入", "pk": "中核", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "最初から最強", "ra": "人間(転生)", "c": "medium"}, {"t": "神達に拾われた男", "y": 2020, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "過労死", "pk": "活用", "rd": "帰還拒否・新生活", "ds": "剣と魔法FT", "ap": "チート・特典付与", "ra": "人間(転生)", "c": "medium"}, {"t": "インフィニット・デンドログラム", "y": 2020, "tp": "TV", "dm": "青年", "tt": "仮想世界", "ca": "ゲーム・VR", "pk": "活用", "rd": "帰還可能・往復", "ds": "ゲーム的世界", "ap": "普通・成長型", "ra": "自分のまま", "c": "low"}, {"t": "無職転生 〜異世界行ったら本気だす〜", "y": 2021, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "事故死", "pk": "中核", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "最初から最強", "ra": "人間(転生)", "c": "high"}, {"t": "蜘蛛ですが、なにか?", "y": 2021, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "殺害・戦死", "pk": "活用", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "弱小・ハンデ", "ra": "非人間", "c": "high"}, {"t": "精霊幻想記", "y": 2021, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "事故死", "pk": "部分", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "普通・成長型", "ra": "既存人物に憑依", "c": "low"}, {"t": "迷宮ブラックカンパニー", "y": 2021, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "中核", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "現代知識アドバンテージ", "ra": "自分のまま", "c": "medium"}, {"t": "八男って、それはないでしょう!", "y": 2021, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "不明", "pk": "中核", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "チート・特典付与", "ra": "人間(転生)", "c": "low"}, {"t": "世界最高の暗殺者、異世界貴族に転生する", "y": 2021, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "殺害・戦死", "pk": "中核", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "最初から最強", "ra": "人間(転生)", "c": "medium"}, {"t": "リアデイルの大地にて", "y": 2022, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "事故死", "pk": "活用", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "最初から最強", "ra": "ゲームキャラ", "c": "low"}, {"t": "転生したら剣でした", "y": 2022, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "不明", "pk": "活用", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "最初から最強", "ra": "非人間", "c": "medium"}, {"t": "異世界おじさん", "y": 2022, "tp": "TV", "dm": "青年", "tt": "逆異世界", "ca": "偶発転移", "pk": "中核", "rd": "帰還可能・往復", "ds": "現代日本(逆)", "ap": "現代知識アドバンテージ", "ra": "自分のまま", "c": "medium"}, {"t": "転生賢者の異世界ライフ", "y": 2022, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "偶発転移", "pk": "活用", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "チート・特典付与", "ra": "自分のまま", "c": "low"}, {"t": "賢者の弟子を名乗る賢者", "y": 2022, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "ゲーム・VR", "pk": "中核", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "最初から最強", "ra": "ゲームキャラ", "c": "low"}, {"t": "老後に備えて異世界で8万枚の金貨を貯めます", "y": 2022, "tp": "TV", "dm": "少女", "tt": "逆異世界", "ca": "神の介入", "pk": "中核", "rd": "帰還可能・往復", "ds": "剣と魔法FT", "ap": "現代知識アドバンテージ", "ra": "自分のまま", "c": "low"}, {"t": "異世界美少女受肉おじさんと", "y": 2022, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "活用", "rd": "強い帰還願望", "ds": "剣と魔法FT", "ap": "チート・特典付与", "ra": "その他", "c": "low"}, {"t": "失格紋の最強賢者", "y": 2022, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "神の介入", "pk": "中核", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "最初から最強", "ra": "人間(転生)", "c": "low"}, {"t": "異世界迷宮でハーレムを", "y": 2022, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "活用", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "チート・特典付与", "ra": "自分のまま", "c": "low"}, {"t": "処刑少女の生きる道", "y": 2022, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "希薄", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "普通・成長型", "ra": "自分のまま", "c": "medium"}, {"t": "便利屋斎藤さん、異世界に行く", "y": 2023, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "部分", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "現代知識アドバンテージ", "ra": "自分のまま", "c": "medium"}, {"t": "転生王女と天才令嬢の魔法革命", "y": 2023, "tp": "TV", "dm": "少女", "tt": "転生", "ca": "事故死", "pk": "中核", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "現代知識アドバンテージ", "ra": "人間(転生)", "c": "medium"}, {"t": "最強陰陽師の異世界転生記", "y": 2023, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "殺害・戦死", "pk": "中核", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "最初から最強", "ra": "人間(転生)", "c": "low"}, {"t": "シャングリラ・フロンティア", "y": 2023, "tp": "TV", "dm": "青年", "tt": "仮想世界", "ca": "ゲーム・VR", "pk": "活用", "rd": "帰還可能・往復", "ds": "ゲーム的世界", "ap": "普通・成長型", "ra": "自分のまま", "c": "medium"}, {"t": "Lv2からチートだった元勇者候補の…", "y": 2023, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "部分", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "チート・特典付与", "ra": "自分のまま", "c": "low"}, {"t": "即死チートが最強すぎて", "y": 2023, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "部分", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "最初から最強", "ra": "自分のまま", "c": "low"}, {"t": "英雄王、武を極めるため転生す", "y": 2023, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "神の介入", "pk": "中核", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "最初から最強", "ra": "人間(転生)", "c": "low"}, {"t": "江戸前エルフ", "y": 2023, "tp": "TV", "dm": "一般", "tt": "逆異世界", "ca": "召喚", "pk": "希薄", "rd": "帰還不可・定住", "ds": "現代日本(逆)", "ap": "普通・成長型", "ra": "自分のまま", "c": "low"}, {"t": "転生したら第七王子だったので、気ままに魔術を極めます", "y": 2024, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "病死・衰弱", "pk": "中核", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "最初から最強", "ra": "人間(転生)", "c": "medium"}, {"t": "悪役令嬢レベル99", "y": 2024, "tp": "TV", "dm": "少女", "tt": "転生", "ca": "不明", "pk": "中核", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "最初から最強", "ra": "ゲームキャラ", "c": "medium"}, {"t": "終末トレインどこへいく?", "y": 2024, "tp": "TV", "dm": "青年", "tt": "迷い込み", "ca": "偶発転移", "pk": "希薄", "rd": "強い帰還願望", "ds": "終末・改変", "ap": "普通・成長型", "ra": "自分のまま", "c": "low"}, {"t": "ループ7回目の悪役令嬢…", "y": 2024, "tp": "TV", "dm": "少女", "tt": "転生", "ca": "殺害・戦死", "pk": "中核", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "現代知識アドバンテージ", "ra": "ゲームキャラ", "c": "medium"}, {"t": "治癒魔法の間違った使い方", "y": 2024, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "部分", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "チート・特典付与", "ra": "自分のまま", "c": "low"}, {"t": "ザ・ニュー・ゲート", "y": 2024, "tp": "TV", "dm": "青年", "tt": "仮想世界", "ca": "ゲーム・VR", "pk": "中核", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "最初から最強", "ra": "自分のまま", "c": "low"}, {"t": "悪役令嬢転生おじさん", "y": 2024, "tp": "TV", "dm": "一般", "tt": "転生", "ca": "事故死", "pk": "中核", "rd": "帰還不可・定住", "ds": "ゲーム的世界", "ap": "弱小・ハンデ", "ra": "ゲームキャラ", "c": "medium"}, {"t": "最強の王様、二度目の人生は何をする?", "y": 2024, "tp": "TV", "dm": "青年", "tt": "転生", "ca": "老衰・寿命", "pk": "中核", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "最初から最強", "ra": "人間(転生)", "c": "low"}, {"t": "ハズレ枠の【状態異常スキル】で最強になった俺…", "y": 2024, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "部分", "rd": "帰還不可・定住", "ds": "剣と魔法FT", "ap": "弱小・ハンデ", "ra": "自分のまま", "c": "low"}, {"t": "結婚指輪物語", "y": 2024, "tp": "TV", "dm": "青年", "tt": "召喚", "ca": "召喚", "pk": "活用", "rd": "帰還可能・往復", "ds": "剣と魔法FT", "ap": "チート・特典付与", "ra": "自分のまま", "c": "low"}, {"t": "目覚めたら最強装備と宇宙船持ちだった", "y": 2024, "tp": "TV", "dm": "青年", "tt": "転移", "ca": "偶発転移", "pk": "活用", "rd": "帰還不可・定住", "ds": "近未来・SF", "ap": "チート・特典付与", "ra": "自分のまま", "c": "low"}]};
+var S=P.stats, ROWS=P.rows;
+var decs=Object.keys(S.ndec).map(Number).sort(function(a,b){return a-b});
+var DL=decs.map(function(d){return d+"s"});
+var FONT={color:"#9aa3b5"};
+function gridc(){return {color:"#2a3040"};}
+var COL={tt:"#7c9cff",tt2:"#ff9e64",tt3:"#76d39b",tt4:"#c4a7ff",tt5:"#ff7a85",tt6:"#e8c46b"};
+function baseOpts(stack,pct){return {responsive:true,maintainAspectRatio:false,
+ plugins:{legend:{labels:FONT}},
+ scales:{x:{stacked:!!stack,ticks:FONT,grid:gridc()},
+ y:{stacked:!!stack,ticks:FONT,grid:gridc(),suggestedMax:pct?100:undefined}}};}
+
+// KPI
+function pct(x){return Math.round(x*1000)/10;}
+document.getElementById("k1").textContent=pct(S.tt_grouped_by_decade["2020"]["転生"])+"%";
+document.getElementById("k2").textContent=pct(S.return_desire_grouped_by_decade["2020"]["帰還願望(強い+往復)"])+"%";
+document.getElementById("k3").textContent=pct(S.return_desire_grouped_by_decade["2020"]["定住・帰還拒否"])+"%";
+document.getElementById("k4").textContent=S.op_index_by_decade["2020"];
+
+// 1. transition stacked 100%
+var ttk=["転生","転移","召喚","仮想世界","迷い込み","逆異世界"];
+var ttcol=[COL.tt2,COL.tt,COL.tt3,COL.tt4,COL.tt5,COL.tt6];
+new Chart(document.getElementById("cTT"),{type:"bar",
+ data:{labels:DL,datasets:ttk.map(function(k,i){return {label:k,
+  data:decs.map(function(d){return pct(S.tt_grouped_by_decade[d][k]||0);}),
+  backgroundColor:ttcol[i]};})},
+ options:baseOpts(true,true)});
+
+// 2. return desire lines
+new Chart(document.getElementById("cRD"),{type:"line",
+ data:{labels:DL,datasets:[
+  {label:"帰還願望(強い+往復)",data:decs.map(function(d){return pct(S.return_desire_grouped_by_decade[d]["帰還願望(強い+往復)"]);}),borderColor:COL.tt3,backgroundColor:"rgba(118,211,155,.15)",tension:.25,fill:true},
+  {label:"定住・帰還拒否",data:decs.map(function(d){return pct(S.return_desire_grouped_by_decade[d]["定住・帰還拒否"]);}),borderColor:COL.tt5,backgroundColor:"rgba(255,122,133,.12)",tension:.25,fill:true}
+ ]},options:baseOpts(false,true)});
+
+// 3. indices
+new Chart(document.getElementById("cIDX"),{type:"line",
+ data:{labels:DL,datasets:[
+  {label:"op指数(与えられる力)",data:decs.map(function(d){return S.op_index_by_decade[d];}),borderColor:COL.tt2,tension:.25},
+  {label:"前世/現代知識の活用指数",data:decs.map(function(d){return S.past_knowledge_index_by_decade[d];}),borderColor:COL.tt,tension:.25}
+ ]},options:Object.assign(baseOpts(false,false),{scales:{x:{ticks:FONT,grid:gridc()},y:{ticks:FONT,grid:gridc(),min:0,max:1}}})});
+
+// 4. shares
+new Chart(document.getElementById("cSH"),{type:"line",
+ data:{labels:DL,datasets:[
+  {label:"行き先=ゲーム的世界",data:decs.map(function(d){return pct(S.game_destination_share_by_decade[d]);}),borderColor:COL.tt4,tension:.25},
+  {label:"非人間に転生",data:decs.map(function(d){return pct(S.nonhuman_share_by_decade[d]);}),borderColor:COL.tt3,tension:.25},
+  {label:"ゲームキャラ(悪役令嬢等)に転生",data:decs.map(function(d){return pct(S.gamechar_share_by_decade[d]);}),borderColor:COL.tt5,tension:.25}
+ ]},options:baseOpts(false,true)});
+
+// 5. demo op bar
+var demoOrder=["児童","少女","少年","一般","青年"].filter(function(x){return S.cross_demo_op_index[x]!=null;});
+new Chart(document.getElementById("cDEMO"),{type:"bar",
+ data:{labels:demoOrder.map(function(x){return x+"(n="+S.cross_demo_n[x]+")";}),
+  datasets:[{label:"op指数",data:demoOrder.map(function(x){return S.cross_demo_op_index[x];}),backgroundColor:COL.tt}]},
+ options:Object.assign(baseOpts(false,false),{plugins:{legend:{display:false}},scales:{x:{ticks:FONT,grid:gridc()},y:{ticks:FONT,grid:gridc(),min:0,max:1}}})});
+
+// 6. cause doughnut
+var cau=S.overall.cause;var ck=Object.keys(cau);
+new Chart(document.getElementById("cCAU"),{type:"doughnut",
+ data:{labels:ck,datasets:[{data:ck.map(function(k){return pct(cau[k]);}),
+  backgroundColor:["#7c9cff","#ff9e64","#76d39b","#c4a7ff","#ff7a85","#e8c46b","#5fb0c9","#b58cff","#9aa3b5","#d98c8c"]}]},
+ options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"right",labels:{color:"#9aa3b5",font:{size:11}}}}}});
+
+// table
+var tb=document.querySelector("#tb tbody");
+function fillSel(id,key){var s=document.getElementById(id);var seen={};ROWS.forEach(function(r){if(!seen[r[key]]){seen[r[key]]=1;var o=document.createElement("option");o.value=r[key];o.textContent=r[key];s.appendChild(o);}});}
+fillSel("fTT","tt");fillSel("fRD","rd");fillSel("fDM","dm");
+var fdc=document.getElementById("fDC");DL.forEach(function(d){var o=document.createElement("option");o.value=d.slice(0,4);o.textContent=d;fdc.appendChild(o);});
+var sortK="y",sortA=true;
+function render(){
+ var q=document.getElementById("q").value.trim();
+ var ftt=document.getElementById("fTT").value,frd=document.getElementById("fRD").value,fdm=document.getElementById("fDM").value,fdcv=document.getElementById("fDC").value;
+ var data=ROWS.filter(function(r){
+  if(q&&r.t.indexOf(q)<0)return false;
+  if(ftt&&r.tt!=ftt)return false;
+  if(frd&&r.rd!=frd)return false;
+  if(fdm&&r.dm!=fdm)return false;
+  if(fdcv&&String(Math.floor(r.y/10)*10)!=fdcv)return false;
+  return true;});
+ data.sort(function(a,b){var x=a[sortK],y=b[sortK];if(x<y)return sortA?-1:1;if(x>y)return sortA?1:-1;return 0;});
+ tb.innerHTML="";
+ data.forEach(function(r){var tr=document.createElement("tr");
+  tr.innerHTML="<td>"+r.t+"</td><td>"+r.y+"</td><td>"+r.tp+"</td><td>"+r.dm+"</td><td>"+r.tt+"</td><td>"+r.ca+"</td><td>"+r.pk+"</td><td>"+r.rd+"</td><td>"+r.ds+"</td><td>"+r.ap+"</td><td>"+r.ra+"</td><td>"+r.c+"</td>";
+  tb.appendChild(tr);});
+}
+document.querySelectorAll("#tb th").forEach(function(th){th.onclick=function(){var k=th.getAttribute("data-k");if(sortK==k)sortA=!sortA;else{sortK=k;sortA=true;}render();};});
+["q","fTT","fRD","fDM","fDC"].forEach(function(id){document.getElementById(id).addEventListener("input",render);});
+render();
+</script>
+</div></body></html>
