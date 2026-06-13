@@ -2,26 +2,68 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>舞台・世界観の変遷 — アニメ視点別分析 #008</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1320;--card:#1a2030;--ink:#e8ecf5;--sub:#9aa6c0;--acc:#6ea8fe;--acc2:#f7b955;--line:#2a3350}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN","Meiryo",sans-serif;line-height:1.6}
-.wrap{max-width:1080px;margin:0 auto;padding:28px 18px 80px}
-h1{font-size:24px;margin:0 0 4px}h2{font-size:18px;margin:34px 0 12px;border-left:4px solid var(--acc);padding-left:10px}
-.sub{color:var(--sub);font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
-.kpi .v{font-size:22px;font-weight:700;color:var(--acc2)}.kpi .l{font-size:12px;color:var(--sub)}
-canvas{max-height:320px}
-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
-th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
-th{color:var(--sub);cursor:pointer;position:sticky;top:0;background:var(--card)}
-.tbl-wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:12px}
-input,select{background:#0c1020;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:13px}
-.controls{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
-.note{color:var(--sub);font-size:12px;margin-top:8px}
-.tag{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;background:#23304f;color:#cfe0ff}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/008_setting_worldview/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -37,27 +79,114 @@ input,select{background:#0c1020;color:var(--ink);border:1px solid var(--line);bo
 
 <div class="kpis" id="kpis"></div>
 
+
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">アニメの舞台は「日常の一点 → 作り込まれた広大な世界 → 身近な現実と完全架空の異世界の両極化」という往復運動を描いてきた。戦後〜現在の109作を主舞台・時代・現実度・規模・作り込み密度の5軸でコード化し、年代変遷を追った。</p>
+<ul class="tldr-list">
+<li><b>世界観の発明は1970年代。</b> 作り込み密度は1960年代から1970年代で一段跳ね上がり、高密度作品の割合は0%→40%→（80年代）70%超へ。宇宙SF（ヤマト・999・ガンダム）と世界名作劇場（ハイジ・フランダース）が「物語の容れ物としての世界を設計する」ことを標準にした。</li>
+<li><b>現代日本のシェアはU字。</b> 現代日本系の舞台は1960年代の約73%から1970年代の約27%へ落ち（外の世界へ出ていく）、その後段階的に回復して2020年代は約54%。「身近 → 遠い世界へ → 再び身近へ」の往復。</li>
+<li><b>世界の規模は振動する。</b> 1970年代と1990年代に双峰（宇宙〜世界規模）、2000年代に底（学園・日常系の隆盛）、2010年代以降やや回復。</li>
+<li><b>架空性の山は1990年代。</b> 完全架空の実験作（エヴァ・lain・ウテナ・ビバップ）が集中し、現実度（架空性）が頂点に達した台地を形成。</li>
+<li><b>異世界は2010年代に主流化。</b> 異世界系の舞台シェアは1970–80年代の0%から2010年代20%・2020年代23%へ。身近な現実と完全架空の異世界が同時に厚くなる二極化。</li>
+<li><b>対象層で割れる。</b> 少女向けは現実寄り・低密度（現代日本＋魔法の一点）、少年/青年向けは完全架空・高密度（SF・異世界・架空国）。</li>
+</ul>
+</div>
+
+<h2>具体例 — 時代ごとの舞台と場面</h2>
+<p class="mut">分類の感覚をつかめるよう、各時代の典型を代表作と場面で示す。引用は短い範囲にとどめ、作品名・年・話者を併記した。</p>
+
+<div class="ex"><h3>薄い日常の時代（1960年代）</h3>
+<p>『サザエさん』『オバケのQ太郎』『魔法使いサリー』。舞台は現代日本の茶の間で、そこに「居候のオバケ」や「魔法の国の少女」を一点だけ足す。世界そのものを設計するという発想はまだ希薄で、密度は最も低い。</p></div>
+
+<div class="ex"><h3>世界を作り込む（1970年代）</h3>
+<p>宇宙SFと世界名作劇場が舞台を一変させた。『機動戦士ガンダム』は宇宙世紀という年表ごと作り込まれた架空史を背負い、『宇宙戦艦ヤマト』は放射能に汚染され滅亡まで一年と迫る地球を、『銀河鉄道999』は機械の身体が買える宇宙を描く。冒頭ナレーションが「容れ物としての世界」を観客に手渡すようになった。</p>
+<blockquote class="quote">「人類が、増えすぎた人口を宇宙に移民させるようになって、すでに半世紀が過ぎていた」<span class="qby">— 冒頭ナレーション／『機動戦士ガンダム』(1979)</span></blockquote></div>
+
+<div class="ex"><h3>架空性の頂点（1990年代）</h3>
+<p>『新世紀エヴァンゲリオン』（セカンドインパクト後の世界）、『serial experiments lain』『少女革命ウテナ』『カウボーイビバップ』。現実を離れた完全架空の実験世界が集中し、現実度（架空性）が最も高くなった。規模も宇宙〜世界へ再び拡張する。</p></div>
+
+<div class="ex"><h3>壁の中と、異世界転生（2010–20年代）</h3>
+<p>『進撃の巨人』は壁に囲まれた架空世界を、『Re:ゼロから始める異世界生活』『無職転生』『葬送のフリーレン』『ダンジョン飯』は「現実から転移・転生する完全架空の異世界」を主流カテゴリへ押し上げた。一方で学園・日常系は現代日本に居続け、舞台は両極へ分かれていく。</p>
+<blockquote class="quote">「その日、人類は思い出した。奴らに支配された恐怖を……鳥籠に囚われた屈辱を……」<span class="qby">— アルミンの語り／『進撃の巨人』(2013)</span></blockquote></div>
+
 <h2>1. 作り込み密度・現実度・規模の指数（年代変遷）</h2>
-<div class="card"><canvas id="idxChart"></canvas>
+<div class="card"><div class="cbox"><canvas id="idxChart"></canvas></div>
 <div class="note">密度=低0/中0.5/高1.0、現実度=現実準拠0/半架空0.5/完全架空1.0、規模=日常圏1〜宇宙5（右軸）の年代平均。1960s→70sの密度の段差＝「世界観の発明」、規模は1970s/1990s双峰。</div></div>
 
 <h2>2. 主舞台類型の年代構成（100%積み上げ）</h2>
-<div class="card"><canvas id="superChart"></canvas>
+<div class="card"><div class="cbox"><canvas id="superChart"></canvas></div>
 <div class="note">現代日本系のU字（1960s 73%→1970s 27%底→2020s 54%回復）、SF・宇宙の1970s〜2000sの厚み、異世界の2010s台頭。</div></div>
 
 <h2>3. 主要カテゴリのシェア推移</h2>
-<div class="card"><canvas id="shareChart"></canvas>
+<div class="card"><div class="cbox"><canvas id="shareChart"></canvas></div>
 <div class="note">現代日本系シェア・異世界系シェア・SF/宇宙シェア・高密度作品シェア（%）の年代推移。</div></div>
 
 <div class="grid">
-<div class="card"><h2 style="margin-top:4px">時代設定の分布</h2><canvas id="eraChart"></canvas></div>
-<div class="card"><h2 style="margin-top:4px">現実度の分布</h2><canvas id="realChart"></canvas></div>
+<div class="card"><h2 style="margin-top:4px">時代設定の分布</h2><div class="cbox"><canvas id="eraChart"></canvas></div></div>
+<div class="card"><h2 style="margin-top:4px">現実度の分布</h2><div class="cbox"><canvas id="realChart"></canvas></div></div>
 </div>
 
 <h2>4. 対象層・種別クロス</h2>
 <div class="grid">
-<div class="card"><canvas id="demoChart"></canvas><div class="note">対象層別の現実度指数・密度指数。少女向け＝現実寄り・低密度、少年/青年＝完全架空・高密度。</div></div>
-<div class="card"><canvas id="typeChart"></canvas><div class="note">種別別の規模指数。劇場＝親密(小)、TV＝大、OVA=参考(n=1)。</div></div>
+<div class="card"><div class="cbox"><canvas id="demoChart"></canvas></div><div class="note">対象層別の現実度指数・密度指数。少女向け＝現実寄り・低密度、少年/青年＝完全架空・高密度。</div></div>
+<div class="card"><div class="cbox"><canvas id="typeChart"></canvas></div><div class="note">種別別の規模指数。劇場＝親密(小)、TV＝大、OVA=参考(n=1)。</div></div>
+</div>
+
+
+<h2 class="h2-essay">考察 — 舞台史の三層構造</h2>
+<div class="essay">
+<p class="thesis">アニメの舞台は、世界観そのものを発明し、広げて実験し、やがて「身近な現実」と「完全架空の異世界」という両極へ分かれていく——という三層の物語として読める。物語の中身が外的・単純から内的・複雑・多様へ進んだのと同じ流れが、空間設定の上にも現れている。</p>
+
+<h3>第一層：世界観の発明（1960s→70s）</h3>
+<div class="phase"><b>密度の段差。</b><br>1960年代の「現代日本の日常＋αの一点」という薄い舞台から、1970年代に作り込み密度が一段跳ね上がり、以後は高い水準で安定する。宇宙SFと世界名作劇場が「物語の容れ物としての世界を設計する」ことを標準にした転換点で、これは <a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/004_story_structure/">物語構造の連続化</a> の連続化や <a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">テーマの重厚化</a> の重厚化と足並みをそろえる、同じ「複雑化」の空間版である。</div>
+
+<h3>第二層：拡張と実験の頂点（1980s–90s）</h3>
+<div class="phase"><b>規模の双峰と架空性の山。</b><br>世界の規模は1970年代と1990年代に二つの峰を作り、現実度（架空性）は1990年代に頂点へ達する。完全架空の作り込まれた世界が、消費の対象そのものになっていく時代でもある。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/007_genre_composition/">ジャンルの多様化</a> の多様化とも呼応しながら、舞台は宇宙・異界・架空国家へと広がりきった。</div>
+
+<h3>第三層：回帰と二極化（2000s〜現在）</h3>
+<div class="phase"><b>身近さへの回帰。</b><br>2000年代に世界の規模は底を打つ。学園・日常系（ハルヒ・けいおん・氷菓）の隆盛で舞台が「日常圏」へ縮み、現代日本系のシェアが回復に転じた。世界の命運が大きな社会を飛ばして二人の関係に直結する——いわゆるセカイ系の構図も、この「規模の収縮」と同じ地層にある。</div>
+<div class="phase"><b>完全架空の異世界の主流化。</b><br>同時に、2010年代後半からは「現実から異世界へ転移・転生する」型が主流カテゴリへ躍り出る。身近な現実と完全架空の異世界という両極が、同時に厚くなる二極化。これは <a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/031_isekai_type/">異世界ものの類型</a> の類型分化や <a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/038_era_time_setting/">時代設定の選び方</a> の時代設定の選び方とも直結する動きで、舞台は一つの重心を失って二つに割れた。</div>
+
+<h3>対象層という、もう一つの軸</h3>
+<p>年代だけでなく、誰に向けて作るかでも舞台は割れる。少女向けは「現代日本＋魔法の一点」という軽い半架空の日常が中心で、最も現実寄り・低密度。少年/青年向けは完全架空の作り込まれた世界（SF・異世界・架空国家）が中心で、架空性も密度も高い。舞台の架空性と作り込みは、時代と同じくらい対象層に強く依存している。</p>
+
+<h3>留保</h3>
+<p>各年代13〜20作のサンプルで、とくに2020年代の跳ね値は暫定。著名・代表作中心のため、深夜枠で量産された学園・異世界作品の重みは過小評価されうる（実シェアは本推計より高い可能性がある）。主舞台を1類型に縮約しているため、「現代と異世界を往復する」複合舞台の二重性も単純化されている。読むべきは個々の割合の絶対値ではなく、年代の間でどう動いたかである。</p>
+</div>
+
+<h2>研究者・批評家の見方 — データとの照合</h2>
+<p class="mut">「誰が」「何を」述べているかと、本分析の傾向と一致するか／留保が要るかを示す。</p>
+<div class="views">
+
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>大塚英志</b>（評論家・『物語消費論』1989）</p>
+<div class="vt">「世界観・設定」そのものが消費される — 物語消費論 <span class="stance sup">支持</span></div>
+<p>大塚は、ビックリマンに代表される1980年代の消費を、商品の背後にある「大きな物語（世界観・設定）」を断片から組み立てていく〈世界観消費〉として論じた。作品が小さな物語を超えて、作り込まれた世界そのものを売る商品になっていく構図である。</p>
+<div class="match"><b>データとの照合：</b>作り込み密度が1970年代に跳ね上がり、1980年代に高密度作品が多数派になる本分析の動きと符合する。世界を設計し提示することが標準になった時期と重なる。</div>
+<p class="src">出典: <a href="https://ja.wikipedia.org/wiki/物語消費論">ja.wikipedia.org／物語消費論</a></p></div>
+
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>東浩紀</b>・<b>前島賢</b>（批評家／『セカイ系とは何か』）</p>
+<div class="vt">「きみとぼく」が中間項を飛ばし世界の危機へ直結する — セカイ系 <span class="stance sup">支持（留保つき）</span></div>
+<p>エヴァ以後、ゼロ年代にかけて、主人公とヒロインの小さな関係が、社会や国家という中間領域を媒介せずに「世界の終わり」へ直結する作品群が論じられた。世界の規模は壮大に語られながら、舞台の実体は二人の周囲＝日常圏へ縮んでいく。</p>
+<div class="match"><b>データとの照合：</b>世界の規模指数が2000年代に底を打ち、現代日本系の舞台が回復に転じる本分析と整合する。ただしセカイ系は一部の作品群で、全体を説明し切るものではない。</div>
+<p class="src">出典: <a href="https://ja.wikipedia.org/wiki/セカイ系">ja.wikipedia.org／セカイ系</a></p></div>
+
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>飯田一史</b>（ライター・『ウェブ小説の衝撃』／Real Sound 寄稿）</p>
+<div class="vt">なろう発・異世界転生の市場的台頭 — 供給側からの説明 <span class="stance neu">近年の論点</span></div>
+<p>飯田は、ウェブ小説プラットフォーム発のヒット構造を市場・データの観点から取材し、異世界転生がランキングを席巻して独立カテゴリ化していった過程を追っている。読者の「努力が報われない」感覚に応える願望充足が需要側の背景に挙げられる。</p>
+<div class="match"><b>データとの照合：</b>異世界系の舞台シェアが2010年代後半に急増する本分析を、需要・供給の両側から裏づける。完全架空の異世界が主流カテゴリへ昇格した時期と一致。</div>
+<p class="src">出典: <a href="https://realsound.jp/person/about/812700">realsound.jp／飯田一史</a></p></div>
+
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>ITmedia NEWS</b>（KADOKAWA 出版事業の構造分析, 2026）</p>
+<div class="vt">「なろう・異世界系に偏重していた」— 飽和の兆候 <span class="stance cau">留保</span></div>
+<p>KADOKAWA は出版事業の不振を「なろう・異世界系に偏重していた」と自己分析し、構造改革を進めると報じられた。主流カテゴリ化した異世界が、供給過多・飽和の局面に入りつつあることを示唆する。</p>
+<div class="match"><b>データとの照合：</b>異世界シェアが2010年代の急増から2020年代に高止まり（20.0%→23.1%）する一方、現代日本系も同時に厚い「二極化」の構図と整合的。一極集中の反動という留保を添える。</div>
+<p class="src">出典: <a href="https://www.itmedia.co.jp/news/articles/2605/15/news107.html">itmedia.co.jp／KADOKAWA 出版事業</a></p></div>
+
 </div>
 
 <h2>5. 作品一覧（ソート・絞り込み）</h2>
@@ -81,7 +210,7 @@ const dlab=decs.map(d=>d+"s");
 document.getElementById('nn').textContent=S.N;
 const C={ink:'#e8ecf5',sub:'#9aa6c0',line:'#2a3350'};
 Chart.defaults.color=C.sub;Chart.defaults.borderColor=C.line;Chart.defaults.font.family='inherit';
-const PAL=['#6ea8fe','#f7b955','#7ee787','#ff7b72','#d2a8ff','#79c0ff','#ffa657','#56d4dd','#f0883e','#a5d6ff'];
+const PAL=["#5cc8ff","#ffd166","#7ef0a2","#ff8fb1","#b79cff","#ff8c66","#6ea8fe","#c0ca33","#9aa7b5"];
 
 // KPIs
 const kp=[
@@ -117,7 +246,7 @@ new Chart(shareChart,{type:'line',data:{labels:dlab,datasets:[
 ]},options:{responsive:true,scales:{y:{min:0,max:100,title:{display:true,text:'%'}}}}});
 
 // era & reality doughnut
-function dough(ctx,obj){const k=Object.keys(obj),v=Object.values(obj);new Chart(ctx,{type:'doughnut',data:{labels:k,datasets:[{data:v,backgroundColor:PAL}]},options:{responsive:true,plugins:{legend:{position:'right'}}}});}
+function dough(ctx,obj){var keys=Object.keys(obj).filter(function(k){return obj[k];});keys.sort(function(a,b){return obj[b]-obj[a];});var tot=keys.reduce(function(a,k){return a+obj[k];},0);new Chart(ctx,{type:'bar',data:{labels:keys,datasets:[{data:keys.map(function(k){return obj[k];}),backgroundColor:keys.map(function(k,i){return PAL[i%PAL.length];}),borderRadius:3,maxBarThickness:26}]},options:{indexAxis:'y',layout:{padding:{right:64}},plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',clamp:true,color:'#5b554a',font:{size:11,weight:'700'},formatter:function(v){return v+'（'+Math.round(100*v/tot)+'%）';}}},scales:{x:{beginAtZero:true,grace:'15%',ticks:{precision:0}},y:{ticks:{font:{size:12}}}}},plugins:[ChartDataLabels]});}
 dough(eraChart,S.dist.era);
 dough(realChart,S.dist.reality_type);
 
@@ -128,7 +257,7 @@ new Chart(demoChart,{type:'bar',data:{labels:demoK,datasets:[
  {label:'密度指数',data:demoK.map(k=>ct.density_by_demographic[k]),backgroundColor:PAL[1]},
 ]},options:{responsive:true,scales:{y:{min:0,max:1}}}});
 const typeK=Object.keys(ct.scale_index_by_type);
-new Chart(typeChart,{type:'bar',data:{labels:typeK,datasets:[{label:'規模指数',data:typeK.map(k=>ct.scale_index_by_type[k]),backgroundColor:PAL[2]}]},options:{indexAxis:'y',responsive:true,scales:{x:{min:0,max:5}}}});
+new Chart(typeChart,{type:'bar',data:{labels:typeK.map(k=>({Movie:'劇場',OVA:'OVA(参考 n=1)',TV:'TV'}[k]||k)),datasets:[{label:'規模指数',data:typeK.map(k=>ct.scale_index_by_type[k]),backgroundColor:PAL[2]}]},options:{indexAxis:'y',responsive:true,scales:{x:{min:0,max:5}}}});
 
 // table
 const tb=document.querySelector('#tbl tbody');

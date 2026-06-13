@@ -2,43 +2,68 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>視点020 時代背景の反映</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1116;--card:#1a1d27;--card2:#222633;--ink:#e7e9ef;--mut:#9aa3b5;--acc:#6ea8fe;--warm:#ffb86b;--pro:#3ddc97;--con:#ff7a7a;--line:#2c3142}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;line-height:1.7}
-.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 80px}
-h1{font-size:26px;margin:0 0 6px}
-h2{font-size:20px;margin:38px 0 12px;border-left:5px solid var(--acc);padding-left:12px}
-h3{font-size:16px;color:var(--warm);margin:22px 0 8px}
-.sub{color:var(--mut);font-size:14px}
-.grid{display:grid;gap:18px}
-.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}
-@media(max-width:880px){.g2,.g3{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
-.kpi{font-size:30px;font-weight:700;color:var(--acc)}
-.kpi.warm{color:var(--warm)}
-.cap{color:var(--mut);font-size:13px;margin-top:4px}
-.chartbox{position:relative;height:300px}
-.chartbox.tall{height:360px}
-p{margin:10px 0}
-.warn{background:#2a1f13;border:1px solid #5a3d1a;border-radius:12px;padding:14px;color:#ffd9a8;font-size:14px}
-.qc{border-radius:12px;padding:14px;font-size:14px;border:1px solid var(--line);background:var(--card2)}
-.qc.pro{border-left:5px solid var(--pro)}
-.qc.con{border-left:5px solid var(--con)}
-.qc .src{display:block;margin-top:8px;font-size:12px}
-.qc .src a{color:var(--acc);word-break:break-all}
-.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;margin-right:6px}
-.tag.pro{background:#123a2c;color:var(--pro)}.tag.con{background:#3a1818;color:var(--con)}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-th{position:sticky;top:0;background:var(--card2);cursor:pointer;user-select:none;white-space:nowrap}
-tr:hover td{background:#191c26}
-.controls{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
-select,input{background:var(--card2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px}
-.badge{font-size:11px;padding:1px 7px;border-radius:6px;background:#243049;color:#bcd0ff}
-.scroll{max-height:560px;overflow:auto;border:1px solid var(--line);border-radius:12px}
-.legend-note{font-size:12px;color:var(--mut);margin-top:6px}
-ul{margin:8px 0 8px 18px}li{margin:4px 0}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/020_zeitgeist_reflection/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -53,69 +78,129 @@ ul{margin:8px 0 8px 18px}li{margin:4px 0}
 <h1>視点020 ｜ 時代背景の反映</h1>
 <div class="sub">制作当時の世相(経済・災害・ネット・少子化等)の反映度 ｜ 戦後〜現在 122作 ｜ 変遷クラスタ／全19視点のメタ視点</div>
 
-<div class="grid g3" style="margin-top:18px">
-<div class="card"><div class="kpi">122<span style="font-size:15px">作</span></div><div class="cap">1960s–2020s 各年代14–22作</div></div>
-<div class="card"><div class="kpi">山型</div><div class="cap">反映度指数 0.54→0.83(00–10s頂点)→0.75</div></div>
-<div class="card"><div class="kpi warm">外→内</div><div class="cap">反映領域=技術/経済/戦争 → 社会構造(孤独/家族/少子化)</div></div>
+<div class="kpis">
+<div class="kpi"><b>122作</b><span>1960s–2020s 各年代14–22作</span></div>
+<div class="kpi"><b>山型</b><span>反映度指数 0.54→0.83（00–10s頂点）→0.75</span></div>
+<div class="kpi"><b>外→内</b><span>反映領域＝技術/経済/戦争 → 社会構造（孤独/家族/少子化）</span></div>
 </div>
 
-<div class="warn" style="margin-top:18px"><b>選定バイアス警告 ＆ 方法論の留保:</b> 「世相を語れる著名作」を集めたため反映度は構造的に上方バイアス。指数の<b>絶対値は信用せず相対的な年代変化のみ</b>を読む。「社会構造」は孤独・家族・少子化・格差・いじめを束ねる広いキャッチオールで、近年の占有率上昇は現象でありコード粒度の産物でもある。最大の留保は方法論自体——<b>「時代→作品」の対応づけ（社会反映論）は後付けで恣意的になりうる</b>。本レポートは反映論に立ちつつ、批判（下部「論評B」）を全編で併走させる。</div>
+<div class="warn" style="margin-top:18px"><b>選定バイアス警告 ＆ 方法論の留保:</b> 「世相を語れる著名作」を集めたため反映度は構造的に上方バイアス。指数の<b>絶対値は信用せず相対的な年代変化のみ</b>を読む。「社会構造」は孤独・家族・少子化・格差・いじめを束ねる広いキャッチオールで、近年の占有率上昇は現象でありコード粒度の産物でもある。最大の留保は方法論自体——<b>「時代→作品」の対応づけ（社会反映論）は後付けで恣意的になりうる</b>。本レポートは反映論に立ちつつ、批判（下部の「他者の論評との対話」内の懐疑カード）を全編で併走させる。</div>
+
+
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">アニメの世相反映は「年々社会派になった」のではない。反映の<b>度合い・領域・気分・様式</b>の分布が年代をまたいで系統的に移動し、その方向は戦後日本社会史（成長→停滞、急性の外的災厄→慢性の内的不調、共同体→無縁）と緩やかに重なる。</p>
+<ul class="tldr-list">
+<li><b>反映度は「山型」</b>。1960年代は子供番組ゆえ希薄→1970年代に青年層を得て世相を載せる重量級メディアになり上昇→2000–2010年代に頂点→2020年代はやや低下。社会派化ではなく<b>産業的成熟</b>の帰結。</li>
+<li><b>反映領域は「外→内」へ重心移動</b>。技術・経済・戦争・公害という外的脅威から、孤独・家族・少子化・格差という<b>社会の内部構造</b>へ（2010–20年代はほぼ全作が社会構造を映す）。</li>
+<li><b>時代気分は「振動」する</b>。楽観（60s）→不安の芽（70s）→楽観と終末の分裂（80s）→混迷（90s）→癒し逃避（00s）→災害直視（10s）→ケア・郷愁（20s）。</li>
+<li><b>反映の様式は「告発から気分へ」</b>。設定織込（60s）→寓意＝核・公害を名指すアレゴリー（70–90s）→気分情緒（00s・20s）。名指せる悪役を持たない慢性的不調は、寓意になじまず気分でしか映せない。</li>
+<li><b>映すのは青年・一般・劇場、逃げるのは少年・少女</b>。だが2020年代に鬼滅・SPY×FAMILYが少年向けの岩盤に亀裂を入れた。</li>
+<li><b>最大の留保＝社会反映論はそもそも怪しい</b>。同じ年に正反対の気分の作品が併存し、「時代の単一の気分」をデータ自身が部分否定する。主張は「機械的反映」でなく「分布の系統的移動が社会史と共変動する」弱い形に留める。</li>
+</ul>
+</div>
+
+<h2>具体例 — 時代の気分を映した作品と、その言葉</h2>
+<div class="card ex">
+<h3>1970s｜オイルショック後の幻滅 ── 機動戦士ガンダム</h3>
+<p>巨大ロボットものに「人間同士の総力戦」というリアルを持ち込み、なし崩しに兵器の操縦者にされた普通の少年を主役に据えた。高度成長の終わりと戦争の脱英雄化を、英雄譚ではない手触りで映した転換点。第9話、命がけで戦った直後の叫びが、戦場に放り込まれた等身大の少年の素顔を露わにする。</p>
+<div class="quote">「親父にもぶたれたことないのに！」<span class="qby">— アムロ・レイ／『機動戦士ガンダム』第9話「翔べ！ガンダム」（1979）</span></div>
+
+<h3>1980s｜冷戦・核の世紀末 ── 北斗の拳</h3>
+<p>核戦争で文明が滅んだ荒野を舞台に、暴力と死が遍在する終末世界を描いた。冷戦下の核恐怖とマッドマックス的終末観が、少年バトルの意匠で大衆化された年代の象徴。相手に静かに死を告げる決め台詞は、80年代の「不安終末」気分を体現するアイコンになった。</p>
+<div class="quote">「お前はもう死んでいる」<span class="qby">— ケンシロウ／『北斗の拳』（TVアニメ1984〜、次回予告の決め台詞として定着）</span></div>
+
+<h3>1995s｜自己像の崩壊と世紀末不安 ── 新世紀エヴァンゲリオン</h3>
+<p>阪神・淡路大震災と地下鉄サリン事件の年に放送され、バブル崩壊後の社会の自己像喪失を、引きこもる少年の自意識として映した。宮台真司が言う「平板な日常に亀裂が入り異様なものが露出した」95年の気分と、使徒に怯える作品世界が異様なまでに一致した。戦うことから逃げたい少年が自らに言い聞かせる反復が、時代の内省を象徴する。</p>
+<div class="quote">「逃げちゃダメだ、逃げちゃダメだ……やります、僕が乗ります！」<span class="qby">— 碇シンジ／『新世紀エヴァンゲリオン』第壱話「使徒、襲来」（1995）</span></div>
+
+<h3>2020s｜孤独・承認欲求とケア ── ぼっち・ざ・ろっく！</h3>
+<p>外的脅威ではなく、つながりの希薄化・承認欲求という社会の内部構造を主題にした。コミュ障の少女が自分の承認欲求を自虐的に戯画化する第4話の場面は、SNS世代の生きづらさを「告発」ではなく「気分」として漏らす、2020年代の反映様式そのものだ。</p>
+<div class="quote">「生まれてしまう……！ 承認欲求モンスター……！」<span class="qby">— 後藤ひとり／『ぼっち・ざ・ろっく！』第4話（2022）</span></div>
+</div>
 
 <h2>1. 反映度指数の年代変遷（山型）</h2>
-<div class="card"><div class="chartbox"><canvas id="c_refl"></canvas></div>
-<div class="legend-note">明示1.0／暗示0.6／反作用0.4／希薄0.1の年代平均。単調増でなく2000s–2010sを頂点とする弓なり。1970s上昇=アニメが青年層を得て世相を載せる重量級メディアに（run#17高年齢化）。2020s低下=反映が直接描写・寓意から「気分情緒」へ退いた。</div></div>
+<div class="card"><div class="chartbox"><div class="cbox"><canvas id="c_refl"></canvas></div></div>
+<div class="legend-note">明示1.0／暗示0.6／反作用0.4／希薄0.1の年代平均。単調増でなく2000s–2010sを頂点とする弓なり。1970s上昇=アニメが青年層を得て世相を載せる重量級メディアに（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/017_target_audience/">関連分析</a>高年齢化）。2020s低下=反映が直接描写・寓意から「気分情緒」へ退いた。</div></div>
 
 <h2>2. 時代気分(mood)の振動</h2>
-<div class="card"><div class="chartbox tall"><canvas id="c_mood"></canvas></div>
+<div class="card"><div class="chartbox tall"><div class="cbox"><canvas id="c_mood"></canvas></div></div>
 <div class="legend-note">100%積み上げ。楽観成長(60s)→不安終末の芽(70s)→楽観と終末の分裂(80s)→混迷(90s)→癒し逃避(00s)→不安終末回帰(10s)→ケア・ノスタルジー(20s)。<b>破局の年が破局の想像力を生む</b>：不安終末は1970s(ガンダム)・2010s(進撃/まどマギ/君の名は)で高い。<b>ただし</b>各年代でムードは二極化しており（80s/90sは過半を取るムードが無い）、これは「時代に単一の気分がある」という反映論を<b>データ自身が部分否定</b>している。</div></div>
 
 <h2>3. 反映領域の重心移動（外的脅威 → 内的構造）</h2>
 <div class="grid g2">
-<div class="card"><div class="chartbox tall"><canvas id="c_dom"></canvas></div>
+<div class="card"><div class="chartbox tall"><div class="cbox"><canvas id="c_dom"></canvas></div></div>
 <div class="legend-note">主＋副領域の年代別出現率（折れ線）。技術ネットは2000sピーク(lain/攻殻/電脳コイル)、戦争は1980sピーク(北斗/ナウシカ/火垂る)、社会構造は単調上昇し2010s–20sで0.96→1.00。</div></div>
-<div class="card"><div class="chartbox tall"><canvas id="c_internal"></canvas></div>
+<div class="card"><div class="chartbox tall"><div class="cbox"><canvas id="c_internal"></canvas></div></div>
 <div class="legend-note">「内的構造の反映」＝社会構造シェアの単調上昇 vs「外的脅威の反映」＝技術+経済+戦争+環境の合算シェア。脅威が外（核・公害・戦争）から内（孤独・少子化・格差）へ移った。現実の社会史（急性の外的災厄→慢性の内的不調）と整合。</div></div>
 </div>
 
 <h2>4. 反映の様式 ＆ 担い手</h2>
 <div class="grid g2">
-<div class="card"><div class="chartbox"><canvas id="c_mech"></canvas></div>
-<div class="legend-note">反映の仕方の年代変遷。設定織込(60s)→寓意(70–90s=核/公害/思想をアレゴリー化＝Napierの黙示録モード)→気分情緒(00s・20s)。<b>告発から気分へ</b>：慢性化した構造的不調は名指せる悪役を持たず、寓意になじまず気分でしか映せない（run#3「敵役不在」と同型）。</div></div>
-<div class="card"><div class="chartbox"><canvas id="c_demo"></canvas></div>
-<div class="legend-note">対象層・種別別の反映度指数。<b>一般0.91・青年0.84・劇場0.95が時代を映し、少女0.40・少年0.57は逃避</b>。run#5(問いの深さ)・run#9(道徳の曖昧さ)と完全同型の勾配。ただし2020sで少年向け(鬼滅/SPY×FAMILY)が「内の構造」を映し始め岩盤に亀裂（run#19と同現象）。</div></div>
+<div class="card"><div class="chartbox"><div class="cbox"><canvas id="c_mech"></canvas></div></div>
+<div class="legend-note">反映の仕方の年代変遷。設定織込(60s)→寓意(70–90s=核/公害/思想をアレゴリー化＝Napierの黙示録モード)→気分情緒(00s・20s)。<b>告発から気分へ</b>：慢性化した構造的不調は名指せる悪役を持たず、寓意になじまず気分でしか映せない（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/003_antagonist_design/">関連分析</a>「敵役不在」と同型）。</div></div>
+<div class="card"><div class="chartbox"><div class="cbox"><canvas id="c_demo"></canvas></div></div>
+<div class="legend-note">対象層・種別別の反映度指数。<b>一般0.91・青年0.84・劇場0.95が時代を映し、少女0.40・少年0.57は逃避</b>。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">関連分析</a>(問いの深さ)・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/009_violence_morality/">関連分析</a>(道徳の曖昧さ)と完全同型の勾配。ただし2020sで少年向け(鬼滅/SPY×FAMILY)が「内の構造」を映し始め岩盤に亀裂（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/019_gender_representation/">関連分析</a>と同現象）。</div></div>
 </div>
 
-<h2>5. 考察（要旨）</h2>
-<div class="card">
-<h3>なぜ山型か — 反映の制度的余裕と逃避の制度的余裕</h3>
-<p>反映度の上昇は「社会派になった」のではなく、<b>アニメが世相を載せられる重量級メディアになった産業的成熟</b>（1970s青年層獲得）の帰結。2000s–10sピークの逆説は、攻殻/Death Note/進撃の重厚な寓意作と、けいおん/らき☆すたの逃避的空気系が併存し、<b>その逃避こそ不況・ゼロ成長への応答</b>として時代を映していたこと（東浩紀のデータベース消費＝物語＝社会からの撤退）。空気系を「希薄」でなく「気分情緒による反映」と読むのが本分析最大の賭けであり、最大の弱点でもある。</p>
-<h3>外→内、告発→気分</h3>
-<p>反映領域は外的・物質的脅威（技術・経済・戦争・公害）から内的・関係的構造（孤独・家族・少子化・格差）へ。脅威がもはや外（核・公害）からでなく社会の内部構造から滲み出るため、反映は「敵を名指す寓意」から「気分」へ退く。run#3(敵＝外部純粋悪→内なる鏡像→不在)・run#5(正義→自己探求→喪失と再生)・run#6(2020sの翳り)・run#11–16(産業の物質→アクセス権)・run#17–19(受容細分化・規範解体)は、すべてこの「<b>外→内、急性→慢性、前進→ケア</b>」という大潮流の各部位での現れ。本視点はそれらを束ねる縦糸。</p>
-<h3>転換点の名指し</h3>
-<p>1979ガンダム(オイルショック後の幻滅)／1995エヴァ(阪神・サリンの年、宮台「日常の亀裂」)／2011まどマギ(3.11の年)／2016君の名は(彗星=3.11寓意、新海「無社会的な夢から醒めた」)／2020コロナ(鬼滅・呪術の喪失、だしムードは癒し逃避・郷愁へ昇華)。「1995≒エヴァ→2011≒まどマギ」説と本データの不安終末ピークが一致。</p>
+
+<h2 class="h2-essay">考察 — アニメは時代をどう映してきたか（そして、本当に映しているのか）</h2>
+<div class="essay">
+<p class="thesis">アニメの世相反映は「年々社会派になった」という単線では読めない。反映度は山型を描き、反映される領域は外的脅威から内的構造へ、時代気分は振動し、反映の様式は告発から気分へと変質した。これらは独立に確認できる戦後日本社会史の方向と緩やかに共変動する——ただし「機械的に映す」のではなく、「何を・どんな気分で・どんな様式で語るかの分布が系統的に移動する」という弱い意味においてである。</p>
+
+<h3>なぜ反映度は「山型」なのか</h3>
+<p>1960年代のアニメは大半が玩具・お茶の間向けの子供番組で、世相は世界設定に無自覚に溶けていた（鉄腕アトムの原子力が「平和利用の夢」として時代を映す程度）。反映度が1970年代に一段上がるのは、社会意識が高まったからではない。宇宙戦艦ヤマト・ガンダムが青年層を獲得し、戦争・経済・思想を主題として直接持ち込める「重量級メディア」へとアニメが成熟したからだ。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/017_target_audience/">受容の高年齢化「逆転」</a>や、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/011_production_system/">制作体制で監督の作家性が高まった転換</a>と同じ産業的転換の別側面である。反映度が2000–2010年代にピークを打つのは逆説的で、この時期はむしろ日常系・空気系の「逃避」が台頭した時期でもある。にもかかわらず頂点なのは、攻殻・PSYCHO-PASS・進撃のような情報化・監視・災害を寓意化する重厚作と、けいおん・らき☆すたのような逃避する空気系が併存し、両方が別の意味で時代を映していたからだ。空気系の逃避を「希薄」でなく「不況・ゼロ成長への気分情緒的な応答」と読むのが本分析最大の賭けであり、最大の弱点でもある。</p>
+
+<h3>外的脅威から内的構造へ — 反映領域の重心移動</h3>
+<p>最も雄弁な変遷は、反映される世相が外的・物質的な領域（技術・経済・戦争・環境公害）から、内的・関係的な領域（孤独・家族・承認・少子化・格差）へ移ったことだ。1960–70年代は高度成長という「前進する社会」を、技術崇拝の光（マジンガー・ドラえもん）と公害・下層の影（ガッチャマン・あしたのジョー）の両面で映した。1980年代は冷戦と核の恐怖（北斗・ナウシカ）が戦争領域を押し上げ、1990–2000年代は情報化の到来（lain・攻殻・サマウォ）が技術ネットをピークにした。だが2010年代以降、脅威はもはや外（核・公害・戦争）からではなく社会の内部構造から滲み出る——孤独（ぼっち・ゆるキャン）、承認欲求（推しの子）、擬似家族・少子化（SPY×FAMILY）、高齢化と喪失（フリーレン）、格差と虚無（チェンソーマン）。経済の前進が止まり外的脅威が消え、代わりに慢性的な内的不調が前景化した現実の社会史と、反映領域は素直に符合する。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">中心主題が「正義→自己探求→喪失と再生」へ動いた変遷</a>や、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/029_death_depiction/">死の描写が「死ぬ者」から「遺される者」へ移った変遷</a>とも同じ「内向き化」の現れである。</p>
+
+<h3>破局の年が、破局の想像力を生む — 時代気分の振動</h3>
+<p>時代気分は単調でなく振動する。不安終末ムードのピークは1970年代（オイルショック後の幻滅を映したガンダム）と2010年代（3.11の年に放送されたまどか☆マギカ、災害後の閉塞を寓意化した進撃の巨人）に立つ。1995年のエヴァは阪神大震災・地下鉄サリンの年に、社会の自己像喪失を引きこもる少年の自意識として映した。新海誠は「3.11体験でゼロ年代の無社会的な夢から醒めた」と語り、彗星の災害という形で君の名は。に3.11を寓意化した。だが2020年代、コロナ禍の最多ムードは意外にも癒し逃避とノスタルジーである——破局が直接の終末描写でなく「失われたつながりへの郷愁」「小さな居場所の肯定」へ昇華した。これは1990年代のエヴァ的直視と対照的な、災厄への成熟した（あるいは疲弊した）応答であり、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/006_ending_tone/">結末トーンが2020年代に最も翳る現象</a>とも響き合う。</p>
+
+<h3>告発から気分へ — 反映の様式の変質</h3>
+<p>反映の「仕方」も変わった。設定織込（60s）→寓意（70–90s＝核・公害・思想をアレゴリーで批評するNapierの「黙示録」モード）→気分情緒（00s・20s）。70–80年代のナウシカ・未来少年コナンは公害や核を明確な批評意図で寓意化したが、2000年代以降の日常系は時代を主張せず、ただ「退屈な平和」「孤独の肯定」という気分として漏らす。これは社会派の後退ではなく、慢性化した構造的不調が告発すべき単一の悪役を持たないことの帰結だ。誰も公害企業のように「少子化」や「無縁社会」を名指して倒せない。だから反映は寓意から情緒へ退く。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/003_antagonist_design/">敵役が外部の純粋悪から内なる鏡像へ、やがて不在へと向かう流れ</a>と同型の現象を、反映様式の側から見たものである。なお、なろう系のように「努力せず最初から最強」の主人公が低成長・自己責任社会からの逃避欲求を映すという読みは、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/025_narou_template_influence/">なろう系テンプレの広がり</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/031_isekai_type/">異世界転生で帰還願望が消え定住・拒否へ反転した型</a>が示す現実逃避の導線とも接続する。</p>
+
+<h3>映すのは誰か、そして大潮流</h3>
+<p>対象層を見ると、一般・青年・劇場が時代を映し、少年・少女は逃避するという勾配が現れる。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/009_violence_morality/">道徳の灰色化</a>で道徳の曖昧さが青年の専売だったのと同じく、作り手の意図というより受容契約の差だ。劇場・青年向けは「現実と切り結ぶ作品」を期待され、少年・少女向けは「夢を見せる」逃避を期待される。ただし2020年代、鬼滅（喪失・家族）やSPY×FAMILY（擬似家族＝少子化の寓意）が、かつて少年向けが避けた「内の構造」を映し始めた。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/019_gender_representation/">ジェンダー規範の解体と、少年向けの岩盤への侵入</a>で攪乱の最前線が少年向けの岩盤へ侵入したのと同じ現象だ。総じて本視点は19の視点を束ねる縦糸であり、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">主収益源が物質→所有→アクセス権へ遡上した産業史</a>を含む産業の「物質→アクセス権」も、人物・物語・受容の各変遷も、すべて「外→内、急性→慢性、前進→ケア」という大潮流の各部位での現れと読める。ただし——同じ年に正反対の気分の作品が大量に併存する事実は、「時代に単一の気分がある」という反映論の前提をデータ自身が部分的に否定している。本分析の主張は、決定論ではなく二極化と反例を内包したままの、緩やかな共変動に留める。</p>
 </div>
 
-<h2>6. 他者の論評との対話（賛否両論）</h2>
-<div class="grid g2">
-<div class="qc pro"><span class="tag pro">反映論 支持</span><b>宮台真司／エヴァと1995年</b><br>「平板な日常に亀裂が入り異様なものが露出した」年と、セカンドインパクト後に怯えるエヴァの世界が「異様なまでに一致」。戦後最大の暗い年の世相反映の典型例。
-<span class="src"><a href="https://note.com/kumeri/n/n9bf7fc435ba4">note(宮台発言引用)</a> ／ <a href="https://magmix.jp/post/27996">マグミクス</a></span></div>
 
-<div class="qc pro"><span class="tag pro">反映論 支持</span><b>Susan Napier ｜ anime as cultural mirror</b><br>「アニメは現代日本社会の有用な鏡」。作品の時代応答を解く三幅対=祝祭/黙示録/哀歌。AKIRAの空虚な東京を原爆の災害想像力と読む（Panic Sites）。本データの楽観/不安終末/ノスタルジーの年代分布と対応。
-<span class="src"><a href="https://agreenmanreview.com/books/susan-j-napiers-anime-from-akira-to-howls-moving-castle/">Napier書評</a> ／ <a href="https://the-artifice.com/akira-analysis/">Akira A-bomb分析</a></span></div>
+<h2>他者の論評との対話（賛否両論）</h2>
+<div class="views">
 
-<div class="qc pro"><span class="tag pro">反映論 支持</span><b>新海誠と3.11（作家本人の証言）</b><br>「3.11体験の衝撃でゼロ年代の無社会的な夢から醒めた」。災害を直接描けない時期に彗星・異常気象に置換し『君の名は。』『天気の子』『すずめ』へ。反映が分析者の投影でなく制作意図として存在した稀な確証。
-<span class="src"><a href="https://www.cinematoday.jp/news/N0090206">シネマトゥデイ</a> ／ <a href="https://note.com/giallo_kobunsha/n/ncbc9fee7681c">笠井潔ポストコロナ文化論</a></span></div>
-
-<div class="qc pro"><span class="tag pro">反映論 支持</span><b>なろう系＝低成長・自己責任社会の反映</b><br>「努力せず最初から最強の主人公は、2000年代以降の自己責任と能力主義の圧力から離れたい若者の欲望の反映」。日常系→なろう系への現実逃避の導線。本データの「逃避という形の反映」を裏づけ。
-<span class="src"><a href="https://note.com/aniken_kokushi/n/n3e1f43945cbb">国士舘アニ研</a> ／ <a href="https://www.oricon.co.jp/special/67768/">オリコン</a></span></div>
-
-<div class="qc con"><span class="tag con">反映論 懐疑</span><b>「社会反映論の怪しさ」（宇野『ゼロ年代の想像力』批判）</b><br>宇野の「新自由主義→サヴァイヴ系」式の対応づけを批判。反映論は(a)図式に合う作品だけ後付けで拾い(b)反例を無視し(c)相関を因果と取り違える。<b>本視点の方法論そのものへの最重要の反証</b>。
-<span class="src"><a href="https://cut-elimination.hatenablog.com/entry/2023/12/13/001038">曇りなき眼で見定めブログ</a></span></div>
-
-<div class="qc con"><span class="tag con">反映論 懐疑</span><b>東『動物化するポストモダン』批判 ／ 1995特権化への懐疑</b><br>データベース消費論の概念は曖昧で、オタク消費を一枚岩に断じるのは過度の一般化。また「1995年は本当に異常な年だったのか」——どの年にも事件はあり後知恵で意味づけられただけ、と転換点の特権化を相対化。
-<span class="src"><a href="https://note.com/shinkai35/n/n01e8e2ccebaa">しんかい37(東批判)</a> ／ <a href="https://www.excite.co.jp/news/article/E1385579934368/">エキサイト(1995相対化)</a></span></div>
+<div class="view">
+<div class="who"><span class="wl">論者</span>宮台 真司（社会学者）<span class="stance sup">反映論を支持</span></div>
+<div class="vt">エヴァと1995年 — 「平板な日常に亀裂が入り、異様なものが露出した」</div>
+<p>宮台は、阪神・淡路大震災と地下鉄サリン事件が起きた1995年を、日常の自明性が崩れ異様なものが露出した転換点と診断した。セカンドインパクト後の世界に怯えるエヴァの世界観が、その年の社会の気分と「異様なまでに一致」したと論じる。</p>
+<div class="match"><b>データとの照合：</b>本分析でも不安終末ムードは1995年のエヴァを含む年代で高く、90年代は特定ムードが過半を取れない「混迷」の分布を示しており、宮台の「自己像の崩壊」という診断と方向が一致する。</div>
+<div class="src">出典：<a href="https://note.com/kumeri/n/n9bf7fc435ba4">note（宮台発言の引用）</a> ／ <a href="https://magmix.jp/post/27996">マグミクス「エヴァと1995年」</a></div>
 </div>
-<div class="warn" style="margin-top:14px"><b>論評A(支持)と論評B(懐疑)は、本分析の主張と留保の両方を供給している。</b>本分析は「機械的反映」を主張せず、<b>「主題・気分・様式の分布の系統的移動が、独立に確認できる社会史の方向(成長→停滞、急性→慢性、共同体→無縁)と緩やかに共変動する」</b>という弱い形に後退させ、二極化・選択バイアス・コード粒度・意図/反映の混同を全編で併走させた。出典一覧 sources.md / 詳細考察 analysis.md</div>
+
+<div class="view">
+<div class="who"><span class="wl">研究者</span>スーザン・ネイピア（Susan Napier／タフツ大）<span class="stance sup">反映論を支持</span></div>
+<div class="vt">『Anime from Akira to Princess Mononoke』— アニメは現代日本社会の「鏡」、祝祭／黙示録／哀歌の三幅対</div>
+<p>ネイピアは、アニメを「祝祭（festival）／黙示録（apocalyptic）／哀歌（elegiac）」という3つの表現様式で読み、アニメが現代日本社会の有用な鏡として、その時代の問題・夢・悪夢を映すと論じた。AKIRAの空虚なネオ東京を原爆の災害想像力と読む。</p>
+<div class="match"><b>データとの照合：</b>本分析の「楽観成長（祝祭）／不安終末（黙示録）／喪失ノスタルジー（哀歌）」の年代分布と対応する。とくに黙示録は1970s・2010sの不安終末ピークと、哀歌は2020sのノスタルジー台頭と符合する。</div>
+<div class="src">出典：<a href="https://agreenmanreview.com/books/susan-j-napiers-anime-from-akira-to-howls-moving-castle/">Napier書評（三様式の解説）</a> ／ <a href="https://scholarcommons.sc.edu/cgi/viewcontent.cgi?article=1139&context=senior_theses">黙示録テーマ研究（University of South Carolina）</a></div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">作り手</span>新海 誠（映画監督）<span class="stance sup">反映論を支持（一次証言）</span></div>
+<div class="vt">「3.11体験の衝撃で、ゼロ年代の無社会的な夢から醒めた」</div>
+<p>新海は、東日本大震災の衝撃が自身の作風を変えたと語り、災害を直接描けない時期に彗星・異常気象へ置換して『君の名は。』『天気の子』『すずめの戸締まり』を作った。反映が分析者の後付けの投影ではなく、制作意図として存在したことを示す稀な確証である。</p>
+<div class="match"><b>データとの照合：</b>本分析が君の名は。を「災害（3.11）の寓意・混在ムード」とコードした判断を、作り手本人の証言が裏づける。2010年代に「寓意」が最多様式となった年代傾向とも整合する。</div>
+<div class="src">出典：<a href="https://www.cinematoday.jp/news/N0090206">シネマトゥデイ（新海誠インタビュー）</a></div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">論者</span>宇野常寛『ゼロ年代の想像力』への批判（書評ブログ）<span class="stance cau">反映論に懐疑</span></div>
+<div class="vt">「社会反映論の怪しさ」 — 図式に合う作品だけを後付けで拾っていないか</div>
+<p>宇野の「新自由主義→サヴァイヴ系」式の時代対応づけに対し、社会反映論は(a)図式に合う作品だけを後付けで選び、(b)反例を無視し、(c)相関を因果と取り違える、という批判が向けられている。これは本視点の方法論そのものへの最重要の反証である。</p>
+<div class="match"><b>データとの照合：</b>本分析もこの批判を引き受ける。各年代のムード分布は常に二極化し（1988年に火垂るの墓と魔女の宅急便が同居）、「破局の年に癒し系も大量に作られる」。ゆえに主張を「機械的反映」でなく「分布の系統的移動が社会史と緩やかに共変動する」弱い形へ後退させた。</div>
+<div class="src">出典：<a href="https://cut-elimination.hatenablog.com/entry/2023/12/13/001038">「曇りなき眼で見定めブログ」（宇野『ゼロ年代の想像力』批判）</a></div>
+</div>
+
+</div>
 
 <h2>7. 全作品データ（ソート・絞り込み可）</h2>
 <div class="controls">
@@ -126,7 +211,7 @@ ul{margin:8px 0 8px 18px}li{margin:4px 0}
 <input id="f_q" placeholder="作品名・世相を検索"/>
 <span class="badge" id="cnt"></span>
 </div>
-<div class="scroll"><table id="tbl"><thead><tr>
+<div class="tablewrap"><table id="tbl"><thead><tr>
 <th data-k="year">年▲</th><th data-k="title">作品</th><th data-k="type">種別</th><th data-k="demo">対象層</th>
 <th data-k="deg">反映度</th><th data-k="dom">反映領域</th><th data-k="sec">副領域</th><th data-k="mood">時代気分</th>
 <th data-k="mech">様式</th><th data-k="intent">意図</th><th data-k="note">反映する世相(根拠)</th><th data-k="conf">確度</th>

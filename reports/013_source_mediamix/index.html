@@ -2,30 +2,68 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>視点013 原作・メディアミックス</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1117;--card:#1a1d27;--ink:#e8eaf0;--sub:#9aa0b0;--ac:#ff7a59;--ac2:#4fc3f7;--ac3:#a78bfa;--ac4:#66bb6a;--bd:#2a2e3a}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;line-height:1.7}
-.wrap{max-width:1080px;margin:0 auto;padding:28px 18px 80px}
-h1{font-size:25px;margin:0 0 4px}h2{font-size:19px;margin:38px 0 12px;border-left:4px solid var(--ac);padding-left:10px}
-h3{font-size:15px;color:var(--ac2);margin:22px 0 6px}
-.sub{color:var(--sub);font-size:13px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px 18px;margin:14px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}}
-.kpi{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
-.kpi div{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px 14px;flex:1;min-width:130px}
-.kpi b{font-size:21px;color:var(--ac)}.kpi span{display:block;color:var(--sub);font-size:12px}
-table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
-th,td{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:right}th:first-child,td:first-child{text-align:left}
-th{color:var(--ac2);font-weight:600}
-canvas{max-height:300px}
-.quote{background:#161922;border-left:3px solid var(--ac3);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:13.5px}
-.quote a{color:var(--ac2);font-size:12px;word-break:break-all}
-.note{color:var(--sub);font-size:12.5px;margin-top:6px}
-.tag{display:inline-block;background:#222633;border:1px solid var(--bd);border-radius:6px;padding:1px 7px;font-size:11px;color:var(--sub);margin:1px}
-.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
-.ctrl select,.ctrl input{background:#11141c;color:var(--ink);border:1px solid var(--bd);border-radius:8px;padding:6px 8px;font-size:13px}
-.warn{background:#2a1d15;border:1px solid #5a3a1f;border-radius:8px;padding:10px 14px;font-size:13px;color:#ffcda8}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/013_source_mediamix/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -40,53 +78,112 @@ canvas{max-height:300px}
 <h1>視点013 ｜ 原作・メディアミックス</h1>
 <div class="sub">戦後〜2024年の代表作 137作を、原作媒体／脚色の忠実度／横展開でコード化。年代変遷を中心に多角分析。</div>
 
-<div class="kpi">
-<div><b>137</b><span>分析作品数</span></div>
-<div><b>52.5%</b><span>漫画系(漫画+4コマ+Web)</span></div>
-<div><b>24.1%</b><span>オリジナル</span></div>
-<div><b>22.2%</b><span>なろう系シェア(2010s)</span></div>
-<div><b>+23pt</b><span>忠実シェア上昇(1970s→2020s)</span></div>
+<div class="kpis">
+<div class="kpi"><b>137</b><span>分析作品数</span></div>
+<div class="kpi"><b>52.5%</b><span>漫画系シェア(漫画+4コマ+Web)</span></div>
+<div class="kpi"><b>24.1%</b><span>オリジナル</span></div>
+<div class="kpi"><b>22.2%</b><span>なろう系シェア(2010s)</span></div>
+<div class="kpi"><b>+23pt</b><span>忠実シェア上昇(1970s→2020s)</span></div>
 </div>
+
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">日本のアニメが「何を原作とし、どれだけ忠実に映し、どこへ広げたか」の60年は、美学ではなく<b>その時々の収益構造に最も噛み合う原作タンクへの乗り換え</b>の歴史だった。</p>
+<ul class="tldr-list">
+<li><b>漫画は60年間ずっと基底。</b> 全体の52.5%が漫画系。1960年代は93%の一極から始まり、供給源が多様化しても漫画が背骨であり続けた。</li>
+<li><b>供給源は波状に交代した。</b> 1970年代に小説系(世界名作劇場)とオリジナル大作(ヤマト/ガンダム)、2000年代にゲーム/ビジュアルノベル、2010年代に「なろう」が突如22%で出現。</li>
+<li><b>2020年代は漫画へ回帰(55.6%)。</b> なろうは漫画を置き換えたのでなく、多様化の上澄みとして加わった。供給源の振り子は一極化しない。</li>
+<li><b>忠実度が段差的に上昇した。</b> 適応作の「忠実+概ね忠実」シェアは1970年代50%→2000年代以降72-75%へ。アニメが「原作の広告」になった帰結。</li>
+<li><b>横展開は縮小していない、質が変わった。</b> 重心が玩具・プラモ(物質)からゲーム・ライブ・配信・実写(デジタル/体験)へ。年代別の規模低下は累積バイアスの見かけ。</li>
+</ul>
+</div>
+<h2>具体例 — 供給源の波と代表作</h2>
+<p class="mut">どの時代に、どの原作タンクから、どんな作品が立ち上がったか。各波の典型を場面と実際のセリフで示す（引用は短い範囲にとどめ出典を併記）。</p>
+<div class="ex"><h3>漫画一極の出発点（1960年代）</h3>
+<p>鉄腕アトム(1963)・鉄人28号・巨人の星・サザエさん——黎明期のテレビアニメはすでにヒットした漫画の映像化だった。固定読者を持つ漫画はリスクが低く、キャラクターは商品化に耐える。原作モノ依存とマーチャンダイジング依存は、明治製菓がスポンサーに付いたアトムの放映開始日に同時に始まった。</p></div>
+<div class="ex"><h3>オリジナル大作という第二経路（1970年代）</h3>
+<p>漫画系シェアが半減する裏で、宇宙戦艦ヤマト(1974)・機動戦士ガンダム(1979)が「アニメ発→プラモ・映画・小説へ展開」という、漫画原作に頼らないメディアミックスの動線を開いた。同じ1970年代、世界名作劇場(ハイジ/赤毛のアン)が児童向けに小説系を厚くした。</p>
+<blockquote class="quote">「地球か……。何もかもみな懐かしい」<span class="qby">— 沖田十三艦長／『宇宙戦艦ヤマト』(1974)。オリジナル企画が玩具・プラモを動線に独自フランチャイズを築いた象徴。</span></blockquote></div>
+<div class="ex"><h3>「なろう」の逆流（2010年代）</h3>
+<p>本データ最大の発見。Web小説(なろう)は2010s以前ゼロ→2010sに突如22%で出現する。SAO・このすば・リゼロ・転スラ。プロの編集を経ず、Webランキングで読者数が実証済みの作品を書籍化を挟んでアニメ化する「ボトムアップ型」の原作供給だ。</p>
+<blockquote class="quote">「ここから、ゼロから始めよう。ナツキ・スバルの物語を」<span class="qby">— ナツキ・スバル／『Re:ゼロから始める異世界生活』(2016)。Web発の長編が深夜・1クール・配信のモデルと噛み合った波の代表作。</span></blockquote></div>
+<div class="ex"><h3>漫画への回帰（2020年代）</h3>
+<p>呪術廻戦・SPY×FAMILY・チェンソーマン・フリーレン・推しの子・鬼滅の刃。漫画系は55.6%へ回帰し、いずれも原作に忠実な「ショーケース型」適応として作られた。なろうは多様化の上澄みで、漫画の基底は崩れていない。</p>
+<blockquote class="quote">「俺は長男だから我慢できた」<span class="qby">— 竈門炭治郎／『鬼滅の刃』アニメ第24話「元十二鬼月」(2019、原作コミックス3巻)。原作の名場面を忠実に映す近年型適応。</span></blockquote></div>
 
 <h2>1. 原作媒体の分布と変遷</h2>
 <div class="grid">
-<div class="card"><h3>原作媒体の全体分布</h3><canvas id="c_dist"></canvas></div>
-<div class="card"><h3>原作媒体スーパーカテゴリ × 年代(100%積み上げ)</h3><canvas id="c_stack"></canvas></div>
+<div class="card"><h3>原作媒体の全体分布</h3><div class="cbox"><canvas id="c_dist"></canvas></div></div>
+<div class="card"><h3>原作媒体スーパーカテゴリ × 年代(100%積み上げ)</h3><div class="cbox"><canvas id="c_stack"></canvas></div></div>
 </div>
-<div class="card"><h3>主要媒体シェアの推移(%)</h3><canvas id="c_lines"></canvas>
+<div class="card"><h3>主要媒体シェアの推移(%)</h3><div class="cbox"><canvas id="c_lines"></canvas></div>
 <div class="note">漫画系は60年間の基底。1970sに小説系(世界名作劇場)とオリジナル(ヤマト/ガンダム)で多様化、2010sに「なろう」が突如22%で出現、2020sに漫画系へ回帰。</div></div>
 
 <h2>2. 脚色の忠実度</h2>
 <div class="grid">
-<div class="card"><h3>忠実シェア(忠実+概ね忠実)の推移%</h3><canvas id="c_fid"></canvas>
+<div class="card"><h3>忠実シェア(忠実+概ね忠実)の推移%</h3><div class="cbox"><canvas id="c_fid"></canvas></div>
 <div class="note">適応作に占める忠実シェアは1970s 50%→2000s以降72-75%へ段差的に上昇。「アニメ＝原作の広告」モデルの帰結。</div></div>
-<div class="card"><h3>媒体別 忠実度指数</h3><canvas id="c_fidsrc"></canvas>
+<div class="card"><h3>媒体別 忠実度指数</h3><div class="cbox"><canvas id="c_fidsrc"></canvas></div>
 <div class="note">なろう0.75が最高＝Web実証済みテンプレを素直に映す工業的合理性。</div></div>
 </div>
 
 <h2>3. 横展開(メディアミックス)</h2>
 <div class="warn">⚠ <b>累積バイアスの留保</b>：横展開規模の年代低下(指数1990s 2.32→2020s 1.61)は「近年作がしょぼい」のではなく、古い作品が<b>数十年分の展開を累積</b>した生存バイアス。絶対値・年代比較は信頼せず、横展開「先」の質的変化に注目すべき。</div>
 <div class="grid">
-<div class="card"><h3>横展開先の頻度(全作)</h3><canvas id="c_cm"></canvas>
+<div class="card"><h3>横展開先の頻度(全作)</h3><div class="cbox"><canvas id="c_cm"></canvas></div>
 <div class="note">重心は玩具・プラモ(物質)→ゲーム/映画/音楽/実写/海外(デジタル・体験)へ。</div></div>
-<div class="card"><h3>原作媒体 × 対象層</h3><canvas id="c_demo"></canvas>
+<div class="card"><h3>原作媒体 × 対象層</h3><div class="cbox"><canvas id="c_demo"></canvas></div>
 <div class="note">少年=漫画の牙城、青年=ゲーム/VN/なろう集中、一般=オリジナルの牙城。</div></div>
 </div>
 
-<h2>4. 考察（要点）</h2>
-<div class="card" style="font-size:14px">
-<p><b>① 出発点＝漫画一極(1960s 93%)。</b>テレビアニメは「すでに固定読者を持つ漫画」の映像化として、かつ不足する制作費を商品化権で埋める形で生まれた。原作モノ依存とマーチャンダイジング依存は1963年に同時発生した同一コインの裏表(Steinberg)。</p>
-<p><b>② 供給源の交代は美学でなく収益構造への適合。</b>深夜・円盤・委員会・1クール・外注依存(run#11/#12)という産業構造が、その都度最も噛み合う原作タンク(2000s VN/ゲーム→ラノベ→2010s なろう)を引き寄せた。青年層にゲーム/VN/なろうが集中するのは収益構造の刻印。</p>
-<p><b>③ 忠実度の段差的上昇は「アニメ＝原作の広告」化。</b>1クール化で原作を待てる＋成功アニメで原作売上2-3倍＋委員会に座る出版社、の三要因が忠実化を制度的に駆動。なろうの忠実度最高はその極北。</p>
-<p><b>④ 横展開は縮小していない、質が変わった。</b>結節点＝キャラクターの原理は不変だが、横断先が物質(超合金・ガンプラ)→デジタル/体験(ソシャゲ・ライブ・グローバル配信・実写)へ。ラブライブ/ウマ娘/ゾンビランドサガが新型の典型。</p>
-<p class="note">反証・留保：2020sに漫画系は55.6%へ回帰＝なろうは多様化の上澄みで漫画の基底は不変。忠実度指数は小サンプルで分母変動に弱く、シェア指標を信頼。横展開規模は累積バイアスを割り引く。</p>
+<h2 class="h2-essay">4. 考察 — なぜそうなるのか</h2>
+<div class="essay">
+<p class="thesis">原作の調達構造は、アニメ産業の収益構造の鏡像である。供給源が漫画からゲーム、なろうへと波状に交代したのは作り手の好みではなく、深夜・円盤・製作委員会・1クール・外注依存という産業構造が、その都度「最も噛み合う原作タンク」を引き寄せた結果だ。</p>
+
+<h3>出発点＝漫画一極は経済的必然だった</h3>
+<p>最初期のシェアは漫画系92.9%。これは偶然ではない。テレビアニメ黎明期、虫プロは『アトム』を破格の安値で受注し、不足する制作費をキャラクター商品化権で埋めた。「すでに固定読者を持つ漫画」はリスクが低く、かつ「キャラクターが商品化に耐える」素材でもあった。原作モノ依存とマーチャンダイジング依存は同じコインの裏表として、1963年に同時に始まった。唯一の例外・狼少年ケン(東映オリジナル)が示すように、オリジナルは当初から「実験枠」として少数併存し、この「漫画＝背骨／オリジナル＝実験」の構図は60年間ほぼ不変だった。</p>
+
+<h3>供給源の交代は美学でなく収益構造への適合</h3>
+<p>2000年代以降、漫画系シェアが一時後退(63→38→29.6%)し、それを非漫画原作が波状に埋める。2000年代はFate/CLANNAD/ひぐらしのビジュアルノベル/ゲームの波で、これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/012_broadcast_format/">深夜アニメ枠の確立</a>と円盤ビジネスの確立に噛み合った——視聴率に依存しない深夜・円盤モデルは、コアな男性青年層に深く刺さる原作を求めた。本データで青年層にゲーム/VN/なろうが集中するのは、この収益構造の刻印である。続くラノベの波(ハルヒ/化物語)を経て、2010年代に「なろう」が突如22%で出現する。Webランキングという事前の市場テストを通った作品は、固定読者・原作ストック・低い版権コストを兼ね備え、薄利多売・短期回収・外注依存というアニメ産業構造(<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/011_production_system/">制作体制の委員会化と外注依存</a>)と完全に噛み合った。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/025_narou_template_influence/">なろう系テンプレ</a>が一作家のDNAでなく「作者なきテンプレート」として測れば常に在るのも、この構造的な相性の裏返しだ。</p>
+
+<h3>忠実度の段差的上昇＝「アニメ＝原作の広告」化</h3>
+<p>適応作の「忠実+概ね忠実」シェアは1970年代50%→2000年代以降72-75%へ段差的に上がる。かつてはルパン三世(原作のハードボイルドをコメディ化)や世界名作劇場(短編を1年に拡張)のように、原作が未完・尺が合わない・別客層に作り替える、といった理由で大幅改変が普通だった。近年なぜ忠実化したか。第一に<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/012_broadcast_format/">放送形態の1クール分割</a>が原作の進行を待てるようにし、早期改変の必要を激減させた。第二に成功したアニメ直後に原作売上が2～3倍に跳ねる(<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">商業的成否でも確認できる販促効果</a>)——販促効果を最大化するには原作を正確にショーケースする方が合理的になった。第三に製作委員会に原作出版社が中核として座る構造が、忠実化のインセンティブを制度的に内包する。媒体別忠実度でなろうが最高(0.75)という結果は、Web実証済みのテンプレを加工せず流す工業的合理性の極北である。</p>
+
+<h3>横展開は縮小していない、質が変わった</h3>
+<p>横展開規模の指数は1990年代2.32をピークに2020年代1.61へ落ちる。素朴に読めば「メディアミックスが縮小した」となるが、これは誤読だ。ドラゴンボール(1986)・ガンダム(1979)・ポケモン(1997)は数十年分の続編・ゲーム・玩具・海外展開を累積した結果メガに到達している。2020年代の呪術廻戦・フリーレンは展開を始めて数年で、累積する時間がない。年代別の規模低下は「近年作がしょぼい」のではなく生存・累積バイアスである。変わったのは質だ。横展開先の重心が、1970-90年代の玩具・超合金・ガンプラ(物質)から、近年はソシャゲ・ライブ・グローバル配信・実写化(デジタル/体験)へ移った。ラブライブ・ウマ娘・ゾンビランドサガのような「アニメ＋ゲーム＋音楽ライブ」の複合企画(<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/047_music_themesong_score/">音楽（主題歌・劇伴）の分析</a>が主題歌の自立と作中音楽として裏づける)は、この新しい横展開の典型である。なろうが牽引した異世界転生の量産(<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/031_isekai_type/">異世界転生・転移の型</a>)もまた、原作タンクとビジネスモデルの噛み合いが生んだ現象だ。横展開の器そのものの世代交代は<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/032_disc_to_subscription/">円盤からサブスクへの移行</a>が円盤からサブスクへの移行として描いている。</p>
+<p class="mut">留保：忠実度の生指数(オリジナル除外)はサンプルが小さく分母変動に弱いので、トレンドは「シェア」指標を信頼する。横展開規模の絶対値・年代比較は累積バイアスを割り引く。「忠実＝良い」という価値判断も一方向の進歩とは読まない（改変にも独自の価値がある）。</p>
 </div>
 
-<h2>5. 他者の論評</h2>
-<div class="quote">「メディアミックスは1963年1月1日、鉄腕アトムがテレビに登場した日に点火した。キャラクターこそが媒体・商品を互いに、そして消費者に結びつける結節点である。」— Marc Steinberg『Anime's Media Mix』(2012)。本データの「最古作＝漫画×メガ」「横展開先上位に玩具・グッズ」と一致。<br><a href="https://www.upress.umn.edu/9780816675500/animes-media-mix/">upress.umn.edu</a> <a href="https://www.awn.com/animationworld/book-review-animes-media-mix-franchising-toys-and-characters-japan">awn.com(書評)</a></div>
-<div class="quote">「原作モノは既存ファンと保証された視聴者を持つ。片方が業界の背骨、もう片方が実験。両方が不可欠。」— CBR "Original Anime vs. Adaptations"。本データの「漫画＝背骨／オリジナル＝実験枠(2010s 33%ピーク)」と符合。<br><a href="https://www.cbr.com/original-anime-vs-adaptations/">cbr.com</a></div>
-<div class="quote">「アニメ業界は薄利多売・短期回収・外注依存。原作ストックと固定読者を持つなろう系は非常に都合のよい素材だった。だが類型化と飽和で…」— note「なろう系はなぜ人気でつまらないのか」(2026)。なろう急増＋青年集中＋高忠実度を因果的に説明。ただし本データは2020sの漫画回帰を示し「飽和で致命傷」には反論。<br><a href="https://note.com/tyousannboshi/n/n612623cfdd18">note.com</a> <a href="https://ncode.syosetu.com/n0773ix/1/">なろうアニメ化100作突破集計</a></div>
-<div class="quote">「成功したアニメ直後に原作漫画売上が2-3倍に跳ねる。アニメは原作の強力な販促ツール。」「1〜2クール分割制が原作の進行を待てるようにし、より忠実な適応を支えた。」— Publishers Weekly / ScreenRant。忠実シェア上昇を放送形態(run#12)と結ぶ外部論拠。<br><a href="https://www.publishersweekly.com/pw/by-topic/industry-news/comics/article/86276-anime-readers-lift-manga-sales.html">publishersweekly</a> <a href="https://screenrant.com/best-anime-adaptations-manga/">screenrant</a> <a href="https://www.animenewsnetwork.com/feature/2026-02-02/what-so-bad-about-a-little-change-a-look-at-anime-adaptations/.233195">ANN(改変両論)</a></div>
+<h2 class="h2-essay">5. 他者の論評</h2>
+<div class="views">
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>Marc Steinberg</b>（コンコーディア大学・『Anime's Media Mix』(2012)著者）</p>
+<div class="vt">メディアミックスは1963年・鉄腕アトムから点火した <span class="stance sup">支持</span></div>
+<p>アニメとメディアミックスは、明治製菓がスポンサーに付いた鉄腕アトムがテレビに登場した1963年に同時に点火した。キャラクターこそが媒体・商品を互いに、そして消費者に結びつける「結節点」である、とする中心命題。</p>
+<div class="match"><b>データとの照合：</b>本データの「最古作＝漫画×メガフランチャイズ」「横展開先の上位に玩具・グッズ」と強く一致。横断先が物質→デジタルへ替わっても結節点の原理が不変な点も裏づける（ただし彼の理論は玩具中心の時代に基づき、近年のライブ・配信型の体験的横展開は射程外で更新を要する）。</div>
+<p class="src">出典: <a href="https://www.upress.umn.edu/9780816675500/animes-media-mix/">upress.umn.edu</a> ／ <a href="https://www.awn.com/animationworld/book-review-animes-media-mix-franchising-toys-and-characters-japan">awn.com（書評）</a></p></div>
+
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>CBR</b>（Comic Book Resources）"Original Anime vs. Adaptations"</p>
+<div class="vt">原作モノ＝背骨／オリジナル＝実験、両方が不可欠 <span class="stance neu">中立</span></div>
+<p>原作モノは既存ファンと保証された視聴者を持つ。片方が業界の背骨、もう片方が実験。どちらも欠かせない、とする整理。</p>
+<div class="match"><b>データとの照合：</b>「漫画＝背骨（常時最大シェア）／オリジナル＝実験枠（2010s 33%ピーク・一般層に偏在）」という本データのdecade分布と完全に符合する。</div>
+<p class="src">出典: <a href="https://www.cbr.com/original-anime-vs-adaptations/">cbr.com</a></p></div>
+
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>note「なろう系はなぜ人気でつまらないのか」</b>（朝三暮四、2026）</p>
+<div class="vt">なろうは薄利多売・短期回収・外注依存に最適な素材 <span class="stance cau">留保つき支持</span></div>
+<p>アニメ業界は薄利多売・短期回収・外注依存。原作ストックと固定読者を持つなろう系は非常に都合のよい素材だった。だが類型化と飽和で…という産業論。</p>
+<div class="match"><b>データとの照合：</b>なろう急増＋青年層集中＋高忠実度を因果的に説明する。ただし「飽和で致命傷」という悲観に対し、本データは2020sの漫画系回帰(55.6%)を示し、供給源の振り子は一極化せず多様性を保つ、と反論できる。</div>
+<p class="src">出典: <a href="https://note.com/tyousannboshi/n/n612623cfdd18">note.com</a> ／ <a href="https://ncode.syosetu.com/n0773ix/1/">なろうアニメ化100作突破集計</a></p></div>
+
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>Publishers Weekly</b>／<b>ScreenRant</b>／<b>ANN</b>（適応の忠実化と改変論）</p>
+<div class="vt">アニメは原作の販促ツール、1クール化が忠実適応を支えた <span class="stance sup">支持（両論つき）</span></div>
+<p>成功したアニメ直後に原作漫画売上が2～3倍に跳ねる。アニメは原作の強力な販促ツールであり、1～2クール分割制が原作の進行を待てるようにして、より忠実な適応を支えた。一方でANNは「改変にも価値がある」と両論を提示する。</p>
+<div class="match"><b>データとの照合：</b>忠実シェアの段差的上昇を放送形態と結ぶ外部論拠。ANNの両論は、忠実度を一方向の「進歩」と読まない留保として採用する。</div>
+<p class="src">出典: <a href="https://www.publishersweekly.com/pw/by-topic/industry-news/comics/article/86276-anime-readers-lift-manga-sales.html">publishersweekly.com</a> ／ <a href="https://screenrant.com/best-anime-adaptations-manga/">screenrant.com</a> ／ <a href="https://www.animenewsnetwork.com/feature/2026-02-02/what-so-bad-about-a-little-change-a-look-at-anime-adaptations/.233195">animenewsnetwork.com</a></p></div>
+</div>
 
 <h2>6. 全作品データ</h2>
 <div class="ctrl">
@@ -102,12 +199,13 @@ canvas{max-height:300px}
 <script>
 const PD={"stats": {"n": 137, "decades": [1960, 1970, 1980, 1990, 2000, 2010, 2020], "source_media_dist": {"漫画": 65, "オリジナル": 33, "小説": 5, "古典・実在": 2, "絵本・児童書": 1, "ゲーム": 5, "玩具・特撮原作": 1, "ライトノベル": 6, "ビジュアルノベル": 4, "4コマ漫画": 4, "Web小説(なろう)": 8, "Web漫画": 3}, "source_super_dist": {"漫画系": 72, "オリジナル": 33, "小説系": 13, "その他原作": 2, "ゲーム系": 9, "Web小説(なろう)": 8}, "source_super_by_decade": {"1960": {"n": 14, "counts": {"漫画系": 13, "オリジナル": 1}, "share": {"漫画系": 92.9, "オリジナル": 7.1}}, "1970": {"n": 19, "counts": {"漫画系": 9, "オリジナル": 5, "小説系": 5}, "share": {"漫画系": 47.4, "オリジナル": 26.3, "小説系": 26.3}}, "1980": {"n": 19, "counts": {"漫画系": 12, "オリジナル": 5, "その他原作": 1, "小説系": 1}, "share": {"漫画系": 63.2, "オリジナル": 26.3, "その他原作": 5.3, "小説系": 5.3}}, "1990": {"n": 19, "counts": {"漫画系": 12, "オリジナル": 5, "ゲーム系": 1, "その他原作": 1}, "share": {"漫画系": 63.2, "オリジナル": 26.3, "ゲーム系": 5.3, "その他原作": 5.3}}, "2000": {"n": 21, "counts": {"オリジナル": 5, "漫画系": 8, "小説系": 5, "ゲーム系": 3}, "share": {"オリジナル": 23.8, "漫画系": 38.1, "小説系": 23.8, "ゲーム系": 14.3}}, "2010": {"n": 27, "counts": {"オリジナル": 9, "ゲーム系": 3, "Web小説(なろう)": 6, "漫画系": 8, "小説系": 1}, "share": {"オリジナル": 33.3, "ゲーム系": 11.1, "Web小説(なろう)": 22.2, "漫画系": 29.6, "小説系": 3.7}}, "2020": {"n": 18, "counts": {"漫画系": 10, "オリジナル": 3, "ゲーム系": 2, "Web小説(なろう)": 2, "小説系": 1}, "share": {"漫画系": 55.6, "オリジナル": 16.7, "ゲーム系": 11.1, "Web小説(なろう)": 11.1, "小説系": 5.6}}}, "original_share_by_decade": {"1960": {"n": 14, "original": 1, "share": 7.1}, "1970": {"n": 19, "original": 5, "share": 26.3}, "1980": {"n": 19, "original": 5, "share": 26.3}, "1990": {"n": 19, "original": 5, "share": 26.3}, "2000": {"n": 21, "original": 5, "share": 23.8}, "2010": {"n": 27, "original": 9, "share": 33.3}, "2020": {"n": 18, "original": 3, "share": 16.7}}, "manga_share_by_decade": {"1960": 92.9, "1970": 47.4, "1980": 63.2, "1990": 63.2, "2000": 38.1, "2010": 29.6, "2020": 55.6}, "naro_share_by_decade": {"1960": 0.0, "1970": 0.0, "1980": 0.0, "1990": 0.0, "2000": 0.0, "2010": 22.2, "2020": 11.1}, "novel_share_by_decade": {"1960": 0.0, "1970": 26.3, "1980": 5.3, "1990": 0.0, "2000": 23.8, "2010": 3.7, "2020": 5.6}, "game_share_by_decade": {"1960": 0.0, "1970": 0.0, "1980": 0.0, "1990": 5.3, "2000": 14.3, "2010": 11.1, "2020": 11.1}, "fidelity_dist": {"概ね忠実": 69, "N/A": 33, "再構成": 14, "大幅改変": 21}, "fidelity_index_by_decade": {"1960": {"n": 13, "index": 0.615}, "1970": {"n": 14, "index": 0.404}, "1980": {"n": 14, "index": 0.625}, "1990": {"n": 14, "index": 0.539}, "2000": {"n": 16, "index": 0.562}, "2010": {"n": 18, "index": 0.542}, "2020": {"n": 15, "index": 0.577}}, "faithful_share_by_decade": {"1960": 61.5, "1970": 50.0, "1980": 64.3, "1990": 64.3, "2000": 75.0, "2010": 72.2, "2020": 73.3}, "scale_dist": {"メガ": 32, "大規模": 71, "単発": 3, "中規模": 31}, "scale_index_by_decade": {"1960": {"n": 14, "index": 1.929}, "1970": {"n": 19, "index": 2.0}, "1980": {"n": 19, "index": 2.158}, "1990": {"n": 19, "index": 2.316}, "2000": {"n": 21, "index": 1.905}, "2010": {"n": 27, "index": 1.852}, "2020": {"n": 18, "index": 1.611}}, "mega_share_by_decade": {"1960": 21.4, "1970": 26.3, "1980": 36.8, "1990": 47.4, "2000": 14.3, "2010": 14.8, "2020": 5.6}, "anime_first_share_by_decade": {"1960": {"n": 14, "yes": 1, "share": 7.1}, "1970": {"n": 19, "yes": 5, "share": 26.3}, "1980": {"n": 19, "yes": 6, "share": 31.6}, "1990": {"n": 19, "yes": 5, "share": 26.3}, "2000": {"n": 21, "yes": 5, "share": 23.8}, "2010": {"n": 27, "yes": 9, "share": 33.3}, "2020": {"n": 18, "yes": 3, "share": 16.7}}, "crossmedia_freq": {"ゲーム": 89, "映画": 77, "グッズ": 50, "玩具": 21, "海外展開": 16, "リメイク": 16, "漫画": 13, "音楽": 12, "続編": 12, "実写": 11, "小説": 8, "OVA": 5, "プラモ": 5, "舞台": 5, "ライブ": 5, "パチンコ": 4, "実写(Netflix)": 3, "実写映画": 3, "玩具(超合金)": 2, "聖地巡礼": 2, "続編多数": 2, "スピンオフ": 2, "プロレス": 1, "海外展開(BotP)": 1, "シリーズ化": 1, "プラモ(ガンプラ)": 1, "宝塚": 1, "玩具(聖闘士聖衣)": 1, "実写(仏)": 1, "CM": 1, "ミュージカル": 1, "TVシリーズ": 1, "実写(ハリウッド)": 1, "カード": 1, "カードゲーム": 1, "リメイク(FA)": 1, "スピンオフ多数": 1, "配信": 1}, "source_super_by_demographic": {"少年": {"漫画系": 35, "オリジナル": 12, "小説系": 4, "Web小説(なろう)": 2}, "児童": {"オリジナル": 3, "漫画系": 6, "小説系": 6, "その他原作": 2, "ゲーム系": 1}, "少女": {"漫画系": 7, "オリジナル": 2}, "一般": {"漫画系": 3, "オリジナル": 13, "ゲーム系": 1, "小説系": 2, "Web小説(なろう)": 1}, "青年": {"漫画系": 21, "オリジナル": 3, "ゲーム系": 7, "小説系": 1, "Web小説(なろう)": 5}}, "scale_index_by_source": {"漫画系": 2.17, "オリジナル": 1.73, "小説系": 1.31, "その他原作": 2.5, "ゲーム系": 2.0, "Web小説(なろう)": 2.0}, "fidelity_index_by_source": {"漫画系": 0.587, "小説系": 0.438, "その他原作": 0.2, "ゲーム系": 0.333, "Web小説(なろう)": 0.75}}, "data": [{"title": "鉄腕アトム", "year": 1963, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["映画", "ゲーム", "玩具", "海外展開"]}, {"title": "鉄人28号", "year": 1963, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "ゲーム", "玩具", "リメイク"]}, {"title": "狼少年ケン", "year": 1963, "type": "TV", "demo": "児童", "src": "オリジナル", "fid": "N/A", "scale": "単発", "af": "yes", "cm": []}, {"title": "エイトマン", "year": 1963, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "中規模", "af": "no", "cm": ["小説", "リメイク"]}, {"title": "ジャングル大帝", "year": 1965, "type": "TV", "demo": "児童", "src": "漫画", "fid": "再構成", "scale": "大規模", "af": "no", "cm": ["映画", "リメイク", "玩具"]}, {"title": "オバケのQ太郎", "year": 1965, "type": "TV", "demo": "児童", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "玩具", "リメイク"]}, {"title": "魔法使いサリー", "year": 1966, "type": "TV", "demo": "少女", "src": "漫画", "fid": "再構成", "scale": "大規模", "af": "no", "cm": ["玩具", "リメイク"]}, {"title": "巨人の星", "year": 1968, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "小説", "リメイク"]}, {"title": "ゲゲゲの鬼太郎", "year": 1968, "type": "TV", "demo": "児童", "src": "漫画", "fid": "再構成", "scale": "メガ", "af": "no", "cm": ["映画", "ゲーム", "玩具", "実写"]}, {"title": "サイボーグ009", "year": 1968, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "ゲーム", "リメイク"]}, {"title": "サザエさん", "year": 1969, "type": "TV", "demo": "一般", "src": "漫画", "fid": "再構成", "scale": "メガ", "af": "no", "cm": ["映画", "玩具", "グッズ"]}, {"title": "ひみつのアッコちゃん", "year": 1969, "type": "TV", "demo": "少女", "src": "漫画", "fid": "再構成", "scale": "大規模", "af": "no", "cm": ["玩具", "リメイク", "実写"]}, {"title": "アタックNo.1", "year": 1969, "type": "TV", "demo": "少女", "src": "漫画", "fid": "概ね忠実", "scale": "中規模", "af": "no", "cm": ["映画", "実写"]}, {"title": "タイガーマスク", "year": 1969, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "プロレス", "リメイク"]}, {"title": "あしたのジョー", "year": 1970, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "パチンコ", "リメイク"]}, {"title": "ルパン三世", "year": 1971, "type": "TV", "demo": "青年", "src": "漫画", "fid": "大幅改変", "scale": "メガ", "af": "no", "cm": ["映画", "ゲーム", "実写", "グッズ"]}, {"title": "マジンガーZ", "year": 1972, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["玩具(超合金)", "ゲーム", "映画"]}, {"title": "科学忍者隊ガッチャマン", "year": 1972, "type": "TV", "demo": "少年", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["玩具", "ゲーム", "海外展開(BotP)"]}, {"title": "デビルマン", "year": 1972, "type": "TV", "demo": "少年", "src": "漫画", "fid": "大幅改変", "scale": "大規模", "af": "no", "cm": ["映画", "OVA", "リメイク"]}, {"title": "宇宙戦艦ヤマト", "year": 1974, "type": "TV", "demo": "少年", "src": "オリジナル", "fid": "N/A", "scale": "メガ", "af": "yes", "cm": ["映画", "ゲーム", "プラモ", "リメイク"]}, {"title": "アルプスの少女ハイジ", "year": 1974, "type": "TV", "demo": "児童", "src": "小説", "fid": "再構成", "scale": "大規模", "af": "no", "cm": ["映画", "グッズ", "海外展開"]}, {"title": "ゲッターロボ", "year": 1974, "type": "TV", "demo": "少年", "src": "漫画", "fid": "大幅改変", "scale": "大規模", "af": "no", "cm": ["玩具", "ゲーム", "OVA"]}, {"title": "一休さん", "year": 1975, "type": "TV", "demo": "児童", "src": "古典・実在", "fid": "大幅改変", "scale": "中規模", "af": "no", "cm": ["映画", "グッズ"]}, {"title": "タイムボカン", "year": 1975, "type": "TV", "demo": "児童", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["玩具", "ゲーム", "シリーズ化"]}, {"title": "母をたずねて三千里", "year": 1976, "type": "TV", "demo": "児童", "src": "小説", "fid": "大幅改変", "scale": "中規模", "af": "no", "cm": ["映画"]}, {"title": "キャンディ・キャンディ", "year": 1976, "type": "TV", "demo": "少女", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "グッズ"]}, {"title": "超電磁ロボ コン・バトラーV", "year": 1976, "type": "TV", "demo": "少年", "src": "オリジナル", "fid": "N/A", "scale": "中規模", "af": "yes", "cm": ["玩具(超合金)", "ゲーム"]}, {"title": "銀河鉄道999", "year": 1978, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "ゲーム", "パチンコ"]}, {"title": "未来少年コナン", "year": 1978, "type": "TV", "demo": "児童", "src": "小説", "fid": "大幅改変", "scale": "中規模", "af": "no", "cm": ["映画", "グッズ"]}, {"title": "機動戦士ガンダム", "year": 1979, "type": "TV", "demo": "少年", "src": "オリジナル", "fid": "N/A", "scale": "メガ", "af": "yes", "cm": ["プラモ(ガンプラ)", "ゲーム", "映画", "小説"]}, {"title": "ベルサイユのばら", "year": 1979, "type": "TV", "demo": "少女", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["宝塚", "映画", "グッズ"]}, {"title": "ドラえもん", "year": 1979, "type": "TV", "demo": "児童", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["映画", "ゲーム", "玩具", "グッズ"]}, {"title": "赤毛のアン", "year": 1979, "type": "TV", "demo": "児童", "src": "小説", "fid": "概ね忠実", "scale": "中規模", "af": "no", "cm": ["映画", "グッズ"]}, {"title": "Dr.スランプ アラレちゃん", "year": 1981, "type": "TV", "demo": "児童", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "ゲーム", "玩具"]}, {"title": "うる星やつら", "year": 1981, "type": "TV", "demo": "青年", "src": "漫画", "fid": "再構成", "scale": "大規模", "af": "no", "cm": ["映画", "ゲーム", "リメイク"]}, {"title": "超時空要塞マクロス", "year": 1982, "type": "TV", "demo": "少年", "src": "オリジナル", "fid": "N/A", "scale": "メガ", "af": "yes", "cm": ["プラモ", "ゲーム", "映画", "音楽"]}, {"title": "魔法の天使クリィミーマミ", "year": 1983, "type": "TV", "demo": "少女", "src": "オリジナル", "fid": "N/A", "scale": "中規模", "af": "yes", "cm": ["玩具", "音楽", "OVA"]}, {"title": "キャプテン翼", "year": 1983, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["ゲーム", "映画", "海外展開"]}, {"title": "北斗の拳", "year": 1984, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["映画", "ゲーム", "パチンコ"]}, {"title": "風の谷のナウシカ", "year": 1984, "type": "映画", "demo": "一般", "src": "漫画", "fid": "再構成", "scale": "大規模", "af": "yes", "cm": ["グッズ"]}, {"title": "タッチ", "year": 1985, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "実写", "ゲーム"]}, {"title": "機動戦士Zガンダム", "year": 1985, "type": "TV", "demo": "少年", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["プラモ", "ゲーム", "映画"]}, {"title": "ドラゴンボール", "year": 1986, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["ゲーム", "映画", "玩具", "海外展開"]}, {"title": "聖闘士星矢", "year": 1986, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["玩具(聖闘士聖衣)", "ゲーム", "海外展開"]}, {"title": "天空の城ラピュタ", "year": 1986, "type": "映画", "demo": "一般", "src": "オリジナル", "fid": "N/A", "scale": "中規模", "af": "yes", "cm": ["グッズ"]}, {"title": "めぞん一刻", "year": 1986, "type": "TV", "demo": "青年", "src": "漫画", "fid": "概ね忠実", "scale": "中規模", "af": "no", "cm": ["映画", "実写"]}, {"title": "シティーハンター", "year": 1987, "type": "TV", "demo": "青年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "実写(仏)", "ゲーム"]}, {"title": "それいけ!アンパンマン", "year": 1988, "type": "TV", "demo": "児童", "src": "絵本・児童書", "fid": "再構成", "scale": "メガ", "af": "no", "cm": ["映画", "玩具", "グッズ"]}, {"title": "AKIRA", "year": 1988, "type": "映画", "demo": "青年", "src": "漫画", "fid": "再構成", "scale": "大規模", "af": "no", "cm": ["ゲーム", "海外展開", "グッズ"]}, {"title": "となりのトトロ", "year": 1988, "type": "映画", "demo": "児童", "src": "オリジナル", "fid": "N/A", "scale": "メガ", "af": "yes", "cm": ["グッズ", "海外展開"]}, {"title": "魔女の宅急便", "year": 1989, "type": "映画", "demo": "児童", "src": "小説", "fid": "再構成", "scale": "中規模", "af": "no", "cm": ["グッズ"]}, {"title": "らんま1/2", "year": 1989, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["OVA", "ゲーム", "海外展開"]}, {"title": "ちびまる子ちゃん", "year": 1990, "type": "TV", "demo": "児童", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["映画", "グッズ", "CM"]}, {"title": "ふしぎの海のナディア", "year": 1990, "type": "TV", "demo": "少年", "src": "オリジナル", "fid": "N/A", "scale": "中規模", "af": "yes", "cm": ["ゲーム", "グッズ"]}, {"title": "美少女戦士セーラームーン", "year": 1992, "type": "TV", "demo": "少女", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["玩具", "ゲーム", "ミュージカル", "海外展開"]}, {"title": "クレヨンしんちゃん", "year": 1992, "type": "TV", "demo": "一般", "src": "漫画", "fid": "再構成", "scale": "メガ", "af": "no", "cm": ["映画", "ゲーム", "グッズ"]}, {"title": "幽☆遊☆白書", "year": 1992, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["ゲーム", "実写(Netflix)"]}, {"title": "スラムダンク", "year": 1993, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["映画", "ゲーム", "海外展開"]}, {"title": "新世紀エヴァンゲリオン", "year": 1995, "type": "TV", "demo": "青年", "src": "オリジナル", "fid": "N/A", "scale": "メガ", "af": "yes", "cm": ["映画", "ゲーム", "パチンコ", "グッズ"]}, {"title": "攻殻機動隊", "year": 1995, "type": "映画", "demo": "青年", "src": "漫画", "fid": "再構成", "scale": "大規模", "af": "no", "cm": ["TVシリーズ", "ゲーム", "実写(ハリウッド)"]}, {"title": "名探偵コナン", "year": 1996, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["映画", "ゲーム", "グッズ"]}, {"title": "るろうに剣心", "year": 1996, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["OVA", "実写映画", "ゲーム"]}, {"title": "ポケットモンスター", "year": 1997, "type": "TV", "demo": "児童", "src": "ゲーム", "fid": "大幅改変", "scale": "メガ", "af": "no", "cm": ["映画", "玩具", "カード", "グッズ"]}, {"title": "もののけ姫", "year": 1997, "type": "映画", "demo": "一般", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["グッズ"]}, {"title": "少女革命ウテナ", "year": 1997, "type": "TV", "demo": "少女", "src": "オリジナル", "fid": "N/A", "scale": "中規模", "af": "yes", "cm": ["漫画", "映画", "ゲーム"]}, {"title": "遊☆戯☆王", "year": 1998, "type": "TV", "demo": "少年", "src": "漫画", "fid": "大幅改変", "scale": "メガ", "af": "no", "cm": ["カードゲーム", "ゲーム", "海外展開"]}, {"title": "カウボーイビバップ", "year": 1998, "type": "TV", "demo": "青年", "src": "オリジナル", "fid": "N/A", "scale": "中規模", "af": "yes", "cm": ["映画", "実写(Netflix)", "音楽"]}, {"title": "カードキャプターさくら", "year": 1998, "type": "TV", "demo": "少女", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "玩具", "ゲーム"]}, {"title": "ベルセルク", "year": 1997, "type": "TV", "demo": "青年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["ゲーム", "映画", "リメイク"]}, {"title": "ONE PIECE", "year": 1999, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["映画", "ゲーム", "玩具", "実写(Netflix)"]}, {"title": "デジモンアドベンチャー", "year": 1999, "type": "TV", "demo": "児童", "src": "玩具・特撮原作", "fid": "大幅改変", "scale": "大規模", "af": "no", "cm": ["ゲーム", "玩具", "映画"]}, {"title": "千と千尋の神隠し", "year": 2001, "type": "映画", "demo": "一般", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["グッズ", "海外展開"]}, {"title": "NARUTO -ナルト-", "year": 2002, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["映画", "ゲーム", "海外展開"]}, {"title": "攻殻機動隊 STAND ALONE COMPLEX", "year": 2002, "type": "TV", "demo": "青年", "src": "漫画", "fid": "大幅改変", "scale": "大規模", "af": "no", "cm": ["ゲーム", "映画"]}, {"title": "鋼の錬金術師", "year": 2003, "type": "TV", "demo": "少年", "src": "漫画", "fid": "大幅改変", "scale": "メガ", "af": "no", "cm": ["映画", "ゲーム", "リメイク(FA)"]}, {"title": "BLEACH", "year": 2004, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "ゲーム", "続編"]}, {"title": "灼眼のシャナ", "year": 2005, "type": "TV", "demo": "少年", "src": "ライトノベル", "fid": "概ね忠実", "scale": "中規模", "af": "no", "cm": ["漫画", "ゲーム", "映画"]}, {"title": "涼宮ハルヒの憂鬱", "year": 2006, "type": "TV", "demo": "少年", "src": "ライトノベル", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["漫画", "ゲーム", "音楽"]}, {"title": "コードギアス 反逆のルルーシュ", "year": 2006, "type": "TV", "demo": "少年", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["漫画", "ゲーム", "続編"]}, {"title": "銀魂", "year": 2006, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "実写", "ゲーム"]}, {"title": "DEATH NOTE", "year": 2006, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["実写映画", "ゲーム", "海外展開"]}, {"title": "Fate/stay night", "year": 2006, "type": "TV", "demo": "青年", "src": "ビジュアルノベル", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["ゲーム", "リメイク", "スピンオフ多数"]}, {"title": "ひぐらしのなく頃に", "year": 2006, "type": "TV", "demo": "青年", "src": "ビジュアルノベル", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["漫画", "実写", "リメイク"]}, {"title": "天元突破グレンラガン", "year": 2007, "type": "TV", "demo": "少年", "src": "オリジナル", "fid": "N/A", "scale": "中規模", "af": "yes", "cm": ["映画", "ゲーム", "グッズ"]}, {"title": "らき☆すた", "year": 2007, "type": "TV", "demo": "青年", "src": "4コマ漫画", "fid": "大幅改変", "scale": "中規模", "af": "no", "cm": ["ゲーム", "聖地巡礼", "グッズ"]}, {"title": "CLANNAD", "year": 2007, "type": "TV", "demo": "青年", "src": "ビジュアルノベル", "fid": "概ね忠実", "scale": "中規模", "af": "no", "cm": ["ゲーム", "漫画"]}, {"title": "機動戦士ガンダム00", "year": 2007, "type": "TV", "demo": "少年", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["プラモ", "ゲーム", "映画"]}, {"title": "化物語", "year": 2009, "type": "TV", "demo": "青年", "src": "ライトノベル", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["ゲーム", "映画", "続編多数"]}, {"title": "とらドラ!", "year": 2008, "type": "TV", "demo": "少年", "src": "ライトノベル", "fid": "概ね忠実", "scale": "中規模", "af": "no", "cm": ["漫画", "ゲーム"]}, {"title": "とある魔術の禁書目録", "year": 2008, "type": "TV", "demo": "少年", "src": "ライトノベル", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["漫画", "ゲーム", "スピンオフ"]}, {"title": "マクロスF", "year": 2008, "type": "TV", "demo": "少年", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["音楽", "ゲーム", "映画"]}, {"title": "けいおん!", "year": 2009, "type": "TV", "demo": "青年", "src": "4コマ漫画", "fid": "大幅改変", "scale": "大規模", "af": "no", "cm": ["映画", "音楽", "聖地巡礼"]}, {"title": "魔法少女まどか☆マギカ", "year": 2011, "type": "TV", "demo": "青年", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["映画", "ゲーム", "グッズ"]}, {"title": "あの日見た花の名前を僕達はまだ知らない", "year": 2011, "type": "TV", "demo": "一般", "src": "オリジナル", "fid": "N/A", "scale": "中規模", "af": "yes", "cm": ["映画", "小説", "実写"]}, {"title": "Steins;Gate", "year": 2011, "type": "TV", "demo": "青年", "src": "ビジュアルノベル", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["ゲーム", "映画", "続編"]}, {"title": "TIGER & BUNNY", "year": 2011, "type": "TV", "demo": "一般", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["映画", "舞台", "グッズ"]}, {"title": "ソードアート・オンライン", "year": 2012, "type": "TV", "demo": "少年", "src": "Web小説(なろう)", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["ゲーム", "映画", "続編多数"]}, {"title": "進撃の巨人", "year": 2013, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["映画", "実写", "ゲーム", "海外展開"]}, {"title": "ラブライブ!", "year": 2013, "type": "TV", "demo": "一般", "src": "オリジナル", "fid": "N/A", "scale": "メガ", "af": "yes", "cm": ["音楽", "ゲーム", "ライブ", "グッズ"]}, {"title": "君の名は。", "year": 2016, "type": "映画", "demo": "一般", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["小説", "グッズ", "海外展開"]}, {"title": "艦隊これくしょん -艦これ-", "year": 2015, "type": "TV", "demo": "青年", "src": "ゲーム", "fid": "大幅改変", "scale": "大規模", "af": "no", "cm": ["ゲーム", "グッズ", "舞台"]}, {"title": "おそ松さん", "year": 2015, "type": "TV", "demo": "青年", "src": "漫画", "fid": "大幅改変", "scale": "大規模", "af": "no", "cm": ["グッズ", "舞台", "ゲーム"]}, {"title": "この素晴らしい世界に祝福を!", "year": 2016, "type": "TV", "demo": "少年", "src": "Web小説(なろう)", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["ゲーム", "映画", "スピンオフ"]}, {"title": "Re:ゼロから始める異世界生活", "year": 2016, "type": "TV", "demo": "青年", "src": "Web小説(なろう)", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["ゲーム", "グッズ", "続編"]}, {"title": "ユーリ!!! on ICE", "year": 2016, "type": "TV", "demo": "一般", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["映画", "グッズ", "ライブ"]}, {"title": "ワンパンマン", "year": 2015, "type": "TV", "demo": "青年", "src": "Web漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["ゲーム", "グッズ", "続編"]}, {"title": "メイドインアビス", "year": 2017, "type": "TV", "demo": "青年", "src": "Web漫画", "fid": "概ね忠実", "scale": "中規模", "af": "no", "cm": ["映画", "ゲーム", "続編"]}, {"title": "宝石の国", "year": 2017, "type": "TV", "demo": "青年", "src": "漫画", "fid": "概ね忠実", "scale": "中規模", "af": "no", "cm": ["グッズ"]}, {"title": "けものフレンズ", "year": 2017, "type": "TV", "demo": "一般", "src": "ゲーム", "fid": "大幅改変", "scale": "大規模", "af": "no", "cm": ["ゲーム", "舞台", "グッズ"]}, {"title": "ヴァイオレット・エヴァーガーデン", "year": 2018, "type": "TV", "demo": "一般", "src": "ライトノベル", "fid": "大幅改変", "scale": "大規模", "af": "no", "cm": ["映画", "小説"]}, {"title": "ポプテピピック", "year": 2018, "type": "TV", "demo": "青年", "src": "4コマ漫画", "fid": "大幅改変", "scale": "中規模", "af": "no", "cm": ["ゲーム", "グッズ"]}, {"title": "宇宙よりも遠い場所", "year": 2018, "type": "TV", "demo": "一般", "src": "オリジナル", "fid": "N/A", "scale": "単発", "af": "yes", "cm": ["小説"]}, {"title": "ゾンビランドサガ", "year": 2018, "type": "TV", "demo": "一般", "src": "オリジナル", "fid": "N/A", "scale": "中規模", "af": "yes", "cm": ["音楽", "ライブ", "ゲーム"]}, {"title": "転生したらスライムだった件", "year": 2018, "type": "TV", "demo": "青年", "src": "Web小説(なろう)", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["ゲーム", "漫画", "続編"]}, {"title": "約束のネバーランド", "year": 2019, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["実写映画", "ゲーム", "続編"]}, {"title": "鬼滅の刃", "year": 2019, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["映画", "ゲーム", "舞台", "グッズ"]}, {"title": "盾の勇者の成り上がり", "year": 2019, "type": "TV", "demo": "青年", "src": "Web小説(なろう)", "fid": "概ね忠実", "scale": "中規模", "af": "no", "cm": ["ゲーム", "漫画", "続編"]}, {"title": "天気の子", "year": 2019, "type": "映画", "demo": "一般", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["小説", "グッズ"]}, {"title": "オーバーロード", "year": 2015, "type": "TV", "demo": "青年", "src": "Web小説(なろう)", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["ゲーム", "映画", "続編"]}, {"title": "呪術廻戦", "year": 2020, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "メガ", "af": "no", "cm": ["映画", "ゲーム", "グッズ"]}, {"title": "SPY×FAMILY", "year": 2022, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "ゲーム", "グッズ"]}, {"title": "チェンソーマン", "year": 2022, "type": "TV", "demo": "青年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "グッズ", "続編"]}, {"title": "ぼっち・ざ・ろっく!", "year": 2022, "type": "TV", "demo": "青年", "src": "4コマ漫画", "fid": "大幅改変", "scale": "大規模", "af": "no", "cm": ["映画", "音楽", "ライブ"]}, {"title": "リコリス・リコイル", "year": 2022, "type": "TV", "demo": "一般", "src": "オリジナル", "fid": "N/A", "scale": "中規模", "af": "yes", "cm": ["漫画", "グッズ", "ゲーム"]}, {"title": "サイバーパンク エッジランナーズ", "year": 2022, "type": "ONA", "demo": "青年", "src": "ゲーム", "fid": "大幅改変", "scale": "中規模", "af": "no", "cm": ["ゲーム"]}, {"title": "ウマ娘 プリティーダービー", "year": 2021, "type": "TV", "demo": "青年", "src": "ゲーム", "fid": "大幅改変", "scale": "大規模", "af": "no", "cm": ["ゲーム", "音楽", "ライブ"]}, {"title": "機動戦士ガンダム 水星の魔女", "year": 2022, "type": "TV", "demo": "少年", "src": "オリジナル", "fid": "N/A", "scale": "大規模", "af": "yes", "cm": ["プラモ", "ゲーム", "グッズ"]}, {"title": "葬送のフリーレン", "year": 2023, "type": "TV", "demo": "青年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["ゲーム", "グッズ"]}, {"title": "薬屋のひとりごと", "year": 2023, "type": "TV", "demo": "一般", "src": "Web小説(なろう)", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["漫画", "グッズ"]}, {"title": "【推しの子】", "year": 2023, "type": "TV", "demo": "青年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["音楽", "実写", "映画"]}, {"title": "無職転生 異世界行ったら本気だす", "year": 2021, "type": "TV", "demo": "青年", "src": "Web小説(なろう)", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["ゲーム", "漫画", "続編"]}, {"title": "ダンジョン飯", "year": 2024, "type": "TV", "demo": "青年", "src": "漫画", "fid": "概ね忠実", "scale": "中規模", "af": "no", "cm": ["ゲーム", "グッズ"]}, {"title": "怪獣8号", "year": 2024, "type": "TV", "demo": "少年", "src": "Web漫画", "fid": "概ね忠実", "scale": "中規模", "af": "no", "cm": ["ゲーム", "グッズ"]}, {"title": "BLUE GIANT", "year": 2023, "type": "映画", "demo": "青年", "src": "漫画", "fid": "概ね忠実", "scale": "中規模", "af": "no", "cm": ["音楽"]}, {"title": "平家物語", "year": 2022, "type": "TV", "demo": "一般", "src": "古典・実在", "fid": "再構成", "scale": "単発", "af": "no", "cm": ["配信"]}, {"title": "君たちはどう生きるか", "year": 2023, "type": "映画", "demo": "一般", "src": "オリジナル", "fid": "N/A", "scale": "中規模", "af": "yes", "cm": ["グッズ"]}, {"title": "ブルーロック", "year": 2022, "type": "TV", "demo": "少年", "src": "漫画", "fid": "概ね忠実", "scale": "大規模", "af": "no", "cm": ["映画", "ゲーム", "グッズ"]}]};const S=PD.stats,DATA=PD.data;
 const DEC=S.decades;const F={family:'inherit'};
-Chart.defaults.color='#9aa0b0';Chart.defaults.borderColor='#2a2e3a';
+Chart.defaults.color='#5c564b';Chart.defaults.borderColor='rgba(0,0,0,.08)';
+const PAL=["#5cc8ff","#ffd166","#7ef0a2","#ff8fb1","#b79cff","#ff8c66","#6ea8fe","#c0ca33","#9aa7b5"];
 const COL=['#ff7a59','#4fc3f7','#a78bfa','#66bb6a','#ffca28','#ef5350','#8d6e63','#26a69a'];
 function dl(o){return DEC.map(d=>o[d]!=null?o[d]:(o[String(d)]!=null?o[String(d)]:null));}
-// dist doughnut
+// 原作媒体の全体分布（横棒）
 const sd=S.source_media_dist;const sdk=Object.keys(sd).sort((a,b)=>sd[b]-sd[a]);
-new Chart(c_dist,{type:'doughnut',data:{labels:sdk,datasets:[{data:sdk.map(k=>sd[k]),backgroundColor:COL.concat(COL)}]},options:{plugins:{legend:{position:'right',labels:{font:{size:10}}}}}});
+(function(){var keys=sdk.slice();var tot=keys.reduce(function(a,k){return a+sd[k];},0);new Chart(c_dist,{type:'bar',data:{labels:keys,datasets:[{data:keys.map(function(k){return sd[k];}),backgroundColor:keys.map(function(k,i){return PAL[i%PAL.length];}),borderRadius:3,maxBarThickness:24}]},options:{indexAxis:'y',layout:{padding:{right:64}},plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',clamp:true,color:'#5b554a',font:{size:10,weight:'700'},formatter:function(v){return v+'（'+Math.round(100*v/tot)+'%）';}}},scales:{x:{beginAtZero:true,grace:'15%',ticks:{precision:0}},y:{ticks:{font:{size:11}}}}},plugins:[ChartDataLabels]});})();
 // stacked 100% source super by decade
 const sup=['漫画系','オリジナル','小説系','Web小説(なろう)','ゲーム系','その他原作'];
 const sbd=S.source_super_by_decade;

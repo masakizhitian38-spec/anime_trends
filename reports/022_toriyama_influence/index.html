@@ -1,106 +1,180 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>鳥山明の影響 — 視点別分析 (run#22)</title>
+<title>鳥山明の影響 — 視点別分析 (関連分析)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1115;--card:#181c24;--ink:#e8eaed;--mut:#9aa3b2;--acc:#ff7a1a;--acc2:#ffc14d;--pro:#2f6b4f;--con:#7a2f3a;--line:#2a2f3a}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;line-height:1.7}
-.wrap{max-width:1080px;margin:0 auto;padding:28px 18px 80px}
-h1{font-size:26px;margin:0 0 4px}h2{font-size:20px;margin:34px 0 12px;border-left:5px solid var(--acc);padding-left:10px}
-h3{font-size:16px;color:var(--acc2);margin:20px 0 8px}
-.sub{color:var(--mut);font-size:13px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}}
-canvas{max-height:340px}
-table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid var(--line);padding:6px 8px;text-align:center}th{background:#222732;color:var(--acc2)}
-td.l,th.l{text-align:left}
-.kpi{display:flex;flex-wrap:wrap;gap:12px;margin:10px 0}
-.kpi div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:150px}
-.kpi b{font-size:22px;color:var(--acc)}
-.warn{background:#3a2a12;border:1px solid #6b4a1f;border-radius:10px;padding:12px 16px;margin:14px 0;font-size:13px}
-.quote{border-radius:10px;padding:12px 14px;margin:10px 0;font-size:13.5px}
-.quote.pro{background:#13241c;border:1px solid var(--pro)}.quote.con{background:#241317;border:1px solid var(--con)}
-.quote .src{display:block;margin-top:6px;font-size:12px}.quote a{color:var(--acc2)}
-p{margin:8px 0}
-.controls{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
-select,input{background:#222732;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:13px}
-.badge{display:inline-block;padding:1px 7px;border-radius:6px;font-size:11px}
-.b-own{background:#7a3d10}.b-direct{background:#8a5a14}.b-strong{background:#5a4a1a}.b-mid{background:#37414f}.b-none{background:#2a2f3a;color:var(--mut)}.b-pre{background:#1f3a4a}
-small{color:var(--mut)}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/022_toriyama_influence/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="日本アニメ 変遷データベース">
-<meta property="og:title" content="鳥山明の影響 — 視点別分析 (run#22)">
+<meta property="og:title" content="鳥山明の影響 — 視点別分析 (関連分析)">
 <meta name="twitter:card" content="summary">
 <style>#__home{position:sticky;top:0;z-index:99;background:#0b0d12ee;backdrop-filter:blur(6px);border-bottom:1px solid #232838;padding:8px 16px;font:14px system-ui,sans-serif}#__home a{color:#8ab4ff;text-decoration:none}#__home a:hover{text-decoration:underline}</style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-51N89XJ20Q"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-51N89XJ20Q');</script>
 </head><body><div id="__home"><a href="../../">← 視点一覧トップへ</a></div><div class="wrap">
 <h1>鳥山明の影響 — アニメ視点別分析</h1>
-<div class="sub">run#22 ／ 影響・系譜クラスタ第1作 ／ 母集団 <b id="n"></b> 作（戦後〜2024、各年代11–17作）。指数は選定バイアスにより<b>相対変化のみ信頼</b>。</div>
+<div class="sub">関連分析 ／ 影響・系譜クラスタ第1作 ／ 母集団 <b id="n"></b> 作（戦後〜2024、各年代11–17作）。指数は選定バイアスにより<b>相対変化のみ信頼</b>。</div>
 
 <div class="warn"><b>読み方の注意（二重の構造的バイアス）</b><br>
 ①<b>選定バイアス</b>：影響を語れる著名作を集めるため系譜内が過剰代表。指数の絶対値は不可信、年代間の相対変化と aspect 構成のみ読む。<br>
 ②<b>時系列の床</b>：浸透度指数は1981年（Dr.スランプ放送）以前は<b>定義上ゼロ</b>（鳥山がまだ存在しない＝「影響しようがない」であって「無関係」ではない）。影響視点に固有の「ゼロ床＋立ち上がり段差＋拡散高原」型。</div>
 
-<div class="kpi">
-<div>浸透度ピーク<br><b>0.53</b><br><small>2010s（本人+直系+強系譜が集中）</small></div>
-<div>何らかの影響シェア最高<br><b>80%</b><br><small>2020s（広がって薄まる）</small></div>
-<div>本人の作品<br><b>9</b><br><small>Dr.スランプ〜DAIMA</small></div>
-<div>直接系譜<br><b>16</b><br><small>ONE PIECE/NARUTO/鬼滅 等</small></div>
-<div>少年向け指数<br><b>0.55</b><br><small>少女0.00・劇場0.17と対照</small></div>
+<div class="kpis">
+<div class="kpi"><span class="v">0.53</span><span class="l">浸透度ピーク（2010s）</span></div>
+<div class="kpi"><span class="v">80%</span><span class="l">何らかの影響シェア最高（2020s）</span></div>
+<div class="kpi"><span class="v">9</span><span class="l">本人の作品（Dr.スランプ〜DAIMA）</span></div>
+<div class="kpi"><span class="v">16</span><span class="l">直接系譜（ONE PIECE/NARUTO/鬼滅 等）</span></div>
+<div class="kpi"><span class="v">0.55</span><span class="l">少年向け指数（少女0.00・劇場0.17）</span></div>
 </div>
 
-<h2>1. 浸透度の年代変遷</h2>
-<div class="card"><canvas id="cIdx"></canvas>
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">鳥山明の影響は、1981年に「ゼロの床」を脱し、80年代ジャンプ黄金期という器に増幅されて立ち上がり、やがて少年バトルの文法そのものへ昇格して、2010年代に頂点を打った——そして2020年代には“強い直系”として退きつつ、“空気のような前提”として浸透の広さを最大化した。</p>
+<ul class="tldr-list">
+<li><b>「ゼロ床＋段差＋高原」型</b>：1960–70年代の指数ゼロは作風でなく<b>時系列</b>ゆえ（鳥山未登場＝「影響しようがない」）。1980sで段差(0.30)、以後は高原。</li>
+<li><b>2020sの逆説</b>：何らかの影響シェアは<b>最高80%</b>なのに、強い系譜シェアは2010s 58.8%→2020s 26.7%へ急落。影響が個別作品から退いて<b>環境</b>になった証拠。</li>
+<li><b>最も濃く継がれた遺産</b>＝ギャグ⇄シリアスの振幅（両立型 0%→64.7%）。<b>最も継がれなかった</b>＝裏のない無垢な主人公の心性（1980sピーク後に退潮）。</li>
+<li><b>海外</b>：土台を「築いた世代」(1980s–90s)から、土台に「乗った世代」(2010s–20s＝恩恵世代100%)への鮮やかな交代。鬼滅の世界的成功はその収穫。</li>
+<li><b>太い束に限定</b>：少年0.55 ≫ 少女0.00、TV0.35 > 劇場0.17。少女・劇場・劇画は独立系譜。鳥山は“本流（少年バトル）の世界標準テンプレを鋳造した人”。</li>
+</ul>
+</div>
+<div class="ex">
+<h3>① 戦闘力の「数値化」という発明とその毒（1980s〜）</h3>
+<p>スカウターが敵の強さを数字で表示する——強さを段階的に可視化するこの発明は、後続の能力バトル全体の文法になった。同時に「青天井のインフレ」という負の遺産も残した。</p>
+<blockquote class="quote">「戦闘力…たったの5か…ゴミめ…」<span class="qby">— ラディッツ／『ドラゴンボールZ』(1989)。原作17巻の初登場場面に由来し、人造人間編冒頭で雑兵が再び口にする“象徴の台詞”。</span></blockquote>
+<h3>② 強敵を前にむしろ高揚する「無垢な主人公」</h3>
+<p>悟空の魅力は、強敵を恐れず冒険心で胸を躍らせる“裏のない明るさ”にある。この心性こそ、後続が最も継がなかった遺産だった。</p>
+<blockquote class="quote">「オラ、なんだかワクワクしてきたぞ」<span class="qby">— 孫悟空／『ドラゴンボールZ』。ピッコロ・ベジータ・フリーザ戦など、強敵と対峙するたびに繰り返される代名詞的セリフ。</span></blockquote>
+<h3>③ 「世界に行ける」という夢——直接系譜への接続（1999〜）</h3>
+<p>尾田栄一郎は鳥山を公言する直接系譜の筆頭。語順を倒置した「海賊王におれはなる！」の“強い言葉”は、悟空が背負った王道の意志設計をジャンプ次世代へ引き継いだ。</p>
+<blockquote class="quote">「海賊王におれはなる！」<span class="qby">— モンキー・D・ルフィ／『ONE PIECE』(アニメ1999)。尾田は鳥山追悼で「世界に行けるんだ、という夢を見せてくれた」と述べた。</span></blockquote>
+</div>
+
+<h2 class="h2-essay">1. 浸透度の年代変遷</h2>
+<div class="card"><div class="cbox"><canvas id="cIdx"></canvas></div>
 <p class="sub">浸透度指数（本人1.0/直系0.9/強0.7/中0.5/弱0.25/無関係0）、何らかの影響シェア、強い系譜シェア。<b>指数と強系譜は2010sピーク→2020s低下、何らかの影響だけ2020s最高</b>＝「影響が強い直系から遍在する前提へ昇格」。</p></div>
 
 <h2>2. aspect 別の遺産（何が継がれたか）</h2>
 <div class="grid">
-<div class="card"><canvas id="cAspect"></canvas><p class="sub">ギャグ⇄シリアス両立は0%→64.7%でほぼ単調拡大＝最も濃い遺産。無垢な主人公+相棒は1980sピーク→退潮＝最も継がれなかった心性。</p></div>
-<div class="card"><canvas id="cLine"></canvas><p class="sub">線の系統（年代別構成）。トリヤマ系/影響的は2000sで70.6%ピーク、以後は写実・劇画・萌えと並立し「唯一の正解」でなくなる。</p></div>
+<div class="card"><div class="cbox"><canvas id="cAspect"></canvas></div><p class="sub">ギャグ⇄シリアス両立は0%→64.7%でほぼ単調拡大＝最も濃い遺産。無垢な主人公+相棒は1980sピーク→退潮＝最も継がれなかった心性。</p></div>
+<div class="card"><div class="cbox"><canvas id="cLine"></canvas></div><p class="sub">線の系統（年代別構成）。トリヤマ系/影響的は2000sで70.6%ピーク、以後は写実・劇画・萌えと並立し「唯一の正解」でなくなる。</p></div>
 </div>
 
 <h2>3. 海外受容の土台 — 「築いた世代」から「乗った世代」へ</h2>
-<div class="card"><canvas id="cOver"></canvas>
+<div class="card"><div class="cbox"><canvas id="cOver"></canvas></div>
 <p class="sub">土台構築は1980s–90sに集中、2010s以降は全作が「恩恵世代（DBが拓いた世界市場の上で広がる世代）」。鬼滅の世界的成功は鳥山が30年前に拓いた土台の収穫。<b>留保</b>：欧州はマジンガー/星矢/翼が並走・先行＝地域差あり。</p></div>
 
 <h2>4. クロス集計</h2>
 <div class="grid">
-<div class="card"><canvas id="cDemo"></canvas><p class="sub">対象層別 浸透度指数。<b>少年0.55 ≫ 少女0.00</b>＝鳥山の影響は「少年向けTVバトル」という太い束。少女(変身バトル)・劇場(ジブリ/新海/大友)は独立系譜。</p></div>
-<div class="card"><canvas id="cType"></canvas><p class="sub">種別。TV0.35 > 劇場0.17。鳥山系はTV連載バトル、劇場のプレステージ系は別系譜の本拠。</p></div>
+<div class="card"><div class="cbox"><canvas id="cDemo"></canvas></div><p class="sub">対象層別 浸透度指数。<b>少年0.55 ≫ 少女0.00</b>＝鳥山の影響は「少年向けTVバトル」という太い束。少女(変身バトル)・劇場(ジブリ/新海/大友)は独立系譜。</p></div>
+<div class="card"><div class="cbox"><canvas id="cType"></canvas></div><p class="sub">種別。TV0.35 > 劇場0.17。鳥山系はTV連載バトル、劇場のプレステージ系は別系譜の本拠。</p></div>
 </div>
 
-<h2>5. 考察（要旨）</h2>
-<div class="card">
-<h3>なぜ「ゼロ床＋段差＋高原」型か</h3>
-<p>1960s–70sの0.00は作風でなく<b>時系列</b>ゆえ（鳥山未登場）。段差(1980s=0.30)は Dr.スランプ・DB の二起点が<b>80年代ジャンプ黄金期という器</b>に増幅された結果。堀井憲一郎「実質2作で世界レベル」の逆説＝作品数でなく<b>器と射程</b>で影響が決まった。高原(90s以降)は影響が個別模倣から<b>ジャンルの文法（標準語）</b>へ昇格したこと。</p>
-<h3>2020sの「広がって薄まる」（本視点最大の論点）</h3>
-<p>何らかの影響80%最高なのに強系譜26.7%へ急落。①<b>分母効果</b>（チェンソー/フリーレン/推しの子等の対照群が厚い）②より本質的に<b>影響のgrammar化</b>＝呪術・MHA・俺レベはDB型を継ぐが「オマージュ」でなく内面化された前提として現れる。<b>最も成功した影響は個別作品から退いて環境になる</b>（run#21「2000s技術がインフラに拡散して谷に見えた」と同型）。</p>
-<h3>濃淡</h3>
-<p>最も継がれた＝ギャグ⇄シリアスの振幅と能力バトルの仕組み。最も継がれなかった＝<b>裏のない無垢な主人公の心性</b>（1980sピーク後退潮、run#1/#19の主人公内面化と逆方向）。継がれたのは外的な仕組みで、心性ではなかった。</p>
+<h2 class="h2-essay">5. 考察</h2>
+<div class="essay">
+<p class="thesis">鳥山明の影響は、実在の時間軸に縛られた「ゼロの床」から立ち上がり、80年代ジャンプという器に増幅され、やがてジャンルの標準語へ昇格した。頂点で“強い直系”として最も濃く、衰退ではなく成熟の局面で“遍在する前提”へと姿を変えた——最も成功した影響は、個別作品から退いて環境になる。</p>
+<h3>なぜ「ゼロ床＋段差＋高原」型なのか</h3>
+<p>これまでの分析が単調増加や山型・W字を描いてきたのに対し、本視点は1981年まで定義上ゼロという特異な床を持つ。1960–70年代の指数ゼロは作風の問題ではなく<b>時系列の問題</b>——鳥山がまだ存在しないのだから「影響しようがない」のであって、「無関係」ではない。立ち上がりの段差（1980s＝0.30）は、Dr.スランプ（1981）とドラゴンボール（1986）という二つの起点が、ジャンプ全盛期の産業的追い風の中で同時に登場したことによる。段差の高さは才能だけでなく、<b>80年代ジャンプ＝メディアミックス黄金期という器</b>が影響を増幅した結果でもある。評論家の堀井憲一郎が指摘する「実質連載2作の寡作で世界レベル」という逆説は、影響が作品数でなく<b>器と射程</b>で決まったことを示している。</p>
+<h3>2020sの「広がって薄まる」——本視点最大の論点</h3>
+<p>数値の核心は、2020sで何らかの影響シェアが最高80%に達するのに、浸透度指数（0.46）と強系譜シェア（26.7%）が低下する乖離にある。これを「鳥山の影響が衰えた」と読むのは誤りで、二つの力が同時に働いている。第一に<b>分母効果と両極化</b>。2020sの母集団にはジャンル多様化を体現する対照群が厚く入り、純度の高い直系のシェアは相対的に薄まる。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/009_violence_morality/">暴力描写の両極化</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/010_animation_characteristics/">作画のN字谷</a>で繰り返し確認してきた「分母が変われば純度シェアは薄まる」罠の再来である。第二に、より本質的な<b>影響の言語化（grammar化）</b>。呪術廻戦・僕のヒーローアカデミアはDB型の能力バトルを継ぐが、それは「オマージュ」としてではなく空気のように内面化された前提として現れる。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/021_transition_positioning/">2000s技術がインフラへ拡散して谷に見えた現象</a>と同型で、<b>最も成功した影響は個別作品から退いて環境になる</b>という逆説だ。</p>
+<h3>何が継がれ、何が継がれなかったか</h3>
+<p>最も濃く継がれたのは<b>ギャグとシリアスの配分（両立型）</b>（0%→64.7%）。Dr.スランプの徹底ギャグからDBの戦闘のシリアスへ自在に振る「振幅の芸」は、ONE PIECE・銀魂・呪術廻戦・SPY×FAMILYへ連なる王道の感情設計になった。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/006_ending_tone/">結末トーンの明るさが60年安定した</a>ことの供給源の一つでもある。一方「ポップで明瞭な線」は2000sで70.6%とピークだが、以後は写実や劇画・萌えと並立し「唯一の正解」ではなくなった——<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/010_animation_characteristics/">デジタル化で線が多様化した流れ</a>と符合する。そして<b>「無垢な主人公＋ペット的脇役」は1980sでピークの後むしろ退潮した</b>。悟空・アラレの“裏のない明るさ”は、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/001_protagonist_attributes/">主人公が凡人→後天的に特別化していく内面化</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/019_gender_representation/">男性像の繊細化</a>とは逆方向であり、継がれたのは外的な仕組み（能力バトル・相棒）であって、主人公の心性ではなかった。</p>
+<h3>海外受容——「築いた世代」と「乗った世代」の交代</h3>
+<p>土台構築が1980s–90sに集中し、2010s以降は全作が「恩恵世代」になる曲線は、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/015_distribution_overseas/">配信・海外展開で見た“器の世代交代”</a>の作家版である。ドラゴンボールは欧州・中南米で米国到達以前から文化的巨人だった。鬼滅の世界的成功——<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">2020sの社会現象回帰</a>——は、鳥山が30年前に拓いた市場の最終的な収穫と読める。ただし地域差という留保が要る。欧州ではマジンガーZ・聖闘士星矢・キャプテン翼がDBと並走・先行しており、「DB一極が西洋でアニメを常態化させた」という強い物語は北米にのみよく当てはまる。</p>
+<h3>「太い束」と対抗系譜</h3>
+<p>少年0.55 ≫ 少女0.00、TV0.35 > 劇場0.17という鋭い偏りは、鳥山の影響が<b>「少年向けTVバトル」という特定の太い束</b>であることを定量的に示す。少女向けの変身バトル系譜、劇場のプレステージ作、劇画・写実の流れは、鳥山と独立した有力な系譜として走り続けた。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/021_transition_positioning/">辺境が革新し本流が大衆化する構造</a>に当てはめれば、鳥山は“本流の世界標準テンプレを鋳造した人”であり、革新の辺境はむしろ別系譜が担った。なお「先行・源流」（手塚アトム・藤子ドラえもん）が示すとおり、鳥山自身も手塚・藤子・西遊記・ジャッキー映画の影響下にあり、影響は一方向でなく<b>既存要素の卓越した統合と再放射</b>だった。</p>
 </div>
-
-<h2>6. 他者の論評（賛否両論・出典付き）</h2>
-<div class="grid">
-<div>
-<div class="quote pro">悟空は少年漫画主人公の<b>原型（archetype）</b>になり、One Piece/Naruto/Bleach の作者が鳥山に倣って漫画家を志した。<span class="src"><a href="https://screenrant.com/akira-toriyama-legacy-dragon-ball-inspiration/">ScreenRant — Akira Toriyama's Legacy</a></span></div>
-<div class="quote pro">DBは<b>漫画制作・メディアミックス・世界流通のシステム</b>を確立し、One Piece や鬼滅が栄えるグローバル環境を起動した。<span class="src"><a href="https://www.japan.go.jp/kizuna/2024/05/legacy_of_toriyama_akira.html">JapanGov — Legacy of Toriyama Akira</a></span></div>
-<div class="quote pro">丸く無垢な造形（Dr.スランプ）から、角ばってエネルギーが紙面から飛び出す造形へ。独特のデフォルメが多くの模倣者を生んだ。<span class="src"><a href="https://www.cbr.com/how-akira-toriyama-changed-anime/">CBR — How Akira Toriyama Changed Anime</a></span></div>
-<div class="quote pro">90年代 Toonami の工夫が DBZ を米国ヒットへ。米到達時、DBは欧州・中南米で既に約10年の文化的巨人だった。<span class="src"><a href="https://www.cbr.com/dbz-toonami-90s-american-hit-series/">CBR — Toonami & DBZ</a></span></div>
+<h2 class="h2-essay">6. 他者の論評との対話</h2>
+<div class="views">
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>尾田栄一郎</b>（『ONE PIECE』作者）／報道：シネマトゥデイ・ORICON</p>
+<div class="vt">直接系譜の当事者証言「世界に行けるんだ、という夢」 <span class="stance sup">支持</span></div>
+<p>鳥山の訃報に際し尾田は「漫画ってこんな事もできるんだ、世界に行けるんだ、という夢を見せてくれた」「僕らは血液レベルで鳥山先生が大好き」と追悼した。岸本斉史らも「漫画の神様でした」と続いた。</p>
+<div class="match"><b>データとの照合：</b>本データが「直接系譜16作」とした作家群の当事者証言そのもの。公言された影響関係を裏づける。</div>
+<p class="src">出典: <a href="https://www.cinematoday.jp/news/N0141873">cinematoday.jp</a> ／ <a href="https://www.oricon.co.jp/news/2317559/full/">oricon.co.jp</a> ／ <a href="https://kai-you.net/article/89071">kai-you.net</a></p></div>
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>JapanGov</b>（日本政府広報 KIZUNA）</p>
+<div class="vt">DBが「世界流通のシステム」を起動した <span class="stance sup">支持</span></div>
+<p>ドラゴンボールは漫画制作・メディアミックス・世界流通のシステムを確立し、ONE PIECEや鬼滅が栄えるグローバル環境を起動した、と評価する。</p>
+<div class="match"><b>データとの照合：</b>「土台構築(1980s–90s)→恩恵世代(2010s–20s 100%)」という海外態様の交代曲線と<b>因果的に符合</b>する。</div>
+<p class="src">出典: <a href="https://www.japan.go.jp/kizuna/2024/05/legacy_of_toriyama_akira.html">japan.go.jp</a></p></div>
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>ふたまん＋</b>（双葉社）／<b>RealSound</b></p>
+<div class="vt">パワーインフレと「戦闘力の数値化」という負の遺産 <span class="stance cau">批判</span></div>
+<p>DBはピッコロ大魔王→フリーザ→セル→ブウと敵が際限なく膨張し、後続に「青天井インフレ」を定着させた代表例だと指摘する。</p>
+<div class="match"><b>データとの照合：</b>「ギャグ⇄シリアス両立（＝戦闘のシリアス化）」拡大と、呪術・MHA・俺レベへの浸透を裏側から裏づける。遺産は薬と毒の両面を持つ。</div>
+<p class="src">出典: <a href="https://futaman.futabanet.jp/articles/-/128196">futaman.futabanet.jp</a> ／ <a href="https://realsound.jp/book/2024/07/post-1732655.html">realsound.jp</a></p></div>
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>Animenewsnetwork</b>（劇画特集）／<b>Pratt Institute LibGuides</b></p>
+<div class="vt">漫画史は「手塚→DB→NARUTO」の一直線ではない <span class="stance cau">批判（単線史観への解毒剤）</span></div>
+<p>1950年代からの劇画（辰巳ヨシヒロ・さいとう・たかを）が並行発展し、写実・大人向けの太い流れ（北斗・AKIRA・攻殻・ベルセルク）を作った、と相対化する。</p>
+<div class="match"><b>データとの照合：</b>「無関係・独立48作」（特に劇画・写実）と少女0.00・劇場0.17の偏りを支持。本分析の単線還元回避と整合する。</div>
+<p class="src">出典: <a href="https://www.animenewsnetwork.com/convention/2010/manga-for-grown-ups/gekiga-garo-ax-and-the-alternative-manga-revolution">animenewsnetwork.com</a> ／ <a href="https://libguides.pratt.edu/graphicnovels/gekiga">libguides.pratt.edu</a></p></div>
 </div>
-<div>
-<div class="quote con">DBは<b>パワーインフレと「戦闘力の数値化」の代表</b>。ピッコロ大魔王→フリーザ→セル→ブウ→ビルスと敵が際限なく膨張し、後続に青天井インフレを定着させた（負の遺産）。<span class="src"><a href="https://futaman.futabanet.jp/articles/-/128196">ふたまん＋ — パワーインフレ</a> ／ <a href="https://realsound.jp/book/2024/07/post-1732655.html">RealSound — 数値化</a></span></div>
-<div class="quote con">漫画史は「手塚→DB→NARUTO」の<b>一直線ではない</b>。50年代からの劇画（辰巳・さいとう）が並行発展し、北斗/AKIRA/攻殻/ベルセルク等の写実・劇画は別系譜。鳥山一極史観への解毒剤。<span class="src"><a href="https://www.animenewsnetwork.com/convention/2010/manga-for-grown-ups/gekiga-garo-ax-and-the-alternative-manga-revolution">ANN — Gekiga</a> ／ <a href="https://libguides.pratt.edu/graphicnovels/gekiga">Pratt LibGuides</a></span></div>
-<div class="quote con">実質<b>連載2作の寡作</b>で世界レベルに達した特異性。影響の広さと作品数の少なさの逆説。<span class="src"><a href="https://news.yahoo.co.jp/expert/articles/2a3d6098fba80cd51e186aea60ff89014caab5a7">堀井憲一郎 — Yahoo!ニュース</a></span></div>
-<div class="quote con">DBの巨大さゆえ、鳥山本人の後年作が「地味で平和な話」へ振れた（SAND LAND等）。影響は他者だけでなく作者自身も縛った。<span class="src"><a href="https://www.oricon.co.jp/news/2316866/full/">ORICON — 反動</a></span></div>
-</div>
-</div>
-<p class="sub">対話の要約：支持系(A/B)は「浸透の広さと土台構築」を、批判系(D)は「浸透の質（毒）と射程の限定」を供給。両者を突き合わせると<b>「少年バトルと世界流通という太い束では決定的、漫画・アニメ全体では一系譜」</b>という、本データ（少年0.55/少女0.00、無関係・独立48作）と整合する像に収束する。全出典は sources.md 参照。</p>
-
-<h2>7. 作品テーブル（104作）</h2>
+<p class="mut">対話の要約：支持系（尾田・JapanGov）は「浸透の広さと土台構築」を、批判系（ふたまん＋・ANN）は「浸透の質（毒）と射程の限定」を供給する。両者を突き合わせると<b>「少年バトルと世界流通という太い束では決定的、漫画・アニメ全体では一系譜」</b>という、本データ（少年0.55／少女0.00、無関係・独立48作）と整合する穏当な像に収束する。全出典は sources.md 参照。</p>
+<h2 class="h2-essay">7. 作品テーブル（104作）</h2>
 <div class="controls">
 <select id="fDemo"><option value="">対象層：すべて</option></select>
 <select id="fInfl"><option value="">影響度：すべて</option></select>

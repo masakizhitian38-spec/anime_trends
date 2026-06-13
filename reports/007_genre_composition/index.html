@@ -2,28 +2,68 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>視点007 ジャンル構成の変遷</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1117;--card:#1a1d27;--fg:#e8eaf0;--mut:#9aa0b0;--acc:#6ea8fe;--line:#2a2e3a;}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:"Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;line-height:1.6}
-.wrap{max-width:1080px;margin:0 auto;padding:28px 18px 80px}
-h1{font-size:24px;margin:0 0 4px}h2{font-size:18px;margin:34px 0 12px;border-left:4px solid var(--acc);padding-left:10px}
-.sub{color:var(--mut);font-size:13px;margin-bottom:18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}}
-.kpi{display:flex;flex-wrap:wrap;gap:12px;margin:10px 0}
-.kpi div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;flex:1;min-width:130px}
-.kpi b{font-size:22px;color:var(--acc);display:block}
-.kpi span{font-size:12px;color:var(--mut)}
-canvas{max-height:340px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
-th{color:var(--mut);cursor:pointer;user-select:none;position:sticky;top:0;background:var(--card)}
-.tbox{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:10px}
-input,select{background:#11141d;color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13px}
-.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-.pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;background:#222838;color:var(--mut)}
-p{font-size:14px}small{color:var(--mut)}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/007_genre_composition/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -35,7 +75,7 @@ p{font-size:14px}small{color:var(--mut)}
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-51N89XJ20Q');</script>
 </head><body><div id="__home"><a href="../../">← 視点一覧トップへ</a></div><div class="wrap">
 <h1>視点007 ジャンル構成の変遷</h1>
-<div class="sub">1963–2025年 134作 / aspects: 主ジャンル・混合度・要素比重（バトル/コメディ/恋愛/ホラー） · run#7 · 2026-06-09</div>
+<div class="sub">1963–2025年 134作 / aspects: 主ジャンル・混合度・要素比重（バトル/コメディ/恋愛/ホラー） · 関連分析 · 2026-06-09</div>
 
 <div class="kpi">
 <div><b id="k1"></b><span>対象作品</span></div>
@@ -44,21 +84,107 @@ p{font-size:14px}small{color:var(--mut)}
 <div><b id="k4"></b><span>最多 主ジャンル</span></div>
 </div>
 
+<div class="tldr">
+<div class="tldr-lab">GENRE / この視点の要旨</div>
+<p class="tldr-lead">戦後アニメのジャンルは「一つの名前で名乗る」時代から「複数を掛け合わせる」時代へ半世紀かけて移行し、2020年代には一作が複数の快楽を同時に提供するハイブリッド設計が標準になった。</p>
+<ul class="tldr-list">
+<li><b>混合度は一貫して上昇。</b>単一ジャンルで完結する作品は1960sの主流から消え、二要素→多要素化が進む。多要素作品の比率は<b>1960s 0%→2020s 約73%</b>へ跳ね上がる。</li>
+<li><b>コメディは全年代の基底トーン。</b>4要素のうちコメディだけは半世紀を通じて最も高く、しかも漸増する。シリアスなバトル作にも笑いを混ぜるのが現代の定型。</li>
+<li><b>主ジャンルの重心は移動する。</b>1970sはSF／ロボの一極、1980sは恋愛・ロボ・バトルの三つ巴、2000sに日常系が定着、2010sで最も多様化し、2020sはアクションへ再集中した。</li>
+<li><b>多様性は「収束→拡散」の波。</b>ジャンルの種類数は2010sでピークに達し、2020sは「アクションを骨格に他要素を混ぜる」型へ収斂した。</li>
+<li><b>ホラー要素は二峰。</b>恋愛は2000sにピーク、バトルはU字を描いて2020sに復権、ホラーは1990sと2010sの二つの山（心理SF期とダーク化）に分かれる。</li>
+</ul>
+</div>
+
+<h2>具体例 — 「掛け合わせ」が標準になるまでの代表作と、その言葉</h2>
+<div class="ex">
+<h3>単一ジャンルが割れた瞬間——1970s</h3>
+<p>1960sは純粋スポ根・純粋ギャグ・純粋ロボのように一つのジャンルで完結する作品が中心で、多要素作品は皆無だった。これを割ったのが『宇宙戦艦ヤマト』（1974）である。宇宙戦争のSFアクションに、滅びゆく地球を救う戦争ドラマと群像劇を編み込み、「SF＋戦争＋人間ドラマ」という掛け合わせを大衆化した。航海の果て、地球を目前にした沖田艦長の最期の一言が、その重層性を象徴する。</p>
+<div class="quote">「地球か……。何もかも皆懐かしい」<span class="qby">— 沖田十三／『宇宙戦艦ヤマト』（1974, 声：納谷悟朗）</span></div>
+
+<h3>「日常」というジャンルの定着——2000s</h3>
+<p>2000年代には、大事件の起きない学校生活や部活の「空気」そのものを描く日常系（空気系）が新カテゴリとして定着する。あずまんが大王→ハルヒ→らき☆すた→けいおん！という系譜で、物語の駆動力を事件ではなく会話と関係性に置く型が確立した。ジャンルの母集団そのものが拡張した年代である。</p>
+
+<h3>骨格はバトル、中身は多要素——2020s</h3>
+<p>2020sはアクション／バトルが主ジャンルとして再集中する一方、中身は徹底して多要素化した。『鬼滅の刃』（2019）は王道の剣戟バトルに、家族の喪失と再生という重いテーマと、隊士同士のコメディを同居させる。炭治郎の代表的な一言は、バトルの只中で物語が「心」のドラマでもあることを示す。</p>
+<div class="quote">「人は心が原動力だから 心はどこまでも強くなれる!!」<span class="qby">— 竈門炭治郎／『鬼滅の刃』（2019）</span></div>
+
+<h3>一作に複数の快楽を——同じ2020s</h3>
+<p>掛け合わせは細分化も進んだ。『SPY×FAMILY』（2022）はスパイ・アクションと偽装家族のホームコメディを接ぎ、『ダンダダン』（2024）はオカルトバトルにホラーと青春ラブコメを重ねる。いずれも単一のジャンル名では説明しきれない——「ジャンルを名乗る」のではなく「ジャンルを設計する」時代の代表例である。<span class="small">※ 両作の具体的な決め台詞は確認の確度を優先し、ここでは作品の構図描写にとどめた。</span></p>
+</div>
+
 <div class="card"><h2>① 主ジャンル分布（全134作・スーパー分類）</h2>
-<canvas id="cPie"></canvas></div>
+<div class="cbox"><canvas id="cPie"></canvas></div></div>
 
 <div class="card"><h2>② 混合度の変遷 ― ジャンルのハイブリッド化</h2>
 <p>単一ジャンルで完結する作品が減り、二要素→多要素へ。混合指数（単一0/二要素0.5/多要素1.0の年代平均）はほぼ単調上昇し、2020sで急伸。</p>
-<canvas id="cMix"></canvas></div>
+<div class="cbox"><canvas id="cMix"></canvas></div></div>
 
 <div class="grid">
-<div class="card"><h2>③ 混合度の構成比（年代別）</h2><canvas id="cMixBar"></canvas></div>
-<div class="card"><h2>④ 4要素の比重指数の変遷</h2><canvas id="cElem"></canvas></div>
+<div class="card"><h2>③ 混合度の構成比（年代別）</h2><div class="cbox"><canvas id="cMixBar"></canvas></div></div>
+<div class="card"><h2>④ 4要素の比重指数の変遷</h2><div class="cbox"><canvas id="cElem"></canvas></div></div>
 </div>
 
 <div class="card"><h2>⑤ 主ジャンル・シェアの変遷（100%積み上げ）</h2>
 <p>1970s=SF/ロボ一極 → 1980s三つ巴 → 2000s日常系定着 → 2010s最多様 → 2020sアクション再集中（ただし中身は多要素）。</p>
-<canvas id="cStack"></canvas></div>
+<div class="cbox"><canvas id="cStack"></canvas></div></div>
+
+<h2 class="h2-essay">考察 — ジャンルは「掛け合わせ」へ向かう</h2>
+<div class="essay">
+<p class="thesis">戦後アニメのジャンル史で最も明瞭な変遷は、混合度の一貫した上昇である。作品は「一つのジャンルに収まる」状態から「複数を抱え込む」状態へ半世紀かけて移り、2020年代には多要素が標準になった。一方で主ジャンルの重心は時代ごとに振れ、ジャンルの多様性は収束と拡散を繰り返す波として現れる。</p>
+
+<h3>名乗る時代から、掛け合わせる時代へ</h3>
+<p>1960年代は純粋スポ根・純粋ギャグ・純粋ロボのように、ひとつのジャンル名で説明しきれる作品が中心だった。多要素作品はこの年代には存在しない。転機は1970年代で、ルパン三世（アクション＋コメディ＋冒険）や宇宙戦艦ヤマト（SF＋戦争ドラマ）が二要素・多要素化を一気に進めた。以降は緩やかな上昇を続け、2020年代に多要素作品が約四分の三を占めるまで跳ね上がる。「ジャンルを名乗る」から「ジャンルを掛け合わせる」への移行が、混合度という指標で定量的に確認できる。</p>
+
+<h3>動かない基底——コメディというトーン</h3>
+<p>4要素（バトル・コメディ・恋愛・ホラー）のうち、コメディだけは全年代で最も高く、しかも漸増する。シリアスな能力バトルでも日常パートで笑いを差し込むのが、現代アニメの定型になった。喜劇性はジャンルの上に乗る装飾ではなく、ほとんどの作品に通底する地のトーンである。これは結末が一貫してハッピー基調を保つという出口側の傾向（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/006_ending_tone/">視点006</a>）とも響き合う、肯定性の底流だ。</p>
+
+<h3>重心は振れる——一極・三つ巴・最多様・再集中</h3>
+<p>主ジャンルの重心は時代ごとに大きく振れた。1970sはSF／ロボの一極、1980sは恋愛・ロボ・バトルの三つ巴、1990sは心理・サイバーSFの再台頭、2000sは日常系の定着、そして2010sは突出ジャンルが消えてドラマ・SF・異世界・恋愛が拮抗する最多様の年代になる。異世界というカテゴリがこの2010sに出現した点も重要だ。ところが2020sは一転してアクション／バトルへ再集中する——ただし中身は多要素で、「バトルを骨格に他要素を混ぜる」型である。多様性は2010sでピークを打ち、2020sで収斂した。</p>
+
+<h3>恋愛・バトル・ホラーの別々のリズム</h3>
+<p>個々の要素は別々のリズムを刻む。恋愛は1960sから右肩上がりで2000sにピーク、以降は高止まり。バトルはU字を描き、ロボ戦争（1970s）と能力バトル（1990s）の山、日常・ドラマが厚くなる2000〜2010sの谷を経て、2020sに復権する。ホラーは1990s（心理SF期）と2010s（まどか・進撃・喰種のダーク化）に二つの山を持つ。ジャンルは一様に増減するのではなく、それぞれが固有の波として動いている。</p>
+
+<h3>なぜ掛け合わせが進んだか</h3>
+<p>混合度の上昇は、物語構造の変化と地続きである。一話完結から連続・長尺へと構造が移る（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/004_story_structure/">視点004</a>）ほど、一作に複数ジャンルを抱え込む余地が生まれる。主題が外的な善悪から自己や喪失・回復へ深化する流れ（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">視点005</a>）も、単一ジャンルの枠を内側から押し広げた。2020sに「バトル↑・コメディ↑・多要素↑」が同時に立つのは、一作で複数の快楽を提供する高密度設計が、配信時代の標準になったことの現れだと読める。</p>
+</div>
+
+<h2>他者の論評との照合</h2>
+<div class="views">
+
+<div class="view">
+<p class="who"><span class="wl">アートライター</span>ジュウ・ショ（note, 2010年代）<span class="stance neu">中立</span></p>
+<p class="vt">『あずまんが大王』が生んだ「空気系（日常系）」というジャンル</p>
+<p>ジュウ・ショは、大事件ではなくキャラクター同士の何気ない日常と「空気」を描く作風を「空気系（日常系）」と整理し、『あずまんが大王』をその源流に位置づけた。2000年代半ば以降、この型がアニメの一大潮流になったと論じている。</p>
+<div class="match"><b>照合：</b>本分析でも日常・スローライフは<b>2000sに新カテゴリとして定着</b>（約14%）し、あずまんが→ハルヒ→らき☆すた→けいおん！の系譜と一致する。「ジャンルの母集団そのものが拡張した」という観察を裏づける。</div>
+<p class="src">出典：<a href="https://note.com/jusho/n/nf63f71e75e99">note.com／ジュウ・ショ「あずまんが大王について｜空気系(日常系)を生んだアニメ史に残る作品」</a></p>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">座談会／媒体</span>コミックナタリー（識者座談会, 2023）<span class="stance neu">中立</span></p>
+<p class="vt">2010年代に一大ジャンルへ成長した“異世界もの”</p>
+<p>コミックナタリーの識者座談会（岡田勘一・松浦恵介ら）は、Web小説の書籍化ブームを背景に、異世界ものが2010年代初頭から急成長し一大ジャンルへ定着した経緯を論じた。JRPG的世界観を共有の土台にした「大喜利」的な量産構造がその拡大を支えたと整理している。</p>
+<div class="match"><b>照合：</b>本分析でも<b>異世界というカテゴリは2010sに出現</b>し、突出ジャンルが消えた最多様の年代を構成する一角になった。ジャンルの「拡散」局面と時期が符合する。</div>
+<p class="src">出典：<a href="https://natalie.mu/comic/pp/versus02">natalie.mu／“異世界もの”はなぜ一大ジャンルに成長したのか？識者座談会</a></p>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">アニメ評論／媒体</span>Real Sound（リアルサウンド, 2022）<span class="stance sup">同方向</span></p>
+<p class="vt">『SPY×FAMILY』——スパイ・アクション×ホームコメディの融合</p>
+<p>リアルサウンドは『SPY×FAMILY』を「スパイアクションとホームコメディ」を掛け合わせた作品と位置づけ、鬼滅・呪術・東リベに続く覇権アニメ候補として、世代を問わない広い訴求力をヒット要因に挙げた。</p>
+<div class="match"><b>照合：</b>本分析の<b>2020sは多要素73%・アクション再集中＋コメディ最高値</b>という結果と方向が一致。「バトル／アクションを骨格に他要素を混ぜる」高密度設計の代表例として読める。</div>
+<p class="src">出典：<a href="https://realsound.jp/book/2022/03/post-984163.html">realsound.jp「『SPY×FAMILY』大ヒットを予感させる3つの理由」</a></p>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">アニメニュース／媒体</span>アニメ！アニメ！（2024）<span class="stance sup">同方向</span></p>
+<p class="vt">『ダンダダン』——オカルト×青春（バトル＋ラブコメ）の同居</p>
+<p>アニメ！アニメ！は『ダンダダン』第1話を「オカルト×青春物語」と紹介し、怪奇・バトルと青春ラブコメを高速で同居させる作風が放送直後にトレンド1位を取るほど絶賛されたと報じた。</p>
+<div class="match"><b>照合：</b>本分析でも2020sは<b>多要素が標準（約73%）</b>で、ダンダダン（オカルトバトル＋ホラー＋青春ラブコメ）はその典型例として挙げた作品と一致する。</div>
+<p class="src">出典：<a href="https://animeanime.jp/article/2024/10/04/86908.html">animeanime.jp「『ダンダダン』第1話からトレンド1位で絶賛の嵐！オカルト×青春物語開幕」</a></p>
+</div>
+
+</div>
 
 <div class="card"><h2>⑥ 作品テーブル（並べ替え・絞り込み）</h2>
 <div class="controls">
@@ -73,11 +199,6 @@ p{font-size:14px}small{color:var(--mut)}
 <tbody></tbody></table></div>
 <small>※ 闘=バトル 笑=コメディ 恋=恋愛 恐=ホラー の比重（高/中/低/無）。列見出しクリックで並べ替え。</small></div>
 
-<div class="card"><h2>主要な知見</h2>
-<p>1) <b>混合度が単調上昇</b>（0.385→0.867）。「ジャンルを名乗る」時代から「掛け合わせる」時代へ。2020sは多要素73%。<br>
-2) <b>コメディは全年代で基底</b>（0.56→0.77で漸増）。シリアスなバトル作でも笑いを混ぜるのが定型。<br>
-3) <b>主ジャンルの重心</b>：1970sSF/ロボ→1980s恋愛/ロボ/バトル三つ巴→2000s日常系定着→2010s最多様→2020sアクション再集中。<br>
-4) <b>ホラー要素は1990sと2010sに二峰</b>（lain/エヴァ期と、まどか/進撃のダーク化）。恋愛は2000sピーク、バトルはU字＋2020s復権。</p></div>
 
 <small>出典：著名作の周知ジャンル情報に基づく分析者コード化。比重は4段順序尺度、2020sはn=15で暫定。</small>
 </div>
@@ -91,10 +212,14 @@ var mi=S.mix_by_decade;document.getElementById("k2").textContent=mi[decs[0]].mix
 document.getElementById("k3").textContent=mi[2020].share["多要素"]+"%";
 document.getElementById("k4").textContent=S.super_genre_total[0][0];
 
-new Chart(document.getElementById("cPie"),{type:"doughnut",
- data:{labels:S.super_genre_total.map(function(x){return x[0]}),
- datasets:[{data:S.super_genre_total.map(function(x){return x[1]}),backgroundColor:CL}]},
- options:{plugins:{legend:{position:"right",labels:{color:"#e8eaf0",font:{size:11}}}}}});
+(function(){var arr=S.super_genre_total.slice().sort(function(a,b){return b[1]-a[1];});
+ var tot=arr.reduce(function(a,x){return a+x[1];},0);
+ new Chart(document.getElementById("cPie"),{type:"bar",
+  data:{labels:arr.map(function(x){return x[0];}),
+  datasets:[{label:"作品数",data:arr.map(function(x){return x[1];}),backgroundColor:arr.map(function(x,i){return CL[i%CL.length];}),borderRadius:3,maxBarThickness:24}]},
+  options:{indexAxis:"y",layout:{padding:{right:64}},plugins:{legend:{display:false},
+   datalabels:{anchor:"end",align:"end",clamp:true,color:"#5b554a",font:{size:11,weight:"700"},formatter:function(v){return v+"（"+Math.round(100*v/tot)+"％）";}}},
+   scales:{x:{beginAtZero:true,grace:"15%",ticks:{precision:0}},y:{ticks:{font:{size:12}}}}},plugins:[ChartDataLabels]});})();
 
 new Chart(document.getElementById("cMix"),{type:"line",
  data:{labels:L,datasets:[

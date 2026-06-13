@@ -2,31 +2,68 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>視点006 物語の結末・トーン</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1117;--card:#1a1d27;--fg:#e8eaf0;--mut:#9aa0b0;--acc:#ffb454;--line:#2a2e3c;}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:"Hiragino Sans","Yu Gothic",system-ui,sans-serif;line-height:1.6}
-.wrap{max-width:1100px;margin:0 auto;padding:24px}
-h1{font-size:1.6rem;margin:0 0 4px}
-.sub{color:var(--mut);margin-bottom:20px;font-size:.92rem}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0}
-h2{font-size:1.15rem;margin:0 0 12px;border-left:4px solid var(--acc);padding-left:10px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}}
-.kpis{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;flex:1;min-width:150px}
-.kpi b{font-size:1.5rem;color:var(--acc);display:block}
-.kpi span{color:var(--mut);font-size:.82rem}
-table{width:100%;border-collapse:collapse;font-size:.85rem}
-th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
-th{color:var(--acc);cursor:pointer;user-select:none}
-tr:hover td{background:#21263333}
-.controls{margin:8px 0}
-select,input{background:#0f1117;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:5px 8px}
-.tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:.78rem}
-.t-h{background:#1f6f43;color:#d6ffe6}.t-b{background:#7a5a14;color:#ffe9b8}.t-x{background:#7a2433;color:#ffd0d8}.t-o{background:#3a4a7a;color:#d6e0ff}
-canvas{max-height:320px}
-.note{color:var(--mut);font-size:.8rem;margin-top:6px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/006_ending_tone/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -48,25 +85,113 @@ canvas{max-height:320px}
 <div class="kpi"><b id="k5"></b><span>非完結(続/継続)</span></div>
 </div>
 
+<div class="tldr">
+<div class="tldr-lab">REQUIEM / この視点の要旨</div>
+<p class="tldr-lead">戦後アニメの結末は半世紀を通じて「ハッピー基調・主人公生存」を底流に保ちつつ、クライマックスの作法が「敵を倒す」から「失ったものを受け入れる」へ重心を移し、近年もっとも暗さを増している。</p>
+<ul class="tldr-list">
+<li><b>明るさは動かない底流。</b>ハッピー結末は60年間で約59%と過半を維持し、明るさ指数も0.66〜0.69の狭い帯で安定する。「昔は明るく今は暗い」は成立しない（例外は黎明1960sの0.75と、最暗の2020s 0.59）。</li>
+<li><b>「素直でない結末」が約4割。</b>ビター＋バッド＋オープンで4割を占め、なかでもバッド結末は1960s 0%→2020s 21%へ一貫して微増する。</li>
+<li><b>1990sは実験期。</b>答えを観客に委ねるオープン（難解）な結末が19%へ突出し、主人公死亡率は逆に最低（4.8%）に沈む——「殺さず内面で終わらせる」時代。</li>
+<li><b>2010sは喪失受容への転回。</b>カタルシスの最頻型が「戦闘勝利／和解」から「喪失受容」へ移り、2010sで約3割のピークに達する。</li>
+<li><b>2020sは最も暗い10年。</b>明るさ指数0.59・バッド比率21%・主人公死亡率21%・非完結率50%がいずれも最高水準で、両極化が進む。</li>
+</ul>
+</div>
+
+<h2>具体例 — 結末のトーンを決めた4本と、その最後の言葉</h2>
+<div class="ex">
+<h3>黎明期になかった「悲劇で閉じる結末」——1970s</h3>
+<p>バッド結末は1960sには皆無だった。これを定着させたのが世界名作劇場の悲劇群である。『フランダースの犬』（TVアニメ1975）最終話、ネロとパトラッシュは見たかったルーベンスの絵の前で力尽きる。</p>
+<div class="quote">「パトラッシュ……疲れたろう。僕も疲れたんだ。なんだかとっても眠いんだ……」<span class="qby">— ネロ／『フランダースの犬』最終話（1975）</span></div>
+
+<h3>答えを観客に委ねる——実験期の1990s</h3>
+<p>90年代は説明的なカタルシスを拒み、内面で完結する難解な結末が突出した（オープン19%）。『新世紀エヴァンゲリオン』TV版最終話（1996）は、世界の決着ではなく碇シンジの自己受容で幕を閉じる。</p>
+<div class="quote">（自分を取り巻く全員の祝福に）「おめでとう」――「……ありがとう」<span class="qby">— 『新世紀エヴァンゲリオン』第弐拾六話「世界の中心でアイを叫んだけもの」（1996）</span></div>
+
+<h3>「敵を倒す」から「失ったものを受け入れる」へ——2010s</h3>
+<p>喪失受容が最頻カタルシスになった2010s。『魔法少女まどか☆マギカ』（2011）で、まどかは戦って勝つのではなく、自らの存在と引き換えに世界の規則そのものを書き換える。</p>
+<div class="quote">「全ての魔女を、生まれる前に消し去りたい。全ての宇宙、過去と未来の全ての魔女を、この手で!」<span class="qby">— まどか／『魔法少女まどか☆マギカ』最終話「わたしの、最高の友達」（2011）</span></div>
+
+<h3>喪失を抱えたまま、前へ——同じ2010s</h3>
+<p>同年の『あの日見た花の名前を僕達はまだ知らない。』（2011）は、死者を取り戻すのではなく、別れを受け入れて日常へ戻る決着を選ぶ。</p>
+<div class="quote">「そうだ、俺達は、いつまでも――あの花の願いを、叶え続けていく」<span class="qby">— 宿海仁太／『あの花』最終話「あの夏に咲く花」（2011）</span></div>
+</div>
+
 <div class="card"><h2>結末の「明るさ指数」の変遷</h2>
-<canvas id="cBright"></canvas>
+<div class="cbox"><canvas id="cBright"></canvas></div>
 <div class="note">ハッピー1.0 / オープン0.5 / ビター0.25 / バッド0.0 の年代平均。半世紀ほぼ0.66–0.69で安定、2020sのみ0.59と最暗。</div></div>
 
 <div class="card"><h2>結末トーンの年代別構成（100%積み上げ）</h2>
-<canvas id="cTone"></canvas>
+<div class="cbox"><canvas id="cTone"></canvas></div>
 <div class="note">ハッピー基調は一貫。バッドは1960s 0%→2020s 21%へ漸増。オープン(難解)は1990sに19%で突出。</div></div>
 
 <div class="grid">
-<div class="card"><h2>主人公の死亡率・非完結率</h2><canvas id="cFate"></canvas>
+<div class="card"><h2>主人公の死亡率・非完結率</h2><div class="cbox"><canvas id="cFate"></canvas></div>
 <div class="note">死亡率は1990s 4.8%で底→2000s/2020sで再上昇。非完結率は2000s 23.8%底→2020s 50%。</div></div>
-<div class="card"><h2>カタルシスの型の変遷</h2><canvas id="cCat"></canvas>
+<div class="card"><h2>カタルシスの型の変遷</h2><div class="cbox"><canvas id="cCat"></canvas></div>
 <div class="note">和解は1990sピーク、喪失受容は2010sピーク(30.8%)。「勝利」から「受容」へ。</div></div>
 </div>
 
 <div class="grid">
-<div class="card"><h2>対象層別の明るさ指数</h2><canvas id="cDemo"></canvas>
+<div class="card"><h2>対象層別の明るさ指数</h2><div class="cbox"><canvas id="cDemo"></canvas></div>
 <div class="note">児童0.86>一般0.83>少年0.80>少女0.72>青年0.52。青年向けが突出して暗い。</div></div>
-<div class="card"><h2>全体分布</h2><canvas id="cDist"></canvas></div>
+<div class="card"><h2>全体分布</h2><div class="cbox"><canvas id="cDist"></canvas></div></div>
+</div>
+
+<h2 class="h2-essay">考察 — 結末論の三層構造</h2>
+<div class="essay">
+<p class="thesis">戦後アニメの結末は、「明るさ」という底流ではほとんど動かない。動いてきたのは、物語をどう終わらせて観客を納得させるか——カタルシスの作法であり、それは「外的勝利で閉じる」から「喪失や問いを抱えたまま開く・受け入れる」へと半世紀かけて重心を移した。</p>
+
+<h3>動かない底流——ハッピー基調と主人公生存</h3>
+<p>結末トーンの過半は一貫してハッピーで、明るさ指数も半世紀にわたり0.66〜0.69の狭い帯に収まる。主人公の約8割は生き延びる。「昔は明るく、今は暗くなった」という通説は、少なくともマクロには成立しない。日本アニメの結末は本質的に肯定的である——これは登場人物の属性を扱った<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/001_protagonist_attributes/">視点001</a>でも、主題を扱った<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">視点005</a>でも繰り返し現れる底流だ。</p>
+
+<h3>1990年代という実験期</h3>
+<p>例外的に大きく動いたのが1990年代である。「答えを観客に委ねる」オープンエンドが19%へ突出し、主人公の死亡率は逆に最低の4.8%へ沈む。主人公を生かしたまま内面で決着をつける——エヴァ・ウテナ・lainに代表される心理的決着の時代だ。敵役が外的純粋悪から内なる鏡像へ移る<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/003_antagonist_design/">視点003</a>、主題が自己探求へ深化する<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">視点005</a>とも、この実験期は同じ地層を共有している。</p>
+
+<h3>喪失受容への転回——2010年代</h3>
+<p>2010年代最大の変化は、カタルシスの重心が「戦闘勝利／和解」から「喪失受容」へ移ったことにある。喪失受容は2010sで最頻（約3割）に達した。まどマギ・あの花・四月は君の嘘・ヴァイオレット……「敵を倒して終わる」より「失ったものを受け入れて終わる」物語が主流化する。物語のシリアライゼーションが進む<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/004_story_structure/">視点004</a>、主題が喪失と再生へ移る<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">視点005</a>と、この出口側の変化は完全に整合する。</p>
+
+<h3>最も暗い10年——2020年代</h3>
+<p>2020sは明るさ指数が0.59と全期間で最低、バッド比率21%・主人公死亡率21%・非完結率50%がいずれも最高水準に並ぶ。チェンソーマン・推しの子・進撃完結期——「バッド／喪失」系が台頭する一方、続編前提で「区切るが完結しない」終わり方も半数に達した。ただしハッピー基調そのものは崩れていない。増えたバッドの分を中間色（ビター・オープン）の減少が相殺する、両極化が進んでいると見るべきだ。</p>
+
+<h3>誰に向けた物語かが、結末を決める</h3>
+<p>結末の明るさは対象層で急勾配を描く——児童0.86 ＞ 一般0.83 ＞ 少年0.80 ＞ 少女0.72 ＞ 青年0.52。青年向けが突出して暗く、バッド・オープンが集中する。カタルシスも少年＝戦闘勝利、青年＝喪失受容・犠牲・曖昧と分かれ、「誰に向けた物語か」がほぼ結末様式を決定している。対象層を主題に据えた<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/017_target_audience/">視点017</a>とも響き合う構図だ。</p>
+</div>
+
+<h2>他者の論評との照合</h2>
+<div class="views">
+
+<div class="view">
+<p class="who"><span class="wl">評論家</span>東浩紀『動物化するポストモダン』（講談社現代新書, 2001）<span class="stance neu">中立</span></p>
+<p class="vt">「世界の決着」より「自己の決着」——エヴァが開いた内省的な結末</p>
+<p>東は90年代のオタク文化を論じるなかで、エヴァに代表されるセカイ系を「主人公の内面の自意識が世界の危機と直結し、社会的な中間項を省いて自己受容で完結する」構造として整理した。</p>
+<div class="match"><b>照合：</b>本分析でも1990sはオープン（難解）結末が<b>19%で突出</b>し、主人公死亡率は逆に<b>最低（4.8%）</b>——「殺さず内面で終わらせる」という観察と方向が一致する。</div>
+<p class="src">出典：<a href="https://ja.wikipedia.org/wiki/%E3%82%BB%E3%82%AB%E3%82%A4%E7%B3%BB">ja.wikipedia.org「セカイ系」（東浩紀の議論の紹介）</a></p>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">評論家</span>宇野常寛『ゼロ年代の想像力』（早川書房, 2008）<span class="stance cau">留保</span></p>
+<p class="vt">「引きこもり」から「決断主義」へ——2000年代の生存と死</p>
+<p>宇野は90年代の「セカイ系＝引きこもり（動かず内面で完結する）」を批判し、ゼロ年代を『DEATH NOTE』等に代表される「決断主義／サヴァイヴ系（戦い、選び、生き延びる）」と位置づけた。</p>
+<div class="match"><b>照合：</b>本分析の主人公死亡率が<b>1990s 4.8%で底→2000s 19%へ再上昇</b>し、戦闘・犠牲・曖昧な死が物語の核に戻るという推移は、宇野の世代区分とよく対応する。</div>
+<p class="src">出典：<a href="https://www.kinokuniya.co.jp/f/dsg-01-9784152089410">紀伊國屋書店『ゼロ年代の想像力』書誌</a></p>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">アニメ評論家</span>藤津亮太（リアルサウンド インタビュー, 2019）<span class="stance sup">同方向</span></p>
+<p class="vt">2010年代アニメと「ループ・喪失」への関心</p>
+<p>藤津は2010年代アニメ評論をまとめるにあたり、まどマギに始まるループ構造や喪失を扱う作品群を、「回答を作品の中に探していく」時代として論じた。</p>
+<div class="match"><b>照合：</b>本分析でも喪失受容カタルシスは<b>2010sで最頻（約3割）</b>に達し、まどマギ・あの花がその象徴という結果と符合する。</div>
+<p class="src">出典：<a href="https://realsound.jp/book/2019/10/post-428068.html">realsound.jp「藤津亮太が語る、2010年代のアニメ評論」</a></p>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">ライター</span>海燕（note, 2020年代）<span class="stance cau">留保</span></p>
+<p class="vt">『推しの子』は「メリーバッドエンド」か——2020年代の暗い決着</p>
+<p>海燕は『推しの子』の結末を、主人公アクアの自己犠牲的な死ゆえに「バッドエンド」と映る一方、他の人物は最後に前を向いて歩き出すため「メリーバッドエンド」とも読めると再考した。</p>
+<div class="match"><b>照合：</b>本分析でも2020sは<b>バッド比率21%・主人公死亡率21%</b>といずれも最高水準で、「暗い決着」と「それでも前を向く余地」が同居する両極化と整合する。</div>
+<p class="src">出典：<a href="https://note.com/kaien/n/na7c87003420a">note.com／海燕「『推しの子』はほんとうにひどい結末だったのか？」</a></p>
+</div>
+
 </div>
 
 <div class="card"><h2>作品一覧（クリックで並べ替え・絞り込み可）</h2>
@@ -75,7 +200,7 @@ canvas{max-height:320px}
  対象層:<select id="fDemo"><option value="">全て</option><option>児童</option><option>少年</option><option>少女</option><option>青年</option><option>一般</option></select>
  検索:<input id="fText" placeholder="作品名">
 </div>
-<table id="tbl"><thead><tr><th data-k="title">作品</th><th data-k="year">年</th><th data-k="type">種別</th><th data-k="demographic">対象層</th><th data-k="tone">トーン</th><th data-k="fate">生死</th><th data-k="cat">カタルシス</th><th data-k="fin">完結性</th></tr></thead><tbody></tbody></table>
+<div class="tablewrap"><table id="tbl"><thead><tr><th data-k="title">作品</th><th data-k="year">年</th><th data-k="type">種別</th><th data-k="demographic">対象層</th><th data-k="tone">トーン</th><th data-k="fate">生死</th><th data-k="cat">カタルシス</th><th data-k="fin">完結性</th></tr></thead><tbody></tbody></table></div>
 </div>
 
 <div class="sub">手法: 著名作の結末は周知の安定情報のため知識ベースでコード化(各値にbasis/confidence付)。confidence分布は下表。数値は出典/根拠ベースで捏造なし。2020sはn=14とやや薄く暫定。</div>
@@ -110,7 +235,7 @@ const demoK=Object.keys(S.tone_by_demographic);
 new Chart(cDemo,{type:"bar",data:{labels:demoK,datasets:[{label:"明るさ指数",data:demoK.map(k=>S.tone_by_demographic[k].brightness),backgroundColor:demoK.map((k,i)=>[COL.g2,COL.g1,COL.g7,COL.bad,COL.g4][i])}]},options:{indexAxis:"y",scales:{x:{min:0,max:1}},plugins:{legend:{display:false}}}});
 
 const dist=S.dist_catharsis_type;
-new Chart(cDist,{type:"doughnut",data:{labels:Object.keys(dist),datasets:[{data:Object.values(dist),backgroundColor:[COL.g1,COL.g2,COL.g3,COL.g4,COL.g5,COL.g6,COL.g7]}]},options:{plugins:{legend:{position:"right"},title:{display:true,text:"カタルシスの型(全体)"}}}});
+(function(){var keys=Object.keys(dist).sort(function(a,b){return dist[b]-dist[a];});var tot=keys.reduce(function(a,k){return a+dist[k];},0);var PAL=["#5cc8ff","#ffd166","#7ef0a2","#ff8fb1","#b79cff","#ff8c66","#6ea8fe","#c0ca33","#9aa7b5"];new Chart(cDist,{type:"bar",data:{labels:keys,datasets:[{label:"作品数",data:keys.map(function(k){return dist[k];}),backgroundColor:keys.map(function(k,i){return PAL[i%PAL.length];}),borderRadius:3,maxBarThickness:28}]},options:{indexAxis:"y",layout:{padding:{right:64}},plugins:{legend:{display:false},title:{display:true,text:"カタルシスの型（全体）"},datalabels:{anchor:"end",align:"end",clamp:true,color:"#5b554a",font:{size:11,weight:"700"},formatter:function(v){return v+"（"+Math.round(100*v/tot)+"%）";}}},scales:{x:{beginAtZero:true,grace:"15%",ticks:{precision:0}},y:{ticks:{font:{size:12}}}}},plugins:[ChartDataLabels]});})();
 
 // table
 const tcls={"ハッピー":"t-h","ビター":"t-b","バッド":"t-x","オープン":"t-o"};

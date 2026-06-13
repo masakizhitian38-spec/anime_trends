@@ -2,39 +2,71 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>視点018 評価・受賞 — アニメ統計分析</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1116;--card:#181b22;--card2:#1f232c;--ink:#e8eaed;--sub:#9aa0aa;--line:#2c313b;
---c1:#6ea8fe;--c2:#ffb454;--c3:#7ee0a3;--c4:#ff8a8a;--c5:#c8a2ff;--c6:#5fd0d0;--accent:#ffd166;}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;line-height:1.7}
-.wrap{max-width:1120px;margin:0 auto;padding:28px 20px 80px}
-h1{font-size:25px;margin:0 0 6px}h2{font-size:19px;margin:38px 0 12px;border-left:4px solid var(--accent);padding-left:10px}
-h3{font-size:15px;margin:22px 0 8px;color:var(--accent)}
-.lead{color:var(--sub);font-size:14px}
-.warn{background:#3a2a16;border:1px solid #6b4a1f;border-radius:10px;padding:13px 16px;margin:16px 0;font-size:13.5px}
-.grid{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}
-@media(max-width:820px){.g2,.g3{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-.card h4{margin:0 0 10px;font-size:14px;color:var(--ink)}
-canvas{max-height:300px}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
-@media(max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}}
-.kpi{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:12px}
-.kpi .n{font-size:22px;font-weight:700;color:var(--accent)}.kpi .l{font-size:11.5px;color:var(--sub)}
-p{font-size:14px}.note{font-size:12.5px;color:var(--sub)}
-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
-th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
-th{color:var(--sub);cursor:pointer;position:sticky;top:0;background:var(--card)}
-.tbox{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:10px}
-.controls{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-select,input{background:var(--card2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 9px;font-size:13px}
-.tag{display:inline-block;padding:1px 7px;border-radius:20px;font-size:11px;border:1px solid var(--line)}
-.quote{background:var(--card2);border:1px solid var(--line);border-left:3px solid var(--c1);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:13px}
-.quote .src{display:block;margin-top:6px;font-size:11.5px}
-.quote a{color:var(--c1);text-decoration:none}
-.pro{border-left-color:var(--c3)}.con{border-left-color:var(--c4)}
-ul{font-size:14px}
-</style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/018_evaluation_awards/">
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub,.lead{color:var(--mut);font-size:13px;margin:0 0 18px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+h4{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 8px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2,.g3{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:300px}
+.card:has(canvas) h3,.card:has(canvas) h4{flex:0 0 auto}
+.card:has(canvas) .note{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:230px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v,.kpi .n{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%!important;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13px;color:#43331f;max-width:none}
+.warn{background:#f7ece6;border:1px solid #e6cdbf;border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:none}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
+</style>
+<link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/018_evaluation_awards/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="日本アニメ 変遷データベース">
@@ -50,62 +82,124 @@ ul{font-size:14px}
 <div class="warn"><b>⚠ 選定バイアスの明示（最重要）：</b>本サンプルは「評価を語れる著名作」を集めているため、137作に<b>低評価作は1作もない</b>（絶賛41／高評価70／中程度21／賛否5）。<b>受賞率・平均スコア・絶賛率の絶対値は信用できない。</b>読み取るのは(a)評価の「型」の相対的年代変化と、(b)賞・スコア・興行という複数の物差しの<b>互いの食い違い</b>のみ。</div>
 
 <div class="kpis">
-<div class="kpi"><div class="n">137</div><div class="l">分析作品数（1960s–2020s）</div></div>
-<div class="kpi"><div class="n">7.08→8.41</div><div class="l">平均MAL（年代上昇は測定アーティファクト）</div></div>
-<div class="kpi"><div class="n">71%</div><div class="l">2020s受賞率（賞の数の増加が主因）</div></div>
-<div class="kpi"><div class="n">4系統</div><div class="l">互いに相関しない報酬系（映画祭/国内賞/スコア/投票賞）</div></div>
+<div class="kpi"><div class="v">137</div><div class="l">分析作品数（1960s–2020s）</div></div>
+<div class="kpi"><div class="v">7.08→8.41</div><div class="l">平均MAL（年代上昇は測定アーティファクト）</div></div>
+<div class="kpi"><div class="v">71%</div><div class="l">2020s受賞率（賞の数の増加が主因）</div></div>
+<div class="kpi"><div class="v">4系統</div><div class="l">互いに相関しない報酬系（映画祭/国内賞/スコア/投票賞）</div></div>
 </div>
+
+
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">この視点が描くのは「アニメが年々高評価になった」物語ではない。<b>評価という営みが、少数の批評家・映画祭による事後の権威づけから、世界中の観客による即時・大量のスコアリングと人気投票へと、担い手も仕組みごと組み替わった</b>物語である。</p>
+<ul class="tldr-list">
+<li><b>絶対値は読むな。</b> 著名作だけを集めた標本のため137作に「低評価」はゼロ。受賞率も平均スコアも絶賛率も<b>絶対値は信用できない</b>。読めるのは型の年代変化と、物差し同士の食い違いだけ。</li>
+<li><b>勝者が食い違う4つの報酬系。</b> 映画祭の権威／国内主要賞／ファンスコア(MAL)／投票賞は互いにほとんど相関しない。映画祭が頂く宮崎・今敏作品はMALで中の上、MAL最上位のTV作はアカデミーと無縁。</li>
+<li><b>MALの右肩上がりは測定の罠。</b> 7.08→8.41の上昇は質の向上でなく、新作を現役ファンが即採点するリセンシーバイアスと、旧作を遡って観る好事家の自己選別の合成物。</li>
+<li><b>受賞率2020s爆発(71%)＝賞が増えただけ、しかし。</b> Crunchyroll Anime Awards(2017創設)がTVシリーズを表彰する新制度として、映画中心の旧制度の空隙を埋めた。評価の民主化は権威の希薄化と同時に進む。</li>
+<li><b>「両立」定着でも「批評先行」は死なない。</b> 売れたが批評は中庸という型は半減し両立が6割で定着。だが初動を外して後から再評価される回路は青年向けに残り続ける。</li>
+</ul>
+</div>
+<h2>具体例 — 評価の「型」を代表作と場面で</h2>
+<p class="mut">この視点の主役は作品でなく「物差し」だが、型の手触りは具体例が一番わかる。引用は短くとどめ、作品名・年・話者/出典を併記した。</p>
+<div class="ex"><h3>批評先行 — 初動を外し、時間と海を越えて評価される</h3>
+<p>『機動戦士ガンダム』(1979)は視聴率不振で打ち切られ、再放送と劇場版で社会現象になった。各話予告の決め台詞は、いま思えば作品そのものの運命を言い当てていた。</p>
+<blockquote class="quote">君は、生き延びることができるか。<span class="qby">— 次回予告の決め台詞／『機動戦士ガンダム』(1979)</span></blockquote>
+<p>『カウボーイビバップ』(1998)は国内では地味な評価ながら海外で絶大な支持を得た。毎話を「SEE YOU SPACE COWBOY…」で締めた本作は、最終話だけ言葉を変える。</p>
+<blockquote class="quote">YOU'RE GONNA CARRY THAT WEIGHT.（お前はその重さを背負って生きていく）<span class="qby">— 最終話エンドカード／『カウボーイビバップ』(1998)</span></blockquote></div>
+<div class="ex"><h3>両立 — 賞・興行・スコアが珍しく一致した頂点</h3>
+<p>『千と千尋の神隠し』(2001)は日本映画初のアカデミー長編アニメ賞、ベルリン国際映画祭金熊賞、興収歴代記録を同時に達成した。4つの物差しが例外的に同じ作品を指した、稀な「両立」の極北である。</p>
+<blockquote class="quote">一度あったことは忘れないものさ。思い出せないだけで。<span class="qby">— 銭婆／『千と千尋の神隠し』(2001)</span></blockquote></div>
+<div class="ex"><h3>殿堂ほど賛否を呼ぶ — 評価の定着は満場一致ではない</h3>
+<p>『新世紀エヴァンゲリオン』(1995)は「90年代唯一の後世に残したい作品」と評される一方、「過大評価」という否定論も根強い。最も殿堂化した作品ほど、最も論争的でもある。第壱話、主人公が自らを奮い立たせる台詞は、後年これほど賛否を呼ぶ作品の象徴になった。</p>
+<blockquote class="quote">逃げちゃダメだ、逃げちゃダメだ、逃げちゃダメだ。<span class="qby">— 碇シンジ／『新世紀エヴァンゲリオン』第壱話(1995)</span></blockquote></div>
 
 <h2>1. 評価の物差しは複数あり、勝者が食い違う</h2>
 <div class="grid g2">
-<div class="card"><h4>賞種別の平均MALスコア — 映画祭の栄誉ほどMALは低い</h4><canvas id="malByTier"></canvas>
+<div class="card"><h4>賞種別の平均MALスコア — 映画祭の栄誉ほどMALは低い</h4><div class="cbox"><canvas id="malByTier"></canvas></div>
 <p class="note">業界ファン賞(8.55)＞国内主要賞(8.24)＞国際的栄誉(8.08)＞受賞なし(7.89)。ファン投票賞が最もMAL高得点と一致し、アカデミー/映画祭が栄誉を与える芸術映画はMALでは中の上に沈む。</p></div>
-<div class="card"><h4>評価と商業の一致度別の平均MAL</h4><canvas id="malByAlign"></canvas>
+<div class="card"><h4>評価と商業の一致度別の平均MAL</h4><div class="cbox"><canvas id="malByAlign"></canvas></div>
 <p class="note">両立8.22＞批評先行8.08＞商業先行7.51。「売れたが批評は中庸」群がスコアでも明確に低い。</p></div>
 </div>
 
 <h2>2. MALスコアの「右肩上がり」——信じてはいけない単調上昇</h2>
-<div class="card"><canvas id="malByDecade"></canvas>
-<p class="note">平均MALは7.08→8.41と単調上昇。だが<b>これは質の向上ではなくMALの測定バイアス</b>：新作は現役ファンが熱量込みで即採点（リセンシーバイアス）、旧作を今採点するのは好意的な好事家（生存バイアス）。「評価＝即時・グローバル大量採点」へ移行した測定環境の変化を映す（run#14 SNS自走/run#15 同時配信と同根）。</p></div>
+<div class="card"><div class="cbox"><canvas id="malByDecade"></canvas></div>
+<p class="note">平均MALは7.08→8.41と単調上昇。だが<b>これは質の向上ではなくMALの測定バイアス</b>：新作は現役ファンが熱量込みで即採点（リセンシーバイアス）、旧作を今採点するのは好意的な好事家（生存バイアス）。「評価＝即時・グローバル大量採点」へ移行した測定環境の変化を映す（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/014_marketing_promotion/">関連分析</a> SNS自走/<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/015_distribution_overseas/">関連分析</a> 同時配信と同根）。</p></div>
 
 <h2>3. 受賞率の爆発と賞の器の世代交代</h2>
 <div class="grid g2">
-<div class="card"><h4>年代別 受賞率と国際的栄誉シェア</h4><canvas id="awardShare"></canvas>
+<div class="card"><h4>年代別 受賞率と国際的栄誉シェア</h4><div class="cbox"><canvas id="awardShare"></canvas></div>
 <p class="note">受賞率は2020s 71%へ跳躍——作品が偉くなったのでなく<b>賞の数が増えた</b>（Crunchyroll Anime Awards 2017創設）。国際栄誉は2000sピーク（千と千尋〜今敏〜ジブリの劇場国際評価黄金期）。</p></div>
-<div class="card"><h4>受賞の場は「劇場」に偏在（type×受賞種）</h4><canvas id="tierByType"></canvas>
+<div class="card"><h4>受賞の場は「劇場」に偏在（type×受賞種）</h4><div class="cbox"><canvas id="tierByType"></canvas></div>
 <p class="note">劇場は96%が受賞、TVの<b>76%は無冠</b>。旧来の権威ある賞が「映画」単位で設計され、深夜TVシリーズ（2010s主戦場）を構造的に締め出してきた空隙を、ファン投票賞が埋めた。</p></div>
 </div>
 
 <h2>4. 評価と商業の一致度の変遷 — 「両立」の定着と「批評先行」の不滅</h2>
 <div class="grid g2">
-<div class="card"><h4>一致度シェア×年代（100%積み上げ）</h4><canvas id="alignStack"></canvas>
-<p class="note">商業先行36%→12%へ半減、両立が2000s以降6割で定着＝「アニメ＝原作の広告」化（run#13）＋製作委員会・1クール化（run#12）で初動から評価が保証される構造。だが<b>批評先行（初動不振→後年評価）は2割台で粘り、2020sで29%へ戻る</b>。</p></div>
-<div class="card"><h4>批評先行率×対象層 — 青年向けに集中</h4><canvas id="alignByDemo"></canvas>
-<p class="note">「初動を外して後から再評価」は青年向け深夜帯に集中（run#16の独立再現）。一般向けは商業先行0%＝最初から両立か批評先行。</p></div>
+<div class="card"><h4>一致度シェア×年代（100%積み上げ）</h4><div class="cbox"><canvas id="alignStack"></canvas></div>
+<p class="note">商業先行36%→12%へ半減、両立が2000s以降6割で定着＝「アニメ＝原作の広告」化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/013_source_mediamix/">関連分析</a>）＋製作委員会・1クール化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/012_broadcast_format/">関連分析</a>）で初動から評価が保証される構造。だが<b>批評先行（初動不振→後年評価）は2割台で粘り、2020sで29%へ戻る</b>。</p></div>
+<div class="card"><h4>批評先行率×対象層 — 青年向けに集中</h4><div class="cbox"><canvas id="alignByDemo"></canvas></div>
+<p class="note">「初動を外して後から再評価」は青年向け深夜帯に集中（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">関連分析</a>の独立再現）。一般向けは商業先行0%＝最初から両立か批評先行。</p></div>
 </div>
 
 <h2>5. 「殿堂」シェアの低下＝時間バイアス</h2>
-<div class="card"><canvas id="legacyStack"></canvas>
-<p class="note">殿堂シェアは70s–80s 6割超→2020s 12%。近年作の質が落ちたのでなく、<b>殿堂化には数十年の歴史的選別＝時間が要る</b>（run#13の累積/生存バイアスと同型）。カルトは80s以降に出現（黎明期に「カルト」という受容形態が無かった）。</p></div>
+<div class="card"><div class="cbox"><canvas id="legacyStack"></canvas></div>
+<p class="note">殿堂シェアは70s–80s 6割超→2020s 12%。近年作の質が落ちたのでなく、<b>殿堂化には数十年の歴史的選別＝時間が要る</b>（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/013_source_mediamix/">関連分析</a>の累積/生存バイアスと同型）。カルトは80s以降に出現（黎明期に「カルト」という受容形態が無かった）。</p></div>
 
-<h2>6. 考察（最重要）</h2>
-<p>この視点が測るのは「作品が何を描いたか」でなく<b>「誰がどんな物差しで評価し、その物差し自体がどう変わったか」</b>。最大の発見は、アニメの評価に<b>少なくとも4つの相互に独立な報酬系</b>（①映画祭・アカデミー権威 ②国内主要賞 ③ファンスコア集計 ④業界・ファン投票賞）が併存し、勝者が食い違うこと。映画祭が頂点を与える宮崎・今敏作品はMALで8.0前後、MAL最上位の『鋼錬FA』9.1/『シュタゲ』9.0/『フリーレン』9.3はアカデミーと無縁のTV作。<b>「最高傑作は何か」に賞・スコア・興行はそれぞれ別の作品を指す。</b></p>
-<p><b>受賞率2020s爆発</b>は賞の数の増加（Crunchyroll 2017〜）が主因だが、それ以上に「映画を表彰する旧制度→TV・配信シリーズをグローバルに表彰する新制度」への<b>評価インフラの世代交代</b>を意味する。ただし新制度は人気・鮮度バイアスで質と乖離し（ソロ・レベリング9冠 vs フリーレン/薬屋）、現地正統性も薄い。<b>評価の民主化は権威の希薄化と同時進行する</b>（run#16「成功の単一指標の消滅」の評価版）。</p>
-<p><b>「両立」定着（2000s〜）</b>は、収益源が玩具(物質)→原作・円盤・配信(コンテンツ)へ川上遡上した産業メタ潮流（run#13/#14/#15/#16）の評価面の現れ。原作で実証済みの物語を高作画で再生する構造は初動から批評と商業がズレにくい。<b>だが批評先行は死なない</b>——評価は公開時に確定せず時間（再放送）と空間（SNS・海外配信）で動き続ける（ガンダム/AKIRA/ビバップ→宇宙よりも遠い場所のNYTimes年間ベスト）。<b>そして殿堂ほど「過大評価」反論を呼ぶ</b>（エヴァ）：評価の定着とは賛否の消滅でなく「賛否を含んだまま参照点になる」こと。</p>
+<h2 class="h2-essay">6. 考察 — なぜ「評価」はこう組み替わったのか</h2>
+<div class="essay">
+<p class="thesis">本視点が測るのは「作品が何を描いたか」ではなく、「誰がどんな物差しで評価し、その物差し自体がどう変わったか」である。最大の発見は、アニメの評価に少なくとも4つの相互に独立な報酬系が併存し、勝者が食い違うこと——「最高傑作は何か」に、賞・スコア・興行はそれぞれ別の作品を指さす。</p>
+<h3>勝者が食い違う4つの報酬系</h3>
+<p>映画祭・アカデミーの権威、国内主要賞、ファンスコアの集計(MAL)、業界・ファン投票賞——この4つは互いにほとんど相関しない。映画祭が頂点を与える宮崎駿・今敏の作品はMALでは8.0前後の「中の上」に沈み、逆にMAL最上位の『鋼の錬金術師FA』『STEINS;GATE』『葬送のフリーレン』はアカデミーや文化庁大賞とは無縁のTVシリーズだ。これは欠陥ではなく、アニメが映画・TV・配信・玩具・原作販促という複数の産業基盤にまたがって育った歴史の必然である。</p>
+<h3>MALの「右肩上がり」を信じてはいけない</h3>
+<p>平均MALの単調上昇(7.08→8.41)は、本視点で最も注意を要する罠だ。MALは新作を放送と同時に現役ファンが熱量込みで採点する（リセンシーバイアス）一方、1970sの旧作を今あえて遡って観て採点するのは、初めから好意的な好事家である。それでも旧作スコアが低いのは、当時の技術が現代の目に粗く映る・ライト層が薄く中央回帰しにくい・海外母集団に文脈が伝わりにくい、といった測定器側の事情による。正しい読みは「質が右肩上がり」ではなく、評価が「事後・少数の批評家」から「即時・万人のスコアリング」へ移ったという測定環境の変化——<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/015_distribution_overseas/">同時配信の離陸</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/014_marketing_promotion/">SNS自走バズ</a>と同根の、評価側の現れである。</p>
+<h3>受賞率2020s爆発の正体 — 賞が増えた、しかし器が代わった</h3>
+<p>受賞率71%も額面通りには読めない。作品が偉くなったのでなく、表彰する側の器が増えた。とりわけ2017年のCrunchyroll Anime Awards創設が決定的だ。それ以前の権威ある賞は映画祭・アカデミー・日本アカデミーと「映画」単位に設計され、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/012_broadcast_format/">2000s以降の主戦場である深夜TVシリーズ</a>の76%は構造的に無冠だった。この空隙をファン投票賞が埋めた——単なる賞インフレでなく「映画を表彰する旧制度」から「TV・配信シリーズをグローバルに表彰する新制度」への評価インフラの世代交代である。ただしその新制度は人気・鮮度バイアスで質と乖離し（2025年AOTYはソロ・レベリングで、フリーレン/薬屋を抑えた）、現地正統性も薄い。評価の民主化は権威の希薄化と同時に進む——<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">成功の単一指標の消滅</a>の評価版だ。</p>
+<h3>「両立」定着の産業的因果 — アニメが「原作の広告」になった帰結</h3>
+<p>「売れたが批評は中庸」という商業先行が36%→12%へ半減し、両立が2000s以降6割で定着するのは、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/013_source_mediamix/">アニメ＝原作の広告化</a>と因果的に符合する。製作委員会方式と1クール化の下で、アニメは原作既存ファンの評価が初動から保証された状態で作られるようになった。原作で実証済みの物語を高い作画で「再生」する構造は、初動から批評と商業がズレにくい。逆に1960s–80sに商業先行（玩具は売れたが批評は中庸：マジンガー/聖闘士星矢/らき☆すた）が厚かったのは、アニメが玩具・スポンサー広告として作られ、物語評価が二次的だった時代を映す。</p>
+<h3>しかし「批評先行」は死なない</h3>
+<p>注目すべきは、両立が定着しても批評先行が2割台で粘り、2020sでむしろ29%へ戻ることだ。そしてこれは青年向け深夜帯に集中する（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/017_target_audience/">視聴の個人化と青年向け深夜</a>の構造の評価版）。『ガンダム』(打ち切り→社会現象)、『AKIRA』『カウボーイビバップ』(国内地味→海外で絶大評価)が示すように、評価は公開時に確定せず、時間（再放送）と空間（SNS・海外配信）の中で動き続ける。配信・SNSは「初動で見落とされた作品が後から再発見される」回路をむしろ拡張した（『宇宙よりも遠い場所』のNYTimes年間ベスト入り＝海外批評からの逆照射）。この評価の重層化は、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">物語テーマの深化</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/009_violence_morality/">善悪の灰色化</a>とも足並みをそろえる。</p>
+<h3>留保 — 何を読み、何を読まないか</h3>
+<p>最大の留保は選定バイアスだ。低評価作ゼロの標本では、受賞率も絶賛率も平均スコアも絶対値は無効で、相対変化だけを読む。加えてMAL自体が偏った測定器であり、作品を1メディア・1時点で固定コード化しているため、評価の動態（TV不振→映画成功のチェンソーマン等）を1行に畳み込めていない。「両立定着＝原作広告化」も産業構造との符合であって、因果の一意な証明ではない。</p>
+</div>
 
-<h2>7. 他者の論評（賛否両論・出典付き）</h2>
-<div class="grid g2">
-<div class="card"><h3>A. 「賞」は質を測れるか</h3>
-<div class="quote con">クランチロール・アニメアワードは創設以来「質でなく人気投票」と批判。2025年はソロ・レベリングが直近(recency)バイアスで9冠、批評的高評価のフリーレン/薬屋を抑えた。<span class="src"><a href="https://animehunch.com/a-letter-to-crunchyroll-the-anime-awards-are-reflecting-popularity-over-merit/">Animehunch: Popularity Over Merit</a> ／ <a href="https://screenrant.com/crunchyroll-anime-year-award-solo-leveling-season-2-not-nominated/">ScreenRant</a></span></div>
-<div class="quote con">編集長自ら「日本では誰も存在を知らない」と認め、賞の国際性と現地正統性の乖離が露呈。<span class="src"><a href="https://www.cbr.com/crunchyroll-anime-awards-japan-problem-reveal/">CBR: Japan Problem</a></span></div></div>
-<div class="card"><h3>B. 「スコア」は信頼できるか</h3>
-<div class="quote con">MALはリセンシーバイアス（新作が完結前でも高順位）と中央回帰（人気作はライト層で平均が中央へ）を抱え、人気とスコアの相関は弱く平均が二極化を覆い隠す。<span class="src"><a href="https://animewordle.com/blog/anime-score-popularity-explained.html">Anime Wordle: Score vs Popularity</a></span></div></div>
-<div class="card"><h3>C. 国際的栄誉の権威と国内の温度差</h3>
-<div class="quote pro">『千と千尋』(2003)は日本映画初のオスカー長編アニメ賞、『君たちはどう生きるか』(2024)で21年ぶり2度目。芸術的権威の頂点。<span class="src"><a href="https://www.cinematoday.jp/news/N0141800">シネマトゥデイ</a> ／ <a href="https://www.cnn.co.jp/showbiz/35216518.html">CNN.co.jp</a></span></div>
-<div class="quote con">だが『君たちは…』はオスカーの一方、国内では「『千と千尋』ほどインパクトない」「海外の人わかったの？」と温度差、興行も“100億円の壁”。賞の権威≠国内大衆評価。<span class="src"><a href="https://www.jprime.jp/articles/-/31203">週刊女性PRIME</a></span></div></div>
-<div class="card"><h3>D/E. 評価と商業の収束/乖離・後年再評価</h3>
-<div class="quote pro">チェンソーマンはTV版が円盤不振・賛否だったが、劇場版レゼ篇(2025)はRotten Tomatoes批評96%/世界興収$108M超で収束。同一作でもメディア・時点で評価像が反転。<span class="src"><a href="https://deadline.com/2025/10/chainsaw-man-one-battle-tron-global-international-box-office-1236598124/">Deadline</a> ／ <a href="https://www.hollywoodreporter.com/movies/movie-news/chainsaw-man-movie-box-office-surprise-win-1236409559/">Hollywood Reporter</a></span></div>
-<div class="quote con">エヴァは「90年代唯一の後世に残したい作品」（日経）の一方、「社会性とストーリー性の欠如」「なぜ過大評価されるのか」の否定論も根強い。殿堂ほど賛否が二極化。<span class="src"><a href="https://www.nikkei.com/article/DGXNASFK03018_T00C14A3000000/">日本経済新聞</a> ／ <a href="https://note.com/tobita_kaoru/n/n6c4f354e10f1">note/飛田カオル</a> ／ <a href="https://indoorvod.com/ggundamreview/">Gガンダム再評価</a></span></div></div>
+<h2>7. 研究者・批評家の見方 — データとの照合</h2>
+<p class="mut">「誰が」「何を」述べ、本分析の傾向と一致するか／留保が要るかを示す。賛否は色で示した。</p>
+<div class="views">
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>Animehunch</b>／<b>CBR</b>（Crunchyroll Anime Awards 批評）</p>
+<div class="vt">「賞」は質を測れるか <span class="stance cau">批判</span></div>
+<p>Crunchyroll Anime Awardsは創設以来「質でなく人気投票」と批判される。2025年は『俺だけレベルアップな件（ソロ・レベリング）』が直近(recency)バイアスでアニメ・オブ・ザ・イヤーを獲り、批評的高評価の『葬送のフリーレン』『薬屋のひとりごと』を抑えた。編集長自ら「日本では誰も存在を知らない」と認め、賞の国際性と現地正統性の乖離が露呈した。</p>
+<div class="match"><b>データとの照合：</b>受賞率2020s爆発を「賞の数の増加＋人気・鮮度バイアス」と読む本分析（§3・§6）と一致する。</div>
+<p class="src">出典: <a href="https://animehunch.com/a-letter-to-crunchyroll-the-anime-awards-are-reflecting-popularity-over-merit/">Animehunch</a> ／ <a href="https://www.cbr.com/crunchyroll-anime-awards-japan-problem-reveal/">CBR</a></p></div>
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>Anime Wordle</b>（スコア分析）</p>
+<div class="vt">「スコア」は信頼できるか <span class="stance cau">批判</span></div>
+<p>MALはリセンシーバイアス（新作が完結前でも高順位に来る）と中央回帰（人気作はライト層の流入で平均が中央へ寄る）を抱え、人気とスコアの相関は弱い。平均値は二極化を覆い隠してしまう。</p>
+<div class="match"><b>データとの照合：</b>「平均MALの右肩上がりは質の向上でなく測定アーティファクト」という§2・§6の読みを直接裏づける。</div>
+<p class="src">出典: <a href="https://animewordle.com/blog/anime-score-popularity-explained.html">Anime Wordle: Score vs Popularity</a></p></div>
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>シネマトゥデイ</b>／<b>CNN.co.jp</b>／<b>週刊女性PRIME</b></p>
+<div class="vt">国際的栄誉の権威と国内の温度差 <span class="stance neu">論点の併存</span></div>
+<p>『千と千尋』(2003)は日本映画初のオスカー長編アニメ賞、『君たちはどう生きるか』(2024)で21年ぶり2度目——芸術的権威の頂点だ。だが『君たちは…』は国内では「『千と千尋』ほどインパクトない」と温度差があり、興行も“100億円の壁”に届かなかった。賞の権威は国内大衆評価と別物である。</p>
+<div class="match"><b>データとの照合：</b>「国際的栄誉」と国内評価が独立な物差しであるという§1の核心（4報酬系）の直接証拠。</div>
+<p class="src">出典: <a href="https://www.cinematoday.jp/news/N0141800">シネマトゥデイ</a> ／ <a href="https://www.cnn.co.jp/showbiz/35216518.html">CNN.co.jp</a> ／ <a href="https://www.jprime.jp/articles/-/31203">週刊女性PRIME</a></p></div>
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>Deadline</b>／<b>The Hollywood Reporter</b>（『チェンソーマン』劇場版）</p>
+<div class="vt">評価と商業は同一作でも反転する <span class="stance sup">支持（留保つき）</span></div>
+<p>『チェンソーマン』はTV版(2022)が円盤不振・演出賛否だったが、劇場版レゼ篇(2025)はRotten Tomatoes批評96%・世界興収$108M超で「収束」した。同一フランチャイズでもメディア（TV/劇場）と時点で評価像が反転する。</p>
+<div class="match"><b>データとの照合：</b>本data.jsonがTV版を「批評先行・賛否両論」と1時点で固定コード化した限界（§6留保）を例証し、「評価は確定せず動く」という主張を補強する。</div>
+<p class="src">出典: <a href="https://deadline.com/2025/10/chainsaw-man-one-battle-tron-global-international-box-office-1236598124/">Deadline</a> ／ <a href="https://www.hollywoodreporter.com/movies/movie-news/chainsaw-man-movie-box-office-surprise-win-1236409559/">Hollywood Reporter</a></p></div>
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>日本経済新聞</b>／<b>note（飛田カオル）</b></p>
+<div class="vt">殿堂ほど「過大評価」反論を呼ぶ <span class="stance neu">論点の併存</span></div>
+<p>『エヴァンゲリオン』は「90年代唯一の後世に残したい作品」（日経）と評される一方、「社会性とストーリー性の欠如」「なぜこれほど過大評価されるのか」という否定論も根強い。殿堂作品ほど多様な層が触れ、絶賛と酷評の両極へ票が割れる。</p>
+<div class="match"><b>データとの照合：</b>「評価の定着＝賛否の消滅ではなく、賛否を含んだまま参照点になること」という§6の読みと一致。</div>
+<p class="src">出典: <a href="https://www.nikkei.com/article/DGXNASFK03018_T00C14A3000000/">日本経済新聞</a> ／ <a href="https://note.com/tobita_kaoru/n/n6c4f354e10f1">note/飛田カオル</a></p></div>
+<div class="view">
+<p class="who"><span class="wl">自己点検</span>本分析（筆者）</p>
+<div class="vt">選定バイアスと相関≠因果 <span class="stance neu">留保</span></div>
+<p>「評価・受賞を語れる著名作」を選んだ時点で、評価の絶対水準は天井に張り付く（低評価ゼロ）。だから絶対値でなく、年代間の相対変化と物差し同士の食い違いだけを読む。MALという単一スコアへの依存、1メディア・1時点での固定コード化も限界として明記する。</p></div>
 </div>
 
 <h2>8. 作品リスト（全137作・ソート/絞り込み可）</h2>

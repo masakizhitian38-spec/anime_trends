@@ -2,41 +2,68 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>視点021 変遷上の位置づけ</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1320;--card:#1a2032;--ink:#e8ecf6;--mut:#9aa6c4;--ac:#5b9cff;--ac2:#ffb454;--ac3:#7ee0a0;--ac4:#ff7a9c;--bd:#2a3350;--pro:#1f3a2a;--con:#3a2030;}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;line-height:1.7}
-.wrap{max-width:1080px;margin:0 auto;padding:28px 18px 80px}
-h1{font-size:25px;margin:0 0 4px}h2{font-size:19px;margin:34px 0 12px;border-left:5px solid var(--ac);padding-left:10px}
-h3{font-size:16px;color:var(--ac2);margin:20px 0 6px}
-.sub{color:var(--mut);font-size:14px;margin-bottom:8px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px 18px;margin:14px 0}
-.warn{background:#2a1d1d;border:1px solid #5a3a3a;border-radius:12px;padding:14px 18px;margin:14px 0;font-size:14px}
-.warn b{color:var(--ac4)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}}
-canvas{background:#121726;border-radius:8px;padding:6px}
-.kpi{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
-.kpi div{background:#121726;border:1px solid var(--bd);border-radius:10px;padding:8px 12px;font-size:13px;min-width:120px}
-.kpi b{display:block;font-size:20px;color:var(--ac3)}
-p{font-size:14.5px;color:#d7deef}
-.quotes{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:760px){.quotes{grid-template-columns:1fr}}
-.q{border-radius:10px;padding:12px 14px;font-size:13.5px;border:1px solid var(--bd)}
-.q.pro{background:var(--pro)}.q.con{background:var(--con)}
-.q .src{display:block;margin-top:6px;color:var(--mut);font-size:12px}
-.q a{color:var(--ac)}
-.badge{display:inline-block;font-size:11px;padding:1px 7px;border-radius:20px;margin-right:5px}
-.b-pro{background:#2e7d4f;color:#fff}.b-con{background:#b04a63;color:#fff}
-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px}
-th,td{border-bottom:1px solid var(--bd);padding:6px 7px;text-align:left}
-th{color:var(--ac2);cursor:pointer;position:sticky;top:0;background:var(--card)}
-tr:hover td{background:#19203250}
-.controls{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
-select,input{background:#121726;color:var(--ink);border:1px solid var(--bd);border-radius:7px;padding:5px 9px;font-size:13px}
-.tag{font-size:11px;padding:1px 6px;border-radius:5px;background:#243056}
-.foot{color:var(--mut);font-size:12.5px;margin-top:30px;border-top:1px solid var(--bd);padding-top:14px}
-small{color:var(--mut)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/021_transition_positioning/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -54,50 +81,131 @@ small{color:var(--mut)}
 <div class="warn">
 <b>⚠ 二重のバイアス（必読）</b><br>
 <b>① 選定バイアス</b>：本視点は「変遷史上の位置を語れる作品」を集めるため、<b>時代象徴(53.5%)・起点(32.3%)・系譜創出(34.6%)が極端に過剰代表</b>。絶対分布は信用せず、<b>年代間の“役割の型”の相対変化のみ</b>を読む。<br>
-<b>② 時間による正典化バイアス</b>：起点・系譜創出・時代象徴の認定には数十年の事後選別を要する。<b>2020sの作品はまだ正典化される時間がない</b>。2020sの起点/系譜の低さは「独創の枯渇」でなく一部は測定アーティファクト（run#13/#16/#18と同型）。
+<b>② 時間による正典化バイアス</b>：起点・系譜創出・時代象徴の認定には数十年の事後選別を要する。<b>2020sの作品はまだ正典化される時間がない</b>。2020sの起点/系譜の低さは「独創の枯渇」でなく一部は測定アーティファクト（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/013_source_mediamix/">関連分析</a>/#16/#18と同型）。
 </div>
 
-<div class="kpi">
-<div><b>127</b>作品</div>
-<div><b>53.5%</b>時代象徴(選定バイアス)</div>
-<div><b>0.48</b>起点シェア最高(2010s)</div>
-<div><b>0.60</b>成熟+再興最高(2020s)</div>
-<div><b>0.667</b>技術指数最高(2020s)</div>
-<div><b>1980s</b>landmark/系譜の頂点</div>
+<div class="kpis">
+<div class="kpi"><b>127</b><span>作品（戦後〜2024）</span></div>
+<div class="kpi"><b>53.5%</b><span>時代象徴シェア（選定バイアス込）</span></div>
+<div class="kpi"><b>0.48</b><span>起点シェア最高（2010s）</span></div>
+<div class="kpi"><b>0.60</b><span>成熟＋再興シェア最高（2020s）</span></div>
+<div class="kpi"><b>0.67</b><span>技術指数最高（2020s）</span></div>
+<div class="kpi"><b>1980s</b><span>象徴／系譜の頂点</span></div>
+</div>
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">戦後アニメ史を「各作品が時間軸のどこに立つか（起点か・象徴か・技術転換か）」で測ると、各年代の歴史的役割は<b>創成→確立→再発明→拡散→爆発→成熟・回帰</b>という六段の弧を描く。これは進歩でも衰退でもなく、フロンティアが移ろう成熟過程である。</p>
+<ul class="tldr-list">
+<li><b>創成期(1960s)＝ブランク・スレート</b>：先行者がいないため何もかもが起点になる。起点シェアは高いが「象徴の完成度」はまだ低い。</li>
+<li><b>確立期(1970s–80s)＝型の鋳造</b>：時代象徴・系譜創出・影響がいずれも<b>1980sで頂点</b>。資本と才能の文化的余剰が「後世のテンプレート」を量産した。</li>
+<li><b>再発明期(1990s)＝数より振幅</b>：起点はわずか3作だがセーラームーン・エヴァ・ポケモン。<b>量(少)と歴史的衝撃(大)が乖離</b>する典型。</li>
+<li><b>拡散期(2000s)＝転換点がインフラへ溶ける</b>：デジタル化が業界全体に拡散し「単独の転換点作」が消えて技術大転換シェアが谷になる。</li>
+<li><b>爆発期(2010s)＝新メディアの空白</b>：起点シェアが創成期を超えて最高。配信・SNSという新しい器が新ジャンルの起点を量産した。</li>
+<li><b>成熟・回帰期(2020s)＝磨きと甦り</b>：技術指数だけ最高、起点・系譜は最低。ただし低さは「実体的成熟」と「正典化の未完(時間バイアス)」の合成で、衰退と断ずるのは早計。</li>
+</ul>
+</div>
+
+
+
+<h2>具体例 — 転換点に立った作品と、その一言</h2>
+<div class="ex">
+<p class="mut">各年代の「役割」は、しばしば一本の作品とその一場面に凝縮される。以下はすべて出典で確認できる実在のセリフ・場面である。</p>
+
+<h3>確立期 — リアルロボの起点が放った、戦後アニメ屈指の名台詞（1979）</h3>
+<p>少年が新兵器を駆る英雄譚ではなく、命令と私情の板挟みで軋む等身大の青年。『機動戦士ガンダム』第9話、艦長ブライトに二度頬を張られたアムロ・レイは、こう叫ぶ。</p>
+<blockquote class="quote">「……二度もぶった！　親父にもぶたれたことないのに!!」
+<span class="qby">アムロ・レイ／『機動戦士ガンダム』第9話（1979年）。※「殴ったね、親父にも～」の通俗形は、実際には殴打ごとの離れた台詞を繋いだもの。</span></blockquote>
+<p>巨大ロボットを「兵器」として、搭乗者を「未熟な人間」として描いたこの一言が、スーパーロボットの神話を内側から書き換え、リアルロボットという系譜の起点となった。青年層へ観客を広げた高年齢化の流れ（ヤマト→ガンダム）とも地続きである。</p>
+
+<h3>再発明期 — 「数は少ないが各転換が地震級」を体現する独白（1995）</h3>
+<p>1990sの起点はわずか3作。だがそのうちの一本、『新世紀エヴァンゲリオン』第壱話で、招集された碇シンジが自らに言い聞かせる独白は、深夜・セカイ系・考察文化という後の巨大な潮流の入口になった。</p>
+<blockquote class="quote">「逃げちゃダメだ、逃げちゃダメだ、逃げちゃダメだ……やります。僕が乗ります」
+<span class="qby">碇シンジ／『新世紀エヴァンゲリオン』第壱話「使徒、襲来」（1995年）</span></blockquote>
+<p>父に認められたい欲求と恐怖の間で震える内面の言語化——英雄の決意ではなく葛藤の吐露——が、社会不安(バブル崩壊・1995年)の時代精神と共鳴し、量では測れない歴史的衝撃を残した。</p>
+
+<h3>成熟・回帰期 — 令和の社会現象が冒頭で突きつけた戒め（2019）</h3>
+<p>配信と社会現象が交差する2020s前夜、『鬼滅の刃』第1話で水柱・冨岡義勇が、鬼となった妹の助命を乞う炭治郎に浴びせる叱責は、作品の主題を一行で提示した。</p>
+<blockquote class="quote">「生殺与奪の権を他人に握らせるな!!」
+<span class="qby">冨岡義勇／『鬼滅の刃』第1話（2019年）</span></blockquote>
+<p>古典的な少年バトルの文法を磨き上げつつ、配信時代の世界同時ヒットへ接続した——「新ジャンルの創始」より「完成形の彫琢」へ重心が移った年代の象徴である。</p>
 </div>
 
 <h2>1. 歴史的役割の弧 — 創成→確立→再発明→拡散→爆発→回帰</h2>
 <div class="grid">
-<div class="card"><h3>起点・先導性・成熟回帰の推移</h3><canvas id="c1" height="220"></canvas>
+<div class="card"><h3>起点・先導性・成熟回帰の推移</h3><div class="cbox"><canvas id="c1" height="220"></canvas></div>
 <p><small>起点シェアは1960s(創成)と2010s(新メディア爆発)で双峰、1990s/2020sで谷。成熟+再興は2020sで0.60へ跳ね、回帰の時代を示す。</small></p></div>
-<div class="card"><h3>技術と影響の推移</h3><canvas id="c2" height="220"></canvas>
+<div class="card"><h3>技術と影響の推移</h3><div class="cbox"><canvas id="c2" height="220"></canvas></div>
 <p><small>技術指数は2020sで最高(撮影/CG成熟)。系譜創出・影響指数は1980sで頂点→2020s急落(時間バイアス)。技術大転換は2000sで谷=デジタル化が“作品”でなく“インフラ”に拡散したため。</small></p></div>
 </div>
 <div class="grid">
-<div class="card"><h3>ブーム上の位置 — 年代別構成(100%)</h3><canvas id="c3" height="230"></canvas>
+<div class="card"><h3>ブーム上の位置 — 年代別構成(100%)</h3><div class="cbox"><canvas id="c3" height="230"></canvas></div>
 <p><small>創成期=起点優勢→確立期=初期確立→2000s以降 成熟・洗練が台頭→2020s 再興・回帰が突出。</small></p></div>
-<div class="card"><h3>起点シェア × 対象層 ／ 技術指数 × 種別</h3><canvas id="c4" height="230"></canvas>
+<div class="card"><h3>起点シェア × 対象層 ／ 技術指数 × 種別</h3><div class="cbox"><canvas id="c4" height="230"></canvas></div>
 <p><small>少女・児童・青年(深夜)が起点を生む辺境、少年は継承する本流(起点0.19最低)。技術は映画(0.61)＞TV(0.47)＝劇場が技術の最前線。</small></p></div>
 </div>
 
-<h2>2. 考察 — なぜ役割の型はこう動くのか</h2>
-<div class="card">
-<p><b>創成期(1960s)＝ブランク・スレート効果。</b>先行者なき年代では何もかもが起点。アトムがTV量産・リミテッドアニメ・商品連動を一度に発明。ただし「型を作った」が「象徴の完成度」には未到達＝起点高・landmark低が指紋。</p>
-<p><b>確立期(1970s–80s)＝資本と才能の集中が型を鋳造。</b>landmark/系譜/影響指数いずれも1980s頂点。OVAバブル＋劇場全盛＋ジャンプ黄金期の文化的余剰が、ジブリ・DB・マクロス・AKIRAという「後世のテンプレート」を生んだ。役割が「起点」から「初期確立=定型化」へ。</p>
-<p><b>再発明期(1990s)＝量は最少だが各転換が地震級。</b>起点はわずか3作だがセーラームーン(戦闘美少女)・エヴァ(深夜/セカイ系/考察)・ポケモン(世界メディアミックス)。<b>数(量)と歴史的衝撃(質)が乖離</b>。バブル崩壊・震災・1995の社会不安がエヴァ的内省を生む。「起点シェアは“どの起点か”を併記して読む」。</p>
-<p><b>デジタル拡散期(2000s)＝転換点がインフラへ溶ける。</b>1997–2002のセル→デジタル移行は業界全体で進み、単独の“転換点作”に結晶しない→技術大転換シェア最低の谷(0.095)。代わりにハルヒ現象(ネット/ファンダム)・日常系誕生がメディア環境の転換を担う。</p>
-<p><b>爆発期(2010s)＝デジタル成熟が離散的マイルストンを取り戻す。</b>起点シェア0.48で創成期超え。撮影主義/CG融合/フル3DCG/水炎エフェクトの名指し可能な技術革新＋配信・SNSが新ジャンルを量産(SAO/まどか/進撃/ラブライブ/君の名は/鬼滅)。新メディア上の空白＝ブランク・スレートの再来。</p>
-<p><b>成熟・回帰期(2020s)＝磨き・甦りへ重心、技術だけ突出。</b>成熟+再興0.60最高、先導性指数0.517最低、技術指数0.667最高。配信の海外・知名度重視がリメイク(スラダン/うる星/らんま)を有利化(数土)。<b>ただし起点/系譜の低さは「実体的成熟」と「正典化の未完(時間バイアス)」の合成</b>。技術だけ高いのは、技術評価は同時代に確定できるが起点性は事後選別を要する<b>評価確定速度の非対称</b>ゆえ。</p>
+<h2 class="h2-essay">2. 考察 — なぜ「歴史的役割の型」はこう動くのか</h2>
+<div class="essay">
+<p class="thesis">アニメ史は単線の進歩史ではない。各年代が担う役割——起点を切るのか、型を完成させるのか、技術を更新するのか——が、経済・技術・メディア環境の制約に応じて系統的に移り変わる。その移動を六段の弧として読むと、「独創の枯渇」に見える近年の数字も、別の説明を許す。</p>
+
+<h3>創成期(1960s)：先行者がいなければ、何もかもが起点になる</h3>
+<p>先頭を切る作品が極端に多いのは独創性の証拠ではなく、単に空白だったからである。鉄腕アトムがTVアニメという形式・3コマ／バンクによる週1量産・キャラクター商品連動という産業モデルを一度に発明し、魔法使いサリーが魔法少女を、鉄人28号が巨大ロボを、ゲゲゲの鬼太郎が妖怪ブームを「最初に」立ち上げた。一方で時代象徴シェアは低い。草創期は「型を作った」が「時代を象徴する完成度」には未到達で、<b>起点が高く象徴が低いのが創成期の指紋</b>である。背景は高度経済成長によるテレビの家庭普及——お茶の間という新しい受容空間が大量供給を要求した（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/012_broadcast_format/">放送形態の分析</a>でお茶の間100%として現れる事実と接続する）。</p>
+
+<h3>確立期(1970s–80s)：資本と才能の集中が「型」を鋳造する</h3>
+<p>時代象徴・系譜創出・影響の指標がいずれも1980sで頂点を打つ。ナウシカ→ジブリ設立、ドラゴンボール→世界の少年バトルの文法、マクロス→歌×メカ、AKIRA→ジャパニメーションの海外神話。なぜ1980sか。<b>バブル前夜の文化的余剰</b>である。OVAバブルと劇場アニメ全盛とジャンプ黄金期が重なり、「型を作れるだけの資本・才能・時間」が集中した。役割は「ゼロから始める起点」から「始まったものを完成形の鋳型にする初期確立」へ移る。1970sはその橋渡しで、ヤマトが青年層へ市場を拡張し（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/017_target_audience/">ターゲット層の高年齢化</a>の起点）、ハイジが生活描写リアリズムを発明した「拡張＋確立」の年代だった。</p>
+
+<h3>再発明期(1990s)：量は最少、だが各転換が地震級</h3>
+<p>ここに最大の誤読の罠がある。起点シェアは全年代でほぼ最低——素直に読めば「追随ばかりの停滞期」になる。だが起点と判定された3作はセーラームーン（戦闘美少女の創始）・エヴァ（深夜／セカイ系／考察の起点）・ポケモン（世界最大級メディアミックスの起点）。いずれも単独でアニメ史を曲げた。つまり<b>「起点の数」は少ないが「起点の振幅」が桁違いに大きい</b>。量で測ると本質を取り逃すこのパターンは、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">物語テーマで観察された二極化</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/003_antagonist_design/">敵役の「不在シェア」の罠</a>と同型である。起点シェアは必ず「どの起点か」を併記して解釈しなければならない。</p>
+
+<h3>拡散期(2000s)：転換点が「作品」から「インフラ」へ溶ける</h3>
+<p>技術大転換シェアがこの年代で最低の谷になる。だがこれは技術停滞ではない。1997〜2002の数年でセル→デジタル彩色・撮影への移行が業界全体に進み、最大の技術革新が特定の「転換点作」に結晶せず<b>インフラとして拡散的に浸透した</b>のだ。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/010_animation_characteristics/">作画分析</a>で見たムラ作画の崩落（デジタル安定革命）の裏側が、ここでは「目に見える転換点の不在」として現れる。代わりにこの年代は別種のフロンティアを開いた——ハルヒ現象（ネット・ファンダムの成熟）、あずまんが大王（日常系の誕生）、化物語（シャフト様式）。映像技術に代わって<b>メディア環境（ネット・DVD・製作委員会・深夜枠）の転換</b>が新ジャンルを生んだ。</p>
+
+<h3>爆発期(2010s)：デジタル成熟が離散的マイルストンを取り戻す</h3>
+<p>起点シェアが反発し、創成期を超えて全年代最高になる。同時に技術大転換シェアも回復。二つの成熟が重なった結果である。第一に、デジタル技術が「拡散」段階を終え「表現」段階に入り、撮影主義・CG融合・フル3DCG・劇場級TV作画・水/炎のエフェクトという<b>名指し可能なマイルストン</b>が再び量産された。第二に、配信・SNS・スマホという新メディア環境が新ジャンルを次々起動した（SAO→異世界、まどか→ダーク魔法少女、進撃→世界同時ヒット、君の名は→ポスト宮崎興行）。<b>新しい器が新しい中身の起点を大量に許容した</b>——構造的には創成期の再来であり、ブランク・スレートが「新メディア上の空白」として再出現した。</p>
+
+<h3>成熟・回帰期(2020s)：最も雄弁で、最も慎重に読むべき年代</h3>
+<p>成熟＋再興シェアが全年代最高、先導性指数が最低、起点・系譜創出が最低、その一方で技術指数だけが最高。素直な物語は「新ジャンルを起こさず、確立した形を磨き(ぼっち)、旧作を甦らせ(水星の魔女)、技術だけが進化している」になる。配信収益が海外・視聴数中心になり、知名度の高い旧作のリメイクが有利化した構造（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">商業的成否で論じた収益源の世代交代</a>の帰結）が、これを裏づける。</p>
+<p>だが<b>時間バイアスを両建てにしないと誤読する</b>。起点・系譜の低さは、少なくとも一部は「まだ正典化される時間がない」測定アーティファクトだ。SPY×FAMILYやチェンソーマンが10年後に「2020sの起点」と再評価される余地は十分ある。技術指数だけが高いのは、技術評価は事後の歴史的選別を要さず<b>同時代に確定できる</b>からである——「いま映像がすごい」は今わかるが、「いま新ジャンルの起点だ」は今は確定できない。この<b>評価の確定速度の非対称</b>こそ2020sの数字の正体だ。同じ非対称は<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/018_evaluation_awards/">評価・受賞での殿堂シェアの時間バイアス</a>でも観察される。</p>
+
+<h3>横断する分業：辺境が革新し、本流が大衆化する</h3>
+<p>起点シェアは少女・児童・青年(深夜)で高く、<b>少年向けが最低</b>になる。少女・児童は歴史的にジャンルを創始した層であり（魔法少女、戦闘美少女）、青年（深夜）は新ムーブメントの実験場（エヴァ／ハルヒ／まどか）。これに対し少年向けバトルは、ドラゴンボールが鋳造した世界標準のテンプレートを継承・大衆化する本流であり、新規創始より定型の拡大再生産に向く。「起点を生むのは辺境、本流はそれを世界へ運ぶ」というこの分業は、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/009_violence_morality/">暴力・道徳の灰色化が青年向けに集中する構造</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/019_gender_representation/">ジェンダー表象で少女・一般が攪乱を牽引し少年が岩盤になる構造</a>と同じ断面である。技術大転換が映画＞TVなのも同型で、劇場が技術の辺境（最前線）、TVが本流（量産で標準化）という分業を示す。</p>
 </div>
 
 <h2>3. 他者の論評との対話</h2>
-<div class="quotes">
-<div class="q pro"><span class="badge b-pro">一致</span>氷川竜介『日本アニメの革新』(2023)が「歴史の転換点」に挙げる作品群(ヤマト→ガンダム→ジブリ→AKIRA→攻殻→エヴァ→君の名は)は、本コードの技術大転換群とほぼ完全一致。<b>専門家の選ぶ転換点との突合=妥当性の外部裏づけ</b>。<span class="src">氷川竜介『日本アニメの革新 歴史の転換点となった変化の構造分析』KADOKAWA 2023 — <a href="https://www.kadokawa.co.jp/product/321708000023/">kadokawa.co.jp</a> / <a href="https://anime.eiga.com/news/column/hikawa_rekishi/118090/">アニメハック紹介</a></span></div>
-<div class="q pro"><span class="badge b-pro">一致</span>三次アニメブーム説(第一次=アトム1963／第二次=ヤマト・ガンダム1977–／第三次=エヴァ1995–)の「起爆剤=起点作」の名指しは、本分析の originator 配置と一致。<span class="src">「日本のアニメーションの歴史」ja.Wikipedia — <a href="https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E3%81%AE%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E6%AD%B4%E5%8F%B2">wikipedia</a></span></div>
-<div class="q pro"><span class="badge b-pro">符合</span>「配信が引き起こしたリメイクブーム」=配信収益が海外・視聴数中心になり知名度の高い旧作リメイクが有利に。2020s「再興・回帰」0.60への跳ねと完全符合。<span class="src">数土直志「月刊アニメビジネス」アニメハック — <a href="https://anime.eiga.com/news/column/sudo_business/121770/">eiga.com</a> / <a href="https://magmix.jp/post/128888">magmix</a></span></div>
-<div class="q con"><span class="badge b-con">留保</span>黄金期論争：「一般的な黄金期の定義は困難、焦点を絞れば各ポイントごとに黄金期が見つかる」。1992年も2010年代も“黄金期”を主張でき頂点は一つでない＝landmark山(1980s)は選定バイアスの産物かもしれない。<span class="src">Quora「アニメの黄金時代はいつか」/ moemee「2010年代のアニメ黄金期」 — <a href="https://moemee.jp/post/10055/">moemee</a></span></div>
-<div class="q con"><span class="badge b-con">対立</span>衰退論：2020sの低 originator を「衰退」と読む立場。本分析は「成熟＋正典化前」と反論するが、<b>どちらが正しいかは2040年まで確定しない</b>(時間バイアスの存在自体が衰退論を完全否定できない)。両論併記。<span class="src">人民網日本語版「日本アニメ黄金時代はもう過去か」 — <a href="https://j.people.com.cn/n3/2022/0303/c94476-9965245.html">j.people.com.cn</a></span></div>
-<div class="q con"><span class="badge b-con">留保</span>なろう量産批判：テンプレ追随・御都合主義・「作者と読者で感情が閉じる」自己慰撫。起点(SAO/Re:ゼロ)と量産追随の質的差を厳しく見る。本分析は両者を「同ジャンル生態系の両端」として架橋するが、起点と追随を均等扱いするコードの粗さは留保。<span class="src">note 朝三暮四「なろう系はなぜ人気でつまらないのか」/ なろう系 ja.Wikipedia — <a href="https://note.com/tyousannboshi/n/n612623cfdd18">note</a></span></div>
+<div class="views">
+
+<div class="view">
+<div class="who"><span class="wl">論者</span>氷川竜介（アニメ評論家・明治大学特任教授）<span class="stance sup">補強</span></div>
+<div class="vt">専門家が独立に選んだ「歴史の転換点」が、本コードの判定とほぼ完全に一致する</div>
+<p>氷川竜介『日本アニメの革新 歴史の転換点となった変化の構造分析』(2023) が転換点として挙げる作品群——ヤマト→ガンダム→ジブリ→AKIRA→攻殻→エヴァ→君の名は——は、本データの「技術的大転換」群とほぼ完全に重なる。</p>
+<div class="match"><b>データとの照合：</b>専門家が独立の基準で選んだ転換点リストと、本コードの大転換判定が突合する。これはコーディング妥当性の最重要の外部裏づけである。</div>
+<div class="src">出典：氷川竜介『日本アニメの革新』KADOKAWA, 2023 — <a href="https://www.kadokawa.co.jp/product/321708000023/">kadokawa.co.jp</a> ／ <a href="https://anime.eiga.com/news/column/hikawa_rekishi/118090/">アニメハック 連載紹介</a></div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">論者</span>数土直志（ジャーナリスト／「アニメ！アニメ！」創刊編集長）<span class="stance sup">符合</span></div>
+<div class="vt">「配信が引き起こしたリメイクブーム」が、2020sの再興・回帰の跳ね上がりを説明する</div>
+<p>配信収益が海外・視聴数中心になったことで、知名度の高い旧作（スラムダンク／うる星やつら／らんま／ベルばら等）のリメイクが有利になった、という産業構造の分析。</p>
+<div class="match"><b>データとの照合：</b>2020sの「成熟＋再興」シェアが全年代最高の0.60へ跳ねた事実と完全に符合する。本分析の「磨き・甦りへの重心移動」を産業面から裏づける。</div>
+<div class="src">出典：数土直志「月刊アニメビジネス」アニメハック — <a href="https://anime.eiga.com/news/column/sudo_business/121770/">eiga.com</a> ／ 関連 <a href="https://magmix.jp/post/128888">magmix</a></div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">論者</span>moemee／Quora ほか（黄金期論争）<span class="stance cau">留保</span></div>
+<div class="vt">「黄金期は焦点次第で動く。頂点は一つではない」</div>
+<p>一般的な黄金期の定義は困難で、焦点を絞れば各年代ごとに「黄金期」が見つかる、という立場。1992年も2010年代も黄金期を主張できる。</p>
+<div class="match"><b>データとの照合：</b>本分析の象徴シェアの山(1980s)が<b>選定バイアスの産物である可能性</b>を突きつける。本稿は「1980sがテンプレ鋳造のピーク」を断定でなく「収集した正典作の分布がそう見える」という相対的主張に留める。</div>
+<div class="src">出典：moemee「2010年代のアニメ黄金期」 — <a href="https://moemee.jp/post/10055/">moemee</a> ／ Quora「アニメの黄金時代はいつか」</div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">媒体</span>人民網 日本語版（衰退論）<span class="stance cau">対立</span></div>
+<div class="vt">「日本アニメの黄金時代はもう過去か」</div>
+<p>2020sの低い起点性・系譜創出を「衰退」と読む立場。本分析は「成熟＋正典化前」と反論するが、<b>どちらが正しいかは数十年後にならないと確定しない</b>。時間バイアスの存在自体が、衰退論を完全には否定できないことを意味する。両論を併記する。</p>
+<div class="match"><b>データとの照合：</b>2020sの起点/系譜シェアの低さは事実だが、それが「独創の枯渇」か「正典化の未完」かはデータだけでは決着しない。本稿は控えめな主張（役割分布の系統的移動）に留める。</div>
+<div class="src">出典：人民網 日本語版「日本アニメ黄金時代はもう過去か」 — <a href="https://j.people.com.cn/n3/2022/0303/c94476-9965245.html">j.people.com.cn</a></div>
+</div>
+
 </div>
 
 <h2>4. 全作品データ（ソート・絞り込み可）</h2>
@@ -108,7 +216,7 @@ small{color:var(--mut)}
 <input id="fq" placeholder="作品名・ムーブメント検索"/>
 <span id="cnt" class="tag"></span>
 </div>
-<div style="max-height:520px;overflow:auto" class="card">
+<div class="tablewrap">
 <table id="tb"><thead><tr>
 <th data-k="y">年</th><th data-k="t">作品</th><th data-k="tp">種別</th><th data-k="dm">対象層</th>
 <th data-k="era">代表作度</th><th data-k="boom">ブーム位置</th><th data-k="tech">技術転換</th><th data-k="infl">影響</th><th data-k="mv">ムーブメント</th><th data-k="conf">確信</th>

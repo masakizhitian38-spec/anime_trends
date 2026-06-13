@@ -2,29 +2,68 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>敵役・ライバルの造形 — 視点別分析</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1117;--card:#1a1d29;--ink:#e6e8ef;--mut:#9aa0b4;--acc:#ff6b6b;--acc2:#4dabf7;--line:#2a2e3e}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.6}
-.wrap{max-width:1100px;margin:0 auto;padding:24px}
-h1{font-size:24px;margin:0 0 4px}h2{font-size:18px;border-left:4px solid var(--acc);padding-left:10px;margin:34px 0 14px}
-.sub{color:var(--mut);font-size:13px;margin-bottom:18px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-.card h3{margin:0 0 10px;font-size:14px;color:var(--mut);font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:8px 0 6px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
-.kpi .n{font-size:26px;font-weight:700;color:var(--acc2)}.kpi .l{font-size:12px;color:var(--mut)}
-canvas{max-height:300px}
-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
-th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-th{position:sticky;top:0;background:#222637;cursor:pointer;white-space:nowrap}
-tbody tr:hover{background:#20243400}
-.controls{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
-select,input{background:#11141f;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:13px}
-.tbl-wrap{max-height:560px;overflow:auto;border:1px solid var(--line);border-radius:12px}
-.tag{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;background:#2a2e3e}
-.note{color:var(--mut);font-size:12px}
-.lead{font-size:14px;color:#cfd3e3}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/003_antagonist_design/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -43,28 +82,111 @@ select,input{background:#11141f;color:var(--ink);border:1px solid var(--line);bo
 
 <div class="kpis" id="kpis"></div>
 
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">戦後アニメの敵役は、「外部からやってくる純粋な悪」から「主人公の鏡像である内なる他者」へと、その造形を半世紀かけて描き換えてきた。</p>
+<ul class="tldr-list">
+<li><b>純粋悪は黎明期だけの主役。</b> 共感の余地がない“分かりやすい悪”は1960年代に集中（約4割）し、以降は一貫して1割未満。いまや敵役の半数超は動機が「複雑」に描かれる。</li>
+<li><b>動機の中心は「歪んだ正義・信念」。</b> 動機の型は信念・理想が最多で、支配・征服や本能・生存が続く。世界征服の野望より、譲れない理想を抱えた敵が主流になった。</li>
+<li><b>2010年代は「敵役不在」が突出。</b> 日常系や新海誠作品など、明確な敵を置かずに葛藤を描く物語が約4分の1を占めた。</li>
+<li><b>2020年代は「主人公と地続きの敵」が史上最高。</b> 鏡像・元仲間として描かれる敵が3割超に達し、善悪二元論からの最も明確な脱却を示す。</li>
+<li><b>好敵手（ライバル）文化は縮小。</b> 1980〜2000年代のバトル少年漫画黄金期に栄えた宿命のライバル型は、2010年代以降に後退した。</li>
+</ul>
+</div>
+
+<h2>具体例 — 時代ごとの代表的な敵役と、その言葉</h2>
+<p class="mut">造形の変化を、各時代を象徴する敵役と実際のセリフでたどる。引用は短い範囲にとどめ、作品名・年・話者を併記した。文言を確認できないものは場面描写にとどめている。</p>
+
+<div class="ex"><h3>世界征服を企む「悪の組織」（1960–70年代）</h3>
+<p>黎明期の敵は、地球征服や人類滅亡をもくろむ悪の首領とその組織だった。『マジンガーZ』のDr.ヘル、『サイボーグ009』のブラックゴーストのように、動機は単純で背景も問われない。視聴者が安心して憎める“純粋悪”が定型で、ヒーローがそれを毎週倒す勧善懲悪が物語の骨格を成していた。</p></div>
+
+<div class="ex"><h3>宿命のライバルと「悔いなき強者」（1980年代）</h3>
+<p>少年漫画の黄金期には、主人公と覇を競う好敵手が敵役の華となる。『北斗の拳』のラオウは、弟ケンシロウとの死闘に敗れてなお、自らの生き様を全肯定して天に拳を掲げた。倒すべき悪でありながら、その美学がヒーロー以上に観客を惹きつけた。</p>
+<blockquote class="quote">「わが生涯に一片の悔いなし!!」<span class="qby">— ラオウ／『北斗の拳』（原作1983–88、TVアニメ1984–87）</span></blockquote></div>
+
+<div class="ex"><h3>「勝者＝正義」を疑わせる信念の敵（1990年代）</h3>
+<p>90年代の敵は、強烈な思想を背負って主人公の正義を揺さぶる。『るろうに剣心』京都編の志々雄真実は、弱肉強食の論理を堂々と掲げ、「勝った者が正義」という少年漫画の前提そのものに疑問を投げかけた。共感はできずとも理屈は通る——そんな敵が主流になっていく。</p>
+<blockquote class="quote">「所詮、この世は弱肉強食。強ければ生き、弱ければ死ぬ」<span class="qby">— 志々雄真実／『るろうに剣心 -明治剣客浪漫譚-』（TVアニメ1996–98）</span></blockquote></div>
+
+<div class="ex"><h3>主人公こそが敵＝鏡像の時代（2000年代）</h3>
+<p>『DEATH NOTE』の夜神月は、正義を語りながら「新世界の神」を目指す主人公＝敵だった。知略がすべて嵌まった瞬間に漏らす一言は、善と悪が一人の人物に同居する構図を象徴する。敵は外からではなく、主人公自身の中から現れるようになった。</p>
+<blockquote class="quote">「計画通り」<span class="qby">— 夜神月／『DEATH NOTE』（TVアニメ2006–07）</span></blockquote></div>
+
+<div class="ex"><h3>思想の鏡として立つ敵（2020年代）</h3>
+<p>近年の敵は、主人公と同じ痛みや問いを共有しながら、別の答えを選んだ「もう一人の主人公」として描かれる。『劇場版 呪術廻戦0』の夏油傑は、呪術師と非術師の関係をめぐって主人公サイドの理想と正面から対立する。敵の主張が物語のテーマそのものを担う。</p>
+<blockquote class="quote">「猿の時代に幕を下ろし、呪術師の楽園を築こう」<span class="qby">— 夏油傑／『劇場版 呪術廻戦0』（2021）</span></blockquote></div>
+
+
 <h2>動機の複雑さ指数 と 純粋悪シェアの年代変遷</h2>
 <div class="grid">
-<div class="card"><h3>動機の複雑さ指数（複雑=1/中=0.5/単純=0 の平均）</h3><canvas id="cIdx"></canvas></div>
-<div class="card"><h3>純粋悪(共感不可)シェア vs 敵役不在シェア</h3><canvas id="cShare"></canvas></div>
+<div class="card"><h3>動機の複雑さ指数（複雑=1/中=0.5/単純=0 の平均）</h3><div class="cbox"><canvas id="cIdx"></canvas></div></div>
+<div class="card"><h3>純粋悪(共感不可)シェア vs 敵役不在シェア</h3><div class="cbox"><canvas id="cShare"></canvas></div></div>
 </div>
 
 <h2>主要シェアの年代変遷</h2>
 <div class="grid">
-<div class="card"><h3>鏡像・元仲間（主人公と地続きの敵）シェア</h3><canvas id="cMirror"></canvas></div>
-<div class="card"><h3>ライバル(好敵手)明確シェア</h3><canvas id="cRival"></canvas></div>
+<div class="card"><h3>鏡像・元仲間（主人公と地続きの敵）シェア</h3><div class="cbox"><canvas id="cMirror"></canvas></div></div>
+<div class="card"><h3>ライバル(好敵手)明確シェア</h3><div class="cbox"><canvas id="cRival"></canvas></div></div>
 </div>
 
 <h2>全体分布</h2>
 <div class="grid">
-<div class="card"><h3>動機の型</h3><canvas id="dMotive"></canvas></div>
-<div class="card"><h3>主人公との対比</h3><canvas id="dContrast"></canvas></div>
-<div class="card"><h3>構造（個人/組織/抽象）</h3><canvas id="dStruct"></canvas></div>
-<div class="card"><h3>共感可能性</h3><canvas id="dSym"></canvas></div>
+<div class="card"><h3>動機の型</h3><div class="cbox"><canvas id="dMotive"></canvas></div></div>
+<div class="card"><h3>主人公との対比</h3><div class="cbox"><canvas id="dContrast"></canvas></div></div>
+<div class="card"><h3>構造（個人/組織/抽象）</h3><div class="cbox"><canvas id="dStruct"></canvas></div></div>
+<div class="card"><h3>共感可能性</h3><div class="cbox"><canvas id="dSym"></canvas></div></div>
 </div>
 
 <h2>動機の複雑さ — 年代別100%積み上げ</h2>
-<div class="card"><canvas id="cStack"></canvas></div>
+<div class="card"><div class="cbox"><canvas id="cStack"></canvas></div></div>
+
+
+<h2 class="h2-essay">考察 — なぜ敵は「外の悪」から「内なる鏡」へ向かったか</h2>
+<div class="essay">
+<p class="thesis">敵役造形の歴史は、敵を「倒すべき外部の存在」から「主人公の内なる可能性」へと描き換えていく過程として読める。動機は年を追って複雑になり、純粋悪は黎明期に退場し、やがて敵そのものを置かない物語や、主人公と地続きの敵が主流になった。</p>
+
+<h3>① 純粋悪の退場（〜1980年代）</h3>
+<div class="phase">最初期の敵は、世界征服を狙う悪の組織という記号だった。動機の複雑さは時代とともにほぼ単調に上がり、黎明期には半数近くを占めた“共感不可の純粋悪”は、1980年代末を最後に主役の座を降りる。『宇宙戦艦ヤマト』のデスラー、『超時空要塞マクロス』のゼントラーディのように「和解しうる敵」が現れ始め、敵にも事情と背景を与えるのが定石になっていく。強さの誇示が物語の中心だった時代の名残は、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/030_overpowered_protagonist/">「最強主人公」化の度合い</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/040_action_battle_depiction/">アクション・バトルの描写</a>にも通じる。</div>
+
+<h3>② 和解しうる敵と「悪の不在」（1990年代）</h3>
+<div class="phase">90年代には「共感できる敵」が頂点に達する。志々雄真実のように思想で主人公に挑む敵、『新世紀エヴァンゲリオン』の使徒やゲンドウ、『もののけ姫』のエボシ御前——どれも単純な悪ではなく、それぞれの正義を持つ。明確な悪を置かないこと自体が芸術的達成として確立した点は、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/023_anno_eva_influence/">庵野秀明・エヴァの影響</a>や、善悪の輪郭が溶けていく<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/009_violence_morality/">暴力描写と倫理観</a>とも響き合う。</div>
+
+<h3>③ 敵役なき葛藤（2010年代）</h3>
+<div class="phase">2010年代の最大の特徴は、敵役そのものを置かない物語の急増である。『けいおん!』以降の日常系、新海誠作品、『SHIROBAKO』のような「逆境はあるが明確な敵がいない」群像劇が量産され、敵役不在の比率がこの年代だけ突出した。これは「敵がいなくても葛藤は描ける」という物語観の転換であり、同時代の空気を映す<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/020_zeitgeist_reflection/">時代精神の反映</a>とも重なる。「共感できる敵」の比率がこの年代に一度落ち込むのは、純粋悪が戻ったからではなく、そもそも敵を置かない作品が分母を押し広げたためだ。</div>
+
+<h3>④ 主人公と地続きの敵（2020年代）</h3>
+<div class="phase">2020年代は「鏡像・元仲間」として描かれる敵が史上最高の比率に達した。『進撃の巨人』のライナー（元仲間であり被害者）、『僕のヒーローアカデミア』の死柄木（ヒーロー社会の歪みそのもの）、『呪術廻戦』の夏油（主人公サイドと思想を分かつ対）——いずれも「敵は主人公のもう一つの可能性」という構図を共有する。善悪二元論からの最も明確な脱却であり、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/024_jump_formula_influence/">ジャンプ作品の定型</a>が築いた対決の文法を、内面の鏡へと作り替えた到達点といえる。一方で同じ2020年代には、『葬送のフリーレン』の魔族や『チェンソーマン』の悪魔のように「理屈抜きの脅威」を意図的に置く作品も再登場し、動機の複雑さ指数がわずかに揺り戻している。</div>
+
+<h3>⑤ 好敵手文化の盛衰</h3>
+<div class="phase">宿命のライバル（好敵手）型は、1980〜2000年代のスポ根・バトル少年漫画の黄金期に栄えた。ラオウ、ベジータ、『SLAM DUNK』、『NARUTO』のサスケ——「並び立つ強者との対決」が物語を駆動した。だが2010年代以降、なろう系・日常系・群像劇の台頭とともにこの型は相対的に後退する。敵を「超えるべき壁」として外に立てる発想から、「自分の影」として内に抱える発想への移行が、ここでも確認できる。なお、黒幕＋実働組織という二層構造だけは時代を問わず4〜5割で安定しており、敵役造形の普遍的な骨格として残り続けている。</div>
+</div>
+
+<h2>他者の論評との照合</h2>
+<p class="mut">敵役造形の変化について、評論家・媒体がどう論じているかを集め、本分析の傾向と照らした。賛否のラベルは本分析の結論との関係を示す。</p>
+<div class="views">
+
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>杉本穂高</b>（アニメ評論家）／<b>アニメ！アニメ！「敵キャラ列伝」</b></p>
+<div class="vt">敵役は主人公の物語を成立させる「影」である <span class="stance neu">機能論</span></div>
+<p>「光が明るく輝くのは影の存在があってこそ」とし、物語には主人公を追い詰める敵役が構造的に不可欠だと論じる。『戦隊大失格』を例に、勧善懲悪の図式を逆手に取り「やられ役」の悲哀から物語を始める作品が、敵役の役割そのものを問い直していると指摘する。</p>
+<div class="match"><b>データとの照合：</b>敵役は普遍的に必要とする立場。本分析では2010年代に「敵役不在」が突出しており、敵を置かない／役割を反転させる作品の台頭という近年の潮流と整合する。</div>
+<p class="src">出典: <a href="https://animeanime.jp/article/2024/04/28/84104.html">animeanime.jp（2024）</a></p></div>
+
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>Muhib Nadeem</b>／<b>Game Rant</b></p>
+<div class="vt">アニメの敵は「純粋悪」ではなく共感を誘う存在になった <span class="stance sup">支持</span></div>
+<p>西洋の伝統的な「純粋に邪悪な敵」と対照的に、アニメは敵を悲劇・誤った理想・社会的抑圧に形づくられた人間として描く傾向が強いと論じる。スカー（鋼の錬金術師）やライナー（進撃の巨人）を、憎みきれない＝共感可能な敵の例に挙げる。</p>
+<div class="match"><b>データとの照合：</b>本分析でも「共感不可」の純粋悪は全体の約12%にとどまり、半数超が「複雑」な動機を持つ。敵の人間化という指摘と強く一致する。</div>
+<p class="src">出典: <a href="https://gamerant.com/why-many-anime-villains-are-actually-sympathetic/">gamerant.com（2024）</a></p></div>
+
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>Muhib Nadeem</b>／<b>Game Rant</b>（同記事・留保）</p>
+<div class="vt">悲劇的過去の濫用は陳腐化を招き、純粋悪への揺り戻しを生む <span class="stance cau">留保</span></div>
+<p>同じ記事は、悲劇的な過去で敵を正当化する手法が定型化すると敵が予定調和に陥ると警告し、ファンの間では「対比として純粋に邪悪な敵を」という声もあると述べる。ディオ（ジョジョ）や鬼舞辻無惨（鬼滅の刃）のような“背景に頼らない悪”の魅力を例に挙げる。</p>
+<div class="match"><b>データとの照合：</b>本分析でも2020年代に動機の複雑さ指数がわずかに低下し、フリーレンの魔族やチェンソーマンの悪魔など「理屈抜きの脅威」が再登場している。留保と微小な揺り戻しは符合する。</div>
+<p class="src">出典: <a href="https://gamerant.com/why-many-anime-villains-are-actually-sympathetic/">gamerant.com（2024）</a></p></div>
+
+</div>
 
 <h2>作品一覧（ソート・絞り込み可）</h2>
 <div class="controls">
@@ -87,9 +209,9 @@ const decades=S.decades;
 document.getElementById('kn').textContent=S.n;
 const css=getComputedStyle(document.documentElement);
 const ACC=css.getPropertyValue('--acc').trim(),ACC2=css.getPropertyValue('--acc2').trim();
-const PAL=['#ff6b6b','#4dabf7','#ffd43b','#69db7c','#b197fc','#ffa94d','#3bc9db','#f783ac','#a9b1c9','#e599f7'];
-const grid={color:'#2a2e3e'},tick={color:'#9aa0b4'};
-Chart.defaults.color='#9aa0b4';Chart.defaults.font.family='sans-serif';
+const PAL=["#5cc8ff","#ffd166","#7ef0a2","#ff8fb1","#b79cff","#ff8c66","#6ea8fe","#c0ca33","#9aa7b5"];
+const grid={color:'#2a2e3e'},tick={color:'#33312c'};
+Chart.defaults.color='#5c564b';Chart.defaults.font.family='sans-serif';
 
 function kpi(n,l){return `<div class="kpi"><div class="n">${n}</div><div class="l">${l}</div></div>`}
 const ci=S.complexity_index_by_decade;
@@ -112,10 +234,7 @@ line('cShare',[
 line('cMirror',[{label:'鏡像・元仲間',data:decades.map(x=>S.mirror_exally_share_by_decade[x].share),borderColor:'#b197fc',backgroundColor:'#b197fc33',tension:.3,fill:true,pointRadius:4}],true);
 line('cRival',[{label:'好敵手(明確)',data:decades.map(x=>S.rival_clear_share_by_decade[x].share),borderColor:'#ffd43b',backgroundColor:'#ffd43b22',tension:.3,fill:true,pointRadius:4}],true);
 
-function donut(id,obj){const k=Object.keys(obj),v=Object.values(obj);
- new Chart(document.getElementById(id),{type:'doughnut',
- data:{labels:k,datasets:[{data:v,backgroundColor:PAL,borderColor:'#1a1d29',borderWidth:2}]},
- options:{responsive:true,plugins:{legend:{position:'right',labels:{boxWidth:12,font:{size:11}}}}}});}
+function donut(id,obj){var keys=Object.keys(obj).filter(function(k){return obj[k];});keys.sort(function(a,b){return obj[b]-obj[a];});var tot=keys.reduce(function(a,k){return a+obj[k];},0);new Chart(document.getElementById(id),{type:'bar',data:{labels:keys,datasets:[{data:keys.map(function(k){return obj[k];}),backgroundColor:keys.map(function(k,i){return PAL[i%PAL.length];}),borderRadius:3,maxBarThickness:26}]},options:{indexAxis:'y',layout:{padding:{right:64}},plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',clamp:true,color:'#5b554a',font:{size:11,weight:'700'},formatter:function(v){return v+'（'+Math.round(100*v/tot)+'%）';}}},scales:{x:{beginAtZero:true,grace:'15%',ticks:{precision:0}},y:{ticks:{font:{size:12}}}}},plugins:[ChartDataLabels]});}
 donut('dMotive',S.distributions.motive_type);
 donut('dContrast',S.distributions.contrast_with_protagonist);
 donut('dStruct',S.distributions.structure);

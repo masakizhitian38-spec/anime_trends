@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>グッズ・商品展開からみるアニメ60年</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0f1115;--card:#191c23;--ink:#e8e6e0;--mut:#9aa0aa;--ac:#e0a23b;--ac2:#5aa9e6;--ac3:#7bc47f;--ac4:#d96b8a;--line:#2a2e37}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;line-height:1.85}
+.wrap{max-width:980px;margin:0 auto;padding:40px 22px 80px}
+h1{font-size:1.9rem;line-height:1.35;margin:0 0 6px;font-weight:700}
+.sub{color:var(--mut);font-size:.95rem;margin-bottom:30px}
+h2{font-size:1.35rem;margin:46px 0 14px;padding-left:12px;border-left:4px solid var(--ac)}
+h3{font-size:1.08rem;margin:28px 0 8px;color:var(--ac)}
+p{margin:12px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:18px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+canvas{max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:.86rem;margin:10px 0}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:center}
+th{background:#222631;color:var(--ac)}
+td.l{text-align:left}
+.kpi{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0}
+.kpi div{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.kpi b{display:block;font-size:1.5rem;color:var(--ac)}
+.kpi span{color:var(--mut);font-size:.82rem}
+blockquote{border-left:3px solid var(--ac2);margin:10px 0;padding:6px 14px;color:#cfd3da;background:#1d2029;font-style:normal}
+.qc{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac2);border-radius:8px;padding:14px 16px;margin:12px 0}
+.qc .src{font-size:.8rem;color:var(--mut);margin-top:6px}
+.qc a{color:var(--ac2);text-decoration:none}
+.tag{display:inline-block;font-size:.72rem;padding:1px 8px;border-radius:10px;background:#2a2e37;color:var(--mut);margin-right:4px}
+small{color:var(--mut)}
+</style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/051_goods_merchandising/">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="日本アニメ 変遷データベース">
+<meta property="og:title" content="グッズ・商品展開からみるアニメ60年">
+<meta name="twitter:card" content="summary">
+<style>#__home{position:sticky;top:0;z-index:99;background:#0b0d12ee;backdrop-filter:blur(6px);border-bottom:1px solid #232838;padding:8px 16px;font:14px system-ui,sans-serif}#__home a{color:#8ab4ff;text-decoration:none}#__home a:hover{text-decoration:underline}</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-51N89XJ20Q"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-51N89XJ20Q');</script>
+</head><body><div id="__home"><a href="../../">← 視点一覧トップへ</a></div><div class="wrap">
+<h1>グッズ・商品展開からみるアニメ60年</h1>
+<div class="sub">関連商品の規模・玩具連動・コレクタブル・収益構造で 108 作をコード化 ／ 視点051・id35</div>
+
+<div class="kpi">
+<div><b>108</b><span>分析作品数(1963–2024、各年代12–18作)</span></div>
+<div><b>0.53→0.06</b><span>玩具主導シェア 1970s頂点→2010s崩落</span></div>
+<div><b>0→0.50</b><span>コレクタブル・ガチャ 2010sで最大派へ</span></div>
+<div><b>2.8兆円</b><span>キャラビジネス市場(2024,矢野経済)</span></div>
+</div>
+
+<h2>1. 商品様式の重心が動いた</h2>
+<p>最も明瞭なのは玩具主導モデルの弧だ。1970年代に頂点を打ち、2010年代に崩落して2020年代にわずかに戻す。入れ替わるようにコレクタブル・ガチャ型(フィギュア・くじ・トレカ・課金)が80年代から立ち上がり、2010年代に最大派になる。汎用キャラ商品は全年代の底流で、2020年代に跳ねる。</p>
+<div class="grid">
+<div class="card"><canvas id="c1"></canvas><small>主商品モデルの年代別シェア。玩具主導(橙)とコレクタブル・ガチャ(青)が交差する。</small></div>
+<div class="card"><canvas id="c2"></canvas><small>商品規模指数(乏しい0〜メガ1.0)。70年代に段差、2010年代0.82で頂点、2020年代は多元化で微減。</small></div>
+</div>
+<div class="grid">
+<div class="card"><canvas id="c3"></canvas><small>玩具連動high・コレクタブル(カード/ガチャ・フィギュア)・主収益化の推移。</small></div>
+<div class="card"><canvas id="c4"></canvas><small>108作の主商品モデル構成。キャラ商品とコレクタブル・ガチャで6割超。</small></div>
+</div>
+
+<h2>2. 物質性が三段で軽くなった</h2>
+<p>幹は、商品の物質性が段階的に軽くなる過程として読める。亜鉛合金の塊(超合金)→組み立てるプラスチック(ガンプラ)→飾る樹脂(フィギュア)→紙片(トレカ)→画面の中の確率(ガチャ)→その場限りの時間(ライブ・コラボ)。手に取れる物の重さが、所有の証へ、さらにアクセス権と体験へと希薄化していく。収益源(run#16)や円盤→サブスク(run#32)で見た「モノ→所有→アクセス権」の川上遡上が、グッズという窓から見えている。</p>
+<p>転換点は名指しできる。1974年マジンガーZの超合金がロボ玩具という産業を発明し(玩具主導70年代頂点と一致)、合体・換装のギミックがそのまま物語の見せ場になった。「パイルダー・オン」の号令は合体玩具の取扱説明でもあった。物語の構造が商品の構造に従属していた点で、批判者の言う<span class="tag">30分CM</span>に最も近い時期だ。</p>
+
+<h3>玩具主導の「功罪」は片方だけ取り出せない</h3>
+<p>その批判には強い反作用が組み込まれている。玩具スポンサーの制約への怒りが富野由悠季に『機動戦士ガンダム』(1979)を作らせ、その反骨の産物がガンプラというプラモ産業の金字塔を生んだ。SEED(2002)・00(2007)・水星の魔女(2022)とガンプラは40年以上更新され、商業主義への抵抗が新しい商業基盤を立ち上げるねじれを示す。制約が様式を生むという、演出(run#45)・省力作画(run#10)で見た構造が、産業の規模そのもので起きている。玩具主導の崩落も志でなく市場構造——玩具会社のバンダイ・タカラトミー2社集約、ゲーム/トレカへの趣味移動、少子化——の問題だ。</p>
+
+<h2>3. 物理商品は終わっていない</h2>
+<p>コレクタブル化は「物理商品の終わり」ではない。矢野経済のキャラビジネス市場は2024年度約2.8兆円と微増を続け、世界のフィギュア&トイ市場でフィギュア区分が38%で最大、日本が53%を占める。変わったのは、立体物が「子供が遊ぶ玩具」から「ファンが所有し飾るコレクタブル」へ性格を変えたこと。超合金のロケットパンチ(遊ぶ機能)とフィギュアの造形再現(所有する価値)は別の欲望に応える。</p>
+<p>2010年代固有なのがソシャゲ・ガチャ課金(艦これ・デレマス・ウマ娘)で商品が確率に溶けたこと、そして体験型(ガルパンの聖地大洗・ライブ、ラブライブのコラボカフェ)の出現だ。ただし2020年代は体験型シェアが0に戻り、汎用キャラ商品が0.57へ跳ねる——SPY×FAMILYのアーニャがあらゆる物販に乗り、鬼滅・呪術が一番くじで品切れを起こす、コラボ物販回帰の年代。規模指数の微減は衰退でなく、配信で世界に広がった作品が物販・ガチャ・体験を同時に並走させる多元化(構成効果)と読める。</p>
+
+<h2>4. 他者の論評との対話</h2>
+<div class="qc">「アニメは<b>キャラクター・マーチャンダイジング</b>のトランスメディア実践=アニメ・システムなしには理解できない。鉄腕アトム(1963)は制作費を割って番組を売り、ライセンス収入で差額を埋めた。商品化は後付けでなく最初から制作の屋台骨だった。」
+<div class="src">Marc Steinberg <i>Anime's Media Mix</i> (2012) — <a href="https://ijoc.org/index.php/ijoc/article/download/3171/1216">ijoc</a> / <a href="https://blogs.lse.ac.uk/lsereviewofbooks/2013/01/12/book-review-animes-media-mix-franchising-toys-and-characters-in-japan/">LSE書評</a>。本データのアトム/ガンダムの収益構造はこの主張を支持。ただし劇場作家もの等は「作品が先・商品が後」で全作には当てはまらない。</div></div>
+<div class="qc">「玩具会社のスポンサー制約で『いかに玩具を売るか』が中心化し<b>『30分CM』</b>と揶揄された。これに怒った富野がガンダムを生んだ。ロボアニメ減少の主因はゲーム/TCGへの趣味多様化・スポンサー撤退・少子化。」
+<div class="src">数土直志(note) / Wikipedia「ロボットアニメ」 — <a href="https://note.com/sudotadashi/n/n5eeda0d16f57">note</a>。本データの玩具主導2010s崩落(0.06)を市場構造で裏づけ。</div></div>
+<div class="qc">「超合金第1号は1974年マジンガーZ=ロボ玩具産業の原点。80年前後が黄金期、80年代後半にファミコン普及でブーム沈静。1997年『超合金魂』で大人コレクター市場へ。」
+<div class="src">BANDAI SPIRITS「誕生から50年 超合金」 — <a href="https://www.bandaispirits.co.jp/story/001/">公式</a>。玩具主導70年代頂点→以降漸減と一致。「大人コレクター市場へ」はコレクタブル化の先取り。</div></div>
+<div class="qc">「2024年度キャラビジネス市場 約2.8兆円。2023年人気グッズ1位はフィギュア(61.8%)、海外ECでは『最近のアニメ』が85.3%で『昔』(11.8%)を圧倒。日本発コンテンツ海外売上は約5.8兆円。」
+<div class="src">矢野経済研究所/Shopee Japan/Grand View Research — <a href="https://www.yano.co.jp/market_reports/C66103600">矢野</a> / <a href="https://prtimes.jp/main/html/rd/p/000000082.000075777.html">Shopee</a> / <a href="https://www.grandviewresearch.com/industry-analysis/anime-figures-action-toys-market-report">GVR</a>。物理商品が今も市場の核で、商品は配信で世界・最近ものへ傾斜。</div></div>
+
+<h2>5. 具体例</h2>
+<div class="card">
+<p><b>超合金/ガンプラ期(1970s)</b> マジンガーZ(1972)は超合金第1号の母体で、合体・換装ギミックが物語の見せ場に。ガンダム(1979)は「30分CM」批判への反骨から生まれながらガンプラの金字塔を立てた。スポンサー玩具が初動で振るわず後発プラモが歴史を変えた逆転も、商品と作品の複雑な関係を示す。</p>
+<p><b>コレクタブル期(2000s)</b> 涼宮ハルヒ(2006)・けいおん!(2009、ギブソン楽器コラボ)は円盤・フィギュア・コラボが束で主収益を担う深夜型の典型。遊ぶ玩具でなく飾るフィギュアが中心に。</p>
+<p><b>ガチャ・体験期(2010s)</b> 艦これ(2013)はブラウザゲーム課金が核、立体物は後付け。ラブライブ(2013)はライブ・コラボカフェで「参加」を売った。妖怪ウォッチ(2014)は妖怪メダルの物理玩具で社会現象級の収益を作り、玩具主導が条件次第でまだ機能することを示した。</p>
+<p><b>コラボ物販回帰期(2020s)</b> SPY×FAMILY(2022)のアーニャが衣料・食品・文具に展開、鬼滅は一番くじとコラボ品で品切れ連発、水星の魔女(2022)はガンプラに女性新規層を呼び込み玩具主導を再起動した。</p>
+</div>
+
+<h2>6. 結論と留保</h2>
+<p>「グッズで稼ぐ」構造は70年代に固まって以来ずっと続き、変わったのは売られる物の物質性だった。亜鉛合金から確率と時間へ——重い物から軽い体験へ商品の重心が移り、しかしフィギュアは今も市場の核として残る。玩具主導の崩落とコレクタブル・ガチャ・体験型の台頭は置換でなく堆積で、2020年代は配信を背に世界へ開いた作品が全方位の物販を同時に回す多元化に入った。</p>
+<p><small>留保：商品規模は累積量で古い作品ほど積み増す余地がある(右側打ち切り)ため、絶対値より年代別の構成比で読む。年代シェアは構成比であって市場規模ではない(玩具主導0.06=玩具市場6%ではない)。選定108作は商品展開で語る価値のある作品に寄り、市場の縮図ではない。少子化・ゲーム・配信・SNSが同時に動いた中で商品様式の変化だけを一因に帰せない。言えるのは商品展開の重心移動が産業構造の方向と緩やかに共変動している、という程度。</small></p>
+<p><small>関連視点：run#16(収益源)・run#32(円盤→サブスク)・run#13(原作・メディアミックス)・run#26(ロボとの向き合い方)・run#35(キャラ造形の萌え属性化)・run#49(製作委員会)・run#50(続編展開)。</small></p>
+
+<script>
+const P={"decs": ["1960", "1970", "1980", "1990", "2000", "2010", "2020"], "scale": [0.528, 0.711, 0.746, 0.746, 0.779, 0.816, 0.763], "toy": [0.333, 0.533, 0.412, 0.353, 0.267, 0.056, 0.143], "char": [0.5, 0.333, 0.353, 0.412, 0.4, 0.333, 0.571], "coll": [0.0, 0.0, 0.059, 0.176, 0.333, 0.5, 0.286], "exp": [0.0, 0.0, 0.0, 0.0, 0.0, 0.111, 0.0], "vid": [0.0, 0.0, 0.118, 0.0, 0.0, 0.0, 0.0], "mini": [0.167, 0.133, 0.059, 0.059, 0.0, 0.0, 0.0], "toyhigh": [0.417, 0.6, 0.647, 0.588, 0.333, 0.167, 0.286], "cardg": [0.0, 0.0, 0.118, 0.235, 0.067, 0.111, 0.071], "fig": [0.5, 0.733, 0.706, 0.529, 0.867, 0.722, 0.857], "revp": [0.0, 0.4, 0.412, 0.412, 0.4, 0.5, 0.429], "overall": {"character_goods": 44, "toy_driven": 32, "minimal": 6, "collectible_gacha": 22, "video_software": 2, "experiential": 2}, "n": 108};
+const D=[["鉄腕アトム", 1963, "character_goods", "large", "high", "figure", "major", "国産TV第1号。明治製菓提供で菓子/シール/玩具連動の先駆"], ["鉄人28号", 1963, "toy_driven", "large", "high", "figure", "major", "ブリキ/ソフビ/リモコンロボ玩具の古典"], ["エイトマン", 1963, "character_goods", "small", "low", "none", "ancillary", "丸美屋ふりかけ等の食品タイアップ中心"], ["狼少年ケン", 1963, "minimal", "small", "low", "none", "ancillary", "森永提供、玩具展開は限定的"], ["オバケのQ太郎", 1965, "character_goods", "large", "low", "none", "major", "不二家等キャラ商品、藤子ブームで日用品/菓子"], ["ジャングル大帝", 1965, "character_goods", "small", "low", "figure", "ancillary", "三洋提供、ぬいぐるみ等穏当"], ["マッハGoGoGo", 1967, "toy_driven", "large", "high", "figure", "major", "マッハ号のミニカー/プラモ"], ["ゲゲゲの鬼太郎", 1968, "character_goods", "large", "low", "figure", "major", "妖怪キャラ商品の長寿展開、下駄/ソフビ"], ["サイボーグ009", 1968, "character_goods", "small", "low", "figure", "ancillary", "石ノ森キャラ、ソフビ等限定"], ["巨人の星", 1968, "minimal", "small", "low", "none", "ancillary", "スポ根、玩具展開薄い"], ["タイガーマスク", 1969, "toy_driven", "large", "high", "none", "major", "プロレスごっこ/なりきり玩具"], ["ひみつのアッコちゃん", 1969, "toy_driven", "large", "high", "none", "major", "コンパクト等なりきり玩具(変身魔法少女商法の祖)"], ["マジンガーZ", 1972, "toy_driven", "mega", "high", "figure", "primary", "超合金1974誕生=ロボ玩具産業の原点(ポピー)"], ["科学忍者隊ガッチャマン", 1972, "toy_driven", "large", "high", "figure", "major", "なりきり/メカ超合金"], ["デビルマン", 1972, "character_goods", "small", "low", "figure", "ancillary", "ソフビ等限定"], ["宇宙戦艦ヤマト", 1974, "toy_driven", "large", "high", "figure", "major", "プラモ/設定資料、初の大人向けキャラ商品ブーム"], ["アルプスの少女ハイジ", 1974, "character_goods", "small", "low", "none", "ancillary", "カルピス劇場、キャラ商品穏当"], ["ゲッターロボ", 1974, "toy_driven", "mega", "high", "figure", "primary", "超合金/合体玩具"], ["勇者ライディーン", 1975, "toy_driven", "large", "high", "figure", "major", "超合金"], ["UFOロボ グレンダイザー", 1975, "toy_driven", "mega", "high", "figure", "primary", "超合金、仏で社会現象的玩具人気"], ["一休さん", 1975, "minimal", "small", "low", "none", "ancillary", "玩具展開薄い"], ["超電磁ロボ コン・バトラーV", 1976, "toy_driven", "mega", "high", "figure", "primary", "超合金合体玩具"], ["キャンディ・キャンディ", 1976, "character_goods", "large", "medium", "none", "major", "少女向けキャラ商品/文具が大ヒット"], ["銀河鉄道999", 1978, "character_goods", "large", "medium", "figure", "major", "松本キャラ商品/プラモ"], ["未来少年コナン", 1978, "minimal", "small", "low", "none", "ancillary", "宮崎、玩具展開薄い"], ["機動戦士ガンダム", 1979, "toy_driven", "mega", "high", "figure", "primary", "ガンプラ(1980〜)=プラモ産業の金字塔"], ["ドラえもん", 1979, "character_goods", "mega", "high", "figure", "primary", "国民的キャラ商品、玩具/文具/食品/日用品"], ["Dr.スランプ アラレちゃん", 1981, "character_goods", "large", "medium", "none", "major", "鳥山キャラ商品ブーム"], ["うる星やつら", 1981, "character_goods", "large", "medium", "figure", "major", "ラムちゃんキャラ商品/フィギュア"], ["超時空要塞マクロス", 1982, "toy_driven", "mega", "high", "figure", "primary", "バルキリー可変玩具/プラモ"], ["魔法のプリンセス ミンキーモモ", 1982, "toy_driven", "large", "high", "none", "major", "なりきり魔法少女玩具"], ["装甲騎兵ボトムズ", 1983, "toy_driven", "large", "high", "figure", "major", "ATプラモ(タカラ)"], ["キン肉マン", 1983, "collectible_gacha", "mega", "high", "figure", "primary", "キンケシ=ガチャ消しゴムが社会現象"], ["北斗の拳", 1984, "character_goods", "large", "medium", "figure", "major", "フィギュア/キャラ商品"], ["機動戦士Zガンダム", 1985, "toy_driven", "mega", "high", "figure", "primary", "ガンプラ"], ["タッチ", 1985, "minimal", "small", "low", "none", "ancillary", "あだち恋愛、玩具薄い"], ["聖闘士星矢", 1986, "toy_driven", "mega", "high", "figure", "primary", "聖闘士聖衣大系(クロス玩具)=なりきり/コレクタブルの金字塔"], ["ドラゴンボール", 1986, "character_goods", "mega", "high", "card_gacha", "primary", "カードダス/後の商品帝国の起点"], ["魔神英雄伝ワタル", 1988, "toy_driven", "large", "high", "figure", "major", "プラクション玩具"], ["鎧伝サムライトルーパー", 1988, "toy_driven", "large", "high", "figure", "major", "鎧なりきり玩具"], ["それいけ!アンパンマン", 1988, "character_goods", "mega", "high", "figure", "primary", "幼児向けキャラ商品の最大手、玩具/食品/日用品"], ["トップをねらえ!", 1988, "video_software", "small", "low", "figure", "ancillary", "OVA、ソフト販売主収益、後年フィギュア"], ["機動警察パトレイバー", 1988, "video_software", "small", "medium", "figure", "ancillary", "OVA/プラモ、ソフト主収益"], ["ドラゴンボールZ", 1989, "character_goods", "mega", "high", "card_gacha", "primary", "カードダス/カードゲーム+商品帝国"], ["勇者エクスカイザー", 1990, "toy_driven", "mega", "high", "figure", "primary", "タカラ合体ロボ玩具(勇者シリーズ)"], ["美少女戦士セーラームーン", 1992, "toy_driven", "mega", "high", "figure", "primary", "変身なりきり玩具/フィギュア=少女向け玩具復権"], ["クレヨンしんちゃん", 1992, "character_goods", "mega", "high", "none", "primary", "国民的キャラ商品"], ["幽☆遊☆白書", 1992, "character_goods", "large", "medium", "card_gacha", "major", "ジャンプキャラ商品/カードダス"], ["機動武闘伝Gガンダム", 1994, "toy_driven", "large", "high", "figure", "major", "ガンプラ"], ["新機動戦記ガンダムW", 1995, "toy_driven", "large", "high", "figure", "major", "ガンプラ、女性人気の拡張"], ["新世紀エヴァンゲリオン", 1995, "collectible_gacha", "mega", "medium", "figure", "primary", "フィギュア/プラモ/無数のコラボ=深夜キャラ商品ビジネスの転機"], ["スレイヤーズ", 1995, "character_goods", "small", "low", "none", "ancillary", "ラノベ系、グッズ限定"], ["名探偵コナン", 1996, "character_goods", "large", "low", "none", "major", "長寿キャラ商品/劇場連動"], ["るろうに剣心", 1996, "character_goods", "large", "medium", "figure", "major", "ジャンプキャラ商品"], ["機動戦艦ナデシコ", 1996, "character_goods", "small", "low", "figure", "ancillary", "フィギュア限定"], ["ポケットモンスター", 1997, "collectible_gacha", "mega", "high", "card_gacha", "primary", "ポケモンカード/玩具=世界最大級メディアミックス"], ["カウボーイビバップ", 1998, "minimal", "small", "low", "figure", "ancillary", "玩具薄い、後年フィギュア"], ["カードキャプターさくら", 1998, "toy_driven", "large", "high", "card_gacha", "major", "なりきり/カード玩具"], ["遊☆戯☆王", 1998, "collectible_gacha", "mega", "high", "card_gacha", "primary", "遊戯王カード=トレーディングカード収益の最高峰"], ["デジモンアドベンチャー", 1999, "toy_driven", "large", "high", "none", "major", "デジヴァイス携帯玩具"], ["ONE PIECE", 1999, "character_goods", "mega", "high", "figure", "primary", "フィギュア(一番くじ)/キャラ商品帝国"], ["機動戦士ガンダムSEED", 2002, "toy_driven", "mega", "high", "figure", "primary", "ガンプラ売上回復の立役者"], ["NARUTO", 2002, "character_goods", "mega", "high", "figure", "primary", "世界的キャラ商品"], ["鋼の錬金術師", 2003, "character_goods", "large", "medium", "figure", "major", "スクエニ系キャラ商品/フィギュア"], ["ふたりはプリキュア", 2004, "toy_driven", "mega", "high", "none", "primary", "変身なりきり玩具大系=女児玩具の屋台骨"], ["BLEACH", 2004, "character_goods", "large", "medium", "figure", "major", "ジャンプキャラ商品"], ["灼眼のシャナ", 2005, "character_goods", "small", "low", "figure", "ancillary", "ラノベ系フィギュア"], ["涼宮ハルヒの憂鬱", 2006, "collectible_gacha", "mega", "medium", "figure", "primary", "フィギュア/円盤/コラボ=深夜キャラ商品の象徴"], ["コードギアス", 2006, "character_goods", "large", "medium", "figure", "major", "ナイトメアプラモ/フィギュア"], ["銀魂", 2006, "character_goods", "large", "medium", "figure", "major", "ジャンプキャラ商品/コラボ多数"], ["らき☆すた", 2007, "collectible_gacha", "large", "low", "figure", "major", "聖地鷲宮コラボ/フィギュア"], ["アイドルマスター", 2007, "collectible_gacha", "large", "low", "card_gacha", "major", "後のソシャゲ/ガチャ収益の源流"], ["機動戦士ガンダム00", 2007, "toy_driven", "mega", "high", "figure", "primary", "ガンプラ"], ["マクロスF", 2008, "toy_driven", "large", "high", "figure", "major", "バルキリープラモ/CD"], ["けいおん!", 2009, "collectible_gacha", "mega", "medium", "figure", "primary", "楽器コラボ(ギブソン)/フィギュア/円盤"], ["化物語", 2009, "collectible_gacha", "large", "low", "figure", "major", "シャフト、円盤/フィギュア"], ["魔法少女まどか☆マギカ", 2011, "collectible_gacha", "mega", "medium", "figure", "primary", "フィギュア/一番くじ/ねんどろ=円盤バブル期の象徴"], ["TIGER & BUNNY", 2011, "collectible_gacha", "large", "medium", "figure", "major", "実在企業ロゴスポンサー=新商品形態、女性人気グッズ"], ["あの日見た花の名前を僕達はまだ知らない", 2011, "character_goods", "small", "low", "figure", "ancillary", "聖地秩父コラボ/フィギュア"], ["ソードアート・オンライン", 2012, "collectible_gacha", "large", "medium", "figure", "major", "フィギュア/ゲーム/グッズ"], ["ガールズ&パンツァー", 2012, "experiential", "mega", "medium", "figure", "primary", "戦車プラモ/聖地大洗コラボ/ライブ=体験型収益"], ["進撃の巨人", 2013, "character_goods", "mega", "high", "figure", "primary", "フィギュア/コラボ大量/USJ"], ["ラブライブ!", 2013, "experiential", "mega", "medium", "card_gacha", "primary", "ライブ/CD/スクフェス課金/グッズ=2.5次元体験収益の代表"], ["艦隊これくしょん", 2013, "collectible_gacha", "mega", "low", "figure", "primary", "ブラウザゲーム課金=ガチャ収益、フィギュア"], ["ご注文はうさぎですか?", 2014, "collectible_gacha", "large", "low", "figure", "major", "きらら、フィギュア/コラボ"], ["Fate/stay night UBW", 2014, "collectible_gacha", "large", "medium", "figure", "major", "フィギュア/コラボ、Fateブランド商品"], ["妖怪ウォッチ", 2014, "toy_driven", "mega", "high", "none", "primary", "妖怪メダル玩具=2014社会現象の玩具収益"], ["アイドルマスター シンデレラガールズ", 2015, "collectible_gacha", "mega", "low", "card_gacha", "primary", "デレステ等ソシャゲガチャ課金収益"], ["おそ松さん", 2015, "character_goods", "mega", "medium", "none", "primary", "女性向けグッズ大量/コラボ収益"], ["ユーリ!!! on ICE", 2016, "character_goods", "large", "medium", "figure", "major", "女性向けグッズ/コラボ"], ["Re:ゼロから始める異世界生活", 2016, "collectible_gacha", "large", "medium", "figure", "major", "レム人気フィギュア/コラボ"], ["君の名は。", 2016, "character_goods", "large", "low", "none", "major", "劇場ヒット連動グッズ/聖地"], ["けものフレンズ", 2017, "character_goods", "large", "low", "figure", "major", "ブーム時グッズ/コラボ"], ["鬼滅の刃", 2019, "collectible_gacha", "mega", "high", "figure", "primary", "一番くじ/フィギュア/コラボ品切れ続出=2019-20メガ商品"], ["劇場版 鬼滅の刃 無限列車編", 2020, "collectible_gacha", "mega", "high", "figure", "primary", "歴代興収1位連動、グッズ/コラボ爆発"], ["呪術廻戦", 2020, "collectible_gacha", "mega", "high", "figure", "primary", "一番くじ/フィギュア/コラボ大量"], ["ウマ娘 プリティーダービー", 2021, "collectible_gacha", "mega", "low", "card_gacha", "primary", "ソシャゲ課金=年間トップ級、グッズ/ライブ"], ["東京リベンジャーズ", 2021, "character_goods", "large", "medium", "figure", "major", "グッズ/コラボ"], ["SPY×FAMILY", 2022, "character_goods", "mega", "medium", "figure", "primary", "アーニャグッズ/コラボ大量(UNIQLO等)"], ["ぼっち・ざ・ろっく!", 2022, "collectible_gacha", "large", "medium", "figure", "major", "ギター/楽器コラボ/フィギュア/ライブ"], ["チェンソーマン", 2022, "character_goods", "large", "medium", "figure", "major", "MAPPAグッズ/コラボ"], ["機動戦士ガンダム 水星の魔女", 2022, "toy_driven", "mega", "high", "figure", "primary", "ガンプラ復権/女性新規層"], ["ブルーロック", 2022, "character_goods", "large", "medium", "figure", "major", "サッカーコラボ/グッズ"], ["【推しの子】", 2023, "character_goods", "large", "medium", "figure", "major", "アイドルグッズ/コラボ/楽曲"], ["葬送のフリーレン", 2023, "character_goods", "large", "low", "figure", "major", "フィギュア/コラボ"], ["ひろがるスカイ!プリキュア", 2023, "toy_driven", "mega", "high", "none", "primary", "変身玩具大系を継続"], ["薬屋のひとりごと", 2023, "character_goods", "small", "low", "figure", "ancillary", "グッズ穏当"], ["ダンジョン飯", 2024, "character_goods", "small", "low", "figure", "ancillary", "グッズ限定"]];
+Chart.defaults.color="#9aa0aa";Chart.defaults.font.family="system-ui";
+Chart.defaults.plugins.legend.labels.boxWidth=12;
+const gx={scales:{x:{grid:{color:"#2a2e37"}},y:{grid:{color:"#2a2e37"}}}};
+new Chart(c1,{type:"line",data:{labels:P.decs,datasets:[
+ {label:"玩具主導",data:P.toy,borderColor:"#e0a23b",backgroundColor:"#e0a23b",tension:.3},
+ {label:"コレクタブル/ガチャ",data:P.coll,borderColor:"#5aa9e6",backgroundColor:"#5aa9e6",tension:.3},
+ {label:"キャラ商品",data:P.char,borderColor:"#7bc47f",backgroundColor:"#7bc47f",tension:.3},
+ {label:"体験型",data:P.exp,borderColor:"#d96b8a",backgroundColor:"#d96b8a",tension:.3},
+]},options:{...gx,plugins:{title:{display:true,text:"主商品モデルの年代別シェア"}}}});
+new Chart(c2,{type:"line",data:{labels:P.decs,datasets:[
+ {label:"商品規模指数",data:P.scale,borderColor:"#e0a23b",backgroundColor:"rgba(224,162,59,.15)",fill:true,tension:.3}
+]},options:{...gx,scales:{...gx.scales,y:{...gx.scales.y,min:0.4,max:0.9}},plugins:{title:{display:true,text:"商品規模指数(0–1)"}}}});
+new Chart(c3,{type:"line",data:{labels:P.decs,datasets:[
+ {label:"玩具連動 high",data:P.toyhigh,borderColor:"#e0a23b",tension:.3},
+ {label:"カード/ガチャ",data:P.cardg,borderColor:"#5aa9e6",tension:.3},
+ {label:"フィギュア",data:P.fig,borderColor:"#7bc47f",tension:.3},
+ {label:"グッズ主収益",data:P.revp,borderColor:"#d96b8a",borderDash:[5,4],tension:.3},
+]},options:{...gx,plugins:{title:{display:true,text:"連動・コレクタブル・収益の推移"}}}});
+const ov=P.overall;const labels=Object.keys(ov);
+new Chart(c4,{type:"doughnut",data:{labels:labels,datasets:[{data:labels.map(k=>ov[k]),
+ backgroundColor:["#e0a23b","#7bc47f","#5aa9e6","#d96b8a","#9aa0aa","#b08bd6"]}]},
+ options:{plugins:{title:{display:true,text:"主商品モデル構成(108作)"},legend:{position:"right"}}}});
+// table
+let t='<h2>付表：作品一覧</h2><div class="card" style="overflow:auto;max-height:520px"><table><tr><th>年</th><th class="l">作品</th><th>モデル</th><th>規模</th><th>玩具</th><th>コレクタブル</th><th>収益</th></tr>';
+D.forEach(r=>{t+=`<tr><td>${r[1]}</td><td class="l">${r[0]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td></tr>`});
+t+='</table></div>';
+document.querySelector('.wrap').insertAdjacentHTML('beforeend',t);
+</script>
+</div></body></html>

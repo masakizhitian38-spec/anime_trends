@@ -3,26 +3,68 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>物語のテーマ 分析レポート</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1117;--card:#1a1d27;--ink:#e8eaف0;--mut:#9aa0b0;--acc:#7aa2f7;--acc2:#f7768e;--line:#2a2e3a}
-*{box-sizing:border-box}body{margin:0;background:#0f1117;color:#e8eaf0;font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.6}
-.wrap{max-width:1100px;margin:0 auto;padding:24px}
-h1{font-size:26px;margin:0 0 4px}h2{font-size:19px;margin:34px 0 10px;border-left:4px solid var(--acc);padding-left:10px}
-.sub{color:#9aa0b0;font-size:14px;margin-bottom:8px}
-.card{background:#1a1d27;border:1px solid #2a2e3a;border-radius:12px;padding:18px;margin:14px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}}
-.kpis{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
-.kpi{background:#1a1d27;border:1px solid #2a2e3a;border-radius:12px;padding:12px 16px;flex:1;min-width:150px}
-.kpi b{display:block;font-size:24px;color:#7aa2f7}.kpi span{font-size:12px;color:#9aa0b0}
-canvas{max-height:340px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:6px 8px;border-bottom:1px solid #2a2e3a;text-align:left}
-th{color:#9aa0b0;cursor:pointer;position:sticky;top:0;background:#1a1d27}
-.tbox{max-height:460px;overflow:auto;border:1px solid #2a2e3a;border-radius:10px}
-input,select{background:#0f1117;color:#e8eaf0;border:1px solid #2a2e3a;border-radius:8px;padding:6px 8px;margin:4px 6px 4px 0}
-.note{color:#9aa0b0;font-size:13px}
-.tag{display:inline-block;background:#252a38;border-radius:6px;padding:1px 7px;font-size:12px;margin:1px}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -38,27 +80,121 @@ input,select{background:#0f1117;color:#e8eaf0;border:1px solid #2a2e3a;border-ra
 
 <div class="kpis" id="kpis"></div>
 
+
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">戦後アニメのテーマは「外的な善悪（正義）」から「内的な問い（自己・実存）」を経て「関係と回復（喪失・日常）」へと、重心が三段で移動してきた。</p>
+<ul class="tldr-list">
+<li><b>1960年代は最も「浅い」</b>。勧善懲悪とほのぼの日常が中心で、問いの深さは最低水準。</li>
+<li><b>1970年代に深さが倍増</b>。反戦・死生観・実存が一気に流入し、アニメが「思想を盛る器」へ転じた。</li>
+<li><b>正義は縮小し、やがて「相対化される正義」へ質変化</b>。DEATH NOTE・コードギアス・PSYCHO-PASSが2000s以降に再浮上。</li>
+<li><b>自己探求はエヴァ（1995）を起点にゼロ年代で最高潮</b>。「自分は何者か」が中核テーマ化した。</li>
+<li><b>2020sは深さと成長物語が後退</b>。家族・日常・趣味ものが台頭し、テーマの多極化が進む。</li>
+</ul>
+</div>
+
+<h2>具体例 — テーマの転回点をつくった作品と、その言葉</h2>
+<div class="card ex">
+<h3>1970s｜燃え尽きる生 ── あしたのジョー</h3>
+<p>少年向けスポ根の枠を超え、「己を燃やし尽くす」生のテーマを刻んだ。最終盤、矢吹丈が静かに漏らす一言が、勝敗を超えた実存の主題を象徴する。</p>
+<div class="quote">「燃えたよ……まっ白に……燃えつきた……まっ白な灰に……」<span class="qby">— 矢吹丈／『あしたのジョー』（原作1968–73、TVアニメ1970–71）</span></div>
+
+<h3>1970s｜正義なき戦争 ── 機動戦士ガンダム</h3>
+<p>巨大ロボットものに「人間同士の戦争」というリアルを持ち込み、勧善懲悪を解体した。なし崩しに兵器の操縦者にされた少年の叫びが、英雄譚ではない戦争の手触りを伝える。</p>
+<div class="quote">「親父にもぶたれたことないのに！」<span class="qby">— アムロ・レイ／『機動戦士ガンダム』第9話「翔べ！ガンダム」（1979）</span></div>
+
+<h3>1990s｜自分は何者か ── 新世紀エヴァンゲリオン</h3>
+<p>「敵を倒す」物語の外側にある〈自己の不安〉を主題化した分水嶺。戦うことから逃げたい少年が自らに言い聞かせる反復が、ゼロ年代の「自己探求」ブームの起点になった。</p>
+<div class="quote">「逃げちゃダメだ、逃げちゃダメだ……やります、僕が乗ります！」<span class="qby">— 碇シンジ／『新世紀エヴァンゲリオン』第壱話「使徒、襲来」（1995）</span></div>
+
+<h3>2010s｜犠牲と運命の設計 ── 魔法少女まどか☆マギカ</h3>
+<p>可愛らしい魔法少女の意匠の下に「願いの代償」という残酷な構造を仕込み、犠牲・運命を精密に設計するゼロ年代以降の作劇を体現した。契約を持ちかける一言が、物語全体の罠を起動する。</p>
+<div class="quote">「僕と契約して、魔法少女になってよ！」<span class="qby">— キュゥべえ／『魔法少女まどか☆マギカ』（2011）</span></div>
+</div>
+
 <h2>1. 中心主題の分布</h2>
-<div class="card"><canvas id="cDist"></canvas></div>
+<div class="card"><div class="cbox"><canvas id="cDist"></canvas></div></div>
 
 <h2>2. 「問いの深さ」指数の年代変遷</h2>
 <div class="sub">浅い=0 / 中程度=0.5 / 深い=1.0 の年代平均</div>
-<div class="card"><canvas id="cDepth"></canvas></div>
+<div class="card"><div class="cbox"><canvas id="cDepth"></canvas></div></div>
 
 <h2>3. 主要テーマのシェア変遷</h2>
 <div class="sub">各年代の作品に占める中心主題の割合（抜粋）</div>
-<div class="card"><canvas id="cThemes"></canvas></div>
+<div class="card"><div class="cbox"><canvas id="cThemes"></canvas></div></div>
 
 <h2>4. 死・成長・自己同一性の主題</h2>
 <div class="grid">
-<div class="card"><div class="note">死の主題（中心シェア／指数）の年代変遷</div><canvas id="cDeath"></canvas></div>
-<div class="card"><div class="note">成長物語(核)・自己同一性(中心)のシェア変遷</div><canvas id="cBildId"></canvas></div>
+<div class="card"><div class="note">死の主題（中心シェア／指数）の年代変遷</div><div class="cbox"><canvas id="cDeath"></canvas></div></div>
+<div class="card"><div class="note">成長物語(核)・自己同一性(中心)のシェア変遷</div><div class="cbox"><canvas id="cBildId"></canvas></div></div>
 </div>
 
 <h2>5. 対象層別の「問いの深さ」</h2>
-<div class="card"><canvas id="cDemo"></canvas></div>
+<div class="card"><div class="cbox"><canvas id="cDemo"></canvas></div></div>
 
-<h2>6. 作品テーブル（並び替え・絞り込み）</h2>
+
+<h2 class="h2-essay">考察 — なぜテーマは「正義」から「自己」を経て「回復」へ動いたか</h2>
+<div class="essay">
+<p class="thesis">戦後アニメのテーマ史は、善が悪を倒す外的な物語から、「自分は何者か」を問う内的な物語へ、さらに喪失からの回復と「重くない幸福」へと、重心が三段で移ってきた。問いの深さはゼロ年代から2010年代に最高潮へ達し、2020年代に一度ゆるむ。</p>
+
+<h3>勧善懲悪期 — 善が悪を倒す（1960s）</h3>
+<p>黎明期の中心は、わかりやすい正義だった。鉄腕アトムや鉄人28号、魔法使いサリーが象徴するのは、敵を退ける娯楽とほのぼのとした日常で、哲学的・実存的な問いに踏み込む作品はまだ少ない。この年代の「問いの深さ」は全期間で最も低く、アニメはまず「子供のもの」として出発した。</p>
+
+<h3>思想注入期 — アニメが器になる（1970s）</h3>
+<p>1970年代に、深さの指数は一気に跳ね上がる。あしたのジョーが燃え尽きる生を、機動戦士ガンダムが正義なき戦争を、銀河鉄道999が有限の命を、デビルマンが人間こそ悪だという反転を、それぞれ正面から扱った。反戦・死生観・実存がまとめて流れ込み、アニメは「思想を盛る器」へと変わる。死を物語の中心装置として扱う傾向もこの年代から定着し、以後は<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/029_death_depiction/">死の描写の常態化</a>とも連動して高止まりを続ける。</p>
+
+<h3>二極化期 — 娯楽と思想の分岐（1980s）</h3>
+<p>1980年代に深さの平均値は一度下がるが、これはテーマの後退ではなく分母効果だ。Dr.スランプ・うる星やつら・らんま1/2のギャグとラブコメ、ドラゴンボール・北斗の拳の娯楽バトルがこの年代に厚い一方で、風の谷のナウシカ・火垂るの墓・AKIRA・Zガンダムといった最深度の作品も併存する。軽さと重さが同居し、二極化が進んだ年代と読むのが正確だ。</p>
+
+<h3>自己の時代 — 「自分は何者か」（1990s–2000s）</h3>
+<p>1995年の新世紀エヴァンゲリオンを起点に、テーマの中核は「敵を倒すこと」から「自分は何者か」へ移る。lain・攻殻機動隊が拓いた自己と存在の系譜は、化物語・ハチミツとクローバー・プラネテスなどゼロ年代作品で最も濃く花開いた。同時に正義も姿を変える。DEATH NOTE・コードギアス・PSYCHO-PASSは、単純な勧善懲悪ではなく「正義そのものを相対化し、暴走させる」物語として正義を質的に再浮上させた。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/003_antagonist_design/">敵役が主人公の鏡像へ近づく流れ</a>と同じ方向の変化である。</p>
+
+<h3>喪失と設計の時代（2010s）</h3>
+<p>2010年代は深さが高水準を保ったまま、喪失と再生が前景化する。STEINS;GATE・あの花・四月は君の嘘・君の名は。・ヴァイオレット・エヴァーガーデンは、死別や喪失からの回復を核に据え、運命や伏線を緻密に設計した。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/004_story_structure/">物語の構造の連続化</a>と歩調を合わせ、テーマは「精密に設計された喪失」へ収束していく。</p>
+
+<h3>回復と心地よさへの揺り戻し（2020s）</h3>
+<p>2020年代に入ると、問いの深さと「成長物語が核である」割合がともに下がる。SPY×FAMILYの家族、ゆるキャンの趣味、ぼっち・ざ・ろっくの日常が台頭し、未熟から成熟への一本道というビルドゥングスは物語の主軸ではなくなった。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/001_protagonist_attributes/">主人公の属性でも「成長アークの後退」</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/037_growth_arc/">成長アークの分析</a>とも整合する。一方で葬送のフリーレンが有限の生を、チェンソーマンが「普通の幸せ」を深く扱い、重い作品も共存する。テーマは単一の潮流ではなく多極化へ向かっている。なお対象年齢が上がるほどテーマが哲学的になる素直な勾配（青年＞一般＞少女＞少年＞児童）も一貫して観測され、テーマ史全体が<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/020_zeitgeist_reflection/">時代精神の反映</a>と響き合っている。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/006_ending_tone/">結末のトーン</a>の推移とあわせて読むと、この多極化の輪郭はいっそう鮮明になる。</p>
+</div>
+
+
+<h2>他者の論評との照合</h2>
+<div class="views">
+
+<div class="view">
+<div class="who"><span class="wl">論者</span>東 浩紀（批評家）<span class="stance sup">データと一致</span></div>
+<div class="vt">『動物化するポストモダン』— エヴァ以降、「大きな物語」が凋落し自己の不安が前景化</div>
+<p>東は、エヴァンゲリオン以降のオタク文化で社会全体を支える「大きな物語」が失われ、作品内のドラマや「自分は何者か」という自己同一性の課題へ関心が移ったと論じた。</p>
+<div class="match"><b>照合：</b>本分析でも自己同一性（中心）シェアは1980sの谷から<b>2000sで最大</b>へ跳ね、自己探求が同年代に最高潮という結果と方向が一致する。</div>
+<div class="src">出典：講談社現代新書『動物化するポストモダン』 <a href="https://www.kodansha.co.jp/book/products/0000147035">kodansha.co.jp</a></div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">論者</span>宇野 常寛（批評家）<span class="stance sup">データと一致</span></div>
+<div class="vt">『ゼロ年代の想像力』— セカイ系の引きこもりから「決断主義」へ、正義は競合するものへ</div>
+<p>宇野は、1995–2000年の引きこもり／セカイ系から、2000年代に各自が小さな価値を選び取り競い合う「決断主義（サヴァイヴ系）」へ想像力が移行したとし、DEATH NOTEやコードギアスをその代表に挙げた。</p>
+<div class="match"><b>照合：</b>本分析の「単純な正義の縮小」と、DEATH NOTE・コードギアス・PSYCHO-PASSによる<b>正義の相対化としての再浮上</b>という観察に対応する。</div>
+<div class="src">出典：早川書房『ゼロ年代の想像力』 <a href="https://www.kinokuniya.co.jp/f/dsg-01-9784152089410">kinokuniya.co.jp</a></div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">論者</span>前島 賢（評論家）<span class="stance neu">部分的に補強</span></div>
+<div class="vt">『セカイ系とは何か』— ゼロ年代後半、セカイ系から「空気系（日常系）」へ</div>
+<p>前島は、らき☆すた・けいおん!・あずまんが大王などの萌え4コマを「空気系（日常系）」と位置づけ、明確な物語を持たず雰囲気を楽しむ作品がゼロ年代後半にブーム化したと整理した。</p>
+<div class="match"><b>照合：</b>本分析でも「日常・幸福」テーマは<b>2000s（あずまんが／ハルヒ）から立ち上がり2010s以降に定着</b>しており、「事件のない幸福」の成立という記述と符合する。</div>
+<div class="src">出典：『セカイ系とは何か』／「空気系」 <a href="https://ja.wikipedia.org/wiki/%E7%A9%BA%E6%B0%97%E7%B3%BB">ja.wikipedia.org</a></div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">作り手</span>富野 由悠季（『機動戦士ガンダム』総監督）<span class="stance sup">データと一致</span></div>
+<div class="vt">ロボットものに「戦争のリアル」を持ち込み、勧善懲悪を解体した</div>
+<p>富野は、第二次大戦を知る世代としてガンダム（1979）に人間同士の戦争を描き込み、戦争の残酷さを通じて反戦を訴えたとインタビュー等で繰り返し述べている。リアルロボットという枠の確立は、子供向けの正義譚からの転換点だった。</p>
+<div class="match"><b>照合：</b>本分析の<b>1970年代に「問いの深さ」が急上昇</b>し、反戦・平和テーマが1970s–1980sに集中するという結果と一致する。</div>
+<div class="src">出典：富野由悠季（Wikipedia）／戦争への思い <a href="https://ja.wikipedia.org/wiki/%E5%AF%8C%E9%87%8E%E7%94%B1%E6%82%A0%E5%AD%A3">ja.wikipedia.org</a></div>
+</div>
+
+</div>
+
+<h2>7. 作品テーブル（並び替え・絞り込み）</h2>
 <div class="card">
 <input id="q" placeholder="作品名で検索">
 <select id="fct"><option value="">全主題</option></select>
@@ -85,10 +221,9 @@ var kpis=[["作品数",S.n],["中心主題の種類",Object.keys(S.central_theme
 document.getElementById("kpis").innerHTML=kpis.map(function(k){return '<div class="kpi"><b>'+k[1]+'</b><span>'+k[0]+'</span></div>';}).join("");
 
 // 1 distribution doughnut
+var PAL27=["#5cc8ff","#ffd166","#7ef0a2","#ff8fb1","#b79cff","#ff8c66","#6ea8fe","#c0ca33","#9aa7b5","#e9a6c8","#69d2c8","#f2b134"];
 var cd=S.central_theme_dist;
-new Chart(document.getElementById("cDist"),{type:"bar",
-data:{labels:Object.keys(cd),datasets:[{label:"作品数",data:Object.values(cd),backgroundColor:ACC}]},
-options:{indexAxis:"y",plugins:{legend:{display:false}},scales:{x:{grid:{color:GRID}},y:{grid:{display:false}}}}});
+(function(){var keys=Object.keys(cd).sort(function(a,b){return cd[b]-cd[a];});var tot=keys.reduce(function(a,k){return a+cd[k];},0);new Chart(document.getElementById("cDist"),{type:"bar",data:{labels:keys,datasets:[{label:"作品数",data:keys.map(function(k){return cd[k];}),backgroundColor:keys.map(function(k,i){return PAL27[i%PAL27.length];}),borderRadius:3,maxBarThickness:22}]},options:{indexAxis:"y",layout:{padding:{right:60}},plugins:{legend:{display:false},datalabels:{anchor:"end",align:"end",clamp:true,color:"#5b554a",font:{size:11,weight:"700"},formatter:function(v){return v+"（"+Math.round(100*v/tot)+"%）";}}},scales:{x:{beginAtZero:true,grace:"12%",grid:{color:GRID},ticks:{precision:0}},y:{grid:{display:false}}}},plugins:[ChartDataLabels]});})();
 
 // 2 depth index line
 new Chart(document.getElementById("cDepth"),{type:"line",

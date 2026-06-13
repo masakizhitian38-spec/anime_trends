@@ -3,29 +3,68 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>主人公の属性 — 視点別分析 (105作)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;}</script>
 <style>
-:root{--bg:#0f1220;--card:#1a1e33;--ink:#e8eaf2;--mut:#9aa3c0;--ac:#6ea8fe;--bd:#2a3050;}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.6}
-.wrap{max-width:1080px;margin:0 auto;padding:28px 18px 60px}
-h1{font-size:24px;margin:0 0 4px} h2{font-size:18px;margin:34px 0 12px;border-left:4px solid var(--ac);padding-left:10px}
-.sub{color:var(--mut);font-size:13px;margin-bottom:18px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
-.kpi{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px}
-.kpi b{font-size:22px;color:var(--ac)} .kpi span{display:block;color:var(--mut);font-size:12px;margin-top:2px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px}
-.card h3{margin:0 0 10px;font-size:14px;color:var(--ink)}
-canvas{max-height:300px}
-.note{color:var(--mut);font-size:12px;margin-top:8px}
-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
-th,td{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left;white-space:nowrap}
-th{color:var(--mut);position:sticky;top:0;background:var(--card);cursor:pointer}
-.tbl-wrap{max-height:460px;overflow:auto;border:1px solid var(--bd);border-radius:12px}
-input{background:#10142a;border:1px solid var(--bd);color:var(--ink);padding:7px 10px;border-radius:8px;width:220px}
-.tag{font-size:11px;padding:1px 6px;border-radius:6px;background:#26305a;color:#bcd0ff}
-ul{margin:6px 0} li{margin:3px 0}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/001_protagonist_attributes/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -43,42 +82,88 @@ ul{margin:6px 0} li{margin:3px 0}
 <div class="kpi"><b>105</b><span>分析対象作品</span></div>
 <div class="kpi"><b>67%</b><span>男性主人公</span></div>
 <div class="kpi"><b>55%</b><span>ティーン主人公</span></div>
-<div class="kpi"><b>40 / 30 / 30</b><span>凡人 / 特別 / 後天的(%)</span></div>
+<div class="kpi"><b>40%</b><span>凡人からの出発</span></div>
 <div class="kpi"><b>45%</b><span>明確な成長アーク(high)</span></div>
 </div>
 
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">アニメの主人公は「巻き込まれた普通の人間」から「普通だが力を得て世界を背負う存在」へ、さらに近年は「最初から強く・成り上がる存在」へと移ってきた。投影（共感）と願望充足（無双）の綱引きの歴史だ。</p>
+<ul class="tldr-list">
+<li><b>凡人 → 後天的に特別化。</b>1970年代の「巻き込まれた普通の人間」（ガンダム／ヤマト／スポ根）から、1990年代以降は「普通の主人公が力を得て背負う」型（エヴァ・NARUTO・進撃・ヒロアカ・呪術）が定型に。</li>
+<li><b>性格は多極化。</b>「熱血一強」（1970s）→内省（1990s）→知的・脱力・反英雄の併存（2000s〜）。</li>
+<li><b>動機がずれていく。</b>「守る／救う」を基調に、1980年代の恋愛、1990〜2010年代の復讐・重厚化、2020年代の上昇志向（成り上がり・頂点）が重なる。</li>
+<li><b>性別の偏りは不変。</b>男性主人公が一貫して多数派。女性主人公は少女向け・青年向けに偏り、少年向け本流ではごく稀。</li>
+</ul>
+</div>
+
+<h2>具体例 — 時代ごとの主人公像</h2>
+<p class="mut">各時代の典型を代表作で示す。引用は短く、出典（作品・年・話者）を併記した。</p>
+<div class="ex"><h3>巻き込まれた普通の人間（1970年代）</h3>
+<p>機動戦士ガンダムのアムロ・レイは軍人ではなく民間の少年で、偶然モビルスーツに乗ることになる。宇宙戦艦ヤマトの古代進も一士官。英雄ではなく「普通の人が状況に巻き込まれる」のがこの時代の主人公だった。</p></div>
+<div class="ex"><h3>普通の主人公が力を得て背負う（1990〜2010年代）</h3>
+<p>NARUTOのうずまきナルトは落ちこぼれから、進撃の巨人のエレンは無力な少年から、それぞれ世界の運命を背負う立場へと変わっていく。共感できる出発点と、強大な力・使命を両立させる型が定着した。</p>
+<blockquote class="quote">「駆逐してやる！！　この世から…一匹残らず！！」<span class="qby">— エレン・イェーガー／『進撃の巨人』(2013)</span></blockquote></div>
+<div class="ex"><h3>最初から強く、成り上がる（2020年代）</h3>
+<p>異世界転生もの（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/031_isekai_type/">異世界転生</a>）を中心に、最初から強い・あるいは急速に頂点へ駆け上がる主人公が増える（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/030_overpowered_protagonist/">最強主人公</a>）。共感より「無双の快感」に重心が移る。</p></div>
+
 <h2>1. 全体分布</h2>
 <div class="grid">
-<div class="card"><h3>性別</h3><canvas id="cG"></canvas></div>
-<div class="card"><h3>年齢層</h3><canvas id="cA"></canvas></div>
-<div class="card"><h3>凡人か特別か</h3><canvas id="cS"></canvas></div>
-<div class="card"><h3>成長の度合い</h3><canvas id="cGr"></canvas></div>
-<div class="card"><h3>性格類型（粗バケツ）</h3><canvas id="cP"></canvas></div>
-<div class="card"><h3>動機（粗バケツ）</h3><canvas id="cM"></canvas></div>
+<div class="card"><h3>性別</h3><div class="cbox"><canvas id="cG"></canvas></div></div>
+<div class="card"><h3>年齢層</h3><div class="cbox"><canvas id="cA"></canvas></div></div>
+<div class="card"><h3>凡人か特別か</h3><div class="cbox"><canvas id="cS"></canvas></div></div>
+<div class="card"><h3>成長の度合い</h3><div class="cbox"><canvas id="cGr"></canvas></div></div>
+<div class="card"><h3>性格類型（粗バケツ）</h3><div class="cbox"><canvas id="cP"></canvas></div></div>
+<div class="card"><h3>動機（粗バケツ）</h3><div class="cbox"><canvas id="cM"></canvas></div></div>
 </div>
 
 <h2>2. 時代による変遷</h2>
 <div class="grid">
-<div class="card"><h3>凡人 / 特別 / 後天的 × 年代（割合）</h3><canvas id="tS"></canvas>
+<div class="card"><h3>凡人 / 特別 / 後天的 × 年代（割合）</h3><div class="cbox"><canvas id="tS"></canvas></div>
 <div class="note">1970s=凡人(等身大)が主流 → 1990s以降「後天的に特別化」が台頭（2010sでピーク）。</div></div>
-<div class="card"><h3>成長の度合い × 年代（割合）</h3><canvas id="tGr"></canvas>
+<div class="card"><h3>成長の度合い × 年代（割合）</h3><div class="cbox"><canvas id="tGr"></canvas></div>
 <div class="note">1960s=不変型(low)多 → 1990s・2010sで成長アーク(high)がピーク。</div></div>
-<div class="card"><h3>性格類型 × 年代（積み上げ）</h3><canvas id="tP"></canvas>
+<div class="card"><h3>性格類型 × 年代（積み上げ）</h3><div class="cbox"><canvas id="tP"></canvas></div>
 <div class="note">1970s=熱血突出 → 1990s内向繊細の出現 → 2000s以降クール知的・飄々が増え多極化。</div></div>
-<div class="card"><h3>動機 × 年代（積み上げ）</h3><canvas id="tM"></canvas>
+<div class="card"><h3>動機 × 年代（積み上げ）</h3><div class="cbox"><canvas id="tM"></canvas></div>
 <div class="note">守る/救うが基調。1980s恋愛、1990-2010s復讐/打倒、2020s夢/自己実現が前景化。</div></div>
 </div>
 
-<h2>3. 主要な変遷知見</h2>
-<div class="card"><ul>
-<li><b>凡人→後天的特別化:</b> 1970sの「巻き込まれた普通の人間」(ガンダム/ヤマト/スポ根)から、1990s以降「普通の主人公が力を得る/背負う」定型(エヴァ・NARUTO・進撃・ヒロアカ・呪術)へ。投影と願望充足の両立。</li>
-<li><b>成長アークの強調:</b> 1990s・2010sで成長を明確に描く作品がピーク。長期ジャンプ系＋内省的成長劇が重なる。</li>
-<li><b>性格の多極化:</b> 「熱血一強」(1970s)→内省(1990s)→知的/脱力/反英雄の併存(2000s–2020s)。</li>
-<li><b>動機のシフト:</b> 守る/救う基調の上に、1980s恋愛・1990-2010s復讐/重厚化・2020s上昇志向(成り上がり/頂点)が重なる。</li>
-<li><b>性別の構造的偏り:</b> 男性優位は不変。女性主人公はshoujo・seinenに偏在し、shounen本流では稀。非人間主人公は黎明期と現代(転生/長命種)の二峰。</li>
-</ul></div>
+<h2 class="h2-essay">3. 考察 — なぜそうなるのか</h2>
+<div class="essay">
+<p class="thesis">主人公像は「共感できる普通さ」と「強さ・特別さへの願望」の綱引きで動いてきた。時代が求める比率が変わるたびに、主人公の出自・性格・動機が組み替えられる。</p>
+<h3>凡人から「後天的に特別化」へ</h3>
+<p>1970年代は「巻き込まれた普通の人間」が主流だった（ガンダム＝民間人アムロ、ヤマト＝一士官、スポ根＝努力で這い上がる若者）。1990年代以降は「普通の主人公が力を得る／背負う」型が定型化する（エヴァ・NARUTO・進撃・ヒロアカ・呪術）。共感の入口（普通さ）と願望充足（強さ）を両立させる発明だった。</p>
+<h3>性格の多極化と動機のシフト</h3>
+<p>性格は「熱血一強」（1970s）から、内省的主人公（1990s）を経て、知的・脱力・反英雄が併存する時代（2000s〜）へ広がった。動機も「守る／救う」を基調にしつつ、1980年代の恋愛、1990〜2010年代の復讐・重厚化、そして2020年代の上昇志向（成り上がり・頂点）が積み重なる。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">物語のテーマ</a>の重厚化や、その時代の世相（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/020_zeitgeist_reflection/">時代背景の反映</a>）と連動している。</p>
+<h3>性別の構造的な偏り</h3>
+<p>男性主人公が多数派という構図は戦後ほぼ不変で、女性主人公は少女向け・青年向けに偏り、少年向け本流ではごく稀だ（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/019_gender_representation/">ジェンダー表象</a>と同じ構造）。非人間主人公は黎明期（アトム・鬼太郎）と、2010年代以降の異世界・長命種ブーム（リムル・フリーレン）の両端で増える二峰性を示す。</p>
+<h3>留保</h3>
+<p>母集団は戦後〜現在の代表作105本で、ヒット作に寄る選定バイアスがある。性格・動機は粗いバケツ分類なので、個々の割合の絶対値ではなく、年代間の動きだけを読む。</p>
+</div>
+<h2>4. 研究者・批評家の見方 — データとの照合</h2>
+<p class="mut">主人公像の変遷をめぐる代表的な論と、本分析の傾向との照合。</p>
+<div class="views">
+<div class="view"><p class="who"><span class="wl">論者</span><b>東浩紀</b>『動物化するポストモダン』(2001)</p>
+<div class="vt">キャラクターは「萌え要素のデータベース」 <span class="stance neu">関連理論</span></div>
+<p>キャラは性格や設定の“要素”を組み合わせた記号であり、観客はその要素を消費する、という見方（データベース消費）。物語の必然より、キャラの属性が前面に出る。</p>
+<div class="match"><b>データとの照合：</b>性格類型が「熱血一強」から多極へ分散し、属性の組み合わせで主人公が作られていく本分析の傾向と接続する。ただし山川賢一らは過度の一般化だと批判しており、留保つきで扱う。</div>
+<p class="src">出典: <a href="https://www.kodansha.co.jp/book/products/0000147035">講談社（書誌）</a> ／ 批判: <a href="https://note.com/shinkai35/n/n01e8e2ccebaa">しんかい37（山川賢一）</a></p></div>
 
-<h2>4. 作品一覧（105作）</h2>
+<div class="view"><p class="who"><span class="wl">論者</span><b>宇野常寛</b>ほか（セカイ系批評）／ <b>KAI-YOU</b></p>
+<div class="vt">セカイ系の主人公＝「引きこもり／心理主義」 <span class="stance sup">支持</span></div>
+<p>1990年代後半〜2000年代の主人公は、社会という中間項を飛ばして「自分」と「世界の運命」が直結する。宇野はこれを内省的な「引きこもり／心理主義」と批判した。</p>
+<div class="match"><b>データとの照合：</b>内省的主人公が1990年代に台頭する本分析の流れと符合する。その後「空気系」「お仕事系」へ移る指摘も、性格・動機の多極化と整合的。</div>
+<p class="src">出典: <a href="https://premium.kai-you.net/article/522">KAI-YOU「セカイ系から空気系、お仕事系へ」</a> ／ <a href="https://dic.pixiv.net/a/%E3%82%BB%E3%82%AB%E3%82%A4%E7%B3%BB">セカイ系（概説）</a></p></div>
+
+<div class="view"><p class="who"><span class="wl">論者</span>なろう系・最強主人公をめぐる議論</p>
+<div class="vt">「最強・成り上がり」主人公への移行 <span class="stance neu">近年の論点</span></div>
+<p>2010年代後半以降、最初から強い・あるいは急速に成り上がる主人公が増えた。共感より万能感・上昇志向に重心が移ったとされ、「最強系はもう寿命では」という飽和論も出ている。</p>
+<div class="match"><b>データとの照合：</b>2020年代の動機が「上昇志向（成り上がり・頂点）」へ傾く本分析の結果と符合する（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/031_isekai_type/">異世界転生</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/030_overpowered_protagonist/">最強主人公</a>と連動）。</div>
+<p class="src">出典: <a href="https://ncode.syosetu.com/n5283fu/">「なろうの最強系主人公って、もう寿命じゃないか？」</a></p></div>
+</div>
+
+<h2>5. 作品一覧（105作）</h2>
 <input id="q" placeholder="作品名・主人公で絞り込み"/>
 <div class="tbl-wrap"><table id="tbl"><thead><tr>
 <th>作品</th><th>年</th><th>年代</th><th>形態</th><th>層</th><th>主人公</th><th>性別</th><th>年齢</th><th>性格</th><th>凡人/特別</th><th>成長</th>
@@ -89,24 +174,25 @@ ul{margin:6px 0} li{margin:3px 0}
 <script>
 const S={"decades": ["1960s", "1970s", "1980s", "1990s", "2000s", "2010s", "2020s"], "g": {"M": [2, 14, 11, 10, 11, 13, 9], "F": [2, 2, 3, 5, 2, 5, 3], "nonhuman": [4, 0, 0, 0, 1, 1, 2], "mixed": [0, 0, 1, 0, 1, 1, 2]}, "sp": {"凡人": [3, 10, 7, 5, 6, 7, 4], "特別": [5, 4, 6, 4, 3, 4, 5], "後天的": [0, 2, 2, 6, 5, 9, 7], "mixed": [0, 0, 0, 0, 1, 0, 0]}, "gr": {"high": [2, 7, 5, 8, 5, 12, 8], "medium": [1, 6, 4, 6, 8, 5, 5], "low": [5, 3, 6, 1, 2, 3, 3]}, "pe": {"天真爛漫": [3, 3, 4, 3, 0, 1, 3], "クール・知的": [0, 2, 0, 2, 3, 4, 4], "優しい・利他": [1, 1, 1, 0, 3, 4, 3], "熱血": [1, 4, 2, 2, 1, 1, 1], "飄々・お調子": [1, 0, 3, 0, 3, 3, 1], "内向・繊細": [0, 2, 1, 3, 1, 3, 1], "正義・高潔": [1, 2, 1, 2, 2, 1, 1], "その他": [1, 1, 2, 1, 2, 1, 2], "反骨・執念": [0, 1, 1, 2, 0, 2, 0]}, "mo": {"守る・救う": [0, 7, 5, 4, 5, 5, 3], "生存・日常": [2, 3, 2, 2, 3, 4, 1], "夢・自己実現": [2, 1, 1, 4, 1, 2, 5], "復讐・打倒": [1, 1, 0, 3, 3, 4, 1], "その他": [2, 2, 3, 0, 1, 3, 1], "恋愛・関係": [1, 0, 4, 0, 2, 0, 3], "探求・謎解き": [0, 2, 0, 2, 0, 1, 2], "贖罪・葛藤": [0, 0, 0, 0, 0, 1, 0]}, "gdist": {"M": 70, "F": 22, "nonhuman": 8, "mixed": 5}, "adist": {"teen": 58, "young_adult": 16, "child": 15, "varies": 9, "adult": 7}, "spdist": {"凡人": 42, "特別": 31, "後天的": 31, "mixed": 1}, "grdist": {"high": 47, "medium": 35, "low": 23}, "pdist": {"天真爛漫": 17, "クール・知的": 15, "優しい・利他": 13, "熱血": 12, "飄々・お調子": 11, "内向・繊細": 11, "正義・高潔": 10, "その他": 10, "反骨・執念": 6}, "mdist": {"守る・救う": 29, "生存・日常": 17, "夢・自己実現": 16, "復讐・打倒": 13, "その他": 12, "恋愛・関係": 10, "探求・謎解き": 7, "贖罪・葛藤": 1}};
 const ROWS=[["鉄腕アトム", 1963, "1960s", "TV", "kids", "アトム", "nonhuman", "child", "純真・正義感", "特別", "low"], ["鉄人28号", 1963, "1960s", "TV", "kids", "金田正太郎", "M", "child", "快活・少年探偵", "凡人", "low"], ["ジャングル大帝", 1965, "1960s", "TV", "kids", "レオ", "nonhuman", "varies", "高潔・理想主義", "特別", "medium"], ["魔法使いサリー", 1966, "1960s", "TV", "shoujo", "サリー", "F", "teen", "明るい・お転婆", "特別", "low"], ["巨人の星", 1968, "1960s", "TV", "shounen", "星飛雄馬", "M", "teen", "ド根性・執念", "凡人", "high"], ["ゲゲゲの鬼太郎", 1968, "1960s", "TV", "shounen", "鬼太郎", "nonhuman", "child", "飄々・正義", "特別", "low"], ["アタックNo.1", 1969, "1960s", "TV", "shoujo", "鮎原こずえ", "F", "teen", "負けん気・努力家", "凡人", "high"], ["ムーミン", 1969, "1960s", "TV", "kids", "ムーミン", "nonhuman", "varies", "おっとり・優しい", "特別", "low"], ["あしたのジョー", 1970, "1970s", "TV", "shounen", "矢吹丈", "M", "teen", "反骨・刹那的", "凡人", "high"], ["ルパン三世", 1971, "1970s", "TV", "seinen", "ルパン三世", "M", "adult", "飄々・知的・遊び人", "特別", "low"], ["マジンガーZ", 1972, "1970s", "TV", "shounen", "兜甲児", "M", "teen", "熱血・短気", "凡人", "medium"], ["デビルマン", 1972, "1970s", "TV", "shounen", "不動明", "M", "teen", "優しさと凶暴の二面", "後天的", "high"], ["科学忍者隊ガッチャマン", 1972, "1970s", "TV", "shounen", "大鷲の健", "M", "teen", "リーダー気質・熱血", "後天的", "medium"], ["アルプスの少女ハイジ", 1974, "1970s", "TV", "kids", "ハイジ", "F", "child", "天真爛漫・純粋", "凡人", "medium"], ["宇宙戦艦ヤマト", 1974, "1970s", "TV", "shounen", "古代進", "M", "young_adult", "熱血・正義感", "凡人", "high"], ["ゲッターロボ", 1974, "1970s", "TV", "shounen", "流竜馬", "M", "teen", "熱血・好戦的", "凡人", "medium"], ["フランダースの犬", 1975, "1970s", "TV", "kids", "ネロ", "M", "child", "純真・芸術家肌", "凡人", "medium"], ["UFOロボ グレンダイザー", 1975, "1970s", "TV", "shounen", "デューク・フリード", "M", "young_adult", "クール・高潔", "特別", "low"], ["母をたずねて三千里", 1976, "1970s", "TV", "kids", "マルコ", "M", "child", "健気・粘り強い", "凡人", "high"], ["未来少年コナン", 1978, "1970s", "TV", "kids", "コナン", "M", "teen", "快活・超人的体力", "特別", "medium"], ["銀河鉄道999", 1978, "1970s", "TV", "seinen", "星野鉄郎", "M", "teen", "純朴・芯が強い", "凡人", "high"], ["ベルサイユのばら", 1979, "1970s", "TV", "shoujo", "オスカル", "F", "young_adult", "凛々しい・誇り高い", "特別", "high"], ["機動戦士ガンダム", 1979, "1970s", "TV", "shounen", "アムロ・レイ", "M", "teen", "内向的・神経質→自覚", "凡人", "high"], ["ドラえもん", 1979, "1970s", "TV", "kids", "野比のび太", "M", "child", "怠惰・気弱・優しい", "凡人", "low"], ["うる星やつら", 1981, "1980s", "TV", "shounen", "諸星あたる", "M", "teen", "女好き・お調子者", "凡人", "low"], ["Dr.スランプ アラレちゃん", 1981, "1980s", "TV", "shounen", "則巻アラレ", "F", "child", "天真爛漫・怪力", "特別", "low"], ["超時空要塞マクロス", 1982, "1980s", "TV", "shounen", "一条輝", "M", "young_adult", "軽薄→責任感", "凡人", "high"], ["北斗の拳", 1984, "1980s", "TV", "shounen", "ケンシロウ", "M", "young_adult", "寡黙・無敵・情に厚い", "特別", "low"], ["風の谷のナウシカ", 1984, "1980s", "Movie", "general", "ナウシカ", "F", "teen", "聡明・慈愛・勇敢", "特別", "medium"], ["タッチ", 1985, "1980s", "TV", "shounen", "上杉達也", "M", "teen", "のんびり・才能を秘める", "凡人", "high"], ["ドラゴンボール", 1986, "1980s", "TV", "shounen", "孫悟空", "M", "varies", "天真爛漫・戦闘狂・善良", "特別", "high"], ["聖闘士星矢", 1986, "1980s", "TV", "shounen", "星矢", "M", "teen", "熱血・不屈", "後天的", "medium"], ["めぞん一刻", 1986, "1980s", "TV", "seinen", "五代裕作", "M", "young_adult", "優柔不断・誠実", "凡人", "high"], ["シティーハンター", 1987, "1980s", "TV", "seinen", "冴羽獠", "M", "adult", "二枚目半・凄腕", "特別", "low"], ["となりのトトロ", 1988, "1980s", "Movie", "kids", "草壁サツキ／メイ", "mixed", "child", "元気・素直", "凡人", "low"], ["火垂るの墓", 1988, "1980s", "Movie", "general", "清太", "M", "teen", "責任感・無力", "凡人", "medium"], ["AKIRA", 1988, "1980s", "Movie", "seinen", "金田正太郎", "M", "teen", "粗野・仲間思い", "凡人", "medium"], ["魔女の宅急便", 1989, "1980s", "Movie", "kids", "キキ", "F", "teen", "素直・自立心", "特別", "high"], ["らんま1/2", 1989, "1980s", "TV", "shounen", "早乙女乱馬", "M", "teen", "負けず嫌い・お調子者", "後天的", "low"], ["美少女戦士セーラームーン", 1992, "1990s", "TV", "shoujo", "月野うさぎ", "F", "teen", "泣き虫・愛と正義", "後天的", "high"], ["幽☆遊☆白書", 1992, "1990s", "TV", "shounen", "浦飯幽助", "M", "teen", "不良・情に厚い", "後天的", "high"], ["スラムダンク", 1993, "1990s", "TV", "shounen", "桜木花道", "M", "teen", "短絡的・負けず嫌い・天才肌", "凡人", "high"], ["新世紀エヴァンゲリオン", 1995, "1990s", "TV", "seinen", "碇シンジ", "M", "teen", "内向的・自己否定", "後天的", "medium"], ["攻殻機動隊", 1995, "1990s", "Movie", "seinen", "草薙素子", "F", "adult", "冷静・有能・哲学的", "特別", "medium"], ["るろうに剣心", 1996, "1990s", "TV", "shounen", "緋村剣心", "M", "young_adult", "温和・過去を背負う", "特別", "medium"], ["少女革命ウテナ", 1997, "1990s", "TV", "shoujo", "天上ウテナ", "F", "teen", "凛々しい・王子様志向", "凡人", "high"], ["ベルセルク", 1997, "1990s", "TV", "seinen", "ガッツ", "M", "young_adult", "孤高・執念・修羅", "後天的", "medium"], ["ポケットモンスター", 1997, "1990s", "TV", "kids", "サトシ", "M", "child", "熱血・楽天的", "凡人", "medium"], ["カウボーイビバップ", 1998, "1990s", "TV", "seinen", "スパイク・スピーゲル", "M", "adult", "飄々・ニヒル・過去を持つ", "特別", "low"], ["カードキャプターさくら", 1998, "1990s", "TV", "shoujo", "木之本桜", "F", "child", "明るい・前向き", "後天的", "high"], ["serial experiments lain", 1998, "1990s", "TV", "seinen", "岩倉玲音", "F", "teen", "内向的・希薄", "特別", "high"], ["ONE PIECE", 1999, "1990s", "TV", "shounen", "モンキー・D・ルフィ", "M", "teen", "天真爛漫・仲間第一", "後天的", "medium"], ["HUNTER×HUNTER", 1999, "1990s", "TV", "shounen", "ゴン=フリークス", "M", "child", "純真・残酷さも併せ持つ", "凡人", "high"], ["infinite Ryvius", 1999, "1990s", "TV", "seinen", "葉月考", "M", "teen", "平凡・優柔不断", "凡人", "high"], ["犬夜叉", 2000, "2000s", "TV", "shounen", "犬夜叉", "nonhuman", "varies", "乱暴・不器用・情", "特別", "medium"], ["NARUTO", 2002, "2000s", "TV", "shounen", "うずまきナルト", "M", "teen", "お調子者・諦めない", "後天的", "high"], ["機動戦士ガンダムSEED", 2002, "2000s", "TV", "shounen", "キラ・ヤマト", "M", "teen", "優しい・苦悩する", "特別", "high"], ["鋼の錬金術師", 2003, "2000s", "TV", "shounen", "エドワード・エルリック", "M", "teen", "短気・聡明・責任感", "後天的", "high"], ["BLEACH", 2004, "2000s", "TV", "shounen", "黒崎一護", "M", "teen", "ぶっきらぼう・正義感", "後天的", "medium"], ["涼宮ハルヒの憂鬱", 2006, "2000s", "TV", "seinen", "キョン／涼宮ハルヒ", "mixed", "teen", "やれやれ系／傍若無人", "mixed", "low"], ["DEATH NOTE", 2006, "2000s", "TV", "shounen", "夜神月", "M", "young_adult", "天才・冷酷・正義の妄執", "後天的", "medium"], ["コードギアス", 2006, "2000s", "TV", "shounen", "ルルーシュ", "M", "teen", "頭脳明晰・カリスマ・復讐心", "特別", "medium"], ["天元突破グレンラガン", 2007, "2000s", "TV", "shounen", "シモン", "M", "teen", "気弱→熱血", "凡人", "high"], ["CLANNAD", 2007, "2000s", "TV", "seinen", "岡崎朋也", "M", "teen", "不良・無気力→家族愛", "凡人", "high"], ["らき☆すた", 2007, "2000s", "TV", "seinen", "泉こなた", "F", "teen", "オタク・マイペース", "凡人", "low"], ["マクロスF", 2008, "2000s", "TV", "shounen", "早乙女アルト", "M", "young_adult", "凛々しい・歌舞伎の家", "凡人", "medium"], ["とらドラ!", 2008, "2000s", "TV", "seinen", "高須竜児", "M", "teen", "面倒見がよい・誤解されがち", "凡人", "medium"], ["けいおん!", 2009, "2000s", "TV", "seinen", "平沢唯", "F", "teen", "天然・マイペース", "凡人", "medium"], ["化物語", 2009, "2000s", "TV", "seinen", "阿良々木暦", "M", "teen", "皮肉屋・お人好し", "後天的", "medium"], ["魔法少女まどか☆マギカ", 2011, "2010s", "TV", "seinen", "鹿目まどか", "F", "teen", "優しい・自己犠牲", "後天的", "high"], ["STEINS;GATE", 2011, "2010s", "TV", "seinen", "岡部倫太郎", "M", "young_adult", "厨二病・お調子者→責任", "凡人", "high"], ["Fate/Zero", 2011, "2010s", "TV", "seinen", "衛宮切嗣", "M", "adult", "冷徹・理想と現実", "特別", "low"], ["ソードアート・オンライン", 2012, "2010s", "TV", "seinen", "キリト", "M", "teen", "クール・有能", "特別", "medium"], ["進撃の巨人", 2013, "2010s", "TV", "shounen", "エレン・イェーガー", "M", "teen", "激情・自由への執念", "後天的", "high"], ["キルラキル", 2013, "2010s", "TV", "seinen", "纏流子", "F", "teen", "勝気・直情", "後天的", "high"], ["四月は君の嘘", 2014, "2010s", "TV", "shounen", "有馬公生", "M", "teen", "内向的・トラウマ", "特別", "high"], ["東京喰種", 2014, "2010s", "TV", "seinen", "金木研", "M", "young_adult", "内気→苛烈", "後天的", "high"], ["ワンパンマン", 2015, "2010s", "TV", "seinen", "サイタマ", "M", "young_adult", "脱力系・無敵", "後天的", "low"], ["Re:ゼロから始める異世界生活", 2016, "2010s", "TV", "seinen", "ナツキ・スバル", "M", "teen", "引きこもり・空回り→成長", "後天的", "high"], ["僕のヒーローアカデミア", 2016, "2010s", "TV", "shounen", "緑谷出久", "M", "teen", "臆病だが正義感", "後天的", "high"], ["君の名は。", 2016, "2010s", "Movie", "general", "立花瀧／宮水三葉", "mixed", "teen", "行動的／芯が強い", "凡人", "medium"], ["この素晴らしい世界に祝福を!", 2016, "2010s", "TV", "seinen", "佐藤和真", "M", "teen", "ヘタレ・現実的・ツッコミ", "凡人", "low"], ["メイドインアビス", 2017, "2010s", "TV", "seinen", "リコ", "F", "child", "好奇心・タフ", "凡人", "medium"], ["ヴァイオレット・エヴァーガーデン", 2018, "2010s", "TV", "general", "ヴァイオレット", "F", "young_adult", "無感情→共感の獲得", "後天的", "high"], ["転生したらスライムだった件", 2018, "2010s", "TV", "seinen", "リムル=テンペスト", "nonhuman", "varies", "面倒見がよい・有能", "後天的", "medium"], ["鬼滅の刃", 2019, "2010s", "TV", "shounen", "竈門炭治郎", "M", "teen", "優しい・芯が強い・努力家", "凡人", "high"], ["ヴィンランド・サガ", 2019, "2010s", "TV", "seinen", "トルフィン", "M", "teen", "復讐の鬼→贖罪", "凡人", "high"], ["約束のネバーランド", 2019, "2010s", "TV", "shounen", "エマ", "F", "child", "明るい・聡明・利他", "凡人", "high"], ["Dr.STONE", 2019, "2010s", "TV", "shounen", "石神千空", "M", "teen", "天才・合理・好奇心", "特別", "medium"], ["呪術廻戦", 2020, "2020s", "TV", "shounen", "虎杖悠仁", "M", "teen", "お人好し・身体能力抜群", "後天的", "high"], ["無職転生", 2021, "2020s", "TV", "seinen", "ルーデウス", "M", "varies", "狡猾・有能・前世の悔い", "後天的", "high"], ["ヴィヴィ -Fluorite Eye's Song-", 2021, "2020s", "TV", "seinen", "ヴィヴィ", "nonhuman", "varies", "真面目・使命に忠実", "特別", "high"], ["王様ランキング", 2021, "2020s", "TV", "general", "ボッジ", "M", "child", "純真・健気", "凡人", "high"], ["SPY×FAMILY", 2022, "2020s", "TV", "shounen", "ロイド・フォージャー／アーニャ", "mixed", "varies", "完璧主義スパイ／天真爛漫", "特別", "low"], ["チェンソーマン", 2022, "2020s", "TV", "shounen", "デンジ", "M", "teen", "欲望に忠実・短絡", "後天的", "medium"], ["ぼっち・ざ・ろっく!", 2022, "2020s", "TV", "seinen", "後藤ひとり", "F", "teen", "極度の人見知り・陰キャ", "凡人", "high"], ["リコリス・リコイル", 2022, "2020s", "TV", "general", "錦木千束", "F", "teen", "天真爛漫・凄腕", "特別", "low"], ["ブルーロック", 2022, "2020s", "TV", "shounen", "潔世一", "M", "teen", "負けず嫌い・覚醒志向", "凡人", "high"], ["サイバーパンク エッジランナーズ", 2022, "2020s", "ONA", "seinen", "デイビッド", "M", "teen", "純真→暴走", "後天的", "high"], ["【推しの子】", 2023, "2020s", "TV", "seinen", "アクア(星野アクアマリン)", "M", "varies", "冷静・復讐心", "後天的", "medium"], ["葬送のフリーレン", 2023, "2020s", "TV", "shounen", "フリーレン", "nonhuman", "adult", "超然・無感情→人を知る", "特別", "medium"], ["薬屋のひとりごと", 2023, "2020s", "TV", "general", "猫猫", "F", "young_adult", "冷静・好奇心・毒愛好", "特別", "low"], ["ダンダダン", 2024, "2020s", "TV", "shounen", "高倉健／綾瀬桃", "mixed", "teen", "オカルト少年／霊感少女", "後天的", "medium"], ["俺だけレベルアップな件", 2024, "2020s", "TV", "shounen", "水篠旬(成軍宇)", "M", "young_adult", "弱者→冷徹な最強", "後天的", "high"], ["ダンジョン飯", 2024, "2020s", "TV", "seinen", "ライオス", "M", "adult", "変人・魔物愛好・誠実", "凡人", "medium"]];
-const PAL=["#6ea8fe","#ff6b8b","#ffd166","#06d6a0","#b388ff","#f78c6b","#4dd0e1","#c0ca33","#9aa3c0"];
-function pie(id,obj){const ls=Object.keys(obj),vs=Object.values(obj);
- new Chart(document.getElementById(id),{type:'doughnut',data:{labels:ls,datasets:[{data:vs,backgroundColor:PAL}]},
- options:{plugins:{legend:{position:'right',labels:{color:'#e8eaf2',font:{size:11}}}}}});}
-function pct100(series,decades){const tot=decades.map((_,i)=>Object.values(series).reduce((a,s)=>a+s[i],0));
- const out={};for(const k in series){out[k]=series[k].map((v,i)=>tot[i]?+(100*v/tot[i]).toFixed(1):0);}return out;}
-function stackedPct(id,series){const p=pct100(series,S.decades);
- const ds=Object.keys(p).map((k,i)=>({label:k,data:p[k],backgroundColor:PAL[i%PAL.length]}));
- new Chart(document.getElementById(id),{type:'bar',data:{labels:S.decades,datasets:ds},
- options:{responsive:true,scales:{x:{stacked:true,ticks:{color:'#9aa3c0'}},y:{stacked:true,max:100,ticks:{color:'#9aa3c0'}}},
- plugins:{legend:{labels:{color:'#e8eaf2',font:{size:10}}}}}});}
-function stackedCnt(id,series){const ds=Object.keys(series).map((k,i)=>({label:k,data:series[k],backgroundColor:PAL[i%PAL.length]}));
- new Chart(document.getElementById(id),{type:'bar',data:{labels:S.decades,datasets:ds},
- options:{responsive:true,scales:{x:{stacked:true,ticks:{color:'#9aa3c0'}},y:{stacked:true,ticks:{color:'#9aa3c0'}}},
- plugins:{legend:{labels:{color:'#e8eaf2',font:{size:10}}}}}});}
-pie('cG',S.gdist);pie('cA',S.adist);pie('cS',S.spdist);pie('cGr',S.grdist);pie('cP',S.pdist);pie('cM',S.mdist);
-stackedPct('tS',S.sp);stackedPct('tGr',S.gr);stackedCnt('tP',S.pe);stackedCnt('tM',S.mo);
-
+const PAL=["#5cc8ff","#ffd166","#7ef0a2","#ff8fb1","#b79cff","#ff8c66","#6ea8fe","#c0ca33","#9aa7b5"];
+const LM={M:"男性",F:"女性",nonhuman:"非人間",mixed:"混在",teen:"10代",young_adult:"20代",child:"子供",varies:"さまざま",adult:"成人",high:"明確",medium:"中程度",low:"希薄"};
+function jp(k){return LM[k]||k;}
+function hbar(id,obj){var e=Object.entries(obj).sort(function(a,b){return b[1]-a[1];});
+ var tot=e.reduce(function(a,x){return a+x[1];},0);
+ new Chart(document.getElementById(id),{type:"bar",
+  data:{labels:e.map(function(x){return jp(x[0]);}),datasets:[{data:e.map(function(x){return x[1];}),backgroundColor:e.map(function(x,i){return PAL[i%PAL.length];}),borderRadius:3,maxBarThickness:26}]},
+  options:{indexAxis:"y",layout:{padding:{right:62}},
+   plugins:{legend:{display:false},datalabels:{anchor:"end",align:"end",clamp:true,color:"#5b554a",font:{size:11,weight:"700"},formatter:function(v){return v+"（"+Math.round(100*v/tot)+"%）";}}},
+   scales:{x:{beginAtZero:true,grace:"15%",ticks:{precision:0}},y:{ticks:{font:{size:12}}}}},plugins:[ChartDataLabels]});}
+function pct100(series,decades){var tot=decades.map(function(_,i){return Object.values(series).reduce(function(a,s){return a+s[i];},0);});
+ var out={};for(var k in series){out[k]=series[k].map(function(v,i){return tot[i]?+(100*v/tot[i]).toFixed(1):0;});}return out;}
+function stk(id,series,pct){var data=pct?pct100(series,S.decades):series;
+ var ds=Object.keys(data).map(function(k,i){return {label:jp(k),data:data[k],backgroundColor:PAL[i%PAL.length]};});
+ new Chart(document.getElementById(id),{type:"bar",data:{labels:S.decades,datasets:ds},
+  options:{plugins:{legend:{labels:{font:{size:11}}},datalabels:{display:false}},
+   scales:{x:{stacked:true},y:{stacked:true,max:pct?100:undefined,ticks:{callback:function(v){return pct?v+"%":v;}}}}}});}
+hbar("cG",S.gdist);hbar("cA",S.adist);hbar("cS",S.spdist);hbar("cGr",S.grdist);hbar("cP",S.pdist);hbar("cM",S.mdist);
+stk("tS",S.sp,true);stk("tGr",S.gr,true);stk("tP",S.pe,false);stk("tM",S.mo,false);
 const tb=document.querySelector('#tbl tbody');
 function render(rows){tb.innerHTML=rows.map(r=>'<tr>'+r.map((c,i)=>i===9?'<td><span class="tag">'+c+'</span></td>':'<td>'+c+'</td>').join('')+'</tr>').join('');}
 render(ROWS);

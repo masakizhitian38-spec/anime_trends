@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>製作委員会・出資構造の変遷</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0f1220;--card:#181c2e;--ink:#e8eaf6;--sub:#9aa3c4;--ac:#ff8a5c;--ac2:#5cc8ff;--ac3:#9d7bff;--gd:#2a3050}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.75}
+.wrap{max-width:1000px;margin:0 auto;padding:32px 20px 80px}
+h1{font-size:26px;margin:0 0 6px;border-left:6px solid var(--ac);padding-left:12px}
+.sub{color:var(--sub);margin:0 0 28px;font-size:14px}
+h2{font-size:20px;margin:40px 0 14px;border-bottom:1px solid var(--gd);padding-bottom:8px}
+h3{font-size:16px;color:var(--ac2);margin:24px 0 8px}
+.card{background:var(--card);border:1px solid var(--gd);border-radius:12px;padding:18px 20px;margin:14px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+canvas{background:#11142440;border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0}
+th,td{border:1px solid var(--gd);padding:6px 9px;text-align:center}th{background:#1f2540;color:var(--ac2)}
+td.l,th.l{text-align:left}
+.kpi{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0}
+.kpi div{background:var(--card);border:1px solid var(--gd);border-radius:10px;padding:12px 16px;flex:1;min-width:150px}
+.kpi b{display:block;font-size:24px;color:var(--ac)}
+.kpi span{font-size:12px;color:var(--sub)}
+p{margin:10px 0}
+.quote{border-left:4px solid var(--ac3);background:#1a1f36;border-radius:8px;padding:12px 16px;margin:12px 0}
+.quote .src{display:block;margin-top:6px;font-size:12px;color:var(--sub)}
+.quote a{color:var(--ac2);text-decoration:none}.quote a:hover{text-decoration:underline}
+.pro{border-left-color:#4caf82}.con{border-left-color:#ff6b6b}.mid{border-left-color:#ffd166}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;margin-right:6px}
+.tag.p{background:#173a2c;color:#7fe0b0}.tag.c{background:#3a1a1a;color:#ff9a9a}.tag.m{background:#3a3417;color:#ffe08a}
+small{color:var(--sub)}
+</style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/049_production_committee_financing/">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="日本アニメ 変遷データベース">
+<meta property="og:title" content="製作委員会・出資構造の変遷">
+<meta name="twitter:card" content="summary">
+<style>#__home{position:sticky;top:0;z-index:99;background:#0b0d12ee;backdrop-filter:blur(6px);border-bottom:1px solid #232838;padding:8px 16px;font:14px system-ui,sans-serif}#__home a{color:#8ab4ff;text-decoration:none}#__home a:hover{text-decoration:underline}</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-51N89XJ20Q"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-51N89XJ20Q');</script>
+</head><body><div id="__home"><a href="../../">← 視点一覧トップへ</a></div><div class="wrap">
+<h1>製作委員会・出資構造の変遷</h1>
+<p class="sub">視点049 / 109作 / 戦後〜2024 ｜ 「誰が金を出し誰が権利を握るか」の60年</p>
+
+<div class="kpi">
+<div><b>0→94%</b><span>製作委員会浸透率（1960s→2010sピーク）</span></div>
+<div><b>2.0→4.1</b><span>参加業種の広さ（平均, 1960s→2010s）</span></div>
+<div><b>11.8%</b><span>2020s 配信単独出資シェア（新台頭）</span></div>
+<div><b>76.5%</b><span>2020s 委員会率（10sから多極化で低下）</span></div>
+</div>
+
+<h2>1. 委員会浸透と新モデルの台頭</h2>
+<div class="grid2">
+<div class="card"><h3>委員会方式の浸透率（年代別）</h3><canvas id="c1" height="220"></canvas>
+<p><small>0 →(80s)6.7% →(90s)47% →(00s)84% →(10s)94%ピーク →(20s)76.5%。AKIRA(1988)で初出、エヴァ(1995)で標準化、円盤期に圧倒。</small></p></div>
+<div class="card"><h3>配信単独・国際共同・スタジオ自社（新出資, 年代別）</h3><canvas id="c2" height="220"></canvas>
+<p><small>2020sに配信単独11.8%・国際共同5.9%・スタジオ自社が同時台頭＝委員会率“低下”の正体は「分母の多様化」。</small></p></div>
+</div>
+
+<h2>2. 出資モデルの重心移動</h2>
+<div class="card"><h3>funding_model シェア（年代別・積み上げ）</h3><canvas id="c3" height="260"></canvas>
+<p><small>スポンサー単独(60s)→玩具主導(70s)→ビデオ/OVA(80s)→製作委員会(90s–10s)→配信・海外・自社へ拡散(20s)。</small></p></div>
+
+<div class="grid2">
+<div class="card"><h3>資金規模指数 & 業種の広さ</h3><canvas id="c4" height="220"></canvas>
+<p><small>規模指数 0→0.63 単調増、業種の広さ 2.0→4.1。リスク分散の徹底＝広く薄い出資。</small></p></div>
+<div class="card"><h3>主導業種の世代交代</h3>
+<table><tr><th>年代</th><th class="l">主導業種トップ</th></tr>
+<tr><td>1960s</td><td class="l">放送局・代理店</td></tr>
+<tr><td>1970s</td><td class="l">玩具メーカー</td></tr>
+<tr><td>1980s</td><td class="l">出版社・映像ソフト</td></tr>
+<tr><td>1990s</td><td class="l">出版社（＋玩具・ゲーム）</td></tr>
+<tr><td>2000s</td><td class="l">出版社</td></tr>
+<tr><td>2010s</td><td class="l"><b>制作スタジオ</b></td></tr>
+<tr><td>2020s</td><td class="l"><b>制作スタジオ</b>（＋配信）</td></tr></table>
+</div></div>
+
+<h2>3. クロス集計</h2>
+<div class="grid2">
+<div class="card"><h3>対象層別 委員会率</h3><canvas id="c5" height="220"></canvas>
+<p><small>青年0.69＞一般0.46＞少年0.43＞少女0.20＞児童0.07。委員会の恩恵は青年・深夜に偏在、児童向けは今も玩具・スポンサー型。</small></p></div>
+<div class="card"><h3>種別 委員会率・業種の広さ</h3>
+<table><tr><th>種別</th><th>委員会率</th><th>業種の広さ</th><th>n</th></tr>
+<tr><td>劇場</td><td>0.58</td><td>4.17</td><td>12</td></tr>
+<tr><td>TV</td><td>0.53</td><td>3.28</td><td>89</td></tr>
+<tr><td>OVA</td><td>0.00</td><td>2.12</td><td>8</td></tr></table>
+<p><small>OVAは映像ソフト単独出資＝構造的に非委員会。劇場は業種最大（大型分散出資）。</small></p></div>
+</div>
+
+<h2>4. 考察（要旨）</h2>
+<div class="card">
+<p><b>大きな弧＝「主導権の周期交代」</b>：出資の主役はスポンサー(60s)→玩具(70s)→映像ソフト(80s)→製作委員会という多業種連合(90s–10s)→配信・海外・スタジオ自社(20s)へ移った。各交代は美学でなく<b>「その時代に最も確実に回収できる窓口は何か」</b>への最適応答。産業メタ群（run#11/13/14/16/32）と同型の「○○の所在が約20年周期で交代」テンプレの、最も根源的（資金source）な現れ。</p>
+<p><b>2020sの委員会率低下は退行でなく分母の多様化</b>：10s 94%→20s 76.5%の低下は委員会の機能不全ではなく、配信単独・国際共同・スタジオ自社という<b>新しい出資の出口が同時に開いた</b>結果。資金規模指数は2020sで最高(0.63)。run#10/#12/#46の「平均の凹み＝構成効果」と同じ読み。</p>
+<p><b>「最も金が集まるのに作り手が貧しい」逆説</b>：業界に史上最高の資金が流入する一方、スタジオが委員会に出資できねば大ヒットしても不還元（児童向け委員会率0.07の偏りに対応）。広く薄い出資（業種の広さ拡大）が、裏面で個別予算の頭打ちを生む。この不満が配信・海外・自社出資という「委員会の外」を育てた。</p>
+<p>→ 詳細は <b>analysis.md</b>（時代背景・転換点・反証・他者論評との対話）を参照。</p>
+</div>
+
+<h2>5. 他者の論評（賛否両論・出典付き）</h2>
+
+<h3>功（リスク分散・作品数爆発）</h3>
+<div class="quote pro"><span class="tag p">功</span>委員会は複数社が出資・著作権を共有してリスクを分散し、放送局＝放送、玩具＝商品化、出版社＝出版と「得意な窓口を分担」できる合理的装置。1989年77本→2017年340本という作品数の激増を支えた。
+<span class="src"><a href="https://fullfrontal.moe/production-committees/">fullfrontal.moe — Production Committees</a> ／ <a href="https://chizai-faq.com/2__copyright/2920">知財FAQ</a></span></div>
+
+<h3>罪（不還元・予算上限・保守化）</h3>
+<div class="quote con"><span class="tag c">罪</span>「業界は史上最も金を集めているのにアニメーターは貧しい」。幹事会社が各社の支出上限を事前に決める談合的運用で予算が抑えられ、中国企業の$10M単独出資も委員会は20本に$50,000ずつ分散して主導権を保つ——と岡田斗司夫は告発。
+<span class="src"><a href="https://crazyforanimetrivia.com/anime-production-committee/">Crazy for Anime Trivia</a> ／ <a href="https://www.animenewsnetwork.com/interest/2023-03-02/animator-supporters-project-posts-toshio-okada-criticisms-of-production-committee-system-with-/.195481">Anime News Network</a></span></div>
+<div class="quote con"><span class="tag c">罪</span>スタジオが委員会に出資していなければ大ヒットしても利益が還元されない。出資したくても資金的余裕のないスタジオが多い。権利分散で意思決定が遅く、国際共同製作を遠ざけ、原作付きに投資が偏る。
+<span class="src"><a href="https://paradigm-shift.co.jp/column/139/detail">パラダイムシフト</a> ／ <a href="https://chizai-faq.com/2__copyright/2920">知財FAQ</a></span></div>
+
+<h3>中庸（「委員会＝悪」説への留保）</h3>
+<div class="quote mid"><span class="tag m">中庸</span>「製作委員会悪者説」の提唱者・岩堀利樹自身が委員会を全否定しない。問題は方式そのものより運用（予算分配・スタジオの交渉力）にある——委員会は「悪」でも「善」でもなく、その時代の回収構造に最適化した器。
+<span class="src"><a href="https://note.com/musing/n/nfb9fed9c38bb">岩堀利樹（note）</a></span></div>
+
+<h3>新潮流（配信・海外・機関投資家・スタジオ自社）</h3>
+<div class="quote"><span class="tag m">潮流</span>NetflixはIG PortにFY2024で$24.3Mを直接支払う規模。配信は委員会の窓口に名を連ねず契約で権利を確保する不透明性を持つが、個別作品に一括出資できる。アニメに機関投資家マネーも流入。
+<span class="src"><a href="https://animecorner.me/anime-ig-port-netflix-24-3-million-2024/">Anime Corner</a> ／ <a href="https://variety.com/2024/film/news/comic-con-japan-anime-industry-finance-1236084281/">Variety</a></span></div>
+<div class="quote"><span class="tag m">潮流</span>MAPPAはチェンソーマンを100%自社出資。大塚学社長「制作だけでなく全権を注ぎたかった」＝利益不還元問題への直接回答。ただしクールジャパン機構のブリッジ融資が裏支えしており「完全な自立」には留保が要る。
+<span class="src"><a href="https://automaton-media.com/en/news/chainsaw-man-embodies-the-reason-why-i-chose-to-work-in-animation-mappa-president-reflects-on-the-studios-bold-decision-to-100-self-fund-the-project/">AUTOMATON WEST</a> ／ <a href="https://www.animenewsnetwork.com/interest/2023-05-18/mappa-ceo-reflects-on-financial-performance-of-chainsaw-man/.198194">ANN</a></span></div>
+
+<p style="margin-top:30px"><small>母集団109作の選定・コード化基準・confidenceは titles.md / data.json、統計の全数値は stats.json、考察全文は analysis.md を参照。委員会の出資比率・幹事構成は非公開が多くlead_backer等はconfidence=medium〜low。絶対値でなく分布の系統的変化を読む。</small></p>
+</div>
+<script>
+const S={"n": 109, "decades": [1960, 1970, 1980, 1990, 2000, 2010, 2020], "fm_share_by_decade": {"1960": {"sponsor_single": 1.0, "toy_merch": 0.0, "video_publisher": 0.0, "committee": 0.0, "studio_self": 0.0, "streaming": 0.0, "intl_copro": 0.0, "n": 11}, "1970": {"sponsor_single": 0.538, "toy_merch": 0.462, "video_publisher": 0.0, "committee": 0.0, "studio_self": 0.0, "streaming": 0.0, "intl_copro": 0.0, "n": 13}, "1980": {"sponsor_single": 0.267, "toy_merch": 0.267, "video_publisher": 0.333, "committee": 0.067, "studio_self": 0.067, "streaming": 0.0, "intl_copro": 0.0, "n": 15}, "1990": {"sponsor_single": 0.118, "toy_merch": 0.235, "video_publisher": 0.059, "committee": 0.471, "studio_self": 0.059, "streaming": 0.0, "intl_copro": 0.059, "n": 17}, "2000": {"sponsor_single": 0.053, "toy_merch": 0.053, "video_publisher": 0.0, "committee": 0.842, "studio_self": 0.053, "streaming": 0.0, "intl_copro": 0.0, "n": 19}, "2010": {"sponsor_single": 0.0, "toy_merch": 0.0, "video_publisher": 0.0, "committee": 0.941, "studio_self": 0.0, "streaming": 0.059, "intl_copro": 0.0, "n": 17}, "2020": {"sponsor_single": 0.0, "toy_merch": 0.0, "video_publisher": 0.0, "committee": 0.765, "studio_self": 0.059, "streaming": 0.118, "intl_copro": 0.059, "n": 17}}, "committee_use_by_decade": {"1960": {"committee": 0.0, "platform": 0.0, "coproduction": 0.0, "n": 11}, "1970": {"committee": 0.0, "platform": 0.0, "coproduction": 0.0, "n": 13}, "1980": {"committee": 0.067, "platform": 0.0, "coproduction": 0.0, "n": 15}, "1990": {"committee": 0.471, "platform": 0.0, "coproduction": 0.059, "n": 17}, "2000": {"committee": 0.842, "platform": 0.0, "coproduction": 0.0, "n": 19}, "2010": {"committee": 0.941, "platform": 0.059, "coproduction": 0.0, "n": 17}, "2020": {"committee": 0.765, "platform": 0.118, "coproduction": 0.059, "n": 17}}, "industry_breadth_by_decade": {"1960": 2.0, "1970": 2.62, "1980": 2.8, "1990": 3.12, "2000": 3.74, "2010": 4.06, "2020": 4.0}, "scale_index_by_decade": {"1960": 0.0, "1970": 0.331, "1980": 0.465, "1990": 0.449, "2000": 0.491, "2010": 0.569, "2020": 0.628}, "lead_backer_by_decade": {"1960": [["tv_ad", 9], ["toymaker", 2]], "1970": [["toymaker", 5], ["tv_ad", 4], ["publisher", 2]], "1980": [["publisher", 7], ["video", 5], ["toymaker", 2]], "1990": [["publisher", 5], ["toymaker", 3], ["game", 3]], "2000": [["publisher", 11], ["studio", 4], ["game", 2]], "2010": [["studio", 7], ["publisher", 5], ["music", 2]], "2020": [["studio", 11], ["publisher", 2], ["streaming", 2]]}, "by_demographic": {"general": {"committee_share": 0.455, "n": 11}, "seinen": {"committee_share": 0.694, "n": 49}, "shoujo": {"committee_share": 0.2, "n": 5}, "shounen": {"committee_share": 0.433, "n": 30}, "children": {"committee_share": 0.071, "n": 14}}, "by_type": {"movie": {"committee_share": 0.583, "breadth": 4.17, "n": 12}, "tv": {"committee_share": 0.528, "breadth": 3.28, "n": 89}, "ova": {"committee_share": 0.0, "breadth": 2.12, "n": 8}}};
+const decs=S.decades, L=decs.map(d=>d+'s');
+const ink='#e8eaf6',sub='#9aa3c4',gd='#2a3050';
+Chart.defaults.color=sub;Chart.defaults.borderColor=gd;Chart.defaults.font.family='sans-serif';
+const cu=S.committee_use_by_decade;
+new Chart(c1,{type:'line',data:{labels:L,datasets:[{label:'製作委員会率',data:decs.map(d=>cu[d].committee*100),borderColor:'#ff8a5c',backgroundColor:'#ff8a5c22',fill:true,tension:.3,pointRadius:4}]},options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'%'},max:100}}}});
+new Chart(c2,{type:'line',data:{labels:L,datasets:[
+{label:'配信単独',data:decs.map(d=>cu[d].platform*100),borderColor:'#5cc8ff',tension:.3,pointRadius:4},
+{label:'国際共同',data:decs.map(d=>cu[d].coproduction*100),borderColor:'#9d7bff',tension:.3,pointRadius:4}]},options:{scales:{y:{title:{display:true,text:'%'}}}}});
+const fm=S.fm_share_by_decade;const keys=['sponsor_single','toy_merch','video_publisher','committee','studio_self','streaming','intl_copro'];
+const lab={sponsor_single:'スポンサー単独',toy_merch:'玩具主導',video_publisher:'ビデオ/OVA',committee:'製作委員会',studio_self:'スタジオ自社',streaming:'配信単独',intl_copro:'海外共同'};
+const col={sponsor_single:'#8d9db6',toy_merch:'#ffb74d',video_publisher:'#4dd0e1',committee:'#ff8a5c',studio_self:'#81c784',streaming:'#64b5f6',intl_copro:'#ba68c8'};
+new Chart(c3,{type:'bar',data:{labels:L,datasets:keys.map(k=>({label:lab[k],data:decs.map(d=>fm[d][k]*100),backgroundColor:col[k]}))},options:{scales:{x:{stacked:true},y:{stacked:true,max:100,title:{display:true,text:'%'}}}}});
+const br=S.industry_breadth_by_decade, sc=S.scale_index_by_decade;
+new Chart(c4,{data:{labels:L,datasets:[
+{type:'line',label:'資金規模指数',data:decs.map(d=>sc[d]),borderColor:'#ff8a5c',yAxisID:'y',tension:.3,pointRadius:4},
+{type:'bar',label:'業種の広さ',data:decs.map(d=>br[d]),backgroundColor:'#5cc8ff55',yAxisID:'y1'}]},
+options:{scales:{y:{position:'left',max:1,title:{display:true,text:'規模指数'}},y1:{position:'right',max:6,grid:{drawOnChartArea:false},title:{display:true,text:'業種数'}}}}});
+const dm=S.by_demographic;const order=['seinen','general','shounen','shoujo','children'];const dl={seinen:'青年',general:'一般',shounen:'少年',shoujo:'少女',children:'児童'};
+new Chart(c5,{type:'bar',data:{labels:order.map(k=>dl[k]),datasets:[{label:'委員会率',data:order.map(k=>dm[k].committee_share*100),backgroundColor:order.map(k=>k=='children'?'#ff6b6b':'#ff8a5c')}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{max:100,title:{display:true,text:'委員会率 %'}}}}});
+</script></body></html>

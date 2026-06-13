@@ -2,35 +2,68 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>視点019 ジェンダー表象の変遷</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1117;--card:#181b24;--ink:#e8eaf0;--sub:#9aa3b5;--ac:#e8669a;--ac2:#5ec8d8;--ac3:#f2b85a;--line:#262b38}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Meiryo,sans-serif;line-height:1.7}
-.wrap{max-width:1060px;margin:0 auto;padding:28px 18px 80px}
-h1{font-size:25px;margin:0 0 4px;letter-spacing:.02em}
-h2{font-size:19px;margin:38px 0 12px;padding-left:10px;border-left:4px solid var(--ac)}
-h3{font-size:15px;color:var(--ac2);margin:22px 0 8px}
-.sub{color:var(--sub);font-size:13px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}}
-.kpi{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
-.kpi div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;flex:1;min-width:150px}
-.kpi b{font-size:21px;color:var(--ac3);display:block}
-.kpi span{font-size:12px;color:var(--sub)}
-canvas{max-height:300px}
-table{border-collapse:collapse;width:100%;font-size:12.5px}
-th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
-th{color:var(--ac2);cursor:pointer;position:sticky;top:0;background:var(--card)}
-.tb{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:10px}
-.note{background:#2a1c22;border:1px solid #5a2e3e;border-radius:10px;padding:12px 16px;margin:14px 0;font-size:13.5px}
-.quote{border-left:3px solid var(--ac2);background:#141821;border-radius:8px;padding:12px 14px;margin:10px 0;font-size:13.5px}
-.quote.con{border-left-color:var(--ac3)}
-.quote .src{display:block;margin-top:6px;font-size:11.5px}
-a{color:var(--ac2)}
-select,input{background:#11141c;color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:5px 8px;font-size:12.5px}
-.tag{display:inline-block;padding:1px 7px;border-radius:20px;font-size:11px;background:#222838;color:var(--sub)}
-p{font-size:14px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/019_gender_representation/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -44,58 +77,133 @@ p{font-size:14px}
 <h1>ジェンダー表象の変遷 ― 戦後アニメ114作の定量分析</h1>
 <div class="sub">視点019 / 男女比・性役割・女性の主体性・男性像・ステレオタイプ攪乱の5軸 / 1960s–2025</div>
 
-<div class="kpi">
-<div><b id="k1"></b><span>規範踏襲＋強化シェア<br>1960s → 2020s</span></div>
-<div><b id="k2"></b><span>性役割の流動性指数<br>1960s → 2020s</span></div>
-<div><b id="k3"></b><span>女性の主体性指数<br>1960s → 2020s</span></div>
-<div><b id="k4"></b><span>女性中心寄り率<br>1960s → 2020s</span></div>
+<div class="kpis">
+<div class="kpi"><b id="k1"></b><span>規範踏襲＋強化シェア<br>1960s → 2020s</span></div>
+<div class="kpi"><b id="k2"></b><span>性役割の流動性指数<br>1960s → 2020s</span></div>
+<div class="kpi"><b id="k3"></b><span>女性の主体性指数<br>1960s → 2020s</span></div>
+<div class="kpi"><b id="k4"></b><span>女性中心寄り率<br>1960s → 2020s</span></div>
 </div>
 
 <div class="note"><b>読み方の注意（選定バイアス）：</b>ランドマーク作を中心に集めたため、攪乱的・話題的作品が過剰代表。指数の<b>絶対値は上方バイアス、相対変化のみ信頼</b>。また「戦う女性＝主体性」とは限らない（斎藤環のファリック・ガール論）。下の表は出典・confidence付きの各作コードを開示。</div>
 
+
+<div class="tldr">
+<div class="tldr-lab">この記事の要点</div>
+<p class="tldr-lead">戦後アニメのジェンダー表象は「家庭の女性＋英雄の男」という規範の塗り固め（1960s）から、規範のほぼ全面解体（2020s）へという大きな弧を描く。だがそれは単調な進歩ではない。可視化と主体化、像の連続と評価の反転、量の保守と質の前衛——この二層を分けて読むことが核心になる。</p>
+<ul class="tldr-list">
+<li><b>規範は崩落した。</b>規範踏襲＋強化シェアは 1960s 0.75 → 2020s 0.00、伝統的役割シェアは 0.92 → 0.08、性役割の流動性指数は 0.14 → 0.92 と6倍超に伸びた。</li>
+<li><b>2000sのパラドックス。</b>萌え・美少女日常系で<b>女性は画面に増えた</b>のに、役割はむしろ<b>伝統へ逆行</b>し攪乱は後退した。可視性は主体性と乖離する。</li>
+<li><b>男性の脱英雄化は早かった。</b>「弱者・等身大の男」が約40%で全年代の最大派。古典英雄＋マッチョは 0.50→0.05 へ崩落。転換点は令和ではなく<b>1970s</b>（アムロ）にあり、近年変わったのは像でなく<b>評価</b>だ。</li>
+<li><b>まなざしの組み替え。</b>美少年・中性像は1990sピーク（0.41）→2010s 0.00へ崩落し、入れ替わるように「男性像の不在＝女性だけの世界」が急増する。</li>
+<li><b>少年向けという岩盤への侵入。</b>最も保守的だった少年向けの基準を、2020sの『水星の魔女』『SPY×FAMILY』『フリーレン』『鬼滅』が書き換え始めた。</li>
+</ul>
+</div>
+
+<h2>具体例 — 3つのセリフと2つの場面が映す60年</h2>
+<div class="ex">
+<h3>① 1960s：三つの像で塗り固められた規範（場面描写）</h3>
+<p>『鉄腕アトム』『鉄人28号』『巨人の星』が体現したのは「正義の少年ヒーロー＋家庭を守る女性＋父権」という三点セットだった。『サザエさん』『ドラえもん』の「専業主婦＝フネ／のび太の母」という配置はその家族規範の縮図で、台詞の隅々に「家事＝妻」の前提が染みている。確認できる定型台詞を欠くため場面描写にとどめるが、この均質な世界像こそ以後60年かけて解体されていく出発点である。</p>
+<h3>② 1970s：男の脱英雄化はここで起きた（男性像）</h3>
+<p>古典的な強い英雄から「内向的で泣く等身大の少年」への移行は、令和ではなく半世紀前に始まっていた。ニュータイプの天才でありながら親や上官に反発し涙を見せるアムロ・レイは、その象徴である。ブライト艦長に殴られた直後のこの台詞は——世間では「殴ったね、親父にも殴られたことないのに！」として広まったが——劇中の実際の言い回しはこうだった。</p>
+<blockquote class="quote">「二度もぶった！　親父にもぶたれたことないのに！」<span class="qby">― アムロ・レイ『機動戦士ガンダム』（1979）。流布する「殴ったね…」は本編とは異なる有名な誤記憶。</span></blockquote>
+<h3>③ 1990s：攪乱のピークと「戦う美少女」の両義性</h3>
+<p>1990sは攪乱指数（0.647）が全年代最高となる実験期だった。だが「戦う女性の増加」を素朴な進歩とは読めない。か弱く無垢な少女が変身して戦う——主体でありながら同時に欲望の客体として消費されるという両義性（斎藤環の言う「ファリック・ガール」）を、この決め台詞は一身に体現する。流行語にもなった一句である。</p>
+<blockquote class="quote">「月に代わって、お仕置きよ！」<span class="qby">― 月野うさぎ／セーラームーン『美少女戦士セーラームーン』（テレビアニメ1992）</span></blockquote>
+<h3>④ 2000s：女が増えたのに役割は伝統へ（場面描写）</h3>
+<p>『涼宮ハルヒの憂鬱』『らき☆すた』『けいおん！』——女子だけで自足する世界が量産され、画面は女性で埋まった。だが彼女たちが担うのは「政治を動かす」でも「規範に抗う」でもなく、男性視聴者（視聴者の男女比は概ね男68%）に向けた「かわいい非政治的な日常」だった。女性中心寄り率（量）が伸びる同じ年代に、伝統的役割シェア（質の保守）が逆行上昇する——可視性が主体性と乖離した時代の、定型台詞では掬えない手触りである。</p>
+<h3>⑤ 2020s：少年・一般向けの岩盤へ侵入する最前線</h3>
+<p>かつて少女漫画の専売だった性別越境・性役割の反転が、最も保守的だった少年・一般向けの基準を書き換え始めた。シリーズ初の女性主人公として戦い、同性のパートナーと婚約するスレッタ・マーキュリーは、その尖端である。母から受け継ぎ何度も口にするこの行動指針は、受け身のヒロインではなく前へ進む主人公の言葉だ。</p>
+<blockquote class="quote">「逃げたら一つ、進めば二つ手に入る」<span class="qby">― スレッタ・マーキュリー『機動戦士ガンダム 水星の魔女』（2022）</span></blockquote>
+</div>
+
 <h2>1. 三つの主指数の変遷</h2>
-<div class="card"><canvas id="cIndex"></canvas>
+<div class="card"><div class="cbox"><canvas id="cIndex"></canvas></div>
 <p class="sub">流動性・主体性・攪乱はいずれも右肩上がりだが <b>2000sで凹む</b>。これは退行ではなく、萌え・美少女日常系の量産（女性は増えたが役割は「やや伝統的」へ）による分母効果＋両極化（→考察2-2）。</p></div>
 
 <h2>2. 性役割・攪乱度のシェア構成（年代）</h2>
 <div class="grid">
-<div class="card"><h3>性役割の構成</h3><canvas id="cRoles"></canvas></div>
-<div class="card"><h3>ステレオタイプ攪乱の構成</h3><canvas id="cSubv"></canvas></div>
+<div class="card"><h3>性役割の構成</h3><div class="cbox"><canvas id="cRoles"></canvas></div></div>
+<div class="card"><h3>ステレオタイプ攪乱の構成</h3><div class="cbox"><canvas id="cSubv"></canvas></div></div>
 </div>
-<div class="card"><h3>「女が増えたのに役割は伝統へ」— 2000sパラドックス</h3><canvas id="cParadox"></canvas>
+<div class="card"><h3>「女が増えたのに役割は伝統へ」— 2000sパラドックス</h3><div class="cbox"><canvas id="cParadox"></canvas></div>
 <p class="sub">女性中心寄り率（量）が伸びる2000sで、伝統的役割シェア（質の保守）も逆行上昇する。可視性≠主体性。</p></div>
 
 <h2>3. 男性像の組み替え</h2>
-<div class="card"><canvas id="cMasc"></canvas>
+<div class="card"><div class="cbox"><canvas id="cMasc"></canvas></div>
 <p class="sub"><b>弱者・等身大が約40%で全年代最大派</b>（脱英雄化は1970sに完了し以後底流）。<b>美少年は1990sピーク→2010s 0%</b>へ崩落し、入れ替わりに<b>男性像「不在」が2010s-20sで急増</b>＝まなざしの対象が「美しい男」→「男のいない女性だけの世界／女性主役」へ移行。</p></div>
 
 <h2>4. 対象層クロス（最も鋭い切り口）</h2>
 <div class="grid">
-<div class="card"><h3>対象層別の3指数</h3><canvas id="cDemo"></canvas></div>
-<div class="card"><h3>対象層別 女性中心寄り率</h3><canvas id="cDemoFC"></canvas></div>
+<div class="card"><h3>対象層別の3指数</h3><div class="cbox"><canvas id="cDemo"></canvas></div></div>
+<div class="card"><h3>対象層別 女性中心寄り率</h3><div class="cbox"><canvas id="cDemoFC"></canvas></div></div>
 </div>
 <p class="sub"><b>少年向けが保守の岩盤</b>（流動性・攪乱・女性中心率が低位）。<b>少女・一般・女性向けが攪乱を牽引</b>。映画(0.71)＞TV(0.49)。ただし2020sは水星の魔女・SPY×FAMILY・フリーレン等、攪乱の最前線が「少年向け」へ侵入（→考察2-4）。</p>
 
-<h2>5. 考察（要点）</h2>
-<div class="card" style="font-size:14px">
-<h3>① 大脱・規範化（だが単調でない）</h3>
-<p>規範踏襲＋強化 0.75→0.00、伝統的役割 0.92→0.08、流動性 0.14→0.92。背景は均等法(1986)以降の女性労働参入・共働き常態化・多様性言説、少子化で「お茶の間の家族」という想定が溶けたこと、深夜/円盤/配信/海外という新しい器（run#11–17）が最大公約数でなく嗜好集団に最適化したこと。</p>
-<h3>② 2000sパラドックス＝可視性≠主体性</h3>
-<p>女性中心寄り率は上昇(0.41→0.53)するのに、伝統的役割は逆行上昇(0.47→0.63)し攪乱は後退。萌え・美少女日常系（ハルヒ/らき☆すた/けいおん）で画面は女性に埋まったが、役割は男性視聴者(視聴者比 男68%)向けの「かわいい非政治的日常」。斎藤環の<b>ファリック・ガール</b>（主体でありながら客体として消費される少女）の定量的裏づけ。同年代に攪乱の最前線も併存＝二極化。</p>
-<h3>③ 男性像：脱英雄化は早く、近年は「消える」</h3>
-<p>「強者→繊細」（ORIGIN誌）の方向は正しいが転換点は<b>1970s</b>（アムロ）。近年の新しさは像でなく<b>評価の反転</b>——アムロの脆さは未熟、炭治郎の優しさ・緑谷の涙は美徳として肯定（有害な男性性の相対化）。美少年(見られる客体)→男性不在(女性のみ世界)へまなざしが組み替わる。</p>
-<h3>④ 少年向けの岩盤に侵入する最前線</h3>
-<p>少年向けは女性の客体化が残る保守地帯（NARUTOのサクラ/SAOのアスナ後退）。一方リボンの騎士→ベルばら→ウテナ→桜蘭の越境系譜と宮崎の強い女性像が攪乱を牽引。2020sはSPY×FAMILY(反転)/水星の魔女(初の女性主人公・同性婚約)/フリーレン/鬼滅が<b>少年向けの基準を書き換え</b>始めた。</p>
+<h2 class="h2-essay">考察 — 可視性と主体性は、同じものではない</h2>
+<div class="essay">
+<p class="thesis">戦後アニメのジェンダー表象を貫く読みは、「女性が画面に増えること」と「女性が物語の主体になること」は別物だ、という一点に尽きる。規範は確かに解体された。だがその弧には、量と質が逆方向に動く2000sの凹みという深い襞があり、そこを見落とすと歴史を進歩の一本道に均してしまう。</p>
+
+<h3>大脱・規範化を駆動したのは作品の外側だった</h3>
+<p>60年で最も明瞭なのは規範の解体である。1960sのアニメは「正義の少年ヒーロー＋家庭の女性＋父権」という三つの像で塗り固められていた。この解体を駆動したのは作品内の美学だけではない。男女雇用機会均等法（1986）以降の女性の労働市場参入、共働きの常態化、多様性言説、そして少子化で「お茶の間の家族」という想定視聴単位そのものが溶けたこと——社会のジェンダー観の構造変化が、時間差で画面に反映された。産業側でも、深夜帯・円盤・配信・海外という新しい器が、お茶の間の最大公約数ではなく特定の嗜好集団に最適化した結果、戦う少女・働く女性・脆い男という従来は撮りにくかった像が量産可能になった。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/012_broadcast_format/">放送が深夜・配信へ移り「お茶の間」が消えた流れ</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">円盤が収益の主役になった一極集中</a>は、この器の交代を別角度から描いている。</p>
+
+<h3>2000sのパラドックス——女は増えたのに役割は伝統へ戻った</h3>
+<p>本視点最大の論点はここにある。流動性・主体性・攪乱のいずれも2000sで凹む。しかし同じ年代に女性中心寄りシェアはむしろ上昇している。一見矛盾するこの数字は、萌え・美少女日常系ブームで説明できる。女子だけの自足した世界が量産され、画面は女性で埋まった——だが彼女たちの役割は男性視聴者に向けた「やや伝統的で非政治的なかわいい日常」だった。女性が画面の中心に来ることと、女性が物語の主体になることは、ここで乖離する。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/017_target_audience/">「誰に作ったか」と「誰が観たか」のズレ</a>が示す受容構造、そして<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/013_source_mediamix/">ラノベ・ゲーム原作が青年男性層に集中した供給</a>が、この「狭く濃く」のモデルを供給側から支えた。</p>
+<p>方法論的には、この凹みは過去の分析で反復してきた「分母効果＋両極化の罠」と同型だ。同じ2000sには戦闘美少女の成熟も、攻殻機動隊の遺産も、男装ヒロインの『桜蘭高校ホスト部』も併存していた。指数だけ見て「2000sは退行」と読むのは誤りで、「攪乱の最前線と、萌え様式という保守の量産が同時に厚くなって二極化した」が正しい。だから指数は必ず「女性中心寄り率（量）」と「伝統的シェア（質）」を併記して読む。</p>
+
+<h3>男性像——脱英雄化は「早く」、近年は「消える」</h3>
+<p>男性像には二つの発見がある。第一に、弱者・等身大の男性が約40%で全年代を通じて最大派であり続けた。逆に古典的英雄＋マッチョは崩落した。つまり「昭和の剛健な強者→令和の繊細な男」という移行の物語は方向としては正しいが、転換点は令和ではなく1970sにある。アムロはすでに内向的で泣く非英雄的少年だった。近年（炭治郎／緑谷出久）で変わったのは像そのものより<b>その価値づけ</b>である——アムロの脆さは「未熟」として描かれたが、炭治郎の優しさや緑谷の涙は積極的な美徳・ロールモデルとして肯定される。像の連続性と評価の反転を区別すると考察が深まる。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/001_protagonist_attributes/">主人公像そのものの変遷</a>と重ねると、この「強さの中身の入れ替わり」がより立体的に見える。</p>
+<p>第二に、美少年・中性シェアは1990sでピークを打ち（ガンダムW／聖闘士星矢／ふしぎ遊戯）、2010sで0.00へ崩落する。入れ替わるように「男性像の不在」が急増する。1990sの美少年戦略は、男性を「見られる美しい客体」にすることで女性ファン層を開拓する装置だった。だが2010s以降、女性／オタクのまなざしの対象は「美しい男」ではなく「男のいない女性だけの世界」（けいおん→まどか→ぼっち・ざ・ろっく）か、「女性が主役で男は脇」（水星の魔女／薬屋のひとりごと）へ移った。男性は美的に客体化されるのではなく、画面から退場する。これは「見る／見られる」の性的力学そのものの組み替えである。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/002_heroine_attributes/">ヒロイン＝見られる対象としての造形史</a>を裏返した動きとして読める。</p>
+
+<h3>少年向けという保守の岩盤と、そこへ侵入する最前線</h3>
+<p>クロス集計で最も鋭いのは対象層差だ。少年向けは流動性・攪乱・女性中心寄り率がいずれも児童に次いで低い「保守の岩盤」で、王道少年バトルは「努力・友情・勝利」の男性連帯を背骨とし、女性は支援・恋愛・客体に配置されやすい（NARUTOのサクラ、SAOのアスナの後退）。対照的に少女・一般・女性向けが攪乱を牽引する。リボンの騎士→ベルばら→ウテナ→桜蘭の性別越境の系譜、ナウシカ／もののけ／千尋の宮崎駿の強い女性像がそれを支え、映画(0.71)＞TV(0.49)も作家性の高い劇場作が牽引するという<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/010_animation_characteristics/">劇場作画が表現の最前線を担う構図</a>と整合する。</p>
+<div class="phase"><b>2020sの最大の動きは、この最前線が「少年向け」の岩盤に侵入し始めたことだ。</b>『SPY×FAMILY』（最強の暗殺者である母＝性役割の反転）、『水星の魔女』（シリーズ初の女性主人公・同性婚約）、『葬送のフリーレン』（女性主役）、『鬼滅の刃』（優しさを核とする少年）——いずれも少年・一般向けでありながら反転・流動・強い攪乱に踏み込む。かつて少女漫画の専売だった攪乱が、最も保守的だった少年向けの基準を書き換え始めた。これが2020sに伝統的シェア0.077・規範強化0.00という極限値が出た中身である。</div>
+
+<p class="small">留保：本データはランドマーク作中心ゆえ攪乱的・話題的作品が過剰代表され、指数の絶対値は上方バイアスで相対変化のみ信頼できる。「戦う女性＝高主体性」と一律にコードしない（斎藤環の留保）。男性像コードは評者の読みに依存しやすく、古い年代ほど定説化が弱い。2020s（n=13）の極端値はサンプルが薄く暫定である。攪乱の評価は受容言説に依存するため、制作意図とのズレ（解釈≠意図）に常に留保が要る。</p>
 </div>
 
-<h2>6. 他者の論評との対話（賛否両論・出典つき）</h2>
-<div class="grid">
-<div class="quote"><b>斎藤環『戦闘美少女の精神分析』</b>：戦う美少女は主体でありながら同時に欲望の客体（ファルス）として消費される。＝「戦う女の増加」を素朴な進歩と読めない。<span class="src">→本データの2000sパラドックスと一致。<a href="https://www.chikumashobo.co.jp/product/9784480422163/">筑摩書房</a> / <a href="https://ja.wikipedia.org/wiki/%E6%88%A6%E9%97%98%E7%BE%8E%E5%B0%91%E5%A5%B3">Wikipedia</a></span></div>
-<div class="quote"><b>Taped Reality「Progress and Controversy」</b>：囚われの姫→多面的ヒロインへ進歩したが不均等で課題が残る。<span class="src">→指数の右肩上がり＋少年/児童の保守＋2000s凹みと整合。<a href="https://www.tapedreality.com/anime-news/gender-representation-in-anime-progress-and-controversy/">記事</a></span></div>
-<div class="quote con"><b>ORIGIN / The Daily Fandom（男性性）</b>：昭和の強者→令和の繊細な男へ移行、有害な男性性を相対化。<span class="src">→方向は一致するが、データは脱英雄化の転換点を<b>1970s</b>に置く（近年の新しさは評価の反転）。<a href="https://www.yumeiorigin.com/articles-en/from-showa-strongmen-to-reiwa-recluses-tracing-the-evolution-of-japanese-masculinity">ORIGIN</a> / <a href="https://thedailyfandom.org/the-changing-nature-of-the-shonen-protagonist/">Daily Fandom</a></span></div>
-<div class="quote con"><b>批判側（Atlantis Press / Springer / The Vault）</b>：少女主人公でさえ「行動される」客体に留まり、male gaze・身体への主体性欠如が残存。<span class="src">→少年向けの保守(主体性0.56/攪乱0.35)に最も当てはまる。<a href="https://www.atlantis-press.com/article/126004562.pdf">Atlantis</a> / <a href="https://link.springer.com/article/10.1007/s11199-025-01626-x">Springer</a></span></div>
-<div class="quote"><b>『水星の魔女』制作側</b>：「ジェンダーに配慮して描くより一人のキャラとして描いた」。一方受容は「百合」「ウテナの再来」と熱狂。<span class="src">→<b>制作意図≠受容（actual）</b>。攪乱評価は受容言説に依存（run#17の教訓）。<a href="https://mantan-web.jp/article/20221009dog00m200016000c.html">MANTAN</a> / <a href="https://www.nippon.com/ja/in-depth/a03904/">nippon.com</a></span></div>
-<div class="quote"><b>視聴者の性別データ</b>：アニメ視聴者は概ね男68%／女32%。男性は萌え・ロボ、女性はファンタジー・恋愛を選好。<span class="src">→2000s美少女日常系の役割保守を読む文脈。<a href="https://www.cccbiz.jp/columns/tvdata51">CCCMK</a></span></div>
+<h2>他者の論評との対話</h2>
+<div class="views">
+
+<div class="view">
+<div class="who"><span class="wl">学術 / 精神分析</span>斎藤環『戦闘美少女の精神分析』（太田出版1999／ちくま文庫）</div>
+<div class="vt">戦う美少女＝主体でありながら客体（ファリック・ガール）<span class="stance sup">符合</span></div>
+<p>か弱く無垢な少女が空虚な戦いを演じ、主体でありながら同時に欲望の客体（ファルスそのもの）として消費される、という両義性を斎藤は「ファリック・ガール」と呼ぶ。「戦う女の増加」を素朴な進歩とは読めない、という留保である。</p>
+<div class="match"><b>データとの照合：</b>本データの2000sパラドックス（女性中心化なのに主体性・攪乱が凹む）は、この両義性の定量的裏づけになる。コードでもキューティーハニーやキルラキルは「お色気と力の両義を自覚した攪乱」、けいおん／らき☆すたは「主体性=中・やや伝統的」と区別し、戦う女性を一律に高主体性とはしなかった。</div>
+<div class="src"><a href="https://ja.wikipedia.org/wiki/%E6%88%A6%E9%97%98%E7%BE%8E%E5%B0%91%E5%A5%B3">ja.wikipedia.org/wiki/戦闘美少女の精神分析</a></div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">海外メディア論</span>Taped Reality「Gender Representation in Anime: Progress and Controversy」</div>
+<div class="vt">囚われの姫→多面的ヒロインへ、だが進歩は不均等<span class="stance sup">符合</span></div>
+<p>女性表象は「救われる姫」から多面的なヒロインへ進歩したが、その歩みは不均等で、ジャンルや作品によって課題が残る、と総括する。</p>
+<div class="match"><b>データとの照合：</b>全体指数の右肩上がり、少年向け・児童向けに残る保守、そして2000sの凹みという本データの三点は、「不均等な進歩」という総括と完全に整合する。</div>
+<div class="src"><a href="https://www.tapedreality.com/anime-news/gender-representation-in-anime-progress-and-controversy/">tapedreality.com（Progress and Controversy）</a></div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">男性性論</span>ORIGIN ／ The Daily Fandom（少年主人公像の変化）</div>
+<div class="vt">昭和の強者→令和の繊細な男へ、有害な男性性を相対化<span class="stance neu">方向一致・転換点で相違</span></div>
+<p>剛健な強者から繊細でケアを担う男性像へ移行し、近年の少年主人公は「有害な男性性」を相対化している、と論じる。</p>
+<div class="match"><b>データとの照合：</b>移行の<b>方向</b>は一致するが、<b>転換点の置き方</b>が違う。論評は令和の現象として語るが、データは脱英雄化が1970s（アムロ）に起きていたことを示す。近年の新しさは像そのものでなく「脆さの肯定」という評価の反転にある、と本稿は読む。</div>
+<div class="src"><a href="https://www.yumeiorigin.com/articles-en/from-showa-strongmen-to-reiwa-recluses-tracing-the-evolution-of-japanese-masculinity">yumeiorigin.com（Showa Strongmen to Reiwa Recluses）</a> ／ <a href="https://thedailyfandom.org/the-changing-nature-of-the-shonen-protagonist/">thedailyfandom.org</a></div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">批判的研究</span>Atlantis Press ／ Springer（Sex Roles 2025）ほか</div>
+<div class="vt">少女主人公でさえ「行動される」客体に留まる（male gaze）<span class="stance cau">留保</span></div>
+<p>主人公格の少女でさえ、自ら行動するより「行動される」客体に置かれ、身体への主体性を欠いたまま male gaze の対象に留まる事例が残存する、と批判する。</p>
+<div class="match"><b>データとの照合：</b>この批判は本データの「少年向けの保守の岩盤」（主体性0.56／攪乱0.35／女性中心寄り0.13）に最もよく当てはまる。全体の進歩を相対化し、ジャンル別に読む必要を補強する。</div>
+<div class="src"><a href="https://www.atlantis-press.com/article/126004562.pdf">atlantis-press.com（126004562）</a> ／ <a href="https://link.springer.com/article/10.1007/s11199-025-01626-x">link.springer.com（Sex Roles 2025）</a></div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">制作者証言 / 報道</span>『機動戦士ガンダム 水星の魔女』制作側コメント（MANTANWEB ほか）</div>
+<div class="vt">「配慮して描くより一人のキャラとして描いた」、受容は「百合」「ウテナの再来」<span class="stance neu">意図≠受容</span></div>
+<p>制作側は「ジェンダーに配慮して描くというより、一人のキャラクターとして描いた」と表明する一方、受容は同性の婚約を「百合」「ウテナの再来」として熱狂的に読み替えた。</p>
+<div class="match"><b>データとの照合：</b>制作意図（intent）と受容（actual）は一致しない。攪乱の評価は受容言説に依存するため、コードの confidence を一段下げる留保が要る——「少年向けへの侵入」を進歩と読む際にも、これは送り手が完全には制御できない現象だという注意になる。</div>
+<div class="src"><a href="https://mantan-web.jp/article/20221009dog00m200016000c.html">mantan-web.jp（20221009）</a> ／ <a href="https://www.nippon.com/ja/in-depth/a03904/">nippon.com（a03904）</a></div>
+</div>
+
 </div>
 
 <h2>7. 全114作のコード（出典・confidence開示）</h2>
@@ -126,8 +234,8 @@ g('k2').textContent=(S.fluidity_index[1960]).toFixed(2)+' → '+(S.fluidity_inde
 g('k3').textContent=(S.female_agency_index[1960]).toFixed(2)+' → '+(S.female_agency_index[2020]).toFixed(2);
 g('k4').textContent=(S.female_centric_share[1960]).toFixed(2)+' → '+(S.female_centric_share[2020]).toFixed(2);
 const LB=DEC.map(d=>d+'s');
-const grid={color:'#262b38'},tick={color:'#9aa3b5'};
-const baseOpt=(stack)=>({responsive:true,plugins:{legend:{labels:{color:'#e8eaf0',font:{size:11}}}},scales:{x:{stacked:stack,grid,ticks:tick},y:{stacked:stack,grid,ticks:tick}}});
+const grid={color:'#262b38'},tick={color:'#33312c'};
+const baseOpt=(stack)=>({responsive:true,plugins:{legend:{labels:{color:'#33312c',font:{size:11}}}},scales:{x:{stacked:stack,grid,ticks:tick},y:{stacked:stack,grid,ticks:tick}}});
 function line(id,series){new Chart(g(id),{type:'line',data:{labels:LB,datasets:series.map(s=>({label:s.l,data:DEC.map(d=>s.d[d]),borderColor:s.c,backgroundColor:s.c,tension:.3,spanGaps:true,borderWidth:2.5,pointRadius:3}))},options:baseOpt(false)});}
 function stack(id,order,bd,colors){new Chart(g(id),{type:'bar',data:{labels:LB,datasets:order.map((v,i)=>({label:v,data:DEC.map(d=>bd[d][v]||0),backgroundColor:colors[i]}))},options:baseOpt(true)});}
 line('cIndex',[{l:'流動性指数(性役割)',d:S.fluidity_index,c:'#e8669a'},{l:'主体性指数(女性)',d:S.female_agency_index,c:'#5ec8d8'},{l:'攪乱指数',d:S.subversion_index,c:'#f2b85a'}]);
