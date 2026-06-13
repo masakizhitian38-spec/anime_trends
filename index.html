@@ -1,18 +1,18 @@
 <!doctype html><html lang="ja"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>日本アニメ 変遷データベース — 視点別データ分析</title>
-<meta name="description" content="日本アニメ51視点・約6,226作を分析。主人公像・ロボット/AI観・異世界・ジェンダー・鳥山明やエヴァの影響など、戦後から現在までの変遷を統計と考察でまとめたデータベース。">
-<meta name="keywords" content="アニメ,日本アニメ,変遷,統計,分析,データベース,アニメ史,考察,異世界,ロボット,AI,ジェンダー,鳥山明,エヴァンゲリオン">
+<meta name="description" content="日本アニメ51視点・約6,226作を分析。戦後から現在までの変遷を統計と考察でまとめたデータベース。">
+<meta name="keywords" content="アニメ,日本アニメ,変遷,統計,分析,データベース,アニメ史,考察,異世界,ロボット,AI,ジェンダー">
 <link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:site_name" content="日本アニメ 変遷データベース">
 <meta property="og:title" content="日本アニメ 変遷データベース — 視点別データ分析">
-<meta property="og:description" content="日本アニメ51視点・約6,226作を分析。主人公像・ロボット/AI観・異世界・ジェンダー・鳥山明やエヴァの影響など、戦後から現在までの変遷を統計と考察でまとめたデータベース。">
+<meta property="og:description" content="日本アニメ51視点・約6,226作を分析。戦後から現在までの変遷を統計と考察でまとめたデータベース。">
 <meta property="og:url" content="https://masakizhitian38-spec.github.io/anime_trends/">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "CollectionPage", "name": "日本アニメ 変遷データベース", "description": "日本アニメ51視点・約6,226作を分析。主人公像・ロボット/AI観・異世界・ジェンダー・鳥山明やエヴァの影響など、戦後から現在までの変遷を統計と考察でまとめたデータベース。", "url": "https://masakizhitian38-spec.github.io/anime_trends/", "inLanguage": "ja", "datePublished": "2026-06-09", "dateModified": "2026-06-14", "about": [{"@type": "Thing", "name": "アニメ"}, {"@type": "Thing", "name": "アニメ史"}, {"@type": "Thing", "name": "メディア研究"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "CollectionPage", "name": "日本アニメ 変遷データベース", "description": "日本アニメ51視点・約6,226作を分析。戦後から現在までの変遷を統計と考察でまとめたデータベース。", "url": "https://masakizhitian38-spec.github.io/anime_trends/", "inLanguage": "ja", "datePublished": "2026-06-09", "dateModified": "2026-06-13", "about": [{"@type": "Thing", "name": "アニメ"}, {"@type": "Thing", "name": "アニメ史"}, {"@type": "Thing", "name": "メディア研究"}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-51N89XJ20Q"></script>
@@ -69,7 +69,7 @@ footer a{color:var(--accent)}
 <span class="eyebrow">ANIME TRENDS DATABASE</span>
 <h1>日本アニメ 変遷データベース</h1>
 <p class="lead">アニメを「視点」ごとに100作以上コード化し、戦後〜現在の変遷を統計・考察・他者論評で読み解く。</p>
-<p class="herolinks"><a href="about.html">このサイトについて・作った理由</a><a href="https://github.com/masakizhitian38-spec/anime_trends">ソースを見る (GitHub)</a></p>
+<p class="herolinks"><a href="about.html">このサイトについて・作った理由</a><a href="https://docs.google.com/forms/d/e/1FAIpQLScveidFTxm55ZNzqeVbEQQwYija2rxnBNyPBVpt67Siowapxg/viewform" target="_blank" rel="noopener">ご意見・ご感想を送る</a></p>
 <div class="chips">
 <div class="chip"><b>51</b><span>分析視点</span></div>
 <div class="chip"><b>6,226</b><span>コード化した作品</span></div>
@@ -92,7 +92,7 @@ footer a{color:var(--accent)}
 <footer><div class="wrap">
 データ出典: MyAnimeList（Jikan API）等。分析・コード化・考察・図表は独自制作（非営利・研究目的）。
 引用・他者論評は各レポート内に出典(URL)を明示。数値はコード化に基づく相対比較で、絶対値の精密性は保証しません。<br>
-最終更新: 2026-06-14
+最終更新: 2026-06-13
 </div></footer>
 
 <script>
@@ -101,11 +101,4 @@ function filterCards(){
  var cards=document.querySelectorAll('.card');var shown=0;
  cards.forEach(function(c){var hit=!q||c.getAttribute('data-q').indexOf(q)>=0;c.style.display=hit?'':'none';if(hit)shown++;});
  document.querySelectorAll('.grp-sec').forEach(function(s){
-   var any=[].some.call(s.querySelectorAll('.card'),function(c){return c.style.display!=='none';});
-   s.style.display=any?'':'none';});
- var feat=document.getElementById('featured');if(feat)feat.style.display=q?'none':'';
- document.getElementById('nohit').style.display=shown?'none':'block';
- document.getElementById('count').textContent=q?(shown+' 件表示中'):'';
-}
-</script>
-</body></html>
+   var any=[].some.call(s.querySe

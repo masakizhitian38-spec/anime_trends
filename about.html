@@ -1,52 +1,62 @@
 <!doctype html><html lang="ja"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>このサイトについて — 日本アニメ 変遷データベース</title>
-<meta name="description" content="個人が趣味で進めているアニメの視点別データ分析プロジェクト。作った動機・方法・限界について。">
+<meta name="description" content="個人が趣味で進めているアニメの視点別データ分析プロジェクト。作った動機・方法・限界、ご意見の募集について。">
 <link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/about.html">
 <meta name="robots" content="index,follow">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-51N89XJ20Q"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-51N89XJ20Q');</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0c11;--card:#141925;--fg:#eef1f6;--mut:#98a1b3;--ac:#7c9cff;--line:#222a3a}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
- font-family:"Inter","Noto Sans JP",system-ui,sans-serif;line-height:1.9}
-.bar{position:sticky;top:0;background:#0b0d12ee;backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:10px 18px}
-.bar a{color:var(--ac);text-decoration:none}
-.wrap{max-width:760px;margin:0 auto;padding:48px 22px 80px}
-h1{font-size:1.9rem;margin:0 0 6px;font-weight:800}
-.sub{color:var(--mut);margin:0 0 34px}
-h2{font-size:1.2rem;margin:36px 0 10px;border-left:4px solid var(--ac);padding-left:11px}
-p{color:#d7dce6}
-a{color:var(--ac)}
-.edit{color:#ffcf8a;font-size:.82rem;border:1px dashed #5a4a22;border-radius:8px;padding:2px 7px;background:#1c1606}
-blockquote{border-left:3px solid var(--line);margin:14px 0;padding:4px 16px;color:var(--mut)}
-footer{color:var(--mut);font-size:.82rem;border-top:1px solid var(--line);margin-top:46px;padding-top:18px}
+:root{--paper:#faf7f1;--paper2:#f4ede0;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--card:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);
+ font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.9;-webkit-font-smoothing:antialiased}
+.bar{position:sticky;top:0;background:#faf7f1ee;backdrop-filter:blur(6px);border-bottom:1px solid var(--rule);padding:11px 18px;font-size:.92rem}
+.bar a{color:var(--accent);text-decoration:none}
+.wrap{max-width:740px;margin:0 auto;padding:46px 22px 80px}
+h1{font-family:"Noto Serif JP",serif;font-size:1.85rem;margin:0 0 8px;font-weight:700;color:#211d17}
+.sub{color:var(--soft);margin:0 0 34px;border-bottom:1px solid var(--rule);padding-bottom:18px}
+h2{font-family:"Noto Serif JP",serif;font-size:1.22rem;margin:38px 0 10px;border-left:4px solid var(--accent);padding-left:12px;font-weight:700;color:#211d17}
+p{color:#2c2820;font-size:1rem}
+a{color:var(--accent)}
+blockquote{border-left:3px solid var(--rule);margin:16px 0;padding:6px 18px;color:var(--soft);background:#fff;border-radius:0 6px 6px 0}
+.cta{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:20px 24px;margin:16px 0}
+.cta p{margin:0 0 14px}
+.btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;
+ padding:11px 22px;border-radius:8px;font-size:.98rem}
+.btn:hover{background:#9a3f25}
+.btn.dis{background:#cdbfae;cursor:default;pointer-events:none}
+.formnote{color:var(--mut);font-size:.82rem;margin-top:10px}
+footer{color:var(--soft);font-size:.82rem;border-top:1px solid var(--rule);margin-top:48px;padding-top:18px}
 </style></head><body>
 <div class="bar"><a href="./">← トップへ</a></div>
 <div class="wrap">
 
 <h1>このサイトについて</h1>
-<p class="sub">アニメを「視点」ごとに眺めて、戦後から今までの移り変わりを追っている個人プロジェクトです。</p>
+<p class="sub">アニメを「視点」ごとに眺めて、戦後から今までの移り変わりを数字で追っている、個人の趣味プロジェクトです。</p>
 
 <h2>なぜ作っているか</h2>
-<p><span class="edit">✎要編集</span> もともと「アニメって時代ごとにこんなに変わってるのに、まとまった数字で見たことないな」と思ったのがきっかけです。たとえば主人公が熱血漢から“異世界で最強”へ移っていく感覚は、なんとなく語られても、作品を並べて数えた話はあまり見かけませんでした。それなら自分で数えてみよう、というのが始まりです。
-<br><em>（↑ここはあなた自身の言葉・きっかけに書き換えてください。一番「人」が出る部分です）</em></p>
+<p>アニメは定性的に語られることは多いのに、データで語られることは意外と少ない——前からそう感じていました。「昔は熱血、今は異世界で最強」といった話は山ほどあるのに、実際に作品を並べて数えた分析はあまり見かけません。</p>
+<p>ちょうどAIが使えるようになって、これまで手間のかかった定量分析が個人でも手軽にできるようになりました。そこで自分用に、いろいろな視点でアニメを数えてみたんです。やってみると面白い結果がいくつも出てきたので、せっかくなら、と無料で公開しています。</p>
+<p>正解を主張したいわけではありません。むしろ、いろいろな意見や反論を聞いてみたいと思っています。</p>
 
 <h2>どうやって調べているか</h2>
 <p>ひとつの視点（たとえば「ロボットとの向き合い方」）につき、戦後〜現在の作品を100本以上集め、その視点に沿って一本ずつ分類（コード化）しています。そのうえで年代ごとの傾向を集計し、自分なりの考察と、研究者・批評家・ファンの論評を突き合わせてまとめています。</p>
 <blockquote>数字はあくまで「自分の基準で分類した結果」です。客観的な絶対値というより、年代を横に並べたときの<strong>相対的な移り変わり</strong>を見るためのものだと思ってください。</blockquote>
 
 <h2>正直な限界</h2>
-<p>分類には主観が入りますし、母集団の偏り（古い作品ほど情報が少ない等）もあります。間違いや「その読みは違う」という指摘はむしろ歓迎です。<span class="edit">✎要編集</span> 連絡先や指摘の受け付け先があればここに（例: GitHubのIssue、SNSなど）。</p>
+<p>分類には主観が入りますし、母集団の偏り（古い作品ほど情報が少ない等）もあります。間違いや「その読みは違う」という指摘は、むしろ歓迎です。</p>
 
-<h2>中の人</h2>
-<p><span class="edit">✎要編集</span> ＿＿＿（ハンドルや一言プロフィール）。アニメ史や統計の専門家ではなく、いち視聴者として手を動かしています。</p>
+<h2>ご意見・ご感想を募集しています</h2>
+<div class="cta">
+<p>分類の仕方、解釈、扱ってほしい視点——どんな切り口でも歓迎です。気づいたこと・反論・誤りの指摘などあれば、下のフォームから気軽にどうぞ（匿名でOK・数十秒で送れます）。</p>
+<a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLScveidFTxm55ZNzqeVbEQQwYija2rxnBNyPBVpt67Siowapxg/viewform" target="_blank" rel="noopener">フォームを開く</a>
+</div>
 
 <footer>
-データ出典: MyAnimeList（Jikan API）等。分析・分類・考察・図表は自作（非営利・趣味）。
-リポジトリ: <a href="https://github.com/masakizhitian38-spec/anime_trends">github.com/masakizhitian38-spec/anime_trends</a>
+データ出典: MyAnimeList（Jikan API）等。分析・分類・考察・図表は自作（非営利・趣味）。<br>
+数値はコード化に基づく相対比較で、絶対値の精密性は保証しません。
 </footer>
 </div></body></html>

@@ -3,29 +3,68 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>視点030 「最強主人公」化の度合い — アニメ60年の変遷</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-body{font-family:"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;margin:0;background:#0f1115;color:#e8e8ec;line-height:1.7}
-.wrap{max-width:1100px;margin:0 auto;padding:24px 16px 80px}
-h1{font-size:1.5em;border-left:6px solid #d9a441;padding-left:12px}
-h2{font-size:1.2em;margin-top:2.2em;border-bottom:2px solid #d9a441;padding-bottom:4px}
-h3{font-size:1em;margin:.2em 0}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:18px 0}
-.kpi{background:#1a1d24;border-radius:10px;padding:14px;border:1px solid #2a2e38}
-.kpi .v{font-size:1.45em;font-weight:700;color:#ffd479}.kpi .l{font-size:.8em;color:#aab}
-.card{background:#1a1d24;border-radius:10px;padding:16px;border:1px solid #2a2e38;margin:14px 0}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:800px){.grid2{grid-template-columns:1fr}}
-canvas{max-height:380px}
-.disc{background:#241f18;border:1px solid #5a4628;border-radius:10px;padding:14px;margin:14px 0;font-size:.92em}
-.quote{background:#1a2030;border-left:4px solid #5b8dd9;border-radius:6px;padding:12px 14px;margin:10px 0;font-size:.92em}
-.quote.con{border-left-color:#d97b5b;background:#2a1f1a}
-.quote a{color:#8ab4ff;word-break:break-all}
-.small{font-size:.85em;color:#99a}
-table{width:100%;border-collapse:collapse;font-size:.83em}
-th,td{padding:5px 7px;border-bottom:1px solid #2a2e38;text-align:left}
-th{cursor:pointer;background:#22262f;position:sticky;top:0}
-input,select{background:#22262f;color:#eee;border:1px solid #3a3f4a;border-radius:6px;padding:6px 8px;margin:0 8px 8px 0}
-.tag{display:inline-block;padding:1px 7px;border-radius:10px;font-size:.85em;background:#33384a}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/030_overpowered_protagonist/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -50,58 +89,129 @@ input,select{background:#22262f;color:#eee;border:1px solid #3a3f4a;border-radiu
 
 <div class="disc"><b>読み方の前提（バイアス）:</b> 標本は「最強を論じうる著名作」へ偏り、最強度指数の<b>絶対値は無双側に上方バイアス</b>する。読むべきは絶対値でなく<b>相対変化と分布の移動</b>。「最強」認定はファン言説依存で揺れ、古い年代ほどconfidence低下。配信(n=6)・劇場は参考値。</div>
 
+
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">「最近の主人公は強すぎる」という嘆きは、強さの<b>絶対量</b>ではなく、強さがどう物語的に支払われるか――<b>力の正当化様式</b>の変化への違和感である。60年の幹は「最強が増えた」ではなく、最強の正当化が〈与えられる→勝ち取る→再び与えられる〉と振動したことだ。</p>
+<ul class="tldr-list">
+<li><b>「最強化」は連続トレンドでなく段差。</b> 最強度はおよそ半世紀ほぼ横ばい、2000s→2010sで一段だけ階段状に跳ね上がる離散的レジームシフト。</li>
+<li><b>無双快感は二峰性。</b> 1970sスーパーロボ（無双中心29%）と2010sなろうチート（41%）の二つの峰、谷底は2000s（0%）。</li>
+<li><b>谷に「勝ち取る力」。</b> 二峰の間に、成長型・努力由来シェアが最大化する1980s〜2000sの修行主義が挟まる。緊張感はこの谷で最も高い。</li>
+<li><b>「格下殲滅・不在」は2010年代の発明。</b> 真の挑戦がないというコードは2000sまで皆無→2010sに突如36%。緊張の構造的放棄。</li>
+<li><b>2020sは平均でなく分散。</b> 最強無双・努力回帰（努力由来50%へ復活）・反最強が同時に棚に並ぶ両極化。</li>
+</ul>
+</div>
+
+<h2>具体例 — 力はどう正当化されたか</h2>
+<div class="ex">
+<h3>① 与えられる力（1970年代・機械の贈与）</h3>
+<p class="mut">マジンガーZ（1972）は「乗り込んで巨大な力を操る」快感を発明した。主人公は力を<b>与えられる</b>――父や博士が遺した機械。技術楽観の高度成長期、力は外から到来する贈り物だった。</p>
+<div class="quote">「このマジンガーZがあれば、世界を好きにできる。神にも悪魔にもなれる。でも、俺は神様にはなれないし、悪魔になんかなりたくない！　でも、でも俺は戦う、世界の平和を守るために！」
+<span class="qby">— 兜甲児／『真マジンガー 衝撃!! Z編』(2009、原典は永井豪『マジンガーZ』1972)。"与えられた"規格外の力をどう使うかという葛藤そのもの。</span></div>
+
+<h3>② 勝ち取る力（1980〜2000年代・修行主義の谷）</h3>
+<p class="mut">1979年のガンダムがロボット無双を脱神話化すると、入れ替わりに「汗で勝ち取る最強」が覇権を握る。北斗の拳（1984）のケンシロウの達人性は北斗神拳の苛烈な修行の結果として正当化され、ドラゴンボール（1986）は「才能を修行で開花させ、強敵インフレで常に上を目指す成長型最強」を完成させた。この約30年、最強は勝ち取るものであり、だからこそ強敵との苦戦＝緊張が物語の燃料だった（確認できる固定台詞がないため場面描写にとどめる）。</p>
+
+<h3>③ 再び与えられる力（2010年代・なろうチートと、その自己批評）</h3>
+<p class="mut">70年代の機械の代わりに、2010年代は「異世界の理」が力を授ける。転生特典・神様からのギフト・ゲームのステータス。最強は再び<b>与えられる</b>ものになった。</p>
+<div class="quote">「武王、私とお前には絶対的な差が一つある。私は100レベル。お前とはHPが桁違いなのだよ」
+<span class="qby">— アインズ・ウール・ゴウン／『オーバーロード』(2015)。拮抗相手を最初から持たない、与えられた規格外の力。</span></div>
+<div class="quote con">「なりたかったヒーローになれたはずだった。だが、どうしてだ……何かが違う」「圧倒的な力ってのは……つまらないもんだ」
+<span class="qby">— サイタマ／『ワンパンマン』(2015)。最強無双が離陸するその年に、「最強ゆえ緊張が消える」というジャンルのバグを主題として正面から扱った自己言及作。</span></div>
+
+<h3>④ 勝ち取る力の回帰（2020年代）</h3>
+<p class="mut">2020sは単純なさらなる最強化ではない。努力由来シェアが大きく回復する。血のにじむ修行で常に上弦に苦戦する炭治郎は、その象徴だ。</p>
+<div class="quote">「頑張れ炭治郎　頑張れ！！　俺は今までよくやってきた！！　俺はできる奴だ！！　そして今日も！！　これからも！！　折れていても！！　俺が挫けることは絶対に無い！！」
+<span class="qby">— 竈門炭治郎／『鬼滅の刃』(2019) 第24話。重傷下で自らを鼓舞する、努力主義の復権。</span></div>
+</div>
+
 <h2>1. 最強度指数と緊張感指数の年代変遷（鏡像）</h2>
-<div class="card"><canvas id="cIdx"></canvas>
+<div class="card"><div class="cbox"><canvas id="cIdx"></canvas></div>
 <p class="small">最強度は1960s–90sで0.52前後の平坦→<b>2010sで0.68へ階段状に跳躍</b>。緊張感は鏡のように1970sピーク0.74→2010s 0.57→2020s 0.52へ低下。「最強化」は連続トレンドでなく2010年代前半のレジームシフト。</p></div>
 
 <h2>2. 強さの出発点 — 「最初から最強」の台頭</h2>
-<div class="card"><canvas id="cStart"></canvas>
+<div class="card"><div class="cbox"><canvas id="cStart"></canvas></div>
 <p class="small">最初から最強シェアは1960s–00s 26–37%で横ばい→<b>2010s/2020s 50%</b>。入れ替わりに成長型（成長頂点+途上）は1980s 53%をピークに低下。汗で勝ち取る最強→与えられる最強へ。</p></div>
 
 <h2>3. 無双の二峰性 — 「与えられる力」の二つの峰</h2>
-<div class="card"><canvas id="cMugen"></canvas>
+<div class="card"><div class="cbox"><canvas id="cMugen"></canvas></div>
 <p class="small">無双中心シェア（赤線）は<b>1970sスーパーロボ（29%）と2010sなろうチート（41%）の二峰</b>、谷底2000s 0%。谷では努力由来（青線）が最大（1980s 53%）。70s=機械を与えられ無双／80s–00s=修行で勝ち取る／10s=チートを与えられ無双、という正当化様式の振動。</p></div>
 
 <h2>4. 挑戦の源 — 緊張の構造的放棄</h2>
-<div class="card"><canvas id="cChal"></canvas>
+<div class="card"><div class="cbox"><canvas id="cChal"></canvas></div>
 <p class="small">「格下殲滅・不在」（＝真の挑戦がない）は2000sまで0%、<b>2010sに突如36%出現</b>。緊張の放棄がなろう・俺TUEEEとともに発明された。強敵苦戦は依然多数派だが近年縮小。</p></div>
 
 <h2>5. 力の由来と成長アーク — 努力の盛衰</h2>
 <div class="grid2">
-<div class="card"><canvas id="cOrigin"></canvas>
+<div class="card"><div class="cbox"><canvas id="cOrigin"></canvas></div>
 <p class="small">努力由来は1980s 53%→2010s 18%（最低）→2020s 50%回復（鬼滅/呪術/無職転生）。チート付与は70s（機械）と2000s以降で残存。</p></div>
-<div class="card"><canvas id="cIsekai"></canvas>
+<div class="card"><div class="cbox"><canvas id="cIsekai"></canvas></div>
 <p class="small">異世界シェア 0→2010s 50%。異世界系は最強度0.73・緊張0.41で、非異世界（0.54/0.69）と鮮明に乖離＝最強化の主たる駆動装置。</p></div>
 </div>
 
 <h2>6. 対象層・種別クロス</h2>
 <div class="grid2">
-<div class="card"><canvas id="cDemo"></canvas>
+<div class="card"><div class="cbox"><canvas id="cDemo"></canvas></div>
 <p class="small">最強度指数 青年0.70 ≫ 少年0.53 > 児童0.44 ≒ 少女0.44 > 一般0.35。最強無双は深夜・青年の現象、お茶の間は最強を志向しない。</p></div>
-<div class="card"><canvas id="cType"></canvas>
+<div class="card"><div class="cbox"><canvas id="cType"></canvas></div>
 <p class="small">配信0.83／劇場0.76（ともにn小・参考）／TV0.57。配信オリジナルに俺TUEEEが濃い。</p></div>
 </div>
 
-<h2>7. 考察（要約）</h2>
-<div class="card">
-<p><b>① 「最強化」は2010年代の急変。</b> 漸進でなく段差。器（深夜飽和→1クール量産→配信）×素材（なろう在庫）が2012 SAO・2015ワンパンマン/オーバーロードで接続（run#25と同転換点）。</p>
-<p><b>② 無双の二峰性＝正当化様式の振動。</b> 〈与えられる力(70s機械)→勝ち取る力(80s–00s修行)→再び与えられる力(10sチート)〉。緊張は「勝ち取る」谷で最大、「与えられる」峰で最小（op×tension相関−0.25、異世界系の低緊張0.41が痕跡）。</p>
-<p><b>③ ワンパンマンという臨界点。</b> 最強無双が離陸する2015年に、「最強ゆえ緊張が消える」バグを主題化した自己言及作が出現。快楽供給と自己相対化が同居。</p>
-<p><b>④ 2020sは両極化。</b> 平均の最強化でなく分散拡大＝最強無双（魔王学院/即死チート）＋努力回帰（鬼滅/呪術/無職転生 努力由来50%復活）＋反最強（Re:ゼロ/このすば/王様ランキング）が同時並存。「最強ブーム終焉」と読むのは誤り、引き裂かれている（run#3/#9/#10の両極化の罠と同型）。</p>
-<p><b>⑤ 時代背景（留保つき）。</b> 高度成長の技術楽観→機械の贈与、上昇気運→修行主義、長期停滞＋能力主義疲労→「努力なき最強」への逃避（渡邉論）。だが努力回帰した鬼滅・呪術が最大ヒット＝逃避一元論への強い反証。相関≠因果。</p>
+<h2 class="h2-essay">7. 考察</h2>
+<div class="essay">
+<p class="thesis">「近年のアニメは主人公がどんどん最強になっている」という語りは、しばしば長期的・連続的な傾向として語られる。だが本データはそれを支持しない。最強の度合いはおよそ半世紀ほぼ動かず、2000sから2010sにかけて一段だけ跳ね上がる。これは漸進でなく段差＝レジームシフトである。物語の幹は「最強が増えた」ではなく、最強の正当化様式が〈与えられる→勝ち取る→再び与えられる〉と振動したことだ。</p>
+
+<h3>「最強化」は60年トレンドではなく2010年代の急変</h3>
+<p>最初から最強のシェアが半数に達し、異世界シェアがゼロから半数へ、そして「格下殲滅・不在」というカテゴリがゼロから三分の一強へ――この三つの急変が2010年代前半に同時に立ち上がる。なぜその時期か。器（深夜枠の飽和→1クール量産、配信、VRMMO的ゲーム想像力）と素材（「小説家になろう」に蓄積された俺TUEEE在庫）が、2012年のSAO、2015年のオーバーロード・ワンパンマンを境に接続した。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/025_narou_template_influence/">なろうテンプレの段差が2012–13年に一点局在する</a>現象と完全に同じ転換点を、「主人公の強さ」という別の断面から再確認したものだ。</p>
+
+<h3>無双の二峰性 — 「与えられる力」の二度の隆盛</h3>
+<div class="phase"><b>第一の峰＝1970年代スーパーロボット。</b> マジンガーZが「乗り込んで巨大な力を操る」快感を発明し、ゲッター・グレンダイザー・コン・バトラーVが続く。主人公は力を与えられる――遺された機械、改造手術。高度成長期の技術楽観の中で、力は外から到来する贈り物だった。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/026_robot_mecha_stance/">ロボットが“神話の道具”だった時代の技術楽観</a>と同期している。</div>
+<div class="phase"><b>谷＝1980〜2000年代の修行主義。</b> ガンダムがロボット無双を脱神話化し、入れ替わりに汗で勝ち取る最強が覇権を握る。ドラゴンボールが成長型最強を完成させ、聖闘士星矢・幽遊白書・NARUTO・BLEACHへ続く。最強は勝ち取るものであり、だからこそ強敵との苦戦が物語の燃料だった。緊張感がこの期間高く保たれるのは偶然ではない。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/024_jump_formula_influence/">ジャンプの「努力・友情・勝利」で友情が耐力壁として単調上昇する</a>のと、本視点の「成長主義の谷」は同じ地層の表裏であり、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/022_toriyama_influence/">ドラゴンボール＝修行で開花する才能の系譜</a>がこの谷の中核を成す。</div>
+<div class="phase"><b>第二の峰＝2010年代なろうチート。</b> 70年代の機械の代わりに、2010年代は「異世界の理」が力を授ける。転生特典、神様からのギフト、ゲームのステータス。努力由来シェアがこの時期に最低化し、付与・特典が残存するのは、この「贈与された最強」への回帰を映す。</div>
+<p>緊張感は「勝ち取る」谷で最大化し、「与えられる」二つの峰で最小化する。苦労して得た力は失う恐れと拮抗する強敵を前提とするが、贈与された規格外の力は最初から拮抗相手を持たないからだ。最強度と緊張感の弱い負相関、異世界系の低い緊張は、この構造の数値的痕跡である。</p>
+
+<h3>ワンパンマンという臨界点</h3>
+<p>第二の峰の入口（2015年）に、ワンパンマンが立っているのは示唆的だ。サイタマは究極の最強無双でありながら、本作では緊張＝希薄・挑戦の源＝格下殲滅・不在となる。これは矛盾ではない。「最強ゆえに緊張が消える」というこのジャンルのバグを、バグとしてではなく主題として扱った自己言及作だからだ。最強無双が離陸するまさにその年に、その最強無双を脱構築する作品が現れた――2010年代の「最強化」が、無自覚な快楽供給であると同時に自己を相対化する批評性も内包していたことを示す。</p>
+
+<h3>2020年代の揺り戻しと両極化</h3>
+<p>2020sは単純なさらなる最強化ではない。最強度はわずかに下がり、努力由来シェアが大きく回復する。鬼滅の刃・呪術廻戦（最強の五条悟をあえて主人公でない位置に置く）・無職転生といった「努力の復権」群による。同時に最強無双も衰えない――タイトルに「最強」を冠して自己申告する究極の俺TUEEEが2020sに集中する。さらに反対の極（Re:ゼロ・このすば・王様ランキング）が反最強として明確に立つ。核心は平均値の移動ではなく分散の拡大＝両極化であり、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/009_violence_morality/">暴力・道徳の軸で観察された“分母効果と両極化の罠”</a>と同型である。指数の微減を「最強ブームの終焉」と読むのは誤りで、中身は二極へ引き裂かれている。</p>
+
+<h3>辺境と本流、そして社会背景（留保つき）</h3>
+<p>対象層クロスは明快だ。最強無双は深夜・配信の青年向けに濃く、お茶の間（一般）は最強を志向しない。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/021_transition_positioning/">辺境が革新し本流が大衆化するという構造</a>の別断面である。ただし本視点では「辺境＝青年なろう」がそのまま最強化の震源になり、少年向け本流（鬼滅・呪術）はむしろ努力主義を保持して最強化に抗っている点が興味深い。社会背景との接続――長期停滞と能力主義疲労が「努力＝報酬」の信頼を掘り崩し、努力なき最強への逃避を生んだという仮説――は有力だが断定できない。努力回帰した鬼滅・呪術が2020年代最大のヒットになった事実は逃避一元論への強い反証であり、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/020_zeitgeist_reflection/">社会反映論を“分布の系統的移動が社会史と緩やかに共変動する”程度に後退させる</a>誠実さがここでも要る。相関は因果ではない。</p>
 </div>
 
-<h2>8. 他者の論評（引用）</h2>
-<div class="grid2">
-<div>
-<div class="quote"><b>爽快感＝仕様（作家視点）</b><br>「俺TUEEEの魅力は苦戦しない爽快感。だが主人公が強いと山や谷は作れない。読者もその爽快感を求める」。緊張の放棄はバグでなく仕様。<br><a href="https://aoi-yamato.net/strongest-hero/">aoi-yamato.net</a></div>
-<div class="quote"><b>「飽き」が潜在需要を生んだ</b><br>「山あり谷ありテンプレへの飽きが潜在需要を生み、それを打破する作品が投稿サイトに集まり人気が出た」。<br><a href="https://kakuyomu.jp/works/1177354054885207682/episodes/16817330649083164735">kakuyomu（刻一）</a></div>
-<div class="quote"><b>ワンパンマン＝脱構築</b><br>「サイタマの退屈は、強さがすべてを解決するという発想の嘲笑。力をプロット装置でなくオチに使う」。<br><a href="https://www.thenerdsjunction.com/post/one-punch-man-boredom-is-weakness-but-genius">The Nerds Junction</a> ／ <a href="https://kotaku.com/one-punch-man-is-about-the-plight-of-being-too-powerful-1840421788">Kotaku</a></div>
+<h2>8. 論評</h2>
+<div class="views">
+<div class="view">
+<div class="who"><span class="wl">作家・実作者</span>「やあ、葵です。」（個人ブログ／俺TUEEE系の作劇分析）<span class="stance sup">爽快感は仕様</span></div>
+<div class="vt">「主人公が強いと山や谷は作れない。だが読者もその爽快感を求める」</div>
+<p>主人公最強モノを書く難しさを作家視点で分析し、ぶっちぎりで強い主人公では起伏のある物語を作れない一方、読者はその苦戦しない爽快感を求める、という創作上のジレンマを指摘する。</p>
+<div class="match"><b>データとの照合：</b>緊張感の2010s低下と「格下殲滅・不在」カテゴリの出現を、現場の意図として裏づける。緊張の放棄はバグでなく仕様だ、という本分析の読みと噛み合う。</div>
+<div class="src">出典：<a href="https://aoi-yamato.net/strongest-hero/">aoi-yamato.net「主人公最強モノは書くのが難しい？作家目線で分析する『俺TUEEE系』作品」</a></div>
 </div>
-<div>
-<div class="quote con"><b>「中身が空ろなら逃避の言い訳」（批判）</b><br>「多くのisekai主人公は逃避で全的に定義される自己投影の器。内面が無ければ空疎な逃避ファンタジー。ジャンルは飽和し、最も壊れた能力を作る退屈な競争に陥る」。<br><a href="https://www.cbr.com/personal-problem-power-fantasy-iskeai-anime-heroes/">CBR</a></div>
-<div class="quote con"><b>社会反映論（留保つき）</b><br>渡邉大輔「努力なき最初から最強は、能力主義の過剰なプレッシャーから離れたい若者の欲望の反映」。本データの努力由来53%→18%と共変動。ただし努力回帰の鬼滅/呪術が最大ヒット＝反証。<br><a href="https://gendai.media/articles/-/80375">現代ビジネス</a> ／ <a href="https://dime.jp/genre/1407035/">DIME</a></div>
-<div class="quote"><b>「テンション」でなく「必然性」</b><br>"It's not tension, it's inevitability — the world bends the moment the MC gets serious."<br><a href="https://gamerant.com/best-isekai-anime-overpowered-main-characters-op-mc/">GameRant</a></div>
+
+<div class="view">
+<div class="who"><span class="wl">海外批評</span>Kotaku（Sisi Jiang）／The Nerds Junction<span class="stance neu">脱構築として評価</span></div>
+<div class="vt">「強すぎることの苦境。強さがすべてを解決するという発想の嘲笑」</div>
+<p>Kotakuはサイタマの退屈を「強すぎることの苦境（the plight of being too powerful）」と捉え、力をプロット装置でなくオチに使う構造を論じる。The Nerds Junctionは退屈こそが「強さが無意味な世界で意味を追う群像喜劇」へと作品を解き放つ天才性だとする。</p>
+<div class="match"><b>データとの照合：</b>最強無双が離陸する2015年に最強無双を脱構築する作品が現れた、という偶然めいた同時性を、批評家の「終わりなき成長の空虚さへの風刺」という読みが必然として裏打ちする。</div>
+<div class="src">出典：<a href="https://kotaku.com/one-punch-man-is-about-the-plight-of-being-too-powerful-1840421788">Kotaku</a> ／ <a href="https://www.thenerdsjunction.com/post/one-punch-man-boredom-is-weakness-but-genius">The Nerds Junction</a></div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">海外批評</span>CBR (Comic Book Resources)<span class="stance cau">空疎な逃避と批判</span></div>
+<div class="vt">「中身が空ろなら、逃避の言い訳にすぎない」</div>
+<p>多くの異世界主人公は逃避で全的に定義される自己投影の器であり、内面が無ければ空疎な逃避ファンタジーに堕す。ジャンルは飽和し、最も壊れた能力を作る退屈な競争に陥る、と批判する。</p>
+<div class="match"><b>データとの照合：</b>「格下殲滅・不在」が三分の一強、努力由来が最低という数値が指す物語的貧困を価値判断の側から言語化する。一方で本データは、2020sの努力回帰と両極化という反証を提示できる――ジャンルは死なず、引き裂かれた。</div>
+<div class="src">出典：<a href="https://www.cbr.com/personal-problem-power-fantasy-iskeai-anime-heroes/">CBR「The Personal Problem With Power Fantasy Isekai Anime Heroes」</a></div>
+</div>
+
+<div class="view">
+<div class="who"><span class="wl">社会反映論</span>渡邉大輔（映画研究者・批評家）ほか／現代ビジネス・DIME<span class="stance neu">共変動を認めつつ留保</span></div>
+<div class="vt">「努力なき"最初から最強"は、能力主義の過剰なプレッシャーから離れたい欲望の反映」</div>
+<p>長期停滞と自己責任・能力主義の浸透が「努力すれば報われる」という信頼を掘り崩し、汗をかかずに最初から強い主人公への需要を生んだ、とする社会反映論。</p>
+<div class="match"><b>データとの照合：</b>努力由来シェアが1980sの過半から2010sの2割弱へ落ち込む共変動は、この論と整合する。ただし努力回帰した鬼滅・呪術が最大ヒットになった事実が反証として効くため、本分析は半ば同意し半ば留保する。相関は因果ではない。</div>
+<div class="src">出典：<a href="https://gendai.media/articles/-/80375">現代ビジネス</a> ／ <a href="https://dime.jp/genre/1407035/">DIME</a></div>
 </div>
 </div>
 

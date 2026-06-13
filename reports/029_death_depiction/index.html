@@ -3,28 +3,68 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>視点029 死の描き方・死生観 — アニメ60年の変遷</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-body{font-family:"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;margin:0;background:#0f1115;color:#e8e8ec;line-height:1.7}
-.wrap{max-width:1100px;margin:0 auto;padding:24px 16px 80px}
-h1{font-size:1.5em;border-left:6px solid #c0577e;padding-left:12px}
-h2{font-size:1.2em;margin-top:2.2em;border-bottom:2px solid #c0577e;padding-bottom:4px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:18px 0}
-.kpi{background:#1a1d24;border-radius:10px;padding:14px;border:1px solid #2a2e38}
-.kpi .v{font-size:1.5em;font-weight:700;color:#ff9ec0}.kpi .l{font-size:.8em;color:#aab}
-.card{background:#1a1d24;border-radius:10px;padding:16px;border:1px solid #2a2e38;margin:14px 0}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:800px){.grid2{grid-template-columns:1fr}}
-canvas{max-height:380px}
-.disc{background:#241a20;border:1px solid #5a2e44;border-radius:10px;padding:14px;margin:14px 0;font-size:.92em}
-.quote{background:#1a2030;border-left:4px solid #5b8dd9;border-radius:6px;padding:12px 14px;margin:10px 0;font-size:.92em}
-.quote.con{border-left-color:#d97b5b;background:#2a1f1a}
-.quote a{color:#8ab4ff;word-break:break-all}
-table{width:100%;border-collapse:collapse;font-size:.85em}
-th,td{padding:6px 8px;border-bottom:1px solid #2a2e38;text-align:left}
-th{cursor:pointer;background:#22262f;position:sticky;top:0}
-input,select{background:#22262f;color:#eee;border:1px solid #3a3f4a;border-radius:6px;padding:6px 8px;margin-right:8px}
-.tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:.85em;background:#33384a}
-.small{font-size:.85em;color:#99a}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/029_death_depiction/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -45,55 +85,120 @@ input,select{background:#22262f;color:#eee;border:1px solid #3a3f4a;border-radiu
 <div class="kpi"><div class="v">47.6%</div><div class="l">あの世明示シェア 2000sピーク（尸魂界・地獄・常の世の制度化）</div></div>
 </div>
 
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">「最近のアニメは死が軽い」——この通念は、データの上では真逆である。死の重みはこの60年でむしろ最も重くなった。軽くなったのは死そのものではなく、死の「聖化」だ。物語の主役は立派に死ぬ英雄から、誰かを喪って生き続ける遺された者へと静かに移り、蘇生は便利な設定から作品の死生観を表明する思想へと格上げされた。</p>
+<ul class="tldr-list">
+<li><b>「死なせ方」から「死なれ方」へ</b>：英雄的犠牲スタンスは1960sの37.5%から2010s以降ゼロへ消滅し、遺された者の喪を測るグリーフ指数は0.25→0.68へ単調上昇。喪が物語の中心である作品は0%から2020s 52.9%へ。視点は死ぬ者から遺族へ移動した。</li>
+<li><b>死は軽くなっていない、むしろ最重</b>：死の重み指数は2010s-20s（0.83/0.81）が60年の最高。消えたのは「死の聖化」で、美化・聖化の退場演出は1960-70sの25%から2010sの0%へ消滅し、即物・残酷が2020s 47.1%へ上昇した。</li>
+<li><b>蘇生の弁証法</b>：80sのインフレ（容易19%＝ジャンプ連載構造の産物）→00sの否定（鋼の錬金術師）→10sのゲーム化（ループ＝取り消しのコストの主題化）→20sの問い直し（蘇生否定29.4%＝60年の最高）。蘇生の有無は設定でなく死生観の表明になった。</li>
+<li><b>あの世観の波</b>：宗教的彼岸→2000sの「制度としてのあの世」（明示シェア47.6%ピーク＝幽白／BLEACH／鬼灯）→2010sの世俗の喪（あの世なし最多）→2020sの鎮魂の作法としての回帰（フリーレン／常世／平家）。</li>
+<li><b>3.11と「やり直し」の10年</b>：『君の名は。』(2016)の死者を救い直す想像力（操作スタンス2010sピーク）から、『すずめの戸締まり』(2022)・『ルックバック』(2024)の「やり直しを手放す」受容へ。操作26.1%→11.8%への急落と受容41.2%への上昇は、国民的な喪の成熟をなぞる。</li>
+</ul>
+</div>
+<h2 class="h2-essay">具体例——死の描き方を変えた4つの場面</h2>
+<div class="ex">
+<h3>① 英雄が「立派に」死んだ時代——地球を見て安らかに（1974年放送）</h3>
+<p>イスカンダルへの片道14万8千光年の旅を終え、放射能除去装置を携えて地球へ帰還する寸前、艦長・沖田十三は静かに息を引き取る。遠い母なる星を見つめてこぼすこの一言は、死を「使命を果たした者の安らかな帰着」として聖化する1960-70s型の英雄的犠牲を象徴する。退場の演出は美化・聖化、視点はまだ「死ぬ者」の側にある。</p>
+<blockquote class="quote">地球か……。何もかも皆、懐かしい。<span class="qby">— 沖田十三／TVアニメ『宇宙戦艦ヤマト』最終話（1974年放送）。帰還を目前に世を去る艦長の最期の言葉。</span></blockquote>
+<h3>② 蘇生を否定する旗艦——「これは真理だ」（2000s）</h3>
+<p>母を取り戻そうと禁忌の人体錬成に手を出し、弟の体と自分の手足を失ったエドワード。墓を暴いてまで突きつけられるこの一句が、作品全体の世界律＝等価交換と結びつき、80-90sの蘇生インフレに対する明確な対抗テーゼになった。死は取り消せない——だからこそ重い。2000sに立ち上がる「蘇生否定」転回の旗艦である。</p>
+<blockquote class="quote">死んだ人間は、どんな事をしても元には戻らない。これは真理だ。<span class="qby">— エドワード・エルリック／『鋼の錬金術師』（TVアニメ2003／2009）。死者蘇生を世界の理として禁じる作品の核となる台詞。</span></blockquote>
+<h3>③ 遺された者の物語——「もっと知ろうと思わなかったんだろう」（2023）</h3>
+<p>勇者一行の旅から半世紀。エルフのフリーレンにとって人間の一生は瞬きほどでしかなかったが、ヒンメルの葬儀でこぼれるこの後悔が、彼女に「死者を知るための旅」を始めさせる。死そのものでなく、死のあとに遺された者がどう悼むかを描く2020sの「死との共生・受容」の頂点。タイトルが「葬送」であること自体が、この60年の到達点を告げている。</p>
+<blockquote class="quote">……人間の寿命は短いってわかっていたのに……なんでもっと知ろうと思わなかったんだろう。<span class="qby">— フリーレン／TVアニメ『葬送のフリーレン』第1話（2023）。勇者ヒンメルの葬儀で涙する場面。</span></blockquote>
+<h3>④ 「やり直し」を手放す——震災のあとの戸締まり（2022）</h3>
+<p>母を失った幼い自分と常世（死者の世界）で再会したすずめは、死者を取り消すのでも過去をやり直すのでもなく、後ろ戸に鍵をかけ「行ってきます」と告げて現世へ戻る。『君の名は。』の「死者を救い直す」想像力が、約10年を経て「悼んで前へ進む」喪の作業へと折り返した瞬間を、この日常の挨拶が担う。</p>
+<blockquote class="quote">行ってきます！<span class="qby">— 岩戸鈴芽／劇場アニメ『すずめの戸締まり』（新海誠監督・2022）。幼い自分と別れ、後ろ戸を閉じるラスト近くの場面。</span></blockquote>
+</div>
 <h2>1. 主stanceの年代変遷（100%積み上げ）</h2>
-<div class="card"><canvas id="cStance"></canvas>
+<div class="card"><div class="cbox"><canvas id="cStance"></canvas></div>
 <p class="small">英雄的犠牲（アトム/沖田/キャシャーン）は単調減で2010s以降ゼロ。2010sは「喪と再生」30.4%、2020sは「死との共生・受容」41.2%が最大勢力＝物語の主役が死ぬ者から遺される者へ。</p></div>
 
 <h2>2. 蘇生の60年 — インフレ→否定→ゲーム化→問い直し</h2>
-<div class="card"><canvas id="cRes"></canvas>
+<div class="card"><div class="cbox"><canvas id="cRes"></canvas></div>
 <p class="small">蘇生容易は1980sに局在（DB/星矢/キン肉=ジャンプ連載構造の産物）。2000sに鋼錬型の蘇生否定が立ち上がり、2010sはループ・死に戻りで可逆性が再来、2020sは蘇生否定29.4%で最高＝死の不可逆性の再制度化。※1990sの容易0%はDBZ(1989)が80s枠に入る境界効果に注意。</p></div>
 
 <div class="grid2">
-<div class="card"><h3 style="margin-top:0;font-size:1em">死の重み指数 / グリーフ指数</h3><canvas id="cIdx"></canvas>
+<div class="card"><h3 style="margin-top:0;font-size:1em">死の重み指数 / グリーフ指数</h3><div class="cbox"><canvas id="cIdx"></canvas></div>
 <p class="small">「最近のアニメは死が軽い」の通念に反し、重み指数は2010s-20sが60年の最高。死の不在シェア併記（1990s 16.7%=空気系の谷）。</p></div>
-<div class="card"><h3 style="margin-top:0;font-size:1em">あの世・輪廻観の構成</h3><canvas id="cAf"></canvas>
+<div class="card"><h3 style="margin-top:0;font-size:1em">あの世・輪廻観の構成</h3><div class="cbox"><canvas id="cAf"></canvas></div>
 <p class="small">2000s=あの世の制度化ピーク、2010s=最も世俗的（喪は現世だけで完結）、2020s=鎮魂の作法として彼岸が回帰。</p></div>
 </div>
 
 <h2>3. 退場の演出 — 美化の消滅と即物化</h2>
-<div class="card"><canvas id="cEx"></canvas>
+<div class="card"><div class="cbox"><canvas id="cEx"></canvas></div>
 <p class="small">美化・聖化（昇天/散華/流星）は1960-70s 25%→2010s 0%へ消滅。即物・残酷は2020s 47.1%へ上昇、2010sは暗示・オフ（死を見せず喪を描く）も最高34.8%＝「死を聖化しない」二つの流儀へ両極化。</p></div>
 
 <h2>4. 対象層・種別クロス</h2>
 <div class="grid2">
-<div class="card"><canvas id="cDemo"></canvas></div>
-<div class="card"><canvas id="cIrr"></canvas>
+<div class="card"><div class="cbox"><canvas id="cDemo"></canvas></div></div>
+<div class="card"><div class="cbox"><canvas id="cIrr"></canvas></div>
 <p class="small">不可逆性指数は青年向けが最低0.57＝死を操作する思考実験（ノート/ループ/死に戻り)は青年深夜の文法。</p></div>
 </div>
 
-<h2>5. 考察（要点）</h2>
-<div class="card">
-<p><b>① 死なせ方→死なれ方</b>: 英雄的犠牲の消滅とグリーフ指数の単調上昇は、視点が死者から遺族へ移った60年。背景は受け手の高齢化(run#17)、病院死・核家族化による死の儀礼の日常からの消失（フィクションが喪の作業の代替訓練場に）、震災。1970年の力石徹告別式（寺山修司主宰）が示す「共同体の儀礼を生む大きな死」は消え、86の「名前を運ぶ」やフリーレンの「死者を知る旅」のような物語内の儀礼が代替する。</p>
-<p><b>② 蘇生の弁証法</b>: 80sインフレ（ジャンプ連載構造）→00s否定（鋼錬「死んだ人間は生き返らない」）→10sゲーム化（ループ=取り消しのコスト主題化）→20s問い直し（ダンジョン飯=蘇生制度下の死の意味）。蘇生の有無は設定から死生観の表明へ昇格した。</p>
-<p><b>③ 3.11と「死者をやり直す」想像力</b>: 君の名は。(2016)=死者の救済し直しが操作シェア2010sピークの中心。すずめ(2022)は死者を取り消さず戸を閉め、ルックバック(2024)はif世界を描いた上で手放す。操作26.1%→11.8%への急落と受容41.2%への上昇は「取り消し→戸締まり」への国民的な喪の成熟と読める。<span class="small">【留保】あの花/まどか/シュタゲは震災前企画。ループ文法はゲーム・なろうの内在進化でもあり、震災は既存の語彙に切実さを与えたと読むのが安全（相関≠因果）。</span></p>
-<p><b>④ あの世の機能変化</b>: 宗教的彼岸（フランダースの昇天）→制度としてのあの世（幽白/BLEACH/鬼灯=攻略・運営可能な死後社会）→世俗の喪（2010s=死後を描かず心理学で完結）→鎮魂の作法（フリーレンの魂の眠る地/常世/平家の亡霊）。文化本質（仏教・無常）では波形を説明できず、各年代の必要が宗教語彙を出し入れしている。</p>
-<p><b>⑤ 選定バイアス留保</b>: 著名作中心ゆえ絶対値より相対変化を読む。1960s n=8は方向の示唆。1作1stance縮約のため多面的作品は主面で代表。</p>
+<h2 class="h2-essay">5. 考察</h2>
+<div class="essay">
+<p class="thesis">死をめぐる60年の最大の変化は、視点が「死ぬ者」から「遺される者」へ移ったことである。英雄的犠牲の消滅とグリーフ指数の単調上昇がその縦糸であり、横糸として、死の重みは深まり続けるのに死の聖化は剥がれ落ち、蘇生は設定から思想へ昇格し、あの世は必要に応じて宗教的語彙を出し入れする。「最近のアニメは死が軽い」という通念は、ほぼ正確に反証される。</p>
+
+<h3>「死なせ方」から「死なれ方」へ——主役は遺族になった</h3>
+<p>アトムの太陽への特攻、沖田艦長の安らかな最期、キャシャーンの不可逆の自己犠牲——1960sには37.5%を占めた「英雄的犠牲」は、単調に減って2010s以降ゼロになる。代わって伸びたのが「喪と再生」（2010s 30.4%）と「死との共生・受容」（2020s 41.2%）で、合わせると2010s-20sの過半が「死そのもの」でなく「死のあと」を描いている。グリーフ指数は0.25から0.68へ、喪が物語の中心である作品は0%から52.9%へ。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/006_ending_tone/">カタルシスの重心が戦闘の勝利から喪失の受容へ移った結末史</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/028_war_military/">戦争表象における死の重みの単調深化</a>と完全に同じ動きで、横断モチーフの中で最も太い縦糸である。背景は三層で読める。受け手の高齢化と当事者化（立派な死を見せる教育的メディアから、喪失を経験した大人が自分の喪を重ねるメディアへ。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/017_target_audience/">誰に作り誰が観たかという受容構造のズレ</a>の延長にある）、病院死と核家族化による死の儀礼の日常からの消失（フィクションが喪の作業の代替訓練場になった）、そして震災である。あの花・四月・よりもい・ヴァイオレットが2010sに束で現れるのは、葬式を知らない世代に「悲しみ方」を教える機能の需要と読める。</p>
+
+<h3>蘇生の弁証法——インフレ、否定、ゲーム化、問い直し</h3>
+<p>死の可逆化＝蘇生の歴史は、綺麗な弁証法をなす。第一に1980sのインフレ。蘇生容易シェア19%は全年代最高で、ドラゴンボール・聖闘士星矢・キン肉マンに局在する。これは死生観の変化ではなく、人気キャラを退場させられない長期連載が「死んでも生き返る」様式を発明したジャンプ連載構造の産物で、不可逆性指数は1980sに0.53の谷をつける。第二に2000sの否定。鋼の錬金術師が「死んだ人間は生き返らない」を世界律として主題化し、ONE PIECEも本流でありながら蘇生を採らない——80s様式への世代的応答＝死の重みの回復運動である。第三に2010sのゲーム化。死の可逆性は消えず、ループ・死に戻り・世界線（まどか／シュタゲ／Re:ゼロ）という形で回帰する。80sとの違いは「やり直す主体が痛みと記憶を蓄積する」ことで、死は取り消せても取り消しのコストが主題になった。これはゲームのセーブ／リセットが身体化した世代の死生観で、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/004_story_structure/">2010sに固有のループ・時間遡行という物語構造</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/025_narou_template_influence/">なろう系の死に戻りという定型</a>と同根である。そして第四に2020sの問い直し。蘇生否定シェア29.4%は60年の最高（鬼滅＝鬼とは死を拒んだ者／フリーレン＝蘇生せず死者を知る／86）で、ダンジョン飯に至っては「蘇生が制度化された世界で死の意味を問う」メタ段階に達した。蘇生の有無はもはや設定でなく、死生観の表明である。<span class="small">【留保】蘇生容易の1990sゼロは、DBZ(1989)が80sのバケットに入る境界効果が大きい。90sの実態は「インフレの継続と飽き」であり、分母効果と同型の罠に注意。</span></p>
+
+<h3>死は重くなったのに、なぜ聖化が消えたのか</h3>
+<p>退場の演出を見ると、美化・聖化（昇天・散華・流星）が1960-70sの25%から2010sの0%へ消滅し、即物・残酷が2020s 47.1%まで上昇している。一方で2010sは暗示・オフ（死の瞬間を見せず喪を描く）も最高の34.8%。即物派（死の無意味さの直視＝進撃の捕食、呪術の渋谷事変）と暗示派（死後の時間の正視＝四月、ヴァイオレット）への両極化が起きており、どちらも共有するのは「死を聖化しない」ことだ。死から「立派さ」「意味」が剥奪され、不意打ちの事実として置かれる——これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/028_war_military/">戦争を美化しない構造</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/009_violence_morality/">道徳が勧善懲悪から灰色へ移る大潮流</a>の死生観版である。1970年の力石徹告別式（寺山修司主宰、現実の読経・焼香）が示すように、かつてキャラの死は共同体の儀礼を生む「大きな死」だった。いまの死は数が多く、突然で、意味づけを拒む——その分、遺された者の語り（86の名前を運ぶ行為、フリーレンの死者を知る旅）が儀礼の代わりを担う。儀礼の喪失とその物語による代替こそ、この60年の死生観の核心である。</p>
+
+<h3>あの世の盛衰——彼岸は教義から作法へ</h3>
+<p>あの世明示シェアは単調でなく波打つ。1970sの底（フランダースの犬の昇天が例外）はヤマト・ガンダム的なSFリアリズムが死後を語る語彙を持たなかったため。2000sのピーク（47.6%）の中身は「あの世の制度化」だ——幽白のあの世の官僚機構、BLEACHの尸魂界＝死後の社会、鬼灯の冷徹に至っては地獄が職場のお仕事コメディになる。畏怖の対象だった彼岸が、攻略・運営可能な「もう一つの社会」として描かれる。これは死の操作と同じ世俗化の別の顔であり、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/027_ai_treatment/">AIや異界を文化本質で説明する誘惑への留保</a>と同型に、文化テーゼでなく各年代の必要が語彙を出し入れしていると読むべきだ。対照的に2010sは世俗シェア47.8%で最もあの世を描かない（グリーフワーク作品群は死後の救済を描かず現世だけで喪を完結させる＝死生観が宗教から心理学へ移管された年代）。そして2020s、あの世はフリーレンの魂の眠る地、すずめの常世、平家・犬王の亡霊として戻ってくる。ただし戻ったのは教義でなく鎮魂の作法——死者と再会し、語り、置いてくる場所としてのあの世である。</p>
+
+<h3>3.11と「死者をやり直す」想像力——取り消しから戸締まりへ</h3>
+<p>2010sの操作・ゲーム化26.1%ピークの中心に『君の名は。』(2016)がある。彗星災害の死者500人を時間を越えて救い直す物語は、東日本大震災の死者への「あの日に戻れたら」という想像力の直接の表現として受容され、鎮魂か歴史改変かで批評が二分した。重要なのは新海自身の軌跡で、『すずめの戸締まり』(2022)は死者を取り消さない。常世で死者の世界に触れながら、やり直すのではなく「行ってきます」を取り戻し戸を閉める。『ルックバック』(2024)はさらに自己言及的で、if世界＝やり直しの空想を描いた上でそれを手放すことが悼みになる。操作シェアの急落（26.1%→11.8%）と受容シェアの最高（41.2%）は、「死の取り消し」の想像力が約10年で「死者との共生」へ折り返したことを示す。個人の喪の過程（否認→取引→受容）を、国民的メディアが10年かけてなぞったように見える。<span class="small">【留保】これを3.11一元論で語るのは危うい。あの花もまどかもシュタゲも震災前に企画されており、ループ文法はゲーム・なろうの内在的進化でもある（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/023_anno_eva_influence/">庵野＝青年辺境の内省という系譜</a>と接続）。震災は方向を与えたというより、既にあった語彙に切実さを与えたと読むのが安全だ（相関≠因果）。</span></p>
+
+<h3>死は「大人の主題」になったのか——対象層の構造</h3>
+<p>クロス集計は明瞭で、死の重み・グリーフとも一般（劇場）・少女＞青年＞少年＞児童の順に並ぶ。少女向けが意外に高い（エースをねらえ／キャンディ／ぼく地球）のは、関係性を核とするジャンルが喪失を最大の事件として扱うため。一方で不可逆性指数は青年向けが最低（0.57）——死を操作する物語（デスノート／ループ／死に戻り）が深夜・青年層の思考実験として発達したことの反映で、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/023_anno_eva_influence/">庵野的な青年辺境の内省</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/025_narou_template_influence/">なろう＝青年深夜の現象</a>の系譜に正確に乗る。児童向けは一貫して死を遠ざけるが、フランダース・ミンキーモモのように児童向けでこそ例外的な死が最も記憶されるという逆説がある。死は確かに「重く」なったが、それは大人の主題に純化したというより、各層がそれぞれの距離で死を扱い分けるようになった、と読むのが正しい。</p>
 </div>
 
-<h2>6. 他者の論評（賛否両論）</h2>
-<div class="quote">📘 <b>浦澄彬『なぜあのキャラは死ななければならなかったのか？』</b> — 戦後〜令和の「キャラの死」の通史。「平成アニメのキャラ蘇生と死生観」を一章立てて論じ、本分析と問題設定が一致する先行研究。<br><a href="https://kai-you.net/article/91275">kai-you.net/article/91275</a></div>
-<div class="quote con">⚔️ <b>ご都合主義論争</b> — 「死亡したのになぜか完全復活」批判（ふたまん＋） vs 様式美・お約束として許容（ピクシブ百科）。本データでは蘇生容易は80sの様式に局在し、以後の作品はその様式への応答として歴史化できる。<br><a href="https://futaman.futabanet.jp/articles/-/128115">futaman.futabanet.jp</a> / <a href="https://dic.pixiv.net/a/%E3%81%94%E9%83%BD%E5%90%88%E4%B8%BB%E7%BE%A9">dic.pixiv.net</a></div>
-<div class="quote">💐 <b>グリーフワーク評価</b> — CBR「アニメは喪を乱雑で個人的な過程として描く点で他メディアより優れる」、Otaku Exhibition（あの花=遺された者の罪悪感の物語）、Frieren心理学論。データはこの美点が歴史的に新しい獲得物（喪中心0%→52.9%）であることを付け加える。<br><a href="https://www.cbr.com/anime-perfectly-portray-grief/">cbr.com</a> / <a href="https://otakuexhibition.wordpress.com/2021/06/14/processing-grief-through-anime-part-two-anohana/">otakuexhibition</a> / <a href="https://www.discovermorepodcast.com/blog/exploring-grief-time-and-regret-a-psychological-look-at-frieren/">discovermorepodcast</a></div>
-<div class="quote con">🌊 <b>震災と死者の表象（賛否）</b> — 藤津亮太「すずめは震災文学」（QJWeb）・リアルサウンド「君の名は。ブームの決算」 vs 「被災地への配慮を欠く」等の被災当事者の拒否反応、さらに「被災経験者を一括りにするな」の再反論。死者の表象は誰のものかという問いは数字では掬えない。<br><a href="https://qjweb.jp/journal/78912/">qjweb.jp</a> / <a href="https://realsound.jp/movie/2022/11/post-1186351.html">realsound.jp</a> / <a href="https://eiga.com/movie/96308/review/02931049/">eiga.com(批判)</a> / <a href="https://eiga.com/movie/96308/review/02918715/">eiga.com(再反論)</a></div>
-<div class="quote">🪦 <b>力石徹告別式（1970）</b> — 寺山修司主宰、読経・焼香を伴う現実の葬儀。キャラの死が共同体の儀礼を生んだ「大きな死」の時代の極点。<br><a href="https://www.sougiya.biz/kiji_detail.php?cid=1061">sougiya.biz</a></div>
-<div class="quote con">🕉️ <b>文化本質論への留保</b> — The Conversation等は煉獄の死=仏教的無常の受容と読む。鬼滅には正確だが、80s蘇生インフレも00sゲーム化も同じ「日本文化」内で起きており、文化テーゼは変動を説明しない。文化=語彙の貯蔵庫、変動の説明は産業・社会へ（run#26/27のテクノオリエンタリズム留保と同型）。<br><a href="https://theconversation.com/how-japanese-anime-draws-on-religious-traditions-to-explore-themes-of-destiny-sacrifice-and-the-struggle-between-desire-and-duty-246960">theconversation.com</a></div>
+<h2 class="h2-essay">6. 他者の論評との対話</h2>
+<p class="mut">蘇生をご都合主義と見るか様式美と見るか、グリーフ描写を称揚するか、震災の死者の表象を鎮魂と読むか改変と読むか——立場は対立するが、いずれも本データの「英雄的犠牲0%／蘇生否定29.4%／グリーフ指数単調上昇」という構造を別々の角度から照らしている。</p>
+<div class="views">
+<div class="view">
+<p class="who"><span class="wl">先行研究</span><b>浦澄彬</b>『なぜあのキャラは死ななければならなかったのか？――死の描かれ方からたどるマンガ・アニメ史』（紹介：KAI-YOU）</p>
+<div class="vt">戦後〜令和の「キャラの死」を通史として追う <span class="stance neu">問題設定が一致</span></div>
+<p>20世紀アニメの死の表現、京アニ作品の死、社会現象としてのキャラの死、そして「平成アニメのキャラ蘇生と死生観」を章立てで論じる。本分析と同じ「死の描かれ方の通時変化」という枠組みを取る先行研究である。</p>
+<div class="match"><b>データとの照合：</b>本分析の<b>蘇生の弁証法（80sインフレ→00s否定→10sゲーム化→20s問い直し）</b>は、浦澄が一章を割く「蘇生と死生観」を定量側から裏づける。通史というフレーム自体が本視点の妥当性を支える。</div>
+<div class="src">KAI-YOU <a href="https://kai-you.net/article/91275">kai-you.net/article/91275</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">論争</span><b>「ご都合主義」論争</b>（ふたまん＋ vs ピクシブ百科事典）</p>
+<div class="vt">死亡キャラの復活は死の安売りか、お約束の様式美か <span class="stance cau">賛否両論</span></div>
+<p>「死亡したのになぜか完全復活」を死の緊張感の喪失として批判する言説（ふたまん＋）と、蘇生を読者との約束事＝プロレス的様式美として擁護する整理（ピクシブ百科）が併存する。同じ現象が冒涜とも美学とも評価される。</p>
+<div class="match"><b>データとの照合：</b>本データは両者を歴史化できる。<b>蘇生容易は1980sの様式（ジャンプ連載構造の産物）に局在</b>し、2000s以降の作品はその様式への応答（否定・コスト化）として作られた。「批判か擁護か」でなく「80s様式とその後の対話」として読むのが生産的だ。</div>
+<div class="src">ふたまん＋ <a href="https://futaman.futabanet.jp/articles/-/128115">futaman.futabanet.jp</a> ／ ピクシブ百科事典 <a href="https://dic.pixiv.net/a/%E3%81%94%E9%83%BD%E5%90%88%E4%B8%BB%E7%BE%A9">dic.pixiv.net</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>CBR / The Otaku Exhibition</b>（英語圏のグリーフワーク評価）</p>
+<div class="vt">アニメは喪を「乱雑で個人的な過程」として描く点で他メディアより優れる <span class="stance sup">支持</span></div>
+<p>CBRはアニメの喪の描写を「乱雑で複雑で深く個人的なプロセスとして描く意思」において卓越すると総括し、ヴァイオレット・エヴァーガーデンを「喪を一撃でなく身体に宿る緩やかな重みとして描く」と評する。The Otaku Exhibitionはあの花を「遺された者の罪悪感」の教科書的グリーフ譚として読む。</p>
+<div class="match"><b>データとの照合：</b>本データの<b>グリーフ指数単調上昇・喪中心シェア0%→52.9%</b>と整合。ただし海外批評は2010s以降の作品でこの美点を語っており、本分析はそれが<b>歴史的に新しい獲得物</b>であることを付け加えられる。</div>
+<div class="src">CBR <a href="https://www.cbr.com/anime-perfectly-portray-grief/">cbr.com</a> ／ The Otaku Exhibition <a href="https://otakuexhibition.wordpress.com/2021/06/14/processing-grief-through-anime-part-two-anohana/">otakuexhibition</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>藤津亮太（QJWeb）／リアルサウンド</b> vs <b>被災当事者のレビュー（映画.com）</b></p>
+<div class="vt">死者をやり直す物語は震災文学の鎮魂か、被災地への配慮を欠く表象か <span class="stance cau">賛否両論</span></div>
+<p>藤津亮太は『すずめの戸締まり』を災害三部作の到達点＝正面からの震災文学と位置づけ、リアルサウンドは「君の名は。ブームの決算＝死者を取り消さず悼む方向への転回」と読む。一方、映画.comには「被災地への配慮を欠く」とする強い拒否反応と、「被災経験者を一括りにするな」という再反論が併存する。</p>
+<div class="match"><b>データとの照合：</b>本データの<b>2010s操作ピーク→2020s受容シフト</b>は、藤津らの「君の名は。の決算としてのすずめ」という読みを定量側から支持する。同時に、当事者の拒否反応は「死者の表象は誰のものか」という、シェアの数字では掬えない問いとして残る。</div>
+<div class="src">QJWeb <a href="https://qjweb.jp/journal/78912/">qjweb.jp/journal/78912</a> ／ リアルサウンド <a href="https://realsound.jp/movie/2022/11/post-1186351.html">realsound.jp</a> ／ 映画.com（批判・再反論） <a href="https://eiga.com/movie/96308/review/02931049/">eiga.com</a></div>
+</div>
+</div>
 
 <h2>7. 全作品テーブル（124作）</h2>
 <div class="card">
 <input id="q" placeholder="タイトル検索..." oninput="renderT()">
 <select id="fdec" onchange="renderT()"><option value="">全年代</option></select>
 <select id="fst" onchange="renderT()"><option value="">全stance</option></select>
-<div style="max-height:480px;overflow:auto;margin-top:10px">
+<div class="tablewrap" style="max-height:480px;margin-top:10px">
 <table id="tbl"><thead><tr>
 <th onclick="sortT('title')">title</th><th onclick="sortT('year')">year</th><th>type</th><th>demo</th>
 <th onclick="sortT('st')">stance</th><th>重み</th><th>退場</th><th>蘇生</th><th>あの世</th><th>喪</th><th>根拠</th>

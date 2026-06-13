@@ -2,46 +2,68 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>視点031 異世界転生・転移の型 — 統計分析</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1117;--card:#181b24;--card2:#1f2430;--ink:#e8ebf2;--mut:#9aa3b5;--acc:#7c9cff;--acc2:#ff9e64;--grn:#76d39b;--red:#ff7a85;--pur:#c4a7ff;--bd:#2a3040;}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;line-height:1.75}
-.wrap{max-width:1180px;margin:0 auto;padding:28px 18px 90px}
-h1{font-size:26px;margin:0 0 6px}
-h2{font-size:20px;margin:40px 0 12px;border-left:5px solid var(--acc);padding-left:11px}
-h3{font-size:16px;margin:22px 0 8px;color:var(--acc2)}
-.sub{color:var(--mut);font-size:14px;margin-bottom:18px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:18px 20px;margin:16px 0}
-.warn{background:#2a221b;border:1px solid #5a4326}
-.kpis{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
-.kpi{background:var(--card2);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;flex:1;min-width:160px}
-.kpi b{display:block;font-size:22px;color:var(--acc)}
-.kpi span{font-size:12.5px;color:var(--mut)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-@media(max-width:820px){.grid{grid-template-columns:1fr}}
-.chartbox{position:relative;height:310px}
-.chartbox.tall{height:350px}
-canvas{max-width:100%}
-p{margin:10px 0}
-.quote{background:var(--card2);border-left:4px solid var(--acc);border-radius:8px;padding:12px 15px;margin:11px 0}
-.quote.con{border-left-color:var(--red)}
-.quote.pro{border-left-color:var(--grn)}
-.quote .src{font-size:12.5px;color:var(--mut);margin-top:6px}
-.quote a{color:var(--acc);text-decoration:none}
-.tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:20px;margin-right:6px}
-.tag.pro{background:#1f3a2a;color:var(--grn)}
-.tag.con{background:#3a1f24;color:var(--red)}
-.tag.neu{background:#26314a;color:var(--acc)}
-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px}
-th,td{border-bottom:1px solid var(--bd);padding:6px 7px;text-align:left}
-th{cursor:pointer;color:var(--acc);position:sticky;top:0;background:var(--card)}
-tr:hover td{background:#1c212c}
-input,select{background:var(--card2);color:var(--ink);border:1px solid var(--bd);border-radius:7px;padding:6px 9px;font-size:13px;margin:0 6px 8px 0}
-.note{font-size:13px;color:var(--mut)}
-.flex{display:flex;flex-wrap:wrap;align-items:center}
-.big{font-size:15px}
-ul{margin:8px 0 8px 2px}
-li{margin:5px 0}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/031_isekai_type/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -53,7 +75,7 @@ li{margin:5px 0}
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-51N89XJ20Q');</script>
 </head><body><div id="__home"><a href="../../">← 視点一覧トップへ</a></div><div class="wrap">
 <h1>視点031 ｜ 異世界転生・転移の型</h1>
-<div class="sub">横断モチーフクラスタ 第6作 ｜ 母集団 102作（1965–2024）｜ aspects＝転生か転移か／原因／前世知識の活用／帰還願望 ｜ run#31</div>
+<div class="sub">横断モチーフクラスタ 第6作 ｜ 母集団 102作（1965–2024）｜ aspects＝転生か転移か／原因／前世知識の活用／帰還願望 ｜ 関連分析</div>
 
 <div class="card warn">
 <b>⚠ 読み方の前提（必読）</b>
@@ -69,64 +91,126 @@ li{margin:5px 0}
 <div class="kpi"><b id="k4"></b><span>op指数 2020s（1980s=0.20）</span></div>
 </div>
 
+
+<div class="tldr">
+<div class="tldr-lab">要旨 ｜ KEY FINDINGS</div>
+<p class="tldr-lead">異世界ものの60年は、主人公と「元の世界」をつなぐ糸が段階的に断たれていく物語だ。「訪れて、変わって、帰ってくる」旅から、「死んで、別の存在に生まれ直し、二度と帰らない」移住へ——移行の型・帰還願望・転生する身体の三軸が、同じ方向を指す。</p>
+<ul class="tldr-list">
+<li><b>移行の型は召喚→転移→転生へ。</b>向こうが呼ぶ(80–90s)→偶発で飛ばされる(2010s)→古い身体ごと死ぬ(2020s 過半51%)。やがて帰る身体すら無くなる。</li>
+<li><b>帰還願望はほぼ100%→18%へ消失。</b>「帰るべき故郷」が「帰りたくない／帰らなくてよい場所」へ反転。蝶番は2000年代（帰還願望と定住の逆転）。</li>
+<li><b>転生する身体も「自分のまま」(68%)から拡散。</b>2020s固有でスライム・剣・悪役令嬢へ。最後は「元の自分」すら不要になる。</li>
+<li><b>与えられる力(op指数)は単調上昇。</b>1980s 0.20→2020s 0.65。攻略可能なルールの世界への欲望と連動する。</li>
+<li><b>年代偏在そのものが史実。</b>母集団102作のうち76作が2010s以降＝ジャンルが2010年代に爆発した事実の反映。古い年代は統計でなく例示。</li>
+</ul>
+</div>
+
+<h2>具体例 — セリフで辿る「帰る物語」から「帰らない物語」へ</h2>
+<div class="card ex">
+<h3>① 帰る物語の時代 ── 千と千尋の神隠し(2001)</h3>
+<p>扉がまだ閉じていない頃、異世界は「訪れて、必ず帰る」場所だった。湯婆婆との契約から解かれ現世のトンネルへ戻る千尋に、ハクはこう告げる。</p>
+<div class="quote">でも決して振り向いちゃいけないよ、トンネルを出るまではね。<span class="qby">──ハク／『千と千尋の神隠し』(2001)</span></div>
+<p>振り返らず、まっすぐ元の世界へ。<b>帰還</b>こそがクライマックスだった迷い込み型の象徴である。劇場・一般向けの「銃後と日常への帰還」の伝統に連なる。</p>
+
+<h3>② 世界がゲームになる ── ソードアート・オンライン(2012)</h3>
+<p>2010年代、異世界はRPG／VRMMOの文法をまとう。デスゲームに閉じ込められたプレイヤーへ、ゲームマスター茅場晶彦が宣告する。</p>
+<div class="quote">これは、ゲームであっても遊びではない。<span class="qby">──茅場晶彦／『ソードアート・オンライン』(原作Web版発のフレーズ。作中での発話は2021年リメイク第1話)</span></div>
+<p>死がリセットされない＝「攻略可能だが本気の世界」。仮想世界結晶化の号砲であり、以後VRでない異世界もステータス・スキル・レベルというゲーム文法を継承していく。</p>
+
+<h3>③ 死んで、本気でやり直す ── 無職転生(2021)</h3>
+<p>2020年代、転生が過半を占める。トラック事故で死んだ34歳の引きこもりが、赤子から人生をやり直すルーデウス。彼の独白は、テンプレ無双への自己批評として響く。</p>
+<div class="quote">無職の引きこもりでクズな俺でも、人生をやり直すことが、本気で生きていくことが——できるかもしれない。<span class="qby">──ルーデウス・グレイラット／『無職転生 〜異世界行ったら本気だす〜』(2021)</span></div>
+<p>「誠実な転生」の再正統化。チートを拒む反テンプレ（Re:ゼロ／グリムガル／盾の弱小スタート）も同じ系譜で、<b>努力・成長</b>が再導入される。</p>
+
+<h3>④ 破滅を書き換える ── 悪役令嬢に転生(2020)</h3>
+<p>2020sに女性が「悪役令嬢」として再参入する。前世でプレイした乙女ゲームの記憶で自分の破滅エンドを知るカタリナは、定められた運命に宣戦する。</p>
+<div class="quote">来るなら来なさい破滅フラグ、この私が相手になってやる！<span class="qby">──カタリナ・クラエス／『乙女ゲームの破滅フラグしかない悪役令嬢に転生してしまった…』(2020)</span></div>
+<p>定められた破滅を「前世の先見」で書き換える＝<b>主体性の奪還</b>。男性向けパワーファンタジーの裏返しと評される女性向けサブジャンルの起点である。</p>
+</div>
+
 <h2>1. 移行の型の年代変遷 — 召喚→転移→転生</h2>
 <div class="grid">
-<div class="card"><h3>型の構成比（100%積み上げ・decade）</h3><div class="chartbox tall"><canvas id="cTT"></canvas></div>
+<div class="card"><h3>型の構成比（100%積み上げ・decade）</h3><div class="chartbox tall"><div class="cbox"><canvas id="cTT"></canvas></div></div>
 <p class="note">重心が <b>召喚（80–90s）→ 迷い込み等へ多様化（00s）→ 転移（10s）→ 転生（20s 過半）</b> へ移動。召喚＝向こうが呼ぶ／転移＝偶発／転生＝古い身体ごと死ぬ、という<b>故郷との絆の段階的切断</b>。</p></div>
-<div class="card"><h3>★帰還願望の消失（帰還願望 vs 定住・帰還拒否）</h3><div class="chartbox tall"><canvas id="cRD"></canvas></div>
+<div class="card"><h3>★帰還願望の消失（帰還願望 vs 定住・帰還拒否）</h3><div class="chartbox tall"><div class="cbox"><canvas id="cRD"></canvas></div></div>
 <p class="note">「行って帰る物語」→「帰らない物語」。<b>転換点は2000年代</b>（帰還願望と定住が逆転）。本視点で最も雄弁な単調変化。</p></div>
 </div>
 
 <h2>2. 力と知識 — 与えられる力／前世知識</h2>
 <div class="grid">
-<div class="card"><h3>op指数・前世/現代知識の活用指数（decade平均）</h3><div class="chartbox"><canvas id="cIDX"></canvas></div>
+<div class="card"><h3>op指数・前世/現代知識の活用指数（decade平均）</h3><div class="chartbox"><div class="cbox"><canvas id="cIDX"></canvas></div></div>
 <p class="note">op指数（最強1／チート0.8／現代知0.5／成長0.2／弱小0）はほぼ単調上昇＝<b>与えられる力の増大</b>。知識活用は2000s（迷い込み期）で凹み、転生主流化の2020sで0.72へ跳躍。</p></div>
-<div class="card"><h3>行き先「ゲーム的世界」・非人間転生・ゲームキャラ（悪役令嬢）シェア</h3><div class="chartbox"><canvas id="cSH"></canvas></div>
+<div class="card"><h3>行き先「ゲーム的世界」・非人間転生・ゲームキャラ（悪役令嬢）シェア</h3><div class="chartbox"><div class="cbox"><canvas id="cSH"></canvas></div></div>
 <p class="note">異世界の<b>RPG/VRMMO化</b>（2010s 43%）。2020s固有で<b>非人間（スライム/剣）・ゲームキャラ（悪役令嬢15.4%）</b>＝「元の身体すら不要」の身体可換化。</p></div>
 </div>
 
 <h2>3. 対象層クロス — 異世界は青年（深夜）の現象</h2>
 <div class="grid">
-<div class="card"><h3>対象層別 op指数</h3><div class="chartbox"><canvas id="cDEMO"></canvas></div>
+<div class="card"><h3>対象層別 op指数</h3><div class="chartbox"><div class="cbox"><canvas id="cDEMO"></canvas></div></div>
 <p class="note">青年0.58 ≫ 少女0.39 ＞ 一般0.22 ＞ 児童0.20。母集団の75%が青年。少女＝転生45%（悪役令嬢/転生王女）、児童＝召喚43%（ワタル/デジモン）、一般＝迷い込み50%（千と千尋/異世界食堂）。</p></div>
-<div class="card"><h3>原因（cause）全体構成</h3><div class="chartbox"><canvas id="cCAU"></canvas></div>
+<div class="card"><h3>原因（cause）全体構成</h3><div class="chartbox"><div class="cbox"><canvas id="cCAU"></canvas></div></div>
 <p class="note">全体は偶発転移33%が最多だが、<b>死を契機にする転生</b>（事故死・過労死・殺害・病死・老衰）が2010s–2020sで増大（無職転生＝トラック事故／神達に拾われた男＝過労死／転スラ＝刺殺）。</p></div>
 </div>
 
-<h2>4. 考察（要旨）</h2>
-<div class="card big">
-<p><b>大きな物語＝「故郷との絆の段階的切断」。</b>7軸を貫く線は、主人公と元の世界をつなぐ糸が漸進的に断たれること。①移行の型＝<b>召喚→転移→転生</b>（呼ばれる→偶発→死んで帰る身体すら無い）②帰還願望＝<b>100%→18%</b>（帰る場所から帰りたくない場所へ反転）③転生する身体＝<b>自分のまま→別の存在へ</b>（非人間・悪役令嬢・別人）。異世界は<b>「訪れて変わって帰る教養の旅（ポータル・ファンタジー）」から「死んで生まれ直す移住・転生」へ</b>60年かけて移動した。</p>
-<ul>
-<li><b>転換点① 1983ダンバイン</b>：TV異世界召喚の発明。だが器（深夜枠・Web小説・配信）が揃うまで約30年潜伏（90sは少女向け召喚・往復が牽引）。</li>
-<li><b>転換点② 2000年代＝扉が閉じる</b>：千と千尋(2001 帰還)／十二国記(2002 王として定住)／ゼロ魔(2006 居続ける)が並び、帰還願望と定住が逆転。背景は深夜・コア層化（世界に留まりたい視聴へ）と「現世＝帰りたくない場所」化。<b>なろうブームに先行</b>するため、純経済決定論では早すぎる＝メディア構造の寄与を分離できない。</li>
-<li><b>転換点③ 2012–2018</b>：SAO(2012)が仮想世界を結晶化＋なろう供給機構（深夜/1クール/配信の量産）。RPG文法（ステータス/スキル）と「攻略可能な世界」への欲望。op指数 0.36→0.54 段差。</li>
-<li><b>転換点④ 2020年代</b>：転生51%で確定。だが一枚岩でなく三分岐＝<b>誠実な転生</b>（無職転生＝努力回帰）／<b>反テンプレ</b>（Re:ゼロ/グリムガル/盾の弱小スタート）／<b>身体可換化と女性の再参入</b>（悪役令嬢＝ゲームキャラ転生15.4%）。</li>
-<li><b>故郷を悪役にする鏡像</b>：逆異世界（はたらく魔王さま/異世界おじさん/Re:CREATORS）と帰還拒否（このすば/NGNL）が、現世をディストピア／喜劇の舞台へ降格させる。</li>
-</ul>
+
+<h2 class="h2-essay">4. 考察</h2>
+<div class="essay">
+<p class="thesis">異世界ものの全7軸を貫く一本の線は、主人公と元の世界をつなぐ糸が段階的に細くなり、ついに断たれることである。移行の型・帰還願望・転生する身体——この三つが揃って「訪れて変わって帰る教養の旅（ポータル・ファンタジー）」から「死んで生まれ直す移住・転生の物語」へと、60年かけて移った。</p>
+
+<h3>① 故郷との絆の段階的な切断</h3>
+<p>移行の型の重心は、召喚（向こうがあなたを必要として呼ぶ＝あなたは意味がある）から、転移（事故で飛ばされる＝偶発、帰路を探す）を経て、転生（古い肉体ごと死ぬ＝帰る身体すら無い）へ動いた。これは元の世界の価値と、家族・職・名前という旧来の社会的紐帯の、漸進的な無効化である。帰還願望はほぼ全作から2020sの18%へ消え、定住・帰還拒否が8割超を占める。転生する身体も「自分のまま」が3分の2を占めていたのが、2020s固有でスライム・剣・悪役令嬢へ拡散し、ついに「元の自分の身体」すら必須でなくなる。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/001_protagonist_attributes/">非人間主人公の系譜（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/001_protagonist_attributes/">視点001</a>）</a>で見た身体の脱・人間化が、転生という装置で最大化したと読める。</p>
+
+<h3>② 1983ダンバインという長い潜伏</h3>
+<p>1980sの型が「召喚」に立つのは富野由悠季『聖戦士ダンバイン』による。「現代日本人が異世界へ召喚されオーラバトラーに乗る」構造は、異世界召喚アニメのルーツとして繰り返し名指される。だが重要なのは、以後ジャンルが約30年潜伏したことだ。器（深夜枠・Web小説・配信）が揃うまで離陸しなかった——<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/025_narou_template_influence/">なろうテンプレのゼロ床→爆発（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/025_narou_template_influence/">視点025</a>）</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/030_overpowered_protagonist/">最強化の2010s段差（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/030_overpowered_protagonist/">視点030</a>）</a>で繰り返した「ゼロ床→段差→高原」型と同じ系譜である。</p>
+
+<h3>③ 2000年代＝扉が閉じる</h3>
+<p>最も解釈し甲斐があるのは、帰還願望が反転する2000年代だ。同じ年代に千と千尋(2001 帰還)・十二国記(2002 王として定住)・ゼロ魔(2006 居続ける)が並び、「訪れて帰る場所」から「住む場所」へ異世界の意味が反転する。背景は、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/017_target_audience/">青年・深夜層への移行（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/017_target_audience/">視点017</a>）</a>と<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/012_broadcast_format/">放送形態の深夜化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/012_broadcast_format/">視点012</a>）</a>——お茶の間の「冒険して帰宅する」物語から、世界そのものを愛でるコア視聴へ。世界に留まり続けたい視聴者に「帰る」クライマックスは不要になり、現世が「帰りたくない場所」としてコード化される。ただし反転はなろうブームに先行する（2000s時点で定住45%）ため、純粋な経済決定論では早すぎる。メディア構造の寄与を分離できず、相関≠因果である。</p>
+
+<h3>④ 2012–2018＝Web小説 × ゲーム化</h3>
+<p>2010年代の型は転移が主軸で、その内実は二つの流れの合流である。ソードアート・オンライン(2012)がVRMMO閉じ込め＝ゲーム的世界を主流化し、以後の異世界はRPGの文法を継承する——不透明な現実に対して、ルールが明示され攻略可能な世界への欲望（op指数の上昇＝与えられる力の増大と連動）。同時に、Web投稿発の量産機構が深夜・1クール・配信のアニメ化機械に乗り、需要が事前検証済みの作品を安価に供給しはじめる。過労死スタートの頻出は、持続不可能な労働文化への心理的反応とも読め、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/029_death_depiction/">死を契機にする物語（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/029_death_depiction/">視点029</a>）</a>の死生観の変化と噛み合う。</p>
+
+<h3>⑤ 2020年代＝転生の支配と三分岐</h3>
+<p>2020sは転生が過半を占め、ジャンルの重心が「死んで生まれ直す」型へ確定した。だが一枚岩のチート無双ではなく、三つの分岐が同居する。第一に<b>誠実な転生</b>——無職転生が赤子から本気でやり直し、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/024_jump_formula_influence/">努力主義の揺り戻し（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/024_jump_formula_influence/">視点024</a>）</a>と接続する。第二に<b>反テンプレ</b>——Re:ゼロ／グリムガル／盾の弱小スタートで、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/030_overpowered_protagonist/">反・最強の両極化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/030_overpowered_protagonist/">視点030</a>）</a>と同潮流。第三に<b>身体の可換化と女性の再参入</b>——非人間・別人・ゲームキャラ（悪役令嬢）への転生が増え、悪役令嬢サブジャンルで女性読者が戻る。論評はそこに<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/019_gender_representation/">ジェンダー的主体奪還（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/019_gender_representation/">視点019</a>）</a>の読みを与える。</p>
+
+<h3>⑥ 故郷を悪役にする鏡像</h3>
+<p>『はたらく魔王さま!』『異世界おじさん』などの逆異世界は、まなざしを反転させる：異世界人が我々の現代日本に来て、現世のほうが奇妙で痩せた場所として描かれる（魔王がフリーターに転落する喜劇）。帰還拒否が「異世界のほうが良い」と明言するのと合わせ、現代世界がディストピア／喜劇の舞台へ降格する点で、③の「現世＝帰りたくない場所」テーゼの別側面である。</p>
 </div>
 
-<h2>5. 他者の論評との対話（賛・否・留保）</h2>
-<div class="card">
-<div class="flex"><span class="tag neu">系譜</span></div>
-<div class="quote"><b>召喚→転移→転生という順序の裏づけ。</b>「1991年頃から社会情勢を背景に異世界ものが増え、召喚・転移は一旦退潮、2011年にネット小説で爆発」——本データの型の時系列と符合。ダンバイン(1983)を元祖とする位置づけも一致。
-<div class="src">ブックオフ年表 <a href="https://shopping.bookoff.co.jp/lightnovel/feature/isekai-history">link</a> ／ ふたまん＋ <a href="https://futaman.futabanet.jp/articles/-/81644">link</a> ／ note(jv44) <a href="https://note.com/jv44/n/nce1d616d7160">link</a></div></div>
+<h2>5. 他者の論評との対話</h2>
+<div class="views">
 
-<div class="quote pro"><span class="tag pro">一致</span><b>「なぜ帰ってこないのか」。</b>かつての異世界ものは往復・帰還だったが、近年は転生して帰らない形式が主流化——本データの帰還願望（100%→18%）と完全に一致する一次的考察。「転生＝死を経由する現代の死生観」も死因コードの増加と接続。
-<div class="src">ふーらいの思うこと <a href="https://fukoto.com/different-world-reincarnation-consideration/">link</a> ／ HITE-Media <a href="https://hite-media.jp/journal/789/">link</a></div></div>
-
-<div class="quote pro"><span class="tag pro">一致（社会反映）</span><b>逃避・やり直し論。</b>「努力しても報われない社会→努力不要でチート」「現実の日常が窮屈→異世界スローライフに日常を求める」「過労死スタート＝労働文化への心理的反応で死だけが脱出」。本データのop指数上昇・帰還拒否・死因と整合。
-<div class="src">ワーカホリックダイアリー <a href="https://workaholicdiary.com/analysis/different-world">link</a> ／ Real Sound <a href="https://realsound.jp/book/2024/09/post-1789356.html">link</a> ／ CBR(escapism) <a href="https://www.cbr.com/isekai-anime-reflect-modern-society-escapism/">link</a></div></div>
-
-<div class="quote con"><span class="tag con">留保・批判</span><b>飽和とテンプレ。</b>「過剰供給・最強主人公で緊張感が消える＝挑戦のない世界は退屈」「量産・受動的主人公」。op指数0.65・転生過半という本データと整合する負の側面。ただし本データの<b>両極化</b>（無職転生の努力回帰/Re:ゼロの弱小）は自己批評の存在も示す。
-<div class="src">GameRant <a href="https://gamerant.com/isekai-oversaturation-and-the-genres-future/">link</a> ／ Gamerescape <a href="https://gamerescape.com/2024/11/08/modern-animes-isekai-problem/">link</a> ／ CBR(2026) <a href="https://www.cbr.com/anime-isekai-problem-worse-2026-sales-report/">link</a></div></div>
-
-<div class="quote pro"><span class="tag pro">補強（ジェンダー）</span><b>悪役令嬢＝男性パワーファンタジーの裏返し。</b>起点は2013年Web小説、2014『はめふら』で定着。「破滅の定まった令嬢が前世知識という先見で運命を書き換え主体性を取り戻す」。本データのゲームキャラ転生が2020s固有（0→15.4%）であることを補強し、メカニズムに<b>主体奪還</b>の読みを与える。
-<div class="src">Anime News Network <a href="https://www.animenewsnetwork.com/feature/2020-06-12/welcome-to-the-isekai-otome-game-villainesses/.159287">link</a> ／ Anime Feminist <a href="https://www.animefeminist.com/rise-of-the-villainess-how-the-reborn-bad-girls-of-otome-games-are-defying-shoujo-stereotypes/">link</a></div></div>
-
-<div class="quote con"><span class="tag con">留保（海外）</span><b>国内/海外受容の乖離。</b>CrunchyrollはBest Isekai賞を専用部門化（2021〜）し異世界は同社視聴時間の相当部分を占める一方、『転スラ』が国内首位でも英語圏トップ10に不在。本サンプルは日本の制作・国内人気側に寄るため海外選好は測れない（限界）。
-<div class="src">Crunchyroll Award(Wiki) <a href="https://en.wikipedia.org/wiki/Crunchyroll_Anime_Award_for_Best_Isekai_Anime">link</a> ／ CBR(Slime) <a href="https://www.cbr.com/reincarnated-as-a-slime-top-ranking-vs-overseas-sales/">link</a></div></div>
+<div class="view">
+<p class="who"><span class="wl">系譜</span>ブックオフ「異世界もの年表」／ふたまん＋<span class="stance neu">中立</span></p>
+<p class="vt">召喚→転移→転生という順序と、ダンバイン元祖説の裏づけ。</p>
+<p>「1991年頃から社会情勢を背景に異世界ものが増え、召喚・転移は一旦退潮、2011年にネット小説で爆発した」とジャンル史を整理し、富野『ダンバイン』(1983)を異世界召喚の元祖に位置づける。</p>
+<div class="match"><b>データとの照合：</b>本データの型の時系列（召喚80–90s→転移2010s→転生2020s過半）と、1980sの「召喚」がダンバインで立つ事実に符合する。</div>
+<div class="src">出典: ブックオフ年表 <a href="https://shopping.bookoff.co.jp/lightnovel/feature/isekai-history">shopping.bookoff.co.jp</a> ／ ふたまん＋ <a href="https://futaman.futabanet.jp/articles/-/81644">futaman.futabanet.jp</a></div>
 </div>
 
+<div class="view">
+<p class="who"><span class="wl">一致</span>ふーらい「ふーらいの思うこと」<span class="stance sup">支持</span></p>
+<p class="vt">「なぜ最近は転生で、しかも帰ってこないのか」。</p>
+<p>かつての異世界ものは往復・帰還が主だったが、近年は転生して帰らない形式が主流化した——という一次的考察。「転生＝死を経由する」点に現代の死生観を読む。</p>
+<div class="match"><b>データとの照合：</b>本データの帰還願望（ほぼ100%→2020s 18%）・定住8割超と正面から一致。死因コード（事故死・過労死・刺殺）の増加とも接続する。</div>
+<div class="src">出典: ふーらいの思うこと <a href="https://fukoto.com/different-world-reincarnation-consideration/">fukoto.com</a> ／ HITE-Media <a href="https://hite-media.jp/journal/789/">hite-media.jp</a></div>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">批判</span>Game Rant（Jordan Iacobucci ほか）<span class="stance cau">留保</span></p>
+<p class="vt">飽和とOP主人公——「挑戦のない世界は退屈」。</p>
+<p>「最強主人公が何の努力もなく全てを与えられ、本当の緊張感がない」「過剰供給で量産・受動的主人公が増えた」と批判する一方、「飽和の裏返しで、ジャンルは自己の約束事を裏切る実験に取り憑かれている」とも認める。</p>
+<div class="match"><b>データとの照合：</b>op指数0.65・転生過半という負の側面と整合。ただし本データの両極化（無職転生の努力回帰／Re:ゼロの弱小スタート）は、ジャンルが内部から自己批評していることも示す。</div>
+<div class="src">出典: Game Rant（飽和論） <a href="https://gamerant.com/isekai-oversaturation-and-the-genres-future/">gamerant.com</a></div>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">補強</span>Anime Feminist「Rise of the Villainess」／Anime News Network<span class="stance sup">支持</span></p>
+<p class="vt">悪役令嬢＝男性パワーファンタジーの裏返し。</p>
+<p>「破滅が定まった令嬢が、前世知識という先見で運命を書き換え主体性を取り戻す」。男性向けが平凡から非凡へ飛び出すのに対し、悪役令嬢は乙女ゲームと少女漫画の規範そのものを拒否し、恋愛を旅の付随物に格下げする女性主体のパワーファンタジーだと評価する。</p>
+<div class="match"><b>データとの照合：</b>本データのゲームキャラ（悪役令嬢）転生が2020s固有（それ以前0→15.4%）であることを補強し、メカニズムのコードに「主体奪還」の解釈を与える。</div>
+<div class="src">出典: Anime Feminist <a href="https://www.animefeminist.com/rise-of-the-villainess-how-the-reborn-bad-girls-of-otome-games-are-defying-shoujo-stereotypes/">animefeminist.com</a> ／ Anime News Network <a href="https://www.animenewsnetwork.com/feature/2020-06-12/welcome-to-the-isekai-otome-game-villainesses/.159287">animenewsnetwork.com</a></div>
+</div>
+
+</div>
 <h2>6. 作品テーブル（102作・ソート/絞り込み）</h2>
 <div class="card">
 <div class="flex">
@@ -136,7 +220,7 @@ li{margin:5px 0}
 <select id="fDM"><option value="">対象層：全</option></select>
 <select id="fDC"><option value="">年代：全</option></select>
 </div>
-<div style="max-height:560px;overflow:auto">
+<div class="tablewrap">
 <table id="tb"><thead><tr>
 <th data-k="t">作品</th><th data-k="y">年</th><th data-k="tp">種別</th><th data-k="dm">対象層</th>
 <th data-k="tt">移行の型</th><th data-k="ca">原因</th><th data-k="pk">前世知識</th><th data-k="rd">帰還願望</th>
@@ -209,12 +293,9 @@ new Chart(document.getElementById("cDEMO"),{type:"bar",
   datasets:[{label:"op指数",data:demoOrder.map(function(x){return S.cross_demo_op_index[x];}),backgroundColor:COL.tt}]},
  options:Object.assign(baseOpts(false,false),{plugins:{legend:{display:false}},scales:{x:{ticks:FONT,grid:gridc()},y:{ticks:FONT,grid:gridc(),min:0,max:1}}})});
 
-// 6. cause doughnut
-var cau=S.overall.cause;var ck=Object.keys(cau);
-new Chart(document.getElementById("cCAU"),{type:"doughnut",
- data:{labels:ck,datasets:[{data:ck.map(function(k){return pct(cau[k]);}),
-  backgroundColor:["#7c9cff","#ff9e64","#76d39b","#c4a7ff","#ff7a85","#e8c46b","#5fb0c9","#b58cff","#9aa3b5","#d98c8c"]}]},
- options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"right",labels:{color:"#9aa3b5",font:{size:11}}}}}});
+// 6. cause hbar
+var PAL=["#5cc8ff","#ffd166","#7ef0a2","#ff8fb1","#b79cff","#ff8c66","#6ea8fe","#c0ca33","#9aa7b5"];
+(function(){var dd=S.overall_counts.cause;var keys=(null||Object.keys(dd)).filter(function(k){return dd[k];});keys.sort(function(a,b){return dd[b]-dd[a];});var tot=keys.reduce(function(a,k){return a+dd[k];},0);new Chart(document.getElementById('cCAU'),{type:'bar',data:{labels:keys.map(function(k){return (window.__LM&&window.__LM[k])||k;}),datasets:[{data:keys.map(function(k){return dd[k];}),backgroundColor:keys.map(function(k,i){return PAL[i%PAL.length];}),borderRadius:3,maxBarThickness:28}]},options:{indexAxis:'y',layout:{padding:{right:62}},plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',clamp:true,color:'#5b554a',font:{size:11,weight:'700'},formatter:function(v){return v+'（'+Math.round(100*v/tot)+'%）';}}},scales:{x:{beginAtZero:true,grace:'15%',ticks:{precision:0}},y:{ticks:{font:{size:12}}}}},plugins:[ChartDataLabels]});})();
 
 // table
 var tb=document.querySelector("#tb tbody");
