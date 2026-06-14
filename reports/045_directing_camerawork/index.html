@@ -2,27 +2,67 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>演出・カメラワークの変遷</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1117;--card:#1a1d27;--ink:#e8eaf0;--mut:#9aa3b2;--acc:#6db3f2;--acc2:#f2a65a;--acc3:#8fd9a8;--line:#2a2e3a}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.7}
-.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
-h1{font-size:25px;margin:0 0 4px}h2{font-size:19px;margin:38px 0 12px;border-left:4px solid var(--acc);padding-left:10px}
-h3{font-size:15px;color:var(--acc2);margin:20px 0 6px}
-.sub{color:var(--mut);font-size:13px;margin-bottom:18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.grid{grid-template-columns:1fr}}
-canvas{max-height:300px}
-p{margin:8px 0}.mut{color:var(--mut)}.kpi{display:flex;gap:16px;flex-wrap:wrap;margin:10px 0}
-.kpi div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;flex:1;min-width:150px}
-.kpi b{font-size:21px;color:var(--acc)}.kpi span{display:block;font-size:12px;color:var(--mut)}
-.quote{border-left:3px solid var(--acc2);padding:8px 12px;margin:10px 0;background:#20242f;border-radius:6px}
-.quote a{color:var(--acc);font-size:12px;word-break:break-all}
-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
-th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
-th{color:var(--acc);cursor:pointer;position:sticky;top:0;background:var(--card)}
-.tw{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:10px}
-input,select{background:#11141c;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:13px}
-.tag{font-size:11px;color:var(--mut)}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/045_directing_camerawork/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -36,50 +76,117 @@ input,select{background:#11141c;color:var(--ink);border:1px solid var(--line);bo
 <h1>演出・カメラワークの変遷</h1>
 <div class="sub">アニメ視点別分析 #45 ／ 対象120作（1958–2024）／ 構図・カメラワーク・編集・実験性・止め絵やバンク</div>
 
-<div class="kpi">
-<div><b id="k1"></b><span>固定カメラ 1960s→2020s（崩落）</span></div>
-<div><b id="k2"></b><span>バンク多用 1990sピーク→2000s崩落</span></div>
-<div><b id="k3"></b><span>実験性指数 2000sピーク</span></div>
-<div><b id="k4"></b><span>動画(フル)重視 1960s→2020s</span></div>
+<div class="kpis">
+<div class="kpi"><b id="k1"></b><span>固定カメラ 1960s→2020s（崩落）</span></div>
+<div class="kpi"><b id="k2"></b><span>バンク多用 1990sピーク→2000s崩落</span></div>
+<div class="kpi"><b id="k3"></b><span>実験性指数 2000sピーク</span></div>
+<div class="kpi"><b id="k4"></b><span>動画(フル)重視 1960s→2020s</span></div>
 </div>
 
 <p class="mut">幹となる問いは「アニメの画面を動かすのは誰か」。レンズのないアニメで「カメラワーク」とは虚構のカメラを設計・代行する営みであり、その担い手が <b>止め絵の経済 → 監督のレイアウト → アニメーターの作画 → 撮影(合成) → 3DCG仮想カメラ</b> へ移った六〇年として読める。</p>
 
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">実写映画ならカメラマンがレンズを動かす。だがアニメには<b>レンズが無い</b>。だから「カメラワーク」とは、いつも<b>誰か（何か）が虚構のカメラを設計・代行する</b>営みである。戦後六〇年の演出史は、その担い手が <b>止め絵の経済 → 監督のレイアウト → アニメーターの作画 → 撮影（合成） → 3DCG仮想カメラ</b> へと移っていく一本の物語として読める。120作（1958–2024）を年代横断でコード化した。</p>
+<ul class="tldr-list">
+<li><b>固定カメラの崩落</b>：固定カメラ中心は1960s 0.60→2020s <b>0.00</b>へ単調に消え、実写的レイアウト（＝想像のカメラ）が2000s <b>0.44</b>で最大化。転換点は1974年『ハイジ』のレイアウトシステムにある。</li>
+<li><b>バンク崩落というデジタル化の指紋</b>：使い回し（バンク）は1990s 0.40でピーク→2000s <b>0.00</b>へ崩落。セル経済が要請した省力技法が、デジタル撮影で「不要になって消えた」。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/010_animation_characteristics/">視点010</a>の「ムラ作画崩落」と同じ曲線。</li>
+<li><b>実験性・作家性は2000sで頂点</b>：実験性指数は2000s <b>0.63</b>、作家演出度は2000s <b>0.83</b>。庵野→今敏→新房／シャフトが「編集そのものを前景化」した。深夜枠×低予算×製作委員会という制約が様式を生んだ。</li>
+<li><b>動画（フル）重視は単調上昇</b>：0.30→<b>0.94</b>。3DCG仮想カメラは2010sに初出し、2019年『鬼滅』が映画的カメラをTV標準へ大衆化。長回し志向は2020s 0.38で最大化（フリーレン／ルックバック）。</li>
+<li><b>演出は対象層で割れる</b>：実験性は青年0.65 ≫ 児童0.28、実写的レイアウトは女性0.67・青年0.41 ≫ 少年0.05、バンクは少女0.57・児童0.40（変身バンク）≫ 青年0.02。凝った演出の受容は青年視聴者の定着が支えた。</li>
+</ul>
+</div>
+<h2 class="h2-essay">具体例——「虚構のカメラ」を誰が動かしたかを映す五つの場面</h2>
+<div class="ex">
+<h3>① 動かさない発明——リミテッドの黎明（1963年）</h3>
+<p>起点は「動かさない」ことの経済的発明だった。手塚治虫の虫プロは『鉄腕アトム』（1963）で、3コマ・止め絵・バンク（使い回し）によって週次30分のTVアニメを成立させる<b>リミテッド・アニメーション</b>を発明する。カメラは原則動かず、画面は「止まった絵を見せる」ことで成り立った。本データで固定カメラ0.60・印象的止め絵0.40から六〇年が始まるのはこのためで、これが後年の正反対の二応答（動かすレイアウト／動かさない止め絵様式）を生む母胎になる。<span class="small">場面描写。『鉄腕アトム』第1作（1963年放送、虫プロダクション）。日本初の30分連続TVアニメシリーズで、限られた予算と納期のためのリミテッド技法が日本アニメの初期文法を決めた。</span></p>
+<h3>② 監督が想像のカメラを持つ——レイアウトの確立（1974年）</h3>
+<p>1974年『アルプスの少女ハイジ』で、高畑勲・宮崎駿は<b>レイアウトシステム</b>を確立した。絵コンテの後に、宮崎が全カットの「場面設定・画面構成」を設計し、存在しないカメラの位置・画角・パンを図面化する。アニメ研究者の氷川竜介はこれを「実写映画の監督と撮影監督の役割を兼ねる」「アニメ演出の根幹」と評する。オープニングでハイジが草原を駆け、丘の起伏に沿ってカメラ（に相当するレイアウト）がパンしていく一連——あれは<b>監督が初めて虚構のカメラを手にした</b>瞬間だった。本データで固定カメラがこの後に崩落へ向かうのは、この発明に始まる。<span class="small">場面描写。『アルプスの少女ハイジ』（1974年放送）。氷川竜介「アニメ演出の根幹とレイアウト」（アニメハック連載）に基づく。</span></p>
+<h3>③ アニメーターが虚構のカメラを動かす——板野サーカス（1982年）</h3>
+<p>1980sには第三の担い手——<b>アニメーター</b>——が登場する。金田伊功の誇張パースに続き、1982年『超時空要塞マクロス』で板野一郎が「板野サーカス」を確立した。無数のミサイルが乱舞する軌跡、空中を自在に動くカメラ、被写体の位置でレンズ効果が切り替わる描写。実写なら撮影者がカメラを操作するが、アニメでは<b>作画する人間が一枚ずつ虚構のカメラを生み、時にカメラを追い越す</b>。板野自身が技法の出自をこう語っている。</p>
+<blockquote class="quote">金田さんのいいところを吸収し、その上で自分の表現を探さなきゃと思って、「板野サーカス」が生まれた。<span class="qby">— 板野一郎（アニメーター）／『超時空要塞マクロス』（1982年）等の証言。金田伊功からの影響と自らの表現の探究について（Wikipedia・dig-it等で確認）。OVA・劇場バブルの余剰がこの作画主導カメラを許容した。</span></blockquote>
+<h3>④ 編集そのものを前景化する——エヴァの長尺ホールド（1995–96年）</h3>
+<p>実験性・作家性は2000sで頂点を打つが、その爆心は庵野秀明『新世紀エヴァンゲリオン』（1995–96）にある。長尺の止め絵ホールド、白地に黒文字のフレーム、実写的レイアウトと心理モンタージュの混在——庵野は「編集そのものを前景化」した。最終話、シンジを取り囲んだ全登場人物が拍手とともに祝福の言葉を浴びせ、彼が応える有名な幕切れは、長尺ホールドと言葉の反復だけで内面の解放を描く、<b>動画でなく編集が語る</b>演出の極北だった。</p>
+<blockquote class="quote">おめでとう。……ありがとう。<span class="qby">— 周囲の登場人物の祝福と碇シンジの応答／『新世紀エヴァンゲリオン』第26話「世界の中心でアイを叫んだけもの」（1996年放送、監督 庵野秀明）。長尺の止め絵ホールドと文字フレームによる心理モンタージュの象徴的場面。</span></blockquote>
+<h3>⑤ 担い手が人間からソフトへ——3DCG仮想カメラの大衆化（2020年）</h3>
+<p>2010sに3DCG仮想カメラが0.17で初出し（Fate/Zero・鬼滅・宝石の国）、担い手はついに<b>人間からソフトウェアへ</b>移った。3D空間にモデルを置けば、ソフトが任意のカメラ運動を生成できる。2020年『劇場版 鬼滅の刃 無限列車編』で、ufotableは列車の外観・内部空間を3Dモデル化し、手描きだけでは「ありえないカメラワーク」を実現した。炭治郎を乗せた列車の屋根から車内へカメラが滑り込み、戦闘空間をぐるりと舐めていく長回し的運動——これが映画的カメラをTVアニメ標準へと大衆化した。<span class="small">場面描写。『劇場版 鬼滅の刃 無限列車編』（2020年公開、制作 ufotable）。文春オンライン・ダ・ヴィンチWeb等の制作解説に基づく。</span></p>
+</div>
+
 <h2>1. カメラの担い手の交代</h2>
 <div class="grid">
-<div class="card"><h3>カメラ様式シェア（年代別）</h3><canvas id="cCam"></canvas><p class="tag">固定カメラ0.60→0.00、実写的レイアウト(想像カメラ)2000s 0.44ピーク、3DCG仮想カメラは2010s初出。</p></div>
-<div class="card"><h3>止め絵・バンク・動画の興亡</h3><canvas id="cStill"></canvas><p class="tag">止め絵は1960s 0.40で最大→逓減。バンクは1990s 0.40→2000s 0.00崩落(デジタル化)。動画重視は0.30→0.94。</p></div>
+<div class="card"><h3>カメラ様式シェア（年代別）</h3><div class="cbox"><canvas id="cCam"></canvas></div><p class="tag">固定カメラ0.60→0.00、実写的レイアウト(想像カメラ)2000s 0.44ピーク、3DCG仮想カメラは2010s初出。</p></div>
+<div class="card"><h3>止め絵・バンク・動画の興亡</h3><div class="cbox"><canvas id="cStill"></canvas></div><p class="tag">止め絵は1960s 0.40で最大→逓減。バンクは1990s 0.40→2000s 0.00崩落(デジタル化)。動画重視は0.30→0.94。</p></div>
 </div>
 
 <h2>2. 実験性・作家性・編集</h2>
 <div class="grid">
-<div class="card"><h3>実験性指数・作家演出度指数（年代別）</h3><canvas id="cIdx"></canvas><p class="tag">ともに2000sで頂点(エヴァ→今敏→シャフト→湯浅)。2020s低下は本流化の分母効果。</p></div>
-<div class="card"><h3>編集：モンタージュ／長回し</h3><canvas id="cEdit"></canvas><p class="tag">モンタージュは全年代の基底(今敏で純度頂点)。長回しは2020s 0.38へ最大化(フリーレン/ルックバック)。</p></div>
+<div class="card"><h3>実験性指数・作家演出度指数（年代別）</h3><div class="cbox"><canvas id="cIdx"></canvas></div><p class="tag">ともに2000sで頂点(エヴァ→今敏→シャフト→湯浅)。2020s低下は本流化の分母効果。</p></div>
+<div class="card"><h3>編集：モンタージュ／長回し</h3><div class="cbox"><canvas id="cEdit"></canvas></div><p class="tag">モンタージュは全年代の基底(今敏で純度頂点)。長回しは2020s 0.38へ最大化(フリーレン/ルックバック)。</p></div>
 </div>
 
 <h2>3. 演出の階層性（対象層別）</h2>
-<div class="card"><h3>実験性指数・実写的レイアウト・バンク（対象層別）</h3><canvas id="cDemo"></canvas><p class="tag">実験性=青年0.65≫児童0.28。実写的レイアウト=女性0.67/青年0.41≫少年0.05。バンク=少女0.57/児童0.40(変身)≫青年0.02。</p></div>
+<div class="card"><h3>実験性指数・実写的レイアウト・バンク（対象層別）</h3><div class="cbox"><canvas id="cDemo"></canvas></div><p class="tag">実験性=青年0.65≫児童0.28。実写的レイアウト=女性0.67/青年0.41≫少年0.05。バンク=少女0.57/児童0.40(変身)≫青年0.02。</p></div>
 
-<h2>4. 考察 ——「カメラを誰が動かすか」</h2>
-<div class="card">
-<p><b>黎明＝動かさない発明(1960s)</b>：手塚/虫プロのリミテッド・アニメ(固定カメラ0.60・止め絵0.40)は経済的発明。これが正反対の二応答を生む。</p>
-<p><b>二様式の分岐(1970s・転換点1974ハイジ)</b>：高畑/宮崎の<b>レイアウト＝想像カメラ</b>(監督がカメラを持つ)と、出崎統の<b>止め絵様式</b>(ハーモニー・3回パン＝動かさない美学)。同じTV省力経済への逆向きの応答。</p>
-<p><b>アニメーターのカメラ(1980s・転換点1982マクロス)</b>：金田伊功→板野サーカス。作画する人間が一枚ずつ虚構のカメラを生み、時にカメラを追い越す。OVA/劇場バブルが許容。</p>
-<p><b>実験編集の頂点(1990s-2000s・1995エヴァ/2002千年女優/2009化物語)</b>：実験性・作家性が2000sで頂点。庵野の長尺止め絵＋文字、今敏のマッチカット、新房/シャフトの記号様式。<b>深夜枠×低予算×製作委員会</b>が「制約の様式化」を、青年視聴者の定着が「凝った演出の受容」を支えた(実験性=青年≫児童)。</p>
-<p><b>デジタル撮影革命(2000年前後)＝バンク崩落という指紋</b>：1997-2002のセル→デジタル移行でバンク0.40→0.00。使い回し・止め絵は<b>セル経済が要請した省力技法</b>で、合成が安くなると不要に。craftが作画→撮影(光・合成)へ移動(視点010/044と同型)。</p>
-<p><b>仮想カメラの大衆化と実写回帰(2010s-20s・2019鬼滅/2022チェンソーマン)</b>：3DCG仮想カメラ初出。担い手が人間→ソフトへ。ufotableが映画的カメラを大衆化、MAPPAが実写映画的レイアウトを志向、フリーレンが長回しと間で語る。実験は辺境(ぼざろ/モブサイコ/ポプテピ)に残存＝「辺境が革新し本流が大衆化」。</p>
-<p class="mut"><b>留保</b>：①選定バイアスで実験性の絶対値は過大(信頼できるのは方向のみ)。②止め絵≠後退(積極的様式)。③バンク崩落はデジタルかお茶の間消滅か交絡。④2020s実験性低下は本流化の分母効果と実際の退潮が区別不能。</p>
+<h2 class="h2-essay">4. 考察 ——「カメラを誰が動かすか」の六〇年</h2>
+<div class="essay">
+<p class="thesis">アニメにはレンズが無い。だから「カメラワーク」とは、常に誰か（何か）が虚構のカメラを設計・代行する営みであり、その担い手の交代こそが本データの幹である。六〇年は、担い手が <b>止め絵の経済 → 監督のレイアウト → アニメーターの作画 → 撮影（コンポジット） → 仮想カメラのソフトウェア</b> へ移っていく過程として一貫して読める。技術が最大の駆動因だが、技術だけでは説明できない二点——「制約が様式を生む構造」と「実験性の対象層分離」——が、産業条件と受容構造の関与を示す。</p>
+
+<h3>黎明＝「動かさない」ことの発明（1960s）</h3>
+<p>固定カメラ0.60・止め絵0.40で始まる起点は、退化ではなく経済的発明だった。手塚／虫プロのリミテッド・アニメは、3コマ・止め絵・バンクで週次TVを成立させ、日本アニメの初期文法を決めた。カメラは原則動かない。この制約が、後の正反対の二応答——動かす方向（レイアウト）と動かさない方向（止め絵様式）——を同時に準備する。</p>
+
+<h3>二つの様式分岐（1970s・転換点1974）</h3>
+<p>1970sは固定カメラがまだ0.50を保つ一方、実写的レイアウトが立ち上がり（0.13）、作家性指数が0.45→0.59へ段差を踏む。日本アニメはここで演出の二つの極を発明した。一方は高畑・宮崎の<b>レイアウト＝想像カメラ</b>（1974『ハイジ』）。監督が存在しないカメラの位置・画角・パンを図面で設計する方法で、固定カメラ崩落はここに始まる。もう一方は出崎統の<b>止め絵様式</b>。ハーモニー（線画を背景画に溶かす名画的止め絵）と3回パン（同ショットの反復）を、氷川の言う「フィルムの緩急が求める句読点・感嘆符」として様式化した。重要なのは、両極が<b>同じ起点（TVの省力経済）への正反対の応答</b>だった点である。</p>
+
+<h3>アニメーターが虚構のカメラを動かす（1980s・転換点1982）</h3>
+<p>1980sは作家性指数が0.77へ跳ね、動画重視が0.60へ上がる。第三の担い手——アニメーター——の登場だ。金田伊功のエフェクト・パースに続き、1982『マクロス』で板野一郎が「板野サーカス」を確立する。作画する人間が一枚ずつ虚構のカメラを生み、時にカメラを追い越す。OVAバブル・劇場の余剰がこの作画主導カメラを許容し（種別で劇場・OVAの実験性が高いことと符合）、AKIRA（1988、大友克洋）の実写的カメラ・光・都市モンタージュがこの時期の到達点となった。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/034_protagonist_weapons_abilities/">「与えられた力／作画」という個の卓越が前景化する時期</a>とも重なる職人技の黄金期である。</p>
+
+<h3>実験編集の頂点と「制約の様式化」（1990s–2000s）</h3>
+<p>実験性指数は2000s 0.63、作家性も2000s 0.83で頂点。この山は三つの源を持つ。第一が庵野『エヴァ』（1995）の長尺止め絵・文字フレーム・心理モンタージュ＝「編集そのものの前景化」。第二が今敏。『千年女優』（2002）・『パプリカ』（2006）のマッチカット（動作の類似で時代と場所を縫う編集）。第三が新房昭之／シャフト。化物語（2009）・絶望先生の文字・空間の歪み・止め絵モンタージュ。ここで効く社会・産業条件が二つある。ひとつは<b>深夜枠×製作委員会×低予算</b>。新房自身が「制約は理由にならない」と語り、低予算と深夜枠を様式へ転化した。<b>出崎の止め絵がTVの省力起源だったのと同型の現象が、四〇年後に深夜アニメで反復した</b>——制約が様式を生むという構造の再演である。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/035_supporting_cast_archetypes/">深夜枠・円盤・ギャルゲ流入が脇役を「萌え属性カタログ」化した2000sの地殻変動</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/043_character_design/">記号性が2000sに噴出するキャラデザの動き</a>と同じ産業条件に根を持つ。もうひとつは<b>青年視聴者の定着</b>。固定カメラ・止め絵で十分だった「お茶の間」が消え、深夜に凝った演出を味わう青年が現れた。実験性指数が青年0.65 ≫ 児童0.28と対象層で最も鋭く分離するのは、この受容構造の反映である。</p>
+
+<h3>デジタル撮影革命——バンク崩落という指紋（2000年前後）</h3>
+<p>最も技術決定的な転換点はここにある。バンク多用が1990s 0.40 → 2000s 0.00へ崩落し、止め絵も以後ゼロへ向かう一方、動画重視が0.74へ跳ね、実写的レイアウトが0.44で最大化する。1997–2002年の5年でセル→デジタル彩色・撮影・編集への移行が完了し、撮影台が現場から消えた。バンク（同一原画の使い回し）と止め絵は、もともと<b>セル経済が要請した省力技法</b>だった。デジタル合成で「描き直す・動かす・光らせる」コストが下がると、その経済的必然が消える。だからバンクは美学的に飽きられたのではなく、<b>経済的に不要になって消えた</b>。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/010_animation_characteristics/"><a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/010_animation_characteristics/">視点010</a>で観測した「ムラ作画1990s 0.50→2000s 0.087崩落」</a>と完全に同じ曲線であり、同じ原因（デジタル化）の別の指紋である。同時に、craft（職人技）の所在が「作画」から「撮影（コンポジット＝光・発光・ぼかし）」へ移った。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/044_color_art_tendency/"><a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/044_color_art_tendency/">視点044</a>の「craftが背景画→撮影へ移動」</a>とも同型である。</p>
+
+<h3>仮想カメラの大衆化と実写回帰（2010s–2020s・2019/2022）</h3>
+<p>2010sに3DCG仮想カメラが0.17で初出する。3D空間にモデルを置けば、ソフトが任意のカメラ運動を生成できる。担い手はついに人間からソフトウェアへ移った。2019–20年の『鬼滅の刃』で、ufotableは無限列車を3Dモデル化し「ありえないカメラワーク」を実現、これがTVアニメ標準の映画的カメラを大衆化した。並行して、MAPPAの『チェンソーマン』（2022）は実写映画のレイアウトとレンズ感を志向し、『葬送のフリーレン』（2023）は長回しと「間」で情緒を語る。長回し志向が2020s 0.38へ最大化し、動画重視が0.94へ達するのはこの「映画化」の帰結だ。</p>
+
+<h3>なぜ実験性は2020sに下がるのか——本流化の分母効果</h3>
+<p>実験性指数は2000s 0.63 → 2020s 0.50へ下がる。これは前衛の後退ではなく、おそらく<b>本流化の分母効果</b>である。鬼滅・フリーレン・SPYは「映画的に上手い」が「前衛」ではない。実験は辺境（ぼっち・ざ・ろっく！の混在媒体、モブサイコ、デビルマンcrybaby、ポプテピピック）に残り続けている。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/021_transition_positioning/">歴史的役割の弧で繰り返し観た</a>「辺境が革新し本流が大衆化する」構図が、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/009_violence_morality/">暴力描写</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/019_gender_representation/">ジェンダー表象</a>でも反復したのと同じく、演出でも反復している。技術が青年層を得た重量級メディア化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/020_zeitgeist_reflection/">産業的成熟</a>）の帰結として、前衛の場所が中心から周縁へ移っただけだ。</p>
+
+<h3>反証・留保</h3>
+<p class="mut">①<b>選定バイアス</b>：母集団が「演出に語るべき作品」なので、実験性・作家性の絶対値は過大。各年代の標準量産TVを足せば指数は全面的に下がる。信頼できるのは方向だけである。②<b>止め絵＝後退ではない</b>：motion上昇を「進歩」と読むのは誤り。出崎の止め絵は積極的様式であり、フル志向と様式志向は優劣でなく対立軸である。③<b>相関≠因果</b>：バンク崩落をデジタルが起こしたのか、お茶の間消滅（使い回しを許す視聴環境の消失）が起こしたのかは交絡しており分離できない。両者は同時期に進行した。④<b>2020s実験性低下の解釈は二通り</b>：「本流化の分母効果」と「実際の前衛退潮」が区別できない。辺境作の混在媒体が健在である以上、前者を採るが断定はしない。</p>
 </div>
 
-<h2>5. 他者の論評（出典付き）</h2>
-<div class="card">
-<div class="quote">レイアウト(場面設定・画面構成)＝「アニメ演出の根幹」。高畑・宮崎がハイジで確立した、実写の撮影に相当する画面設計。<br><a href="https://anime.eiga.com/news/column/hikawa_rekishi/108883/" target="_blank">氷川竜介「アニメ演出の根幹とレイアウト」アニメハック</a></div>
-<div class="quote">出崎統のハーモニー(止め絵)・3回パンは、フィルムの緩急が求める「句読点・感嘆符」。アニメが名画になる瞬間。<br><a href="https://animeanime.jp/article/2014/10/21/20560.html" target="_blank">氷川竜介「出崎演出における光と影」</a> ／ <a href="https://8blue.net/dezaki-osamu-harmony/" target="_blank">「ハーモニーという世界」</a></div>
-<div class="quote">板野サーカス＝立体空間とミサイル軌道、レンズ効果の動的カメラ。「金田さんあっての板野サーカス」。作画がカメラを動かす日本固有の構造。<br><a href="https://note.com/gifted_macaw324/n/nfdee4089d3ee" target="_blank">「金田パースと板野サーカス」note</a> ／ <a href="http://www.gamescience.jp/2008/Paper/Fujie_2008.pdf" target="_blank">板野サーカスのカメラワーク自動生成(卒論)</a></div>
-<div class="quote">1997-2002の5年でセル→デジタル彩色・撮影・編集へ移行、撮影台が現場から消滅。発光・合成等の撮影演出が容易化。<br><a href="https://mediag.bunka.go.jp/article/27-5269/" target="_blank">メディア芸術カレント「デジタル・アニメーションの過去・現在・未来」</a></div>
-<div class="quote">今敏のマッチカット＝動作の類似で時代・場所を縫う編集。絵と絵の弁証法的相互作用＝モンタージュ効果。<br><a href="https://vector-mag.com/feature/f-anime/14097/" target="_blank">VECTOR「今敏の世界」</a> ／ <a href="https://kyoto-art.repo.nii.ac.jp/record/333/" target="_blank">荊野 博論「今敏の映像表現」(京都芸術大)</a></div>
-<div class="quote">シャフト演出をミザンセーヌ(画面構成)として正統化。新房「制約は理由にならない」＝深夜・低予算を様式へ転化。<br><a href="http://wakusei2nd.com/archives/series/" target="_blank">石岡良治「シャフトアニメと演出(ミザンセーヌ)」PLANETS</a> ／ <a href="https://ascii.jp/elem/000/000/533/533991/" target="_blank">新房昭之インタビュー(ASCII)</a></div>
-<div class="quote">鬼滅の魅力は「作画よりも撮影(コンポジット)の力、ジブリと正反対」。無限列車の3Dモデル化で「ありえないカメラワーク」を実現。<br><a href="https://bunshun.jp/articles/-/42113?page=2" target="_blank">文春オンライン</a> ／ <a href="https://area.autodesk.jp/case/animation/kimetsu-01/" target="_blank">Autodesk「鬼滅はどう作られたか」</a></div>
+<h2 class="h2-essay">5. 他者の論評との対話</h2>
+<p class="mut">レイアウト＝想像カメラ論、出崎の止め絵を「名画の瞬間」とする論、作画がカメラを動かす日本固有の構造、そして「撮影の力＝ジブリの対極」論——立場は分かれるが、いずれも本データの「固定カメラ→レイアウト→作画→撮影→3DCG」という担い手交代の幹を別々の角度から照らす。</p>
+<div class="views">
+<div class="view">
+<p class="who"><span class="wl">研究者</span><b>氷川竜介（アニメ評論家・明治大学特任教授）／連載「アニメに歴史あり」</b></p>
+<div class="vt">レイアウト（場面設定・画面構成）＝「アニメ演出の根幹」。実写の監督と撮影監督の役割を兼ねる画面設計 <span class="stance sup">一致</span></div>
+<p>高畑・宮崎が『ハイジ』で確立したレイアウトは、絵コンテの後に各カットの構図を設計する工程で、存在しないカメラの位置・画角を「演劇の基礎を具体的な画面に変換」する作業だという。高畑が宮崎に全カットのレイアウトを委ね、自らは演出全般を統括することで品質を担保した。</p>
+<div class="match"><b>データとの照合：</b>固定カメラ0.60→0.00、実写的レイアウト0.10→0.44という移行と一致。発明が1974年に集中する点も、作家性指数の1970s段差として再現される。</div>
+<div class="src"><a href="https://anime.eiga.com/news/column/hikawa_rekishi/108883/">アニメハック「アニメ演出の根幹とレイアウト」（氷川竜介）</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">当事者</span><b>板野一郎（アニメーター・演出家）／「板野サーカス」</b></p>
+<div class="vt">「金田さんのいいところを吸収し…『板野サーカス』が生まれた」——作画する人間が虚構のカメラを動かす <span class="stance sup">一致</span></div>
+<p>無数のミサイルの軌跡、空中を自在に動くカメラ、被写体の位置でレンズ効果が切り替わる描写。金田伊功の誇張パースを継承しつつ独自表現を探る過程で確立されたという。実写の撮影者でなく作画者がカメラ運動を生む、日本アニメ固有の構造を実作で体現した。</p>
+<div class="match"><b>データとの照合：</b>1980sに作家性指数が0.77へ跳ね、動画重視が0.60へ上がる本データの「アニメーターが担い手になる」段階を実作で裏づける。OVA・劇場の実験性が高いこととも符合。</div>
+<div class="src"><a href="https://ja.wikipedia.org/wiki/%E6%9D%BF%E9%87%8E%E4%B8%80%E9%83%8E">Wikipedia「板野一郎」</a> ／ <a href="https://dig-it.media/digit/article/836846/">Dig-it「マクロスを創った男たち」</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">演出家</span><b>新房昭之（アニメ監督）＋石岡良治（批評家）</b></p>
+<div class="vt">「制約は理由にならない」——深夜・低予算をミザンセーヌ（画面構成）の様式へ転化する <span class="stance sup">一致</span></div>
+<p>新房はシャフト作品で、当たり前とされる制作の前提を問い直し、止め絵・文字・空間の歪みを積極的様式へ反転させた。石岡良治はこれを映画批評の「ミザンセーヌ」概念で正統化する。産業条件（深夜・低予算・製作委員会）が前衛を生むという因果である。</p>
+<div class="match"><b>データとの照合：</b>記号・様式系統が2000sに噴出し、実験性が2000sで頂点を打つ本データと一致。出崎の止め絵がTV省力起源だったのと同型の構造的反復を裏づける。</div>
+<div class="src"><a href="https://ascii.jp/elem/000/000/533/533991/">ASCII「新房監督のアニメ論『制約は理由にならない』」</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">メディア</span><b>文春オンライン（アニメーション評）</b></p>
+<div class="vt">鬼滅の魅力は「作画よりも撮影（コンポジット）の力、ジブリと正反対」。3Dモデル化で「ありえないカメラワーク」 <span class="stance neu">一致・ただし留保</span></div>
+<p>ufotableは2D作画に3DCGを密着させ、カットごとに空間を曲げてでも画面の見栄えを優先する。無限列車を3Dモデル化することで手描きでは不可能なカメラワークを実現した。宮崎の「描画で動かす」思想とは正反対の、撮影・合成で画を立ち上げる思想だという。</p>
+<div class="match"><b>データとの照合：</b>3DCG仮想カメラの2010s初出、動画重視0.94、craftの作画→撮影への移動という本データの解釈を強く支持。ただし鬼滅は作画も卓越しており「作画 vs 撮影」の二項対立化には留保が要る。</div>
+<div class="src"><a href="https://bunshun.jp/articles/-/42113?page=2">文春オンライン「『鬼滅の刃』の絵がスゴイのは“作画”よりも〇〇の力？」</a></div>
+</div>
 </div>
 
 <h2>6. 全作データ（120作）</h2>
@@ -97,8 +204,8 @@ input,select{background:#11141c;color:var(--ink);border:1px solid var(--line);bo
 </div>
 <script>
 const P={"decs": ["1960", "1970", "1980", "1990", "2000", "2010", "2020"], "exp_idx": [0.35, 0.344, 0.5, 0.567, 0.63, 0.604, 0.5], "auteur_idx": [0.45, 0.594, 0.767, 0.7, 0.826, 0.792, 0.719], "static": [0.6, 0.5, 0.333, 0.4, 0.13, 0.042, 0.0], "live": [0.1, 0.125, 0.267, 0.267, 0.435, 0.292, 0.375], "dyn": [0.1, 0.312, 0.267, 0.2, 0.261, 0.333, 0.5], "cg": [0.0, 0.0, 0.0, 0.0, 0.0, 0.167, 0.062], "bank": [0.2, 0.25, 0.267, 0.4, 0.0, 0.042, 0.0], "stillp": [0.4, 0.25, 0.067, 0.133, 0.174, 0.0, 0.0], "motion": [0.3, 0.438, 0.6, 0.4, 0.739, 0.75, 0.938], "montage": [0.3, 0.375, 0.333, 0.267, 0.217, 0.292, 0.25], "longtake": [0.0, 0.125, 0.333, 0.133, 0.304, 0.25, 0.375], "exp_demo": {"general": 0.556, "general_n": 18, "josei": 0.333, "josei_n": 3, "kids": 0.275, "kids_n": 20, "seinen": 0.647, "seinen_n": 51, "shoujo": 0.429, "shoujo_n": 7, "shounen": 0.452, "shounen_n": 21}, "live_demo": {"general": 0.333, "josei": 0.667, "kids": 0.2, "seinen": 0.412, "shoujo": 0.0, "shounen": 0.048}, "bank_demo": {"general": 0.0, "josei": 0.0, "kids": 0.4, "seinen": 0.02, "shoujo": 0.571, "shounen": 0.19}, "rows": [{"t": "白蛇伝", "y": 1958, "tp": "movie", "dm": "general", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "標準的カメラ", "ed": "標準的カット編集", "ex": "実験性なし(標準)", "st": "動画(フルアニメ)重視"}, {"t": "わんぱく王子の大蛇退治", "y": 1963, "tp": "movie", "dm": "kids", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "標準的カメラ", "ed": "モンタージュ多用", "ex": "実験性強い", "st": "動画(フルアニメ)重視"}, {"t": "鉄腕アトム", "y": 1963, "tp": "TV", "dm": "kids", "sc": "リミテッド止め絵演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "部分的に実験的", "st": "印象的止め絵演出"}, {"t": "鉄人28号", "y": 1963, "tp": "TV", "dm": "kids", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "実験性なし(標準)", "st": "バンク(使い回し)多用"}, {"t": "ジャングル大帝", "y": 1965, "tp": "TV", "dm": "kids", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "標準的カメラ", "ed": "標準的カット編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "オバケのQ太郎", "y": 1965, "tp": "TV", "dm": "kids", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "実験性なし(標準)", "st": "止め絵と動画の混在"}, {"t": "マッハGoGoGo", "y": 1967, "tp": "TV", "dm": "kids", "sc": "動的アクション演出", "co": "動的・誇張構図(アングル変化)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "実験性なし(標準)", "st": "バンク(使い回し)多用"}, {"t": "リボンの騎士", "y": 1967, "tp": "TV", "dm": "shoujo", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "実験性なし(標準)", "st": "印象的止め絵演出"}, {"t": "ゲゲゲの鬼太郎", "y": 1968, "tp": "TV", "dm": "kids", "sc": "情緒・空気演出", "co": "記号的・象徴的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "部分的に実験的", "st": "印象的止め絵演出"}, {"t": "巨人の星", "y": 1968, "tp": "TV", "dm": "shounen", "sc": "記号・様式演出", "co": "記号的・象徴的構図", "ca": "固定カメラ中心", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "印象的止め絵演出"}, {"t": "太陽の王子ホルスの大冒険", "y": 1968, "tp": "movie", "dm": "kids", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "あしたのジョー", "y": 1970, "tp": "TV", "dm": "shounen", "sc": "リミテッド止め絵演出", "co": "記号的・象徴的構図", "ca": "固定カメラ中心", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "印象的止め絵演出"}, {"t": "ルパン三世", "y": 1971, "tp": "TV", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "マジンガーZ", "y": 1972, "tp": "TV", "dm": "kids", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "実験性なし(標準)", "st": "バンク(使い回し)多用"}, {"t": "科学忍者隊ガッチャマン", "y": 1972, "tp": "TV", "dm": "kids", "sc": "動的アクション演出", "co": "動的・誇張構図(アングル変化)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "実験性なし(標準)", "st": "バンク(使い回し)多用"}, {"t": "エースをねらえ!", "y": 1973, "tp": "TV", "dm": "shoujo", "sc": "リミテッド止め絵演出", "co": "記号的・象徴的構図", "ca": "固定カメラ中心", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "印象的止め絵演出"}, {"t": "宇宙戦艦ヤマト", "y": 1974, "tp": "TV", "dm": "general", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "アルプスの少女ハイジ", "y": 1974, "tp": "TV", "dm": "kids", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "一休さん", "y": 1975, "tp": "TV", "dm": "kids", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "実験性なし(標準)", "st": "止め絵と動画の混在"}, {"t": "UFOロボ グレンダイザー", "y": 1975, "tp": "TV", "dm": "kids", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "実験性なし(標準)", "st": "バンク(使い回し)多用"}, {"t": "母をたずねて三千里", "y": 1976, "tp": "TV", "dm": "kids", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "超電磁ロボ コン・バトラーV", "y": 1976, "tp": "TV", "dm": "kids", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "実験性なし(標準)", "st": "バンク(使い回し)多用"}, {"t": "キャプテンハーロック", "y": 1978, "tp": "TV", "dm": "general", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "標準的カット編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "銀河鉄道999", "y": 1978, "tp": "TV", "dm": "general", "sc": "記号・様式演出", "co": "記号的・象徴的構図", "ca": "固定カメラ中心", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "印象的止め絵演出"}, {"t": "未来少年コナン", "y": 1978, "tp": "TV", "dm": "kids", "sc": "動的アクション演出", "co": "動的・誇張構図(アングル変化)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "機動戦士ガンダム", "y": 1979, "tp": "TV", "dm": "shounen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "標準的カメラ", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "ベルサイユのばら", "y": 1979, "tp": "TV", "dm": "shoujo", "sc": "記号・様式演出", "co": "記号的・象徴的構図", "ca": "固定カメラ中心", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "印象的止め絵演出"}, {"t": "うる星やつら", "y": 1981, "tp": "TV", "dm": "seinen", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "標準的カメラ", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "止め絵と動画の混在"}, {"t": "超時空要塞マクロス", "y": 1982, "tp": "TV", "dm": "shounen", "sc": "動的アクション演出", "co": "動的・誇張構図(アングル変化)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "魔法のプリンセス ミンキーモモ", "y": 1982, "tp": "TV", "dm": "shoujo", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "実験性なし(標準)", "st": "バンク(使い回し)多用"}, {"t": "北斗の拳", "y": 1984, "tp": "TV", "dm": "shounen", "sc": "記号・様式演出", "co": "記号的・象徴的構図", "ca": "固定カメラ中心", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "バンク(使い回し)多用"}, {"t": "風の谷のナウシカ", "y": 1984, "tp": "movie", "dm": "general", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "銀河鉄道の夜", "y": 1985, "tp": "movie", "dm": "general", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "固定カメラ中心", "ed": "長回し・間を重視", "ex": "実験性強い", "st": "印象的止め絵演出"}, {"t": "機動戦士Zガンダム", "y": 1985, "tp": "TV", "dm": "shounen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "標準的カメラ", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "天空の城ラピュタ", "y": 1986, "tp": "movie", "dm": "general", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "ドラゴンボール", "y": 1986, "tp": "TV", "dm": "shounen", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "実験性なし(標準)", "st": "バンク(使い回し)多用"}, {"t": "聖闘士星矢", "y": 1986, "tp": "TV", "dm": "shounen", "sc": "記号・様式演出", "co": "記号的・象徴的構図", "ca": "固定カメラ中心", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "バンク(使い回し)多用"}, {"t": "王立宇宙軍 オネアミスの翼", "y": 1987, "tp": "movie", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "AKIRA", "y": 1988, "tp": "movie", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "となりのトトロ", "y": 1988, "tp": "movie", "dm": "general", "sc": "情緒・空気演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "火垂るの墓", "y": 1988, "tp": "movie", "dm": "general", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "機動警察パトレイバー", "y": 1989, "tp": "OVA", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "美少女戦士セーラームーン", "y": 1992, "tp": "TV", "dm": "shoujo", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "部分的に実験的", "st": "バンク(使い回し)多用"}, {"t": "紅の豚", "y": 1992, "tp": "movie", "dm": "general", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "平成狸合戦ぽんぽこ", "y": 1994, "tp": "movie", "dm": "general", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "標準的カメラ", "ed": "モンタージュ多用", "ex": "実験性強い", "st": "止め絵と動画の混在"}, {"t": "新世紀エヴァンゲリオン", "y": 1995, "tp": "TV", "dm": "seinen", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "実写的レイアウト(想像カメラ)", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "印象的止め絵演出"}, {"t": "攻殻機動隊", "y": 1995, "tp": "movie", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "るろうに剣心", "y": 1996, "tp": "TV", "dm": "shounen", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "実験性なし(標準)", "st": "バンク(使い回し)多用"}, {"t": "名探偵コナン", "y": 1996, "tp": "TV", "dm": "kids", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "実験性なし(標準)", "st": "バンク(使い回し)多用"}, {"t": "もののけ姫", "y": 1997, "tp": "movie", "dm": "general", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "パーフェクトブルー", "y": 1997, "tp": "movie", "dm": "seinen", "sc": "実験・前衛演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "動画(フルアニメ)重視"}, {"t": "少女革命ウテナ", "y": 1997, "tp": "TV", "dm": "shoujo", "sc": "記号・様式演出", "co": "記号的・象徴的構図", "ca": "固定カメラ中心", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "バンク(使い回し)多用"}, {"t": "ポケットモンスター", "y": 1997, "tp": "TV", "dm": "kids", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "実験性なし(標準)", "st": "バンク(使い回し)多用"}, {"t": "serial experiments lain", "y": 1998, "tp": "TV", "dm": "seinen", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "実験的・抽象的カメラ", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "印象的止め絵演出"}, {"t": "カウボーイビバップ", "y": 1998, "tp": "TV", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "カードキャプターさくら", "y": 1998, "tp": "TV", "dm": "shoujo", "sc": "標準TV演出", "co": "標準的構図", "ca": "固定カメラ中心", "ed": "標準的カット編集", "ex": "部分的に実験的", "st": "バンク(使い回し)多用"}, {"t": "人狼 JIN-ROH", "y": 1999, "tp": "movie", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "フリクリ", "y": 2000, "tp": "OVA", "dm": "seinen", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "実験性強い", "st": "止め絵と動画の混在"}, {"t": "千と千尋の神隠し", "y": 2001, "tp": "movie", "dm": "general", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "ほしのこえ", "y": 2002, "tp": "OVA", "dm": "seinen", "sc": "情緒・空気演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "千年女優", "y": 2002, "tp": "movie", "dm": "seinen", "sc": "実験・前衛演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "動画(フルアニメ)重視"}, {"t": "攻殻機動隊 STAND ALONE COMPLEX", "y": 2002, "tp": "TV", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "標準的カメラ", "ed": "標準的カット編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "東京ゴッドファーザーズ", "y": 2003, "tp": "movie", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "鋼の錬金術師", "y": 2003, "tp": "TV", "dm": "shounen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "標準的カメラ", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "マインド・ゲーム", "y": 2004, "tp": "movie", "dm": "seinen", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "実験的・抽象的カメラ", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "止め絵と動画の混在"}, {"t": "妄想代理人", "y": 2004, "tp": "TV", "dm": "seinen", "sc": "実験・前衛演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "動画(フルアニメ)重視"}, {"t": "ぱにぽにだっしゅ!", "y": 2005, "tp": "TV", "dm": "seinen", "sc": "記号・様式演出", "co": "記号的・象徴的構図", "ca": "固定カメラ中心", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "印象的止め絵演出"}, {"t": "コードギアス", "y": 2006, "tp": "TV", "dm": "shounen", "sc": "シネマティック・実写的演出", "co": "動的・誇張構図(アングル変化)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "DEATH NOTE", "y": 2006, "tp": "TV", "dm": "shounen", "sc": "記号・様式演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "印象的止め絵演出"}, {"t": "涼宮ハルヒの憂鬱", "y": 2006, "tp": "TV", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "時をかける少女", "y": 2006, "tp": "movie", "dm": "general", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "パプリカ", "y": 2006, "tp": "movie", "dm": "seinen", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "実験的・抽象的カメラ", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "動画(フルアニメ)重視"}, {"t": "天元突破グレンラガン", "y": 2007, "tp": "TV", "dm": "shounen", "sc": "動的アクション演出", "co": "動的・誇張構図(アングル変化)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "秒速5センチメートル", "y": 2007, "tp": "movie", "dm": "seinen", "sc": "情緒・空気演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "さよなら絶望先生", "y": 2007, "tp": "TV", "dm": "seinen", "sc": "記号・様式演出", "co": "記号的・象徴的構図", "ca": "固定カメラ中心", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "印象的止め絵演出"}, {"t": "電脳コイル", "y": 2007, "tp": "TV", "dm": "kids", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "クラナド CLANNAD", "y": 2007, "tp": "TV", "dm": "seinen", "sc": "情緒・空気演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "実験性なし(標準)", "st": "動画(フルアニメ)重視"}, {"t": "空の境界", "y": 2007, "tp": "movie", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "化物語", "y": 2009, "tp": "TV", "dm": "seinen", "sc": "記号・様式演出", "co": "記号的・象徴的構図", "ca": "固定カメラ中心", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "印象的止め絵演出"}, {"t": "けいおん!", "y": 2009, "tp": "TV", "dm": "seinen", "sc": "情緒・空気演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "実験性なし(標準)", "st": "動画(フルアニメ)重視"}, {"t": "四畳半神話大系", "y": 2010, "tp": "TV", "dm": "seinen", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "実験的・抽象的カメラ", "ed": "高速テンポ編集", "ex": "実験性強い", "st": "止め絵と動画の混在"}, {"t": "魔法少女まどか☆マギカ", "y": 2011, "tp": "TV", "dm": "seinen", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "実験的・抽象的カメラ", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "止め絵と動画の混在"}, {"t": "あの日見た花の名前を僕達はまだ知らない", "y": 2011, "tp": "TV", "dm": "seinen", "sc": "情緒・空気演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "実験性なし(標準)", "st": "動画(フルアニメ)重視"}, {"t": "日常", "y": 2011, "tp": "TV", "dm": "seinen", "sc": "動的アクション演出", "co": "動的・誇張構図(アングル変化)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "Fate/Zero", "y": 2011, "tp": "TV", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "3DCG連動の自在カメラ", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "PSYCHO-PASS", "y": 2012, "tp": "TV", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "ソードアート・オンライン", "y": 2012, "tp": "TV", "dm": "shounen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "進撃の巨人", "y": 2013, "tp": "TV", "dm": "shounen", "sc": "動的アクション演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "キルラキル", "y": 2013, "tp": "TV", "dm": "seinen", "sc": "動的アクション演出", "co": "動的・誇張構図(アングル変化)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "止め絵と動画の混在"}, {"t": "四月は君の嘘", "y": 2014, "tp": "TV", "dm": "shounen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "響け!ユーフォニアム", "y": 2015, "tp": "TV", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "モブサイコ100", "y": 2016, "tp": "TV", "dm": "seinen", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "実験的・抽象的カメラ", "ed": "高速テンポ編集", "ex": "実験性強い", "st": "止め絵と動画の混在"}, {"t": "君の名は。", "y": 2016, "tp": "movie", "dm": "general", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "この世界の片隅に", "y": 2016, "tp": "movie", "dm": "general", "sc": "情緒・空気演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "聲の形", "y": 2016, "tp": "movie", "dm": "general", "sc": "情緒・空気演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "ユーリ!!! on ICE", "y": 2016, "tp": "TV", "dm": "josei", "sc": "動的アクション演出", "co": "動的・誇張構図(アングル変化)", "ca": "3DCG連動の自在カメラ", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "宝石の国", "y": 2017, "tp": "TV", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "3DCG連動の自在カメラ", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "メイドインアビス", "y": 2017, "tp": "TV", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "リトルウィッチアカデミア", "y": 2017, "tp": "TV", "dm": "kids", "sc": "動的アクション演出", "co": "動的・誇張構図(アングル変化)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "夜は短し歩けよ乙女", "y": 2017, "tp": "movie", "dm": "seinen", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "実験的・抽象的カメラ", "ed": "高速テンポ編集", "ex": "実験性強い", "st": "止め絵と動画の混在"}, {"t": "DEVILMAN crybaby", "y": 2018, "tp": "ONA", "dm": "seinen", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "実験性強い", "st": "動画(フルアニメ)重視"}, {"t": "ヴァイオレット・エヴァーガーデン", "y": 2018, "tp": "TV", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "ポプテピピック", "y": 2018, "tp": "TV", "dm": "seinen", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "固定カメラ中心", "ed": "実験的・非線形編集", "ex": "実験性強い", "st": "バンク(使い回し)多用"}, {"t": "鬼滅の刃", "y": 2019, "tp": "TV", "dm": "shounen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "3DCG連動の自在カメラ", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "呪術廻戦", "y": 2020, "tp": "TV", "dm": "shounen", "sc": "動的アクション演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "劇場版 鬼滅の刃 無限列車編", "y": 2020, "tp": "movie", "dm": "shounen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "3DCG連動の自在カメラ", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "平家物語", "y": 2021, "tp": "TV", "dm": "josei", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "オッドタクシー", "y": 2021, "tp": "TV", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "標準的カメラ", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "チェンソーマン", "y": 2022, "tp": "TV", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "SPY×FAMILY", "y": 2022, "tp": "TV", "dm": "shounen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "ぼっち・ざ・ろっく!", "y": 2022, "tp": "TV", "dm": "seinen", "sc": "実験・前衛演出", "co": "実験的・前衛的構図", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "実験性強い", "st": "止め絵と動画の混在"}, {"t": "サイバーパンク エッジランナーズ", "y": 2022, "tp": "ONA", "dm": "seinen", "sc": "動的アクション演出", "co": "動的・誇張構図(アングル変化)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "リコリス・リコイル", "y": 2022, "tp": "TV", "dm": "seinen", "sc": "動的アクション演出", "co": "動的・誇張構図(アングル変化)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "着せ替え人形は恋をする", "y": 2022, "tp": "TV", "dm": "seinen", "sc": "情緒・空気演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "実験性なし(標準)", "st": "動画(フルアニメ)重視"}, {"t": "葬送のフリーレン", "y": 2023, "tp": "TV", "dm": "shounen", "sc": "情緒・空気演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "推しの子", "y": 2023, "tp": "TV", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "モンタージュ多用", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "スキップとローファー", "y": 2023, "tp": "TV", "dm": "josei", "sc": "情緒・空気演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "実験性なし(標準)", "st": "動画(フルアニメ)重視"}, {"t": "君たちはどう生きるか", "y": 2023, "tp": "movie", "dm": "general", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "動的な疑似カメラ移動", "ed": "長回し・間を重視", "ex": "実験性強い", "st": "動画(フルアニメ)重視"}, {"t": "ルックバック", "y": 2024, "tp": "movie", "dm": "seinen", "sc": "シネマティック・実写的演出", "co": "映画的構図(レイアウト/被写界深度)", "ca": "実写的レイアウト(想像カメラ)", "ed": "長回し・間を重視", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}, {"t": "ダンジョン飯", "y": 2024, "tp": "TV", "dm": "seinen", "sc": "動的アクション演出", "co": "動的・誇張構図(アングル変化)", "ca": "動的な疑似カメラ移動", "ed": "高速テンポ編集", "ex": "部分的に実験的", "st": "動画(フルアニメ)重視"}]};
-const ax={scales:{y:{ticks:{color:'#9aa3b2'},grid:{color:'#2a2e3a'}},x:{ticks:{color:'#9aa3b2'},grid:{color:'#2a2e3a'}}},plugins:{legend:{labels:{color:'#e8eaf0',boxWidth:12,font:{size:11}}}}};
-const C={a:'#6db3f2',b:'#f2a65a',c:'#8fd9a8',d:'#c792ea',e:'#ef6f6f',f:'#e0c060'};
+const ax={scales:{y:{ticks:{color:'#33312c'},grid:{color:'#2a2e3a'}},x:{ticks:{color:'#33312c'},grid:{color:'#2a2e3a'}}},plugins:{legend:{labels:{color:'#33312c',boxWidth:12,font:{size:11}}}}};
+const C={a:'#3b7ea1',b:'#c98a1a',c:'#2f8f5b',d:'#7a5bd0',e:'#b14a2b',f:'#a9781a'};
 document.getElementById('k1').textContent='0.60→0.00';
 document.getElementById('k2').textContent='0.40→0.00';
 document.getElementById('k3').textContent='0.63';

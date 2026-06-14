@@ -2,39 +2,68 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>主人公像の変遷上の位置 — 視点033</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1117;--card:#1a1d27;--ink:#e8eaf0;--sub:#9aa0b5;--ac:#ff6b6b;--ac2:#4ecdc4;--ac3:#ffd166;--ac4:#a78bfa;--line:#2a2e3a}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.7}
-.wrap{max-width:1180px;margin:0 auto;padding:28px 18px 80px}
-h1{font-size:1.75rem;margin:.2em 0}
-h2{font-size:1.3rem;margin:1.8em 0 .6em;border-left:5px solid var(--ac);padding-left:.5em}
-h3{font-size:1.05rem;color:var(--ac2);margin:1.4em 0 .4em}
-.sub{color:var(--sub);font-size:.92rem}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(0,0,0,.25)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:820px){.grid{grid-template-columns:1fr}}
-.kpi{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
-.kpi div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;flex:1;min-width:150px}
-.kpi b{font-size:1.5rem;color:var(--ac3);display:block}
-.kpi span{font-size:.82rem;color:var(--sub)}
-canvas{max-height:340px}
-table{width:100%;border-collapse:collapse;font-size:.84rem;margin-top:10px}
-th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-th{position:sticky;top:0;background:#222634;cursor:pointer;user-select:none;color:var(--ac2)}
-tr:hover{background:#20242f}
-.tbox{max-height:540px;overflow:auto;border:1px solid var(--line);border-radius:12px}
-select,input{background:#222634;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 10px;margin:0 8px 8px 0}
-.q{border-left:4px solid var(--ac2);padding:10px 14px;margin:10px 0;background:#171b24;border-radius:0 10px 10px 0}
-.q.con{border-left-color:var(--ac)}
-.q a{color:var(--ac3);text-decoration:none}
-.q .src{font-size:.78rem;color:var(--sub);display:block;margin-top:4px}
-.tag{display:inline-block;font-size:.72rem;padding:1px 7px;border-radius:10px;margin-right:5px}
-.tag.pro{background:#163a36;color:var(--ac2)}
-.tag.con{background:#3a1d1d;color:var(--ac)}
-.warn{background:#2a2410;border:1px solid #5a4a1a;border-radius:10px;padding:12px 16px;color:#ffe8a8;font-size:.88rem}
-small.c{font-size:.72rem;padding:1px 6px;border-radius:8px;background:#222634;color:var(--sub)}
-.h{color:#7fe3c8}.m{color:#ffd166}.l{color:#ff9a8b}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/033_protagonist_image_transition/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -49,55 +78,116 @@ small.c{font-size:.72rem;padding:1px 6px;border-radius:8px;background:#222634;co
 <h1>主人公像の変遷上の位置</h1>
 <p class="sub">視点033 / id109 / 変遷観 — 「熱血→等身大→無気力→チート」など時代の主人公像との関係。全135作（1963–2025）を6軸でコード化。</p>
 
-<div class="kpi">
-<div><b>135</b><span>分析作品数（各年代13–32作）</span></div>
-<div><b>50%→6%</b><span>熱血漢シェア 1970s→2020s（退潮）</span></div>
-<div><b>0.703</b><span>投影度指数ピーク（2010s／なろう・日常系）</span></div>
-<div><b>35.3%</b><span>脱構築シェア 2020s（史上最高）</span></div>
+<div class="kpis">
+<div class="kpi"><b>135</b><span>分析作品数（各年代13–32作）</span></div>
+<div class="kpi"><b>50%→6%</b><span>熱血漢シェア 1970s→2020s（退潮）</span></div>
+<div class="kpi"><b>0.703</b><span>投影度指数ピーク（2010s／なろう・日常系）</span></div>
+<div class="kpi"><b>35.3%</b><span>脱構築シェア 2020s（史上最高）</span></div>
 </div>
 
 <div class="card warn">⚠ 選定はランドマーク作中心のため「先取り・脱構築」が過剰代表。指数の<b>絶対値でなく相対変化</b>のみ信頼。「無気力／脱構築」は受容解釈に依存し古い年代ほど確度低。主人公像と時代は相関であり機械的反映ではない。</div>
 
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">「熱血→等身大→無気力→チート」——主人公像の60年は、この4つが順に交代した単線の進化ではなかった。堅牢な単線は最初の一歩（熱血の退潮と等身大化）だけで、その先の「無気力」も「チート」も、等身大という地盤の上に生えた別々の枝である。主人公は世界を熱く変える英雄から、冴えない自分でも肯定される器へと静かに移り、2020sには熱血・等身大・無気力・チート・脱構築が同時に併存するようになった。</p>
+<ul class="tldr-list">
+<li><b>熱血の退潮だけは堅牢な単線</b>：熱血漢シェアは1970sの50%から2020sの6%へ崩落し、等身大・凡人は1980sで40%へ段差ジャンプして以後最大派に定着。転換点は1979年『機動戦士ガンダム』のアムロ＝脱英雄・等身大の先取りである。</li>
+<li><b>熱量は冷却し、投影度はピークへ</b>：熱量指数は1970sの0.936を頂点に冷却して2000s以降は0.6前後の低原。逆に凡人スタート率（投影度）は2010sの0.703でピーク＝視聴者が主人公に「なる」時代。冷却と投影は同じ地殻変動の表裏。</li>
+<li><b>「与えられる力」のU字回帰</b>：付与・チートのシェアは1970s 37.5%（巨大ロボ）→2000s 9%（修行・努力主義の底）→2020s 29.4%（なろうチート）のU字。力の増減でなく「努力で正当化するか／前提として享受するか」という正当化様式の振動。</li>
+<li><b>無気力とチートは「枝」</b>：無気力・厭世は1995年（エヴァ）以降の少数派の通奏低音、チートは最古の項でもありU字で再来。2020sは5つのモードが同時併存＝玉突き交代でなく多層化。</li>
+<li><b>成熟＝脱構築と回帰の両輪</b>：白紙の創成期（先取り過半）から、語彙が出尽くした成熟期へ。2020sの脱構築シェア35.3%は60年で最高（チェンソーマン／水星／フリーレン）だが、王道回帰11.8%（鬼滅／呪術／ヒロアカ）も健在で、最も自己言及的な年代になった。</li>
+</ul>
+</div>
+<h2 class="h2-essay">具体例——主人公像を折り曲げた4つの台詞</h2>
+<div class="ex">
+<h3>① 英雄が「普通の少年」になった日——殴られて泣く主人公（1979年）</h3>
+<p>巨大ロボに乗る主人公は、それまで使命に燃える熱血漢か超人だった。だが偶然ガンダムに乗り込んだ15歳のアムロ・レイは、戦争に巻き込まれて嫌々戦う内向的な普通の少年として描かれる。規律を乱した彼をブライト艦長が二度張り倒す——その時こぼれるこの一言が、「世界を救う英雄」から「家庭の子ども」への主人公像の地殻変動を告げた。本データで「等身大・凡人／巻き込まれ受動／先取り・創始」とコードされる転換点である。</p>
+<blockquote class="quote">二度もぶった！　親父にもぶたれたことないのに！<span class="qby">— アムロ・レイ／TVアニメ『機動戦士ガンダム』第9話「翔べ！ガンダム」（1979年放送）。規律違反でブライト艦長に殴られた場面。</span></blockquote>
+<h3>② 熱量ゼロの極点——「逃げちゃダメだ」と自分に言い聞かせる（1995年）</h3>
+<p>拳を握って絶叫する1970sの熱血主人公とは正反対に、碇シンジは逃げ腰で内向きな少年として登場する。負傷した綾波の姿に動かされ、それでも恐怖から逃げたい自分を呪文のように説き伏せるこの台詞は、熱量指数0の極点であり、1990sに初めて立ち上がる「無気力・厭世」という通奏低音の象徴となった。叫ぶ少年から醒めた語り手への移行は、ここで底を打つ。</p>
+<blockquote class="quote">逃げちゃダメだ、逃げちゃダメだ、逃げちゃダメだ……やります。僕が乗ります。<span class="qby">— 碇シンジ／TVアニメ『新世紀エヴァンゲリオン』第壱話「使徒、襲来」（1995年放送）。初号機への搭乗をためらう場面。</span></blockquote>
+<h3>③ 英雄的動機の不在——夢は「普通の暮らし」（2022年）</h3>
+<p>2020sの脱構築を体現するのがチェンソーマンのデンジだ。借金のために悪魔狩りをする彼には、世界を救う使命も大義もない。彼の願いは「ジャムを塗ったパンに飽きる」ような、ささやかな日常そのものである。ヒーロー的動機を欠いた欲望の少年が、視聴者が知る「立派な主人公像」の約束事を前提に、それを裏切ることで意味を生む。本データの2020s脱構築シェア最高（35.3%）を内側から説明する一作。</p>
+<blockquote class="quote">普通の暮らしをして、普通の死に方をしてほしい。俺の夢を叶えてくれ。<span class="qby">— デンジ／『チェンソーマン』（原作・藤本タツキ／TVアニメ2022）。英雄ではなく平凡な生活を渇望する主人公の本心。</span></blockquote>
+<h3>④ 王道への意識的な回帰——優しさを核にする主人公（2019年）</h3>
+<p>脱構築が最高潮の2020sは、同時に「王道回帰」も最も意識的な年代だった。竈門炭治郎は、優しさと努力と家族愛を核に据えた令和の王道主人公として受容される。満身創痍でなお歯を食いしばるこの台詞は、自分を「長男」という役割に結びつけて耐える、等身大で勤勉な主人公像の再評価を象徴する。ただし後述の通り、この「明るさ」は時代精神の自然な発露ではなく編集的に設計された回帰でもある。</p>
+<blockquote class="quote">俺は長男だから我慢できたけど、次男だったら我慢できなかった。<span class="qby">— 竈門炭治郎／TVアニメ『鬼滅の刃』（2019）。骨折を負いながら鬼と戦う場面で自らを鼓舞する台詞。</span></blockquote>
+</div>
 <h2>1. 主類型シェアの変遷 ―「熱血→等身大」は単線、「無気力／チート」は枝</h2>
 <div class="grid">
-<div class="card"><h3>主類型の分布（全135作）</h3><canvas id="cDist"></canvas></div>
-<div class="card"><h3>主類型シェア × 年代（100%積み上げ）</h3><canvas id="cStack"></canvas></div>
+<div class="card"><h3>主類型の分布（全135作）</h3><div class="cbox"><canvas id="cDist"></canvas></div></div>
+<div class="card"><h3>主類型シェア × 年代（100%積み上げ）</h3><div class="cbox"><canvas id="cStack"></canvas></div></div>
 </div>
-<div class="card"><h3>4類型の追跡: 熱血漢／等身大／無気力／チート × 年代</h3><canvas id="cArc"></canvas>
+<div class="card"><h3>4類型の追跡: 熱血漢／等身大／無気力／チート × 年代</h3><div class="cbox"><canvas id="cArc"></canvas></div>
 <p class="sub">熱血漢は1970s 50%で頂点→2020s 6%へ崩落。等身大は1980sで40%へ段差ジャンプし最大派に定着。無気力は1995年(エヴァ)以降の少数派通奏低音。チートは1990sにゼロ→2010s-20s再来。</p></div>
 
 <h2>2. 熱量の冷却と投影度の上昇</h2>
 <div class="grid">
-<div class="card"><h3>熱量指数・投影度指数 × 年代</h3><canvas id="cIdx"></canvas>
+<div class="card"><h3>熱量指数・投影度指数 × 年代</h3><div class="cbox"><canvas id="cIdx"></canvas></div>
 <p class="sub">熱量は1970s 0.936で頂点→以後冷却し2000s以降0.6台。投影度(凡人スタート率)は2010s 0.703でピーク。</p></div>
-<div class="card"><h3>力の源: チート付与 vs 努力・成長 × 年代</h3><canvas id="cAgency"></canvas>
+<div class="card"><h3>力の源: チート付与 vs 努力・成長 × 年代</h3><div class="cbox"><canvas id="cAgency"></canvas></div>
 <p class="sub">「与えられる力」はU字(1970s 37.5%→2000s 9%→2020s 29.4%)。スーパーロボット→修行主義→なろうの振り子。</p></div>
 </div>
 
 <h2>3. 変遷上の位置（本視点の核）</h2>
-<div class="card"><h3>historical_role × 年代（100%積み上げ）</h3><canvas id="cRole"></canvas>
+<div class="card"><h3>historical_role × 年代（100%積み上げ）</h3><div class="cbox"><canvas id="cRole"></canvas></div>
 <p class="sub">先取り・創始は創成期(1960s-70s)に集中→逓減。脱構築は1980s(Zガンダム/AKIRA)に出現し2020s 35.3%で最高。回帰は1990s以降の常設項。2020sは「脱構築と王道回帰の同居」が最も自己言及的。</p></div>
 
 <h2>4. 対象層クロス（最も鋭い軸）</h2>
-<div class="card"><h3>熱量指数・投影度指数 × 対象層</h3><canvas id="cDemo"></canvas>
+<div class="card"><h3>熱量指数・投影度指数 × 対象層</h3><div class="cbox"><canvas id="cDemo"></canvas></div>
 <p class="sub">少年=熱血の岩盤(熱量0.808/熱血漢50%)、青年=最も醒めて最も凡人(熱量0.550/投影度0.677)、少女・一般=等身大の主役。「醒めた主人公」は青年向けの産物。</p></div>
 
-<h2>5. 考察ダイジェスト</h2>
-<div class="card">
-<p><b>(1) aspectsの単線系列は"修正"される。</b> 「熱血→等身大」だけは堅牢な単線（転換点＝1979年アムロ＝脱英雄・等身大の先取り、1995年シンジ＝無気力の極点）。だが「無気力」「チート」は等身大の<b>後の相ではなく、等身大の地盤上に生えた別々の枝</b>。2020sは熱血(6)・等身大(41)・無気力(6)・チート(12)・脱構築(35)が<b>同時並存</b>＝主人公像史は玉突き交代でなく多層化。</p>
-<p><b>(2) 冷却と投影は同じ地殻変動の表裏。</b> 成長神話の終焉(バブル崩壊/氷河期)＋青年層の顧客化(ヤマト/ガンダム以後)＋深夜・配信化で、主人公は「世界を熱く変える英雄」から「冴えない自分でも肯定される器」へ。ゼロ年代＝醒めた傍観者(キョン/折木)の時代＝熱量指数0.602で最低。</p>
-<p><b>(3) チートU字の正当化様式の反転。</b> 同じ「与えられる力」でも1970sスーパーロボット＝公的・使命的（世界を守る）／2010s-20sなろうチート＝私的・代償的（劣等感の埋め合わせ）。「与えられる→勝ち取る→再び与えられる」は力の増減でなく正当化文法の振動。</p>
-<p><b>(4) 成熟＝脱構築と回帰の両輪。</b> 主人公像の語彙が出尽くした成熟市場では、新しさは「ゼロから創る(先取り)」でなく「裏返す(脱構築)／磨き直す(回帰)」でしか得られない。2020sの脱構築35%(チェンソーマン/水星/フリーレン)と回帰12%(鬼滅/呪術/ヒロアカ)の同居がその証。</p>
+<h2 class="h2-essay">5. 考察</h2>
+<div class="essay">
+<p class="thesis">主人公像の60年は、依頼の「熱血→等身大→無気力→チート」という単線の発展系列ではなく、二段構造だった。第一段は熱血から等身大への基調交代——これは堅牢な単線で、転換点は1979年のアムロである。第二段は、等身大という地盤の上で無気力・チート・脱構築が層をなして共存する多モード化——こちらは玉突き交代でなく多層化である。熱量は冷却し、投影度は2010sでピークに達し、力の源は「与えられる→勝ち取る→再び与えられる」と振動する。</p>
+
+<h3>「無気力」と「チート」は次の相ではなく、等身大に生えた別々の枝</h3>
+<p>第一の転換――熱血漢の退潮と等身大・凡人の台頭――は単線で堅牢である。熱血漢シェアは1970s 50%から2020s 6%へ崩落し、等身大は1980sで40%へ段差ジャンプして最大派に定着した。ピクシブ百科事典が「1990年代後半までは熱血が圧倒的→2000年代以降は少数派」と述べるのと数値が完全に一致する。だが「無気力」と「チート」は等身大の後に来る次の相ではない。無気力・厭世は1995年のエヴァに初出現して2010sで9.4%まで育つが、一度も多数派にならない通奏低音である。チートは1970s（与えられる巨大ロボ）→1990sにゼロへ消滅→2010s-20sに再来というU字を描き、系列の最後どころか最古の項でもある。2020sを見れば熱血(6%)・等身大(41%)・無気力(6%)・チート(12%)・脱構築(35%)が同時併存しており、主人公像史は一つの像が次の像に置き換わる玉突きでなく、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">テーマが多極化した物語主題</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/007_genre_composition/">ジャンルが名乗りから掛け合わせへ移った構成</a>と同型の「収束→拡散」運動を見せる。</p>
+
+<h3>熱量の冷却と投影度の上昇は、同じ地殻変動の表裏</h3>
+<p>熱量指数の頂点が1970s（0.936）にあるのは、スーパーロボットとスポ根という二大熱血ジャンルの全盛だったからだ。冷却の決定的転換点は1979年のアムロ＝熱く叫ぶ英雄でなく嫌々戦う内向的な少年であり、決定打は1995年のシンジ＝熱量0の無気力少年である。背景には三層の時代要因がある。産業構造の面では、お茶の間の児童に向けたわかりやすい熱血から、ヤマト／ガンダム以後の青年顧客化（本データで青年向け熱量指数0.55が全層最低＝醒めた主人公は青年向けの産物）へ。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/017_target_audience/">誰に作り誰が観たかという受容構造のズレ</a>の延長にある。経済・社会気分の面では、高度成長の楽観が支えた「努力すれば報われる熱血」が、バブル崩壊と氷河期で「いくら叫んでも世界は変わらない」醒めた感覚に置き換わった。そしてメディア環境の面では、深夜・配信化とコア層の専有が大声を不要にした。投影度指数が2010sで0.703まで上がるのは、なろう系の凡人転生と日常系の空気主人公が同時に厚くなったためで、なろう作者自身が「主人公は読者が自己投影するための無個性な器」と分析する。成長神話が終わった社会で、主人公は「世界を熱く変える英雄」をやめ「冴えない自分でも肯定される器」になった。ゼロ年代＝醒めた傍観者（キョン／折木）の時代＝熱量指数0.602で最低、は偶然ではない。</p>
+
+<h3>チートU字——「与えられる力」の二度目の春と、正当化様式の反転</h3>
+<p>付与・チートのU字（1970s 37.5%→2000s 9%→2020s 29.4%）が本視点の最も興味深い振動だ。重要なのは、同じ「与えられる力」でも1970sと2020sでは正当化の文法が正反対だということである。1970sのスーパーロボットは「巨大な力を与えられ、外敵から世界を守る」公的・使命的な力だった。対して2010s-20sのなろうチートは「冴えない個人が異世界で与えられ、承認と快適を得る」私的・代償的な力である。前者は世界に向かい、後者は自分の劣等感の埋め合わせに向かう。「与えられる力→修行で勝ち取る力（1980s-2000s努力主義）→再び与えられる力（なろう）」という振り子は、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/030_overpowered_protagonist/">最強化が連続でなく二峰で振動した力の正当化</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/025_narou_template_influence/">なろうテンプレが部品化したチート</a>と整合する。この回帰をめぐっては、批評が見る「特別になれない若者の心理」（社会反映説）と、なろう作者が挙げる「ランキングと読者層への最適化」（プラットフォーム説）が対立するが、両説は排他的でなく、心理的需要をプラットフォームが効率的に汲み上げたと見るのが穏当で、どちらの単独因果も相関≠因果として留保すべきだ。</p>
+
+<h3>「変遷上の位置」が語る成熟——創成から脱構築・回帰の自己言及化へ</h3>
+<p>historical_role の年代構成は主人公像史そのものの成熟段階を映す。1960s-70sは「先取り・創始」が過半――白紙の時代だから、アトムもアムロもナウシカも悟空も何かの「最初」になれた。1990s以降は「典型」が大半を占めつつ、「脱構築」と「回帰」が両輪として常設される。これは語彙が出尽くした成熟市場では、新しさが「ゼロから創る」のでなく「既存の像を裏返す／磨き直す」形でしか得られなくなることを示す。2020sの脱構築シェア35.3%は60年で最高だ。チェンソーマンのデンジ、水星の魔女のスレッタ、無職転生のルーデウス、フリーレンは、いずれも視聴者が知る主人公像の約束事を前提に、それを裏切って意味を生む。同時に「回帰・再評価」も2020sで11.8%と健在で、鬼滅の炭治郎・呪術の虎杖・ヒロアカの出久が「優しさ＋努力＋友情」の王道を再評価する。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/022_toriyama_influence/">少年本流で大衆化した熱血の系譜</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/009_violence_morality/">善悪が灰色化した道徳の大潮流</a>の主人公像版であり、無気力・脱構築の系譜は<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/023_anno_eva_influence/">庵野＝青年辺境の内省</a>からエヴァ→令和まで一本につながる。脱構築と回帰は対立でなく、どちらも「主人公像の歴史を知っている」成熟の二つの現れ方なのだ。</p>
+
+<h3>反証・留保——時代精神への単純還元を戒める</h3>
+<p>選定バイアスゆえ「先取り・脱構築」は過剰代表され、量的多数の凡庸な典型作は欠ける。historical_role の絶対比率は信頼せず相対変化のみ読むべきだ。「無気力」「脱構築」は受容言説に依存し、古い年代ほど確度が低い――シンジを「無気力」と読むのも一解釈で、内に強さを持つとする反読みもある。2020sは正典化が未完で、後年「先取り」と評される作が今は「典型」に見えている可能性もある。そして最大の留保は、2020sの王道回帰が時代精神の自然な現れでなく、編集的・市場的に設計された回帰でもあることだ（後述の炭治郎の「明るさ」をめぐる論争を参照）。本分析は「単線でなく多層」を強調したが、熱血→等身大の第1転換だけは堅牢な単線であり、多層化はあくまで第2世代以降に妥当する。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/006_ending_tone/">カタルシスが戦闘の勝利から喪失の受容へ移った結末史</a>と接続すれば、フリーレンの「最強を達成した後の余生」が脱構築でも回帰でもある両義性も見えてくる。</p>
 </div>
 
-<h2>6. 他者の論評（引用カード）</h2>
-<div class="card">
-<div class="q"><span class="tag pro">一致</span>「ジャンプ黄金期含め1990年代後半までは熱血タイプが圧倒的に多かったが、2000年代以降は逆に少ないタイプに」<span class="src">ピクシブ百科事典「熱血主人公」 — 本データ(熱血漢2000s 9%)と完全一致 <a href="https://dic.pixiv.net/a/%E7%86%B1%E8%A1%80%E4%B8%BB%E4%BA%BA%E5%85%AC">dic.pixiv.net</a></span></div>
-<div class="q"><span class="tag pro">一致</span>「アムロは成長して新しいものを発見するが、TV版エヴァのシンジは大混乱の中でさえ新しいものを発見できない」＝等身大化と"英雄的成長の不能"<span class="src">Number5「TV版エヴァと機動戦士ガンダムの共通点」 — アムロ=等身大・先取り／シンジ=無気力・脱構築のコードと対応 <a href="https://www.number5.site/evangelion-and-gundam/">number5.site</a></span></div>
-<div class="q"><span class="tag pro">一致</span>「主人公は読者が自己投影するための器として意図的に無個性化されている／"特別ではない自分には価値がない"と感じる読者の願望充足」<span class="src">なろう作者・評者の当事者分析 — 投影度2010sピークを内側から説明 <a href="https://ncode.syosetu.com/n4544gv/">ncode.syosetu.com</a> / <a href="https://kakuyomu.jp/works/16818023212806244337/episodes/16818023212879168006">kakuyomu(もちあんこ)</a></span></div>
-<div class="q con"><span class="tag con">相違</span>最強主人公ランキング系は「熱血→最強チートへの移行」を単線で語りがち。だが本データは鬼滅/呪術/ヒロアカの熱血回帰(2020s 回帰12%)との並存を示し<b>単線移行説を部分否定</b>。<span class="src"><a href="https://animestore.docomo.ne.jp/animestore/CP/CP00002127">dアニメ</a> / <a href="https://www.animatetimes.com/news/details.php?id=1517467132">アニメイトタイムズ</a></span></div>
-<div class="q con"><span class="tag con">留保(両論)</span>「炭治郎=令和の王道回帰」評(animentalism)に対し、REALSOUNDは「炭治郎は単純な王道ではない／原作者は当初"暗い静かなヒーロー"を構想、編集が"明るい主人公"へ変更を要請」と指摘。<b>令和の王道回帰は時代精神の自然な現れでなく編集的・市場的に設計された回帰でもある</b>＝時代精神への機械的還元への決定的留保。<span class="src"><a href="https://animentalism.com/kimetsu-tanjiro-seikaku/">animentalism</a> / <a href="https://realsound.jp/book/2021/09/post-856975.html">REALSOUND(王道ではない論)</a></span></div>
-<div class="q"><span class="tag pro">系譜論</span>「なろうの世界構造はセカイ系に似る／2010sなろうはゼロ年代に放棄された90s的トレンドの継承」＝無気力・凡人・投影の三点セットが90s→2010sに伏流。<span class="src"><a href="https://sz9.hatenadiary.org/entry/20100718/1279419848">感情レヴュー(逆セカイ系)</a> / <a href="https://scifire.org/2018/10/10/4634/">Sci-Fire(異セカイ系)</a> / <a href="https://realsound.jp/movie/2023/05/post-1336676.html">REALSOUND(スレッタ→シンジ)</a></span></div>
+<h2 class="h2-essay">6. 他者の論評との対話</h2>
+<p class="mut">熱血の退潮を素直に認める論、アムロとシンジを系譜でつなぐ論、最強チートへの一直線の移行を語る論、令和の王道回帰を時代精神と見るか編集の産物と見るか――立場は割れるが、いずれも本データの「熱血漢2000s 9%／投影度2010sピーク／脱構築2020s 35.3%」という構造を別々の角度から照らす。</p>
+<div class="views">
+<div class="view">
+<p class="who"><span class="wl">事典</span><b>ピクシブ百科事典「熱血主人公」</b></p>
+<div class="vt">熱血は1990年代後半まで圧倒的、2000年代以降は逆に少数派へ <span class="stance sup">一致</span></div>
+<p>項目は「ジャンプ黄金期を含め1990年代後半までは熱血タイプが圧倒的に多かったが、2000年代以降は逆に少ないタイプになった」と整理する。主人公像の基調が熱血から離れたという通念を、最も流通した形で言語化している。</p>
+<div class="match"><b>データとの照合：</b>本データの<b>熱血漢シェア1970s 50%→2000s 9%→2020s 6%</b>の崩落と完全に一致。第一の転換（熱血→等身大）が堅牢な単線であることの傍証になる。</div>
+<div class="src">ピクシブ百科事典 <a href="https://dic.pixiv.net/a/%E7%86%B1%E8%A1%80%E4%B8%BB%E4%BA%BA%E5%85%AC">dic.pixiv.net/a/熱血主人公</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>Number5「TV版エヴァと機動戦士ガンダムの共通点」</b></p>
+<div class="vt">アムロは「操作」して英雄的資質を見せ、シンジは「融合」してより深い心理的抵抗に沈む <span class="stance sup">一致</span></div>
+<p>同記事はアムロがマニュアルに従いガンダムを操作するのに対し、シンジはシンクロ率を上げて初号機と融合する点を対比し、両者とも「物語の主人公だが世界の主人公ではない（世界の帰趨は彼らの行動だけで決まらない）」点で構造的に似るとする。脱英雄化の二段階を内側から記述している。</p>
+<div class="match"><b>データとの照合：</b>本データの<b>アムロ＝等身大・先取り／シンジ＝無気力・脱構築</b>というコードと正確に対応。熱量冷却の二つの底（1979／1995）が同一の系譜上にあることを裏づける。</div>
+<div class="src">Number5 <a href="https://www.number5.site/evangelion-and-gundam/">number5.site/evangelion-and-gundam</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>リアルサウンド「竈門炭治郎は王道の主人公ではない？」</b></p>
+<div class="vt">炭治郎の「明るさ」は時代精神でなく編集的に設計された回帰でもある <span class="stance cau">留保（両論）</span></div>
+<p>記事は、作者・吾峠呼世晴が当初は寡黙で暗い主人公を構想していたが、連載会議で「主人公の無口さ」が難点とされ、初代編集長の提案で『HUNTER×HUNTER』のゴンを範に「普通の人物を中心に異常な特性のキャラを配する」設計へ転換、炭治郎は「明るく等身大のキャラクター」に変更された、という制作経緯を伝える。</p>
+<div class="match"><b>データとの照合：</b>本分析が「回帰・再評価」とコードした2020sの王道主人公は、時代の自然な発露でなく<b>市場的・編集的に設計された回帰</b>でもありうる。主人公像を時代精神へ機械的に還元する読みは、この制作現場の介在によって相対化されねばならない。</div>
+<div class="src">リアルサウンド <a href="https://realsound.jp/book/2021/09/post-856975.html">realsound.jp/book/2021/09/post-856975</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">通念</span><b>最強主人公ランキング系言説（dアニメストア／アニメイトタイムズ ほか）</b></p>
+<div class="vt">「熱血から最強・チートへの移行」を単線で語りがち <span class="stance cau">相違</span></div>
+<p>最強主人公・チート主人公の隆盛を紹介するランキング記事群は、主人公像の変化を「熱血→最強チート」への一方向の移行として描く傾向が強い。なろう・異世界の量的拡大がこの語り口を後押ししている。</p>
+<div class="match"><b>データとの照合：</b>本データは、2020sに最強・チート(12%)と並んで<b>王道回帰(11.8%・鬼滅／呪術／ヒロアカ)が健在で、脱構築(35.3%)が最大派</b>であることを示す。「単線移行」説は部分的に否定され、実態は複数モードの併存である。</div>
+<div class="src">dアニメストア <a href="https://animestore.docomo.ne.jp/animestore/CP/CP00002127">animestore.docomo.ne.jp</a> ／ アニメイトタイムズ <a href="https://www.animatetimes.com/news/details.php?id=1517467132">animatetimes.com</a></div>
+</div>
 </div>
 
 <h2>7. 全作品テーブル</h2>
@@ -121,13 +211,12 @@ const PAY={"stats": {"N": 135, "decade_counts": {"1960": 13, "1970": 16, "1980":
 const decs=Object.keys(S.decade_counts).map(Number).sort((a,b)=>a-b);
 const decL=decs.map(d=>d+"s");
 const COL={ac:'#ff6b6b',ac2:'#4ecdc4',ac3:'#ffd166',ac4:'#a78bfa',g:'#7fe3c8',o:'#ff9a8b',b:'#6ea8fe',p:'#d88bf0',gr:'#9aa0b5'};
-Chart.defaults.color='#9aa0b5';Chart.defaults.font.family='sans-serif';
+Chart.defaults.color='#5c564b';Chart.defaults.font.family='sans-serif';
 function dvals(obj){return decs.map(d=>obj[d]??null);}
 // 1 donut
 const dist=S.image_type_dist;
-new Chart(cDist,{type:'doughnut',data:{labels:Object.keys(dist),datasets:[{data:Object.values(dist),
-backgroundColor:[COL.ac,COL.ac2,COL.ac3,COL.ac4,COL.g,COL.o,COL.b,COL.p,COL.gr,'#5a6']}]},
-options:{plugins:{legend:{position:'right',labels:{font:{size:10}}}}}});
+const PAL=["#5cc8ff","#ffd166","#7ef0a2","#ff8fb1","#b79cff","#ff8c66","#6ea8fe","#c0ca33","#9aa7b5"];
+(function(){var dd=dist;var keys=(null||Object.keys(dd)).filter(function(k){return dd[k];});keys.sort(function(a,b){return dd[b]-dd[a];});var tot=keys.reduce(function(a,k){return a+dd[k];},0);new Chart(cDist,{type:'bar',data:{labels:keys.map(function(k){return (window.__LM&&window.__LM[k])||k;}),datasets:[{data:keys.map(function(k){return dd[k];}),backgroundColor:keys.map(function(k,i){return PAL[i%PAL.length];}),borderRadius:3,maxBarThickness:28}]},options:{indexAxis:'y',layout:{padding:{right:62}},plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',clamp:true,color:'#5b554a',font:{size:11,weight:'700'},formatter:function(v){return v+'（'+Math.round(100*v/tot)+'%）';}}},scales:{x:{beginAtZero:true,grace:'15%',ticks:{precision:0}},y:{ticks:{font:{size:12}}}}},plugins:[ChartDataLabels]});})();
 // 2 stacked image_type by decade
 const IMG=Object.keys(dist);
 const imgcol={'熱血漢':COL.ac,'等身大・凡人':COL.ac2,'巻き込まれ型':COL.b,'無気力・厭世':COL.gr,'クール・達観':COL.ac4,'最強・チート':COL.ac3,'カリスマ・信念家':COL.o,'内省・繊細':COL.p,'天才・知略':COL.g,'非人間・特殊':'#5a6e8a'};

@@ -1,39 +1,70 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>続編・シリーズ展開 — アニメ視点別分析 #050</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1115;--card:#181b22;--ink:#e8eaf0;--sub:#9aa3b2;--acc:#5b8def;--acc2:#e07b53;--good:#4fb286;--line:#2a2f3a;}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;line-height:1.7}
-.wrap{max-width:1080px;margin:0 auto;padding:28px 18px 80px}
-h1{font-size:25px;margin:.2em 0}
-h2{font-size:20px;margin:1.8em 0 .6em;border-left:5px solid var(--acc);padding-left:.5em}
-h3{font-size:16px;color:var(--acc);margin:1.3em 0 .4em}
-.sub{color:var(--sub);font-size:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}}
-canvas{max-width:100%}
-table{border-collapse:collapse;width:100%;font-size:13px;margin:.3em 0}
-th,td{border:1px solid var(--line);padding:5px 7px;text-align:center}
-th{background:#20242e;color:var(--sub)}
-td.l,th.l{text-align:left}
-.kpi{display:flex;flex-wrap:wrap;gap:12px;margin:10px 0}
-.kpi .b{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px}
-.kpi .n{font-size:24px;font-weight:700;color:var(--acc)}
-.kpi .n2{color:var(--acc2)}
-.kpi .t{font-size:12px;color:var(--sub)}
-p{margin:.5em 0}
-.quote{background:#1d2733;border-left:4px solid var(--acc);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:14px}
-.quote .src{display:block;color:var(--sub);font-size:12px;margin-top:6px}
-.quote.crit{background:#2b2320;border-left-color:var(--acc2)}
-a{color:var(--acc)}
-.warn{background:#2b2620;border:1px solid #5a4a2a;border-radius:8px;padding:12px 14px;font-size:14px}
-.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:10px;background:#20242e;color:var(--sub);margin-right:4px}
-ul{margin:.4em 0 .4em 1.1em;padding:0}li{margin:.25em 0}
-.ctrl{margin:.4em 0}.ctrl input,.ctrl select{background:#11141a;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:4px 8px}
-</style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/050_sequel_series_expansion/">
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
+</style><style id="varfix">:root{--acc:#3b7ea1;--acc2:#c98a1a;--good:#2f8f5b;--sub:#8c8475;}</style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/050_sequel_series_expansion/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="日本アニメ 変遷データベース">
@@ -49,53 +80,114 @@ ul{margin:.4em 0 .4em 1.1em;padding:0}li{margin:.25em 0}
 
 <div class="warn">⚠ <b>方法論上の最重要注記</b>：展開規模・派生・リメイク率は<b>累積量＝右側打ち切り指標</b>。古い年代は「フランチャイズ化した生存者」に標本が偏り、2020s作品は続編を生む時間がまだ無い。よって<b>これら絶対値の年代比較は不可信</b>。信頼できるのは公開時に確定する<b>「終わり方」</b>のみ——本分析はそこを軸に据える。</div>
 
-<div class="kpi">
-<div class="b"><div class="n">0.00→0.71</div><div class="t">含み/続編前提で終わる率（1960s→2020s・単調上昇・打ち切りに強い唯一の信頼指標）</div></div>
-<div class="b"><div class="n n2">86.4%</div><div class="t">何らかの続き物（standalone以外）が標本に占める比率</div></div>
-<div class="b"><div class="n">少年0.85</div><div class="t">少年向けの長期+メガ率（最大のフランチャイズ・エンジン）</div></div>
-<div class="b"><div class="n n2">劇場100%</div><div class="t">劇場(movie)作品の単発率＝反フランチャイズの牙城</div></div>
+<div class="kpis">
+<div class="kpi"><b>0.00→0.71</b><span>含み/続編前提で終わる率（1960s→2020s・打ち切りに強い唯一の信頼指標）</span></div>
+<div class="kpi"><b>86.4%</b><span>何らかの続き物（standalone以外）が標本に占める比率</span></div>
+<div class="kpi"><b>少年0.85</b><span>少年向けの長期+メガ率＝最大のフランチャイズ・エンジン</span></div>
+<div class="kpi"><b>劇場100%</b><span>劇場(movie)作品の単発率＝反フランチャイズの牙城</span></div>
+</div>
+
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">アニメの「続編」で本当に変わったのは、続編が「増えたか減ったか」ではない。変わったのは「終わり方」だ。作品は自己完結する一番組から、最初から「続くこと」を前提に未完を内蔵した物語へと、語りの形そのものを変えた。</p>
+<ul class="tldr-list">
+<li><b>「フランチャイズが減った」は測定の錯覚</b>：展開規模・メガ率・リメイク率の右肩下がりは、古い年代ほど生存者に偏る選定バイアスと、2020sの続編が「まだ生まれていない」右側打ち切りの産物。</li>
+<li><b>唯一信頼できる信号は「終わり方」</b>：公開時に確定し打ち切りに強い「含み/続編前提で終わる率」が0.00→0.71へほぼ単調上昇。</li>
+<li><b>続編の「型」が反転した</b>：視聴率・玩具に支えられた連続長期放送（旧：ドラ/コナン/ワンピ）から、円盤・配信の結果を待って発注される分割マルチシーズン（新）へ。転換点は2006–09年。</li>
+<li><b>リメイク・再アニメ化は第二の安全策</b>（2010s–20s）：配信時代のカタログ需要とデジタル作画の底上げが「完結済み名作」を生やした。新作は未完で開き、旧作は完結を約束して甦る。</li>
+<li><b>対象層が両極を決める</b>：少年バトル＝無限連載エンジン（長期+メガ0.85）、一般向け＝劇場作家映画の反フランチャイズ（単発100%）。</li>
+</ul>
+</div>
+<h2 class="h2-essay">具体例——「終わり方」が語る四つの続編のかたち</h2>
+<div class="ex">
+<h3>① 永遠に開いた連載——終わらない旅を宣言する（1999年）</h3>
+<p>東映アニメーションで今も放送が続く『ONE PIECE』は、本データでmega_franchise・open_hook（含み）とコードされる「永遠に開いた連載」の極だ。物語は第1話で、ルフィが小さな船の上で叫ぶ一言とともに始まる——それは「到達点」ではなく「だから旅に出る」という宣言であり、結末を無限に先送りし続ける装置である。</p>
+<blockquote class="quote">海賊王に　おれはなる！！！！<span class="qby">— モンキー・D・ルフィ／『ONE PIECE』（原作・尾田栄一郎、コミックス1巻第1話／TVアニメ第1話、1999年）。旅立ちの宣言。</span></blockquote>
+<h3>② 「次回へ続く」を様式化する——To Be Continuedの矢印</h3>
+<p>連載性そのものを画面に可視化したのがテレビアニメ『ジョジョの奇妙な冒険』だ。原作の第3部中盤から現れた「To Be Continued」の矢印を、アニメ版は第1話から毎話の末尾に置き、最も引きのある場面で絵をセピア色に凍りつかせて矢印を走らせる。「この作品は未完の連載の一部だ」という宣言そのものが演出になり、SNSで「最も印象的なTo Be Continuedはどの場面か」が話題になるほど、連載のリズムが作品の魅力になった。<span class="small">（出典：Wikipedia「ジョジョの奇妙な冒険 (テレビアニメ)」、ピクシブ百科事典。画面表示の演出描写。）</span></p>
+<h3>③ 完結を約束して甦る——再アニメ化という安全策（2009年）</h3>
+<p>2003年版は原作未完のためオリジナル結末へ分岐した。その6年後、原作の完結を待って『鋼の錬金術師 FULLMETAL ALCHEMIST』が「原作準拠の決定版」として再アニメ化された（本データでis_remake・complete）。冒頭で繰り返されるこのナレーションは、「完結が保証された安全な物語」を描き切るリメイクの思想を象徴する。</p>
+<blockquote class="quote">人は何かの犠牲なしに何も得ることはできない。何かを得るためには、それと同等の代価が必要になる。それが錬金術における等価交換の原則だ。<span class="qby">— 『鋼の錬金術師』冒頭ナレーション（原作・荒川弘／TVアニメ、特に2009年版 FULLMETAL ALCHEMIST）。作品を貫く主題。</span></blockquote>
+<h3>④ 続編を拒む単発——反フランチャイズとしての劇場作家映画</h3>
+<p>フランチャイズ化が産業の重力なら、一作完結の劇場作家映画はそれに抗う反重力だ。ジブリ、新海誠、そして藤本タツキの読み切りをそのまま一本の58分の映画にした『ルックバック』（2024）は、続編も派生もリメイクも持たない「閉じた作品」であることを美学的アイデンティティとする。本データでmovie種別の単発率が100%になるのは、この「閉じることを選ぶ」作家映画の群がデータに収められているからだ。<span class="small">（場面描写。『ルックバック』は藤本タツキの読み切り漫画を原作とする単発完結の長編アニメ映画。）</span></p>
 </div>
 
 <h2>1. 終わり方の変化（核心・打ち切りに強い）</h2>
 <div class="grid">
-<div class="card"><h3>「含み/続編前提」で終わる率（年代）</h3><canvas id="cEnd"></canvas><p class="sub">0→0.71へほぼ単調。語りが「自己完結する単位」から「続くことを前提に未完で開く物語」へ。run#4シリアライゼーション/#12 1クール化と共鳴。</p></div>
-<div class="card"><h3>終わり方の全体分布</h3><canvas id="cEndDist"></canvas></div>
+<div class="card"><h3>「含み/続編前提」で終わる率（年代）</h3><div class="cbox"><canvas id="cEnd"></canvas></div><p class="sub">0→0.71へほぼ単調。語りが「自己完結する単位」から「続くことを前提に未完で開く物語」へ。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/004_story_structure/">関連分析</a>シリアライゼーション/#12 1クール化と共鳴。</p></div>
+<div class="card"><h3>終わり方の全体分布</h3><div class="cbox"><canvas id="cEndDist"></canvas></div></div>
 </div>
 
 <h2>2. 展開規模・続編の型（※絶対値は打ち切り注意）</h2>
 <div class="grid">
-<div class="card"><h3>展開規模の年代構成（100%積み上げ）</h3><canvas id="cScale"></canvas><p class="sub">2020sのメガ率低下は脱フランチャイズでなく右側打ち切り（未来未発生）。</p></div>
-<div class="card"><h3>続編の型 分布</h3><canvas id="cForm"></canvas><p class="sub">mixed/film/tv_seasonsが主。連続長期放送(旧)→分割マルチシーズン(新)へ。</p></div>
+<div class="card"><h3>展開規模の年代構成（100%積み上げ）</h3><div class="cbox"><canvas id="cScale"></canvas></div><p class="sub">2020sのメガ率低下は脱フランチャイズでなく右側打ち切り（未来未発生）。</p></div>
+<div class="card"><h3>続編の型 分布</h3><div class="cbox"><canvas id="cForm"></canvas></div><p class="sub">mixed/film/tv_seasonsが主。連続長期放送(旧)→分割マルチシーズン(新)へ。</p></div>
 </div>
 <div class="grid">
-<div class="card"><h3>派生・リメイク関与率（年代）</h3><canvas id="cSpinRe"></canvas><p class="sub">右下がりは累積指標の打ち切り。だが<b>本作が再アニメ化(is_remake)</b>はFA09/セラムンCrystal14/銀英伝18/うる星22/るろ剣23と2010s–20sに集中＝リメイクは近年の新戦略。</p></div>
-<div class="card"><h3>対象層別 展開規模指数・長期+メガ率</h3><canvas id="cDemo"></canvas><p class="sub">少年・児童がエンジン、一般(劇場作家映画)が反フランチャイズ。</p></div>
+<div class="card"><h3>派生・リメイク関与率（年代）</h3><div class="cbox"><canvas id="cSpinRe"></canvas></div><p class="sub">右下がりは累積指標の打ち切り。だが<b>本作が再アニメ化(is_remake)</b>はFA09/セラムンCrystal14/銀英伝18/うる星22/るろ剣23と2010s–20sに集中＝リメイクは近年の新戦略。</p></div>
+<div class="card"><h3>対象層別 展開規模指数・長期+メガ率</h3><div class="cbox"><canvas id="cDemo"></canvas></div><p class="sub">少年・児童がエンジン、一般(劇場作家映画)が反フランチャイズ。</p></div>
 </div>
 
-<h2>3. 考察（要旨）</h2>
-<div class="card">
-<h3>① 「フランチャイズが減った」は測定の錯覚</h3>
-<p>展開規模指数0.768→0.451、メガ率0.40→0.06は右肩下がりに見えるが、<b>生存・選定バイアス</b>（古い年代ほどフランチャイズ生存者に標本が偏る）と<b>右側打ち切り</b>（2020s作品の続編・派生はまだ発生していない）の産物。絶対値の減少を脱フランチャイズと読んではならない。run#16/#18/#21の「絶対値不可信・相対構造のみ」の続編版。</p>
-<h3>② 真の転換＝「終わり方」の前提化</h3>
-<p>公開時に確定し打ち切りに強い唯一の指標＝含み/続編前提率が0→0.71へ単調上昇。アニメは<b>自己完結する単位の集合</b>から<b>続くことを前提に未完を内蔵した物語</b>へ語りの形を変えた。1960s作は各話完結で閉じ(巨大IPの鬼太郎・アトムでさえ)、2020s作は最初から「To be continued」を埋め込む。</p>
-<h3>③ 続編の「型」の反転（転換点 2006–09）</h3>
-<p>旧体制＝視聴率・玩具に支えられた<b>連続長期放送</b>でメガ化（ドラえもん/コナン/ONE PIECE/アンパンマン＝途切れぬ放送）。新体制＝深夜1クール・製作委員会・円盤の下で、まず1クール作り<b>円盤/配信の結果を待って委員会が第2期を別案件発注</b>＝<b>不連続な分割マルチシーズン</b>（ハルヒ/けいおん/進撃/呪術）。「結果を見てから続きを作る」から物語は開いたまま終わる。</p>
-<h3>④ リメイク・再アニメ化という第二の安全策（2010s–20s）</h3>
-<p>配信時代のカタログ需要＋デジタル作画の底上げ＋「完結済み名作＝終わりが保証された安全な物語」。<b>新作は未完で開き、旧作は完結を約束して甦る</b>二極の安全策。</p>
-<h3>⑤ 対象層の両極</h3>
-<p>少年バトル＝無限連載エンジン（指数0.745/長期+メガ0.846/派生0.442、原作継続→続編→スピンオフ NARUTO→BORUTO・禁書→超電磁砲）。対極に一般向け劇場作家映画＝反フランチャイズ（指数0.209・単発100%、ジブリ/新海/ルックバック）。齊藤「オリジナルの火を絶やすな」はこの少数派性への危機感。</p>
-<p class="sub">反証・留保：completeは続編無しを意味しない／megaは連続放送型と分割型を混在／標本は著名作偏重でフランチャイズ過剰代表。詳細は analysis.md §3.7。</p>
+<h2 class="h2-essay">3. 考察</h2>
+<div class="essay">
+<p class="thesis">本視点の確かな発見は「続編が増えた／減った」ではない。展開規模やリメイク率の右肩下がりは、古い年代ほどフランチャイズ生存者に標本が偏る選定バイアスと、2020s作品が続編を生む時間をまだ持たない右側打ち切りの産物であり、絶対値は信用できない。打ち切りに強い唯一の信号——公開時に確定する「終わり方」——だけが真の歴史を語る。含み・続編前提で終わる率は0.00（1960s）から0.71（2020s）へほぼ単調に上昇した。アニメは自己完結する単位の集合から、続くことを前提に未完を内蔵した物語へと、語りの形そのものを変えたのである。</p>
+
+<h3>「フランチャイズが減った」は測定の錯覚である</h3>
+<p>展開規模指数（0.768→0.451）、メガ率（0.40→0.06）、リメイク関与率（0.90→0.06）はいずれも右肩下がりに見える。だがこれを「2020年代にアニメが続編離れした」と読むのは二重の錯覚だ。第一に<b>生存・選定バイアス</b>——私たちが1960年代作として想起・選定する作品（アトム、鉄人28号、鬼太郎、サイボーグ009）は、まさにそれが巨大IPになり何度も再アニメ化されたから今日まで名が残っている。一度きりで消えた無数の単発作は標本に入らない。だから1960sの単発率0%は「当時は皆フランチャイズだった」を意味しない。第二に<b>右側打ち切り</b>——続編・派生・リメイクは公開後に時間をかけて蓄積する。2024年の『ダンジョン飯』『ダンダダン』が将来どれだけ派生を生むかは未発生で測れない。鬼滅・呪術・SPY×FAMILYの今後10年の拡張は観測窓の外にある。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">収益源の世代交代でも繰り返された「絶対値は選定バイアスで不可信」</a>という制約や、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/021_transition_positioning/">変遷上の位置づけで確認した「2020sの低さは実体でなく正典化の未完」</a>の、続編版での再来である。だから累積量指標の年代比較は不能で、相対構造のみ読む。</p>
+
+<h3>真の転換は「終わり方」の前提化——0.00から0.71への単調上昇</h3>
+<p>信頼できるのは作品が公開時点でどう終わるか、将来に依存しない指標だけだ。そこに最も明瞭な歴史がある。含み・続編前提で終わる率が0.00（1960s）→0.50（1990s）→0.71（2020s）へほぼ単調に上昇した。1960年代の作品は各話完結・サザエさん時空で「閉じて」いた——巨大IP化した鬼太郎やアトムでさえ、各シリーズは作品内で完結する。対して2020年代の作品は最初から「To be continued」を内蔵し、1クール＝原作の一区切りで意図的に開いたまま幕を引く。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/004_story_structure/">一話完結から連続物語へのシリアライゼーションの一方向シフト</a>、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/012_broadcast_format/">夕方お茶の間から深夜1クールへの放送形態の反転</a>、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/013_source_mediamix/">「アニメ＝原作の広告」化という原作・メディアミックスの大潮流</a>と完全に共鳴する。同じ地殻変動を「終わり方」という別の窓から捉え直したものだ。物語の完結性は、商業構造（1クール適応・続編の分割生産）に従って溶けていった。</p>
+
+<h3>続編の「型」が反転した——連続長期放送から分割マルチシーズンへ（転換点2006–09）</h3>
+<p>重要なのは「続き物が増えた」ことではなく、続き物の作られ方が反転したことだ。<b>旧体制（1960s–90s）</b>は連続長期放送による一体的フランチャイズ——視聴率とスポンサー／玩具収益に支えられ、ドラえもん・コナン・ONE PIECE・アンパンマンのように一本の番組が途切れず何百話も続くことでメガ化した。続編は「次のシーズン」ではなく「来週も続く放送」だった。<b>新体制（2000s–現在）</b>は分割された複数期＋劇場の不連続フランチャイズだ。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/011_production_system/">製作委員会と外注分散による制作体制</a>、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/032_disc_to_subscription/">円盤から配信への収益の器の交代</a>というクラスタの下で、作品はまず1クール作られ、円盤／配信の結果を待って委員会が第2期を別案件として発注する。だから現代の続編は「数年後の第2期」「分割2クール」「劇場版で続き」という不連続・断続的な形を取る——涼宮ハルヒ、けいおん、進撃、呪術が典型だ。語りが開いたまま終わるのは、この「結果を見てから続きを作る」分割生産様式の必然的帰結である。転換点を名指しすれば<b>2006–2009年頃</b>、深夜1クール作品の「分割マルチシーズン」常態化が最大の節目で、ここで含み率が0.50→0.60へ段差を作る。</p>
+
+<h3>リメイク・再アニメ化という第二の安全策（2010s–2020s）</h3>
+<p>remake_relation指標は右側打ち切りで「年代減少」に見えるが、本作が再アニメ化である(is_remake)作品だけを取り出すと逆の事実が現れる——鋼の錬金術師FA（2009）、セーラームーンCrystal（2014）、銀英伝 Die Neue These（2018）、うる星やつら（2022）、るろうに剣心（2023）と、リメイクは2010s–2020sに集中する。なぜ今リメイクか。配信時代のカタログ需要で過去の実績IPを現代の作画・配信で「再利用」するのが最も安全な投資であり、デジタル制作の作画底上げが旧作更新の動機を生み、原作完結済みの名作は「終わりが保証された安全な物語」として委員会に好まれる。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/015_distribution_overseas/">海外サイマル配信の離陸＝プリセールスへの時期移動</a>とも直結する。つまり<b>新作は未完で開き、旧作は完結を約束して甦る</b>、という二極の安全策である。</p>
+
+<h3>対象層が決める——少年バトルという無限連載エンジン vs 劇場作家映画という反フランチャイズ</h3>
+<p>クロス集計で最も鋭いのは対象層差だ。少年向けは展開規模0.745・長期/メガ0.846・派生0.442と全方位でフランチャイズ・エンジン——少年漫画のバトル連載構造が、原作の継続＝アニメの続編＝スピンオフ（NARUTO→BORUTO、禁書→超電磁砲）という無限連載を駆動する。児童向けも高く（玩具・毎年劇場＝ドラえもん/ポケモン/プリキュア型）、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/025_narou_template_influence/">なろうテンプレが量産した分割マルチシーズン群</a>もこの物量に連なる。対極が一般向け＝劇場作家映画（展開規模0.209・単発寄り、movie種別は単発率100%）。ジブリ、新海誠、ルックバックは続編を持たない一作完結が美学的アイデンティティだ。フランチャイズ化が産業の重力なら作家映画はそれに抗う反重力であり、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/021_transition_positioning/">劇場・辺境が最前線で革新するという変遷の構図</a>と整合する。スタジオ地図・齊藤の「オリジナルの火を絶やすな」は、この一般向け劇場の少数派性への危機感の表明である。</p>
+
+<h3>反証・留保</h3>
+<p>展開規模・派生・リメイクの絶対水準と年代減少は二重バイアスにより不可信で、相対構造のみ読むべきだ。continuation_endingの「complete」は「続編が無い」を意味しない（DEATH NOTEは完結だが2クール、60年代の各話完結作も巨大IP化した）。「終わり方」は語りの形を測るもので商業的延長とは別レイヤーである。franchise_scaleの「mega_franchise」は連続長期放送型（ドラえもん）と分割マルチシーズン型（鬼滅）という構造の異なる二様式を一括しており、単一指標としては荒い。標本は著名作中心で各年代を通じてフランチャイズを過剰代表する。</p>
 </div>
 
-<h2>4. 他者の論評との対話</h2>
-<div class="quote"><b>Marc Steinberg『Anime's Media Mix』(2012)</b>：メディアミックス＝「ほぼ無限の連載に開かれた物語世界／単一の終着点を持たない」。起源は1960年代。
-<span class="src">本データの含み率0→0.71は彼の無限連載性が<b>物語の形</b>に現れた指紋。ただし精緻化：1960sは語りとして各話完結(含み0)だったので、<b>商業的連載が先・物語的連載は30年後</b>と時間分節すべき。 <a href="https://ijoc.org/index.php/ijoc/article/download/3171/1216">ijoc.org</a> ／ <a href="http://henryjenkins.org/blog/2013/11/media-mix-is-animes-life-support-system-a-conversation-with-ian-condry-and-marc-steinberg-part-three.html">Jenkins対談</a></span></div>
-<div class="quote"><b>製作委員会・続編経済</b>：委員会が続編を決める（スタジオでなく）。円盤/配信の結果が第2期可否を文字通り決める。Netflix前払い全話発注(PLUTO)が物理依存を崩しつつある。
-<span class="src">§3③の「結果を見て分割生産＝開いて終わる」の経済的裏づけ。前払い化は様式を再び「全話完結」へ揺り戻す可能性（run#32）。 <a href="https://animetiger.com/why-anime-get-multiple-seasons/">AnimeTiger</a> ／ <a href="https://www.alibaba.com/product-insights/why-do-some-anime-get-cancelled-after-one-season-industry-realities-explained.html">産業実態</a></span></div>
-<div class="quote crit"><b>牧野太郎P／齊藤優一郎(スタジオ地図)／ScreenRant</b>：実績ある原作・フランチャイズ依存の「安全志向」がオリジナリティを殺す。「漫画原作は素晴らしいがオリジナルの火も絶やすな」。
-<span class="src">少年/長期/メガの厚みとリメイク波を支持。留保：本視点は原作vsオリジナルを直接測らず(run#13の領分)、2020s指標低下は打ち切りで「安全策からの転換」ではない。 <a href="https://tribune.com.pk/story/2582129/anime-producer-warns-japans-risk-averse-culture-is-limiting-the-future-of-the-industry">牧野(Tribune)</a> ／ <a href="https://animehunch.com/heavy-reliance-on-manga-risk-to-anime-industry/">齊藤(Animehunch)</a> ／ <a href="https://screenrant.com/anime-future-biggest-problem-japan-safe-production-corporate-profit/">ScreenRant</a></span></div>
-<div class="quote crit"><b>CBR（リメイク賛否）</b>：リメイクは作画刷新・フィラー排除で原作を強化(セラムンCrystal)する一方、「原作の空気を翻訳し損なう」ことも。
-<span class="src">本データはリメイクの<b>有無</b>のみ測定、質は留保。is_remakeが近年戦略であることのみ確証。 <a href="https://www.cbr.com/best-anime-reboots/">CBR reboots</a></span></div>
+<h2 class="h2-essay">4. 他者の論評との対話</h2>
+<p class="mut">続編・フランチャイズをめぐる論は、メディアミックス論・続編経済論・安全志向批判の三層に分かれる。いずれも本データの「終わり方の含み率0→0.71／リメイクの2010s–20s集中／一般向け劇場の単発100%」を別々の角度から照らす。</p>
+<div class="views">
+
+<div class="view">
+<p class="who"><span class="wl">研究</span><b>Marc Steinberg『Anime\'s Media Mix』（2012, University of Minnesota Press）</b></p>
+<div class="vt">メディアミックス＝「単一の終着点を持たない、ほぼ無限の連載に開かれた物語世界」。起源は1963年元日の鉄腕アトム <span class="stance sup">一致（ただし精緻化）</span></div>
+<p>スタインバーグはメディアミックスを「複数メディアを横断する物語の連載化と循環」と定義し、消費者が世界を断片ごとに体験する「終わりなき連載性」を日本アニメの本質と位置づける。その点火を1963年1月1日の鉄腕アトム放送に置く。</p>
+<div class="match"><b>データとの照合：</b>本データの<b>含み率0→0.71</b>は、彼の言う無限連載性が<b>物語の形</b>になって現れた指紋だ。ただし精緻化したい——1960年代作品は語りとして各話完結（含み率0.00）だった。1960年代の連載性は<b>商業的・キャラクター的</b>（玩具・キャラ流通）であって<b>物語的</b>ではなく、物語そのものが未完で開く連載性は1990年代以降に約30年遅れて深まった。命題は「商業連載が先、物語連載が後」と時間分節すべきである。</div>
+<div class="src">IJoC書評 <a href="https://ijoc.org/index.php/ijoc/article/download/3171/1216">ijoc.org</a> ／ Henry Jenkins対談 <a href="http://henryjenkins.org/blog/2013/11/media-mix-is-animes-life-support-system-a-conversation-with-ian-condry-and-mark-steinberg-part-one.html">henryjenkins.org</a></div>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">ジャーナリスト</span><b>数土直志「配信時代が引き起こしたリメイクアニメブーム」（アニメハック, 2024年7月）</b></p>
+<div class="vt">配信時代は「ヒットした作品」でなく「ヒットしそうな作品」を事前購入する。知名度の高いリメイクはリスクを抑える鉄板戦略 <span class="stance sup">一致</span></div>
+<p>数土は、2000年代の円盤ビジネスが「数万人のコアファンで成立する手堅さ」ゆえにオリジナル・先端表現の余地を持っていたのに対し、配信プラットフォームでは視聴回数・時間が重視され大衆性ある作品が好まれると指摘する。さらに世界同時配信のため海外権利販売が放送後から放送前のプリセールスへ移動し、事前販売の段階でリクープが終わる（＝ヒットしてもしなくても黒字）ケースが生じた。結果、確実な知名度を持つ既存IP・リメイクが選ばれやすくなる。</p>
+<div class="match"><b>データとの照合：</b>「結果を見てから続きを作る」分割生産（§続編の型）と「完結名作を甦らせる」リメイク集中（§第二の安全策）の<b>経済的裏づけそのもの</b>。is_remakeの2010s–20s集中（FA/セラムンCrystal/うる星やつら）と、続編が円盤・配信の結果待ちで開いたまま終わる構造を、同一の「配信＝事前評価」ロジックで説明する。</div>
+<div class="src">アニメハック <a href="https://anime.eiga.com/news/column/sudo_business/121770/">anime.eiga.com/news/column/sudo_business/121770</a></div>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>CBR「The Anime Reboots Trend Is a Bad Sign for the Industry」</b></p>
+<div class="vt">リメイク・リボートの増加は業界の不調のサイン。旧作は新作よりリスクが低く、ノスタルジアが固定ファンの視聴を保証する <span class="stance cau">留保（質は別問題）</span></div>
+<p>CBRは、リメイクが近年着実に増えているのは、知名度ある旧作が新規オリジナルよりも制作リスクが低くノスタルジアで固定客が見込めるからだと分析し、これを産業の安全志向の兆候として警戒する。一方で成功例の裏に「原作の本質を捉え損ねた失望作」も多いとする。</p>
+<div class="match"><b>データとの照合：</b>本データはリメイクの<b>有無</b>のみ測定し、<b>質</b>は測らない。is_remakeが近年の戦略であることは確証できるが、良し悪しは留保。また2020sのフランチャイズ指標「低下」は右側打ち切りであって「安全策からの転換」ではない点に注意が要る。</div>
+<div class="src">CBR <a href="https://www.cbr.com/anime-reboots-industry-trend-warning/">cbr.com/anime-reboots-industry-trend-warning</a> ／ 関連 <a href="https://www.cbr.com/best-anime-reboots/">cbr.com/best-anime-reboots</a></div>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">制作者</span><b>牧野太郎（プロデューサー）／齊藤優一郎（スタジオ地図）ほか</b></p>
+<div class="vt">実績ある原作・フランチャイズへの依存＝「安全志向」がオリジナリティを殺す。「漫画原作は素晴らしいが、オリジナルの火も絶やすな」 <span class="stance cau">部分一致＋留保</span></div>
+<p>業界内からは、リスク回避的な文化が日本アニメの将来を狭めるという危機感が表明されてきた。確実なIPに資本が集中することで、新規オリジナル企画が育ちにくくなるという指摘である。</p>
+<div class="match"><b>データとの照合：</b>少年/長期/メガの厚みとリメイク波、そして一般向け劇場作家映画の少数派性（単発100%・展開規模0.209）を支持する。ただし本視点は「原作 vs オリジナル」を直接測っておらず（それは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/013_source_mediamix/">原作・メディアミックスの領分</a>）、2020sのフランチャイズ指標低下を「安全策からの転換」と数値で過剰に裏づけてはならない。</div>
+<div class="src">牧野（Tribune） <a href="https://tribune.com.pk/story/2582129/anime-producer-warns-japans-risk-averse-culture-is-limiting-the-future-of-the-industry">tribune.com.pk</a> ／ 齊藤（Animehunch） <a href="https://animehunch.com/heavy-reliance-on-manga-risk-to-anime-industry/">animehunch.com</a> ／ ScreenRant <a href="https://screenrant.com/anime-future-biggest-problem-japan-safe-production-corporate-profit/">screenrant.com</a></div>
+</div>
+
+</div>
 
 <h2>5. 作品一覧（フィルタ可）</h2>
 <div class="card">
@@ -104,7 +196,7 @@ ul{margin:.4em 0 .4em 1.1em;padding:0}li{margin:.25em 0}
  終わり方:<select id="fEnd"><option value="">全</option><option>complete</option><option>open_hook</option><option>sequel_premise</option></select>
  検索:<input id="fQ" placeholder="作品名">
 </div>
-<div style="overflow:auto;max-height:440px"><table id="tbl"><thead><tr><th class="l">作品</th><th>年</th><th>種別</th><th>対象層</th><th>規模</th><th>続編形態</th><th>派生</th><th>リメイク</th><th>終わり方</th></tr></thead><tbody></tbody></table></div>
+<div class="tablewrap"><table id="tbl"><thead><tr><th class="l">作品</th><th>年</th><th>種別</th><th>対象層</th><th>規模</th><th>続編形態</th><th>派生</th><th>リメイク</th><th>終わり方</th></tr></thead><tbody></tbody></table></div>
 </div>
 <p class="sub">視点050 / 母集団118作。生成物: titles.md / data.json / stats.json / sources.md / analysis.md / report.html。</p>
 
@@ -121,18 +213,28 @@ function lineC(id,obj,label,col){new Chart(document.getElementById(id),{type:'li
 // 1 ending open/premise by decade
 lineC('cEnd',S.open_or_premise_by_decade,'含み/続編前提率',acc);
 // ending dist donut
-new Chart(document.getElementById('cEndDist'),{type:'doughnut',
- data:{labels:Object.keys(S.continuation_ending_dist),datasets:[{data:Object.values(S.continuation_ending_dist),backgroundColor:[good,acc,acc2]}]}});
+(function(){var lab={complete:'作品内で完結',open_hook:'含み（続編示唆）',sequel_premise:'続編前提'};
+ var ord=['complete','open_hook','sequel_premise'];var tot=S.stats.N;
+ var cnt={complete:Math.round(S.continuation_ending_dist.complete*tot),open_hook:Math.round(S.continuation_ending_dist.open_hook*tot),sequel_premise:Math.round(S.continuation_ending_dist.sequel_premise*tot)};
+ var col={complete:good,open_hook:acc,sequel_premise:acc2};
+ new Chart(document.getElementById('cEndDist'),{type:'bar',
+  data:{labels:ord.map(function(k){return lab[k];}),datasets:[{data:ord.map(function(k){return cnt[k];}),backgroundColor:ord.map(function(k){return col[k];}),borderRadius:3,maxBarThickness:30}]},
+  options:{indexAxis:'y',layout:{padding:{right:64}},plugins:{legend:{display:false},
+   datalabels:{anchor:'end',align:'end',clamp:true,color:'#5b554a',font:{size:11,weight:'700'},formatter:function(v){return v+'件（'+Math.round(100*v/tot)+'%）';}}},
+   scales:{x:{beginAtZero:true,grace:'15%',ticks:{precision:0}},y:{ticks:{font:{size:12}}}}},plugins:[ChartDataLabels]});})();
 // scale 100% stacked
-const scOrder=['standalone','short_series','long_series','mega_franchise'];
+const scOrder=['standalone','short_series','long_series','mega_franchise'];const scLab={standalone:'単発',short_series:'2〜3期',long_series:'長期',mega_franchise:'巨大IP'};
 const scCol={standalone:sub,short_series:good,long_series:acc,mega_franchise:acc2};
 new Chart(document.getElementById('cScale'),{type:'bar',
- data:{labels:decs,datasets:scOrder.map(k=>({label:k,data:decs.map(d=>(S.franchise_scale_by_decade[d][k]||0)),backgroundColor:scCol[k]}))},
+ data:{labels:decs,datasets:scOrder.map(k=>({label:scLab[k],data:decs.map(d=>(S.franchise_scale_by_decade[d][k]||0)),backgroundColor:scCol[k]}))},
  options:{scales:{x:{stacked:true},y:{stacked:true,min:0,max:1}},plugins:{legend:{position:'bottom'}}}});
 // sequel_form dist
-new Chart(document.getElementById('cForm'),{type:'bar',
- data:{labels:Object.keys(S.sequel_form_dist),datasets:[{label:'比率',data:Object.values(S.sequel_form_dist),backgroundColor:acc}]},
- options:{indexAxis:'y',scales:{x:{min:0,max:.5}},plugins:{legend:{display:false}}}});
+(function(){var fl={mixed:'複合',tv_seasons:'複数期TV',none:'続編なし',film_sequel:'劇場続編',ova_oad:'OVA/OAD'};
+ var ks=Object.keys(S.sequel_form_dist);
+ new Chart(document.getElementById('cForm'),{type:'bar',
+  data:{labels:ks.map(function(k){return fl[k]||k;}),datasets:[{label:'比率',data:ks.map(function(k){return S.sequel_form_dist[k];}),backgroundColor:acc,borderRadius:3,maxBarThickness:26}]},
+  options:{indexAxis:'y',layout:{padding:{right:54}},scales:{x:{min:0,max:.5}},plugins:{legend:{display:false},
+   datalabels:{anchor:'end',align:'end',clamp:true,color:'#5b554a',font:{size:10,weight:'700'},formatter:function(v){return Math.round(100*v)+'%';}}},plugins:[ChartDataLabels]}});})();
 // spinoff + remake by decade
 new Chart(document.getElementById('cSpinRe'),{type:'line',
  data:{labels:decs,datasets:[

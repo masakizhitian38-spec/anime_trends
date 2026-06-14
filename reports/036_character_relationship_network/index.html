@@ -1,34 +1,68 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>キャラクター同士の関係網 ― 戦後アニメ116作</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1117;--card:#1a1d29;--card2:#222637;--ink:#e8eaf0;--mut:#9aa0b4;--acc:#7c9eff;--acc2:#ff9ec4;--gd:#ffd479;--gn:#7fe0a8;--rd:#ff8a8a;--bl:#8ab4ff;--line:#2c3245}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;line-height:1.7}
-.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 80px}
-h1{font-size:26px;margin:0 0 6px}h2{font-size:20px;margin:42px 0 14px;border-left:5px solid var(--acc);padding-left:12px}
-h3{font-size:16px;color:var(--acc2);margin:24px 0 8px}
-.sub{color:var(--mut);font-size:14px;margin-bottom:18px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:18px 0}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
-.kpi .v{font-size:22px;font-weight:700;color:var(--gd)}.kpi .l{font-size:12.5px;color:var(--mut);margin-top:4px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 8px;margin:16px 0}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:820px){.grid2{grid-template-columns:1fr}}
-canvas{max-height:330px}
-p{margin:10px 0}.small{font-size:13.5px;color:var(--mut)}
-.warn{background:#2a1f1f;border:1px solid #5a3a3a;border-radius:10px;padding:12px 14px;color:#ffc9c9;font-size:13.5px}
-.quotes{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:820px){.quotes{grid-template-columns:1fr}}
-.q{border-radius:12px;padding:14px 16px;font-size:14px}
-.q.pro{background:#15281c;border:1px solid #2f6b45}.q.con{background:#2a1721;border:1px solid #7a3a55}.q.neu{background:#16203a;border:1px solid #34508c}
-.q .src{display:block;margin-top:8px;font-size:12px}.q a{color:var(--bl)}
-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
-th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
-th{position:sticky;top:0;background:var(--card2);cursor:pointer;user-select:none;font-size:12.5px}
-tr:hover td{background:#20243450}
-.ctrl{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
-select,input{background:var(--card2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13px}
-.tag{display:inline-block;padding:1px 7px;border-radius:6px;font-size:11.5px;background:#2a3047}
-.tablebox{max-height:520px;overflow:auto;border:1px solid var(--line);border-radius:12px}
-.note{font-size:13px;color:var(--mut);margin:6px 0 0}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/036_character_relationship_network/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -52,38 +86,104 @@ select,input{background:var(--card2);color:var(--ink);border:1px solid var(--lin
 <div class="kpi"><div class="v">5/116</div><div class="l">単独構成の作品数<br>純粋な一匹狼はほぼ絶滅</div></div>
 </div>
 
+
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">主人公の周りに「誰が、何人、どんな絆で」いるか――関係網の形は、その時代のアニメが人間関係を物語の<b>背景</b>とみなしたか<b>主題</b>とみなしたかの鏡である。戦後60年で関係は背景から主題へ単調に前景化し、同時に網は「広い群像」から「親密な小さな円」へ縮み、絆の質は「団結する擬似家族→個人的な友情・恋愛→選び直す家族」と質を変えながら推移した。</p>
+<ul class="tldr-list">
+<li><b>背景→主題は最も堅牢な単調変化</b>：関係の主題化指数が1960s 0.63から2000s 0.87へ上がり高原化。深夜・円盤・データベース消費を背景に、関係そのものを描く日常系（ハルヒ／けいおん）が成立した。</li>
+<li><b>広さは∩字</b>：関係網の広さは1990s 0.79で頂点（Zガンダム／DB／スラダン／コナンの大群像）→2020s 0.52で最小。少数構成シェアは2020s 0.64で最大、単独はほぼ絶滅（5/116作）。セカイ系・1クール化・個人化社会が「大勢の網」から「少数の確かな円」へ縮めた。</li>
+<li><b>擬似家族の逆説</b>：「found family は現代の主役」は通念だが、本データでは擬似家族（顕著）は70〜90sの共闘大作（ヤマト／ガンダム／星矢／ONE PIECE）で最も濃く、<b>2010sに0.09で底</b>を打ち、2020sに0.14へ回帰する。発明ではなく回帰である。</li>
+<li><b>孤立から構築へ</b>：孤立スタート・シェアが0.25→2010s 0.46へ上昇。近年の主人公は「孤独の肯定」でなく「孤立から少数の絆へ橋を架ける過程」を生きる（やはまち／ぼざろ／SPY×FAMILY／フリーレン）。</li>
+<li><b>主張は控えめに</b>：選定バイアス・2020sの薄さ・「友情／擬似家族」の線引き依存に留意。機械的な縮小・深化でなく「分布の系統的移動が個人化する社会史と緩やかに共変動する」程度に留める。</li>
+</ul>
+</div>
+<h2 class="h2-essay">具体例——関係網の四つの運動を映す台詞</h2>
+<div class="ex">
+<h3>① 背景から主題へ——「事件のない関係の時間」が作品になる（2009年）</h3>
+<p>関係の主題化指数が頂点に達した2000s、軽音部の少女たちの放課後そのものを描く『けいおん!』が成立する。事件も敵も勝敗もなく、ただ一緒に音を合わせ、お茶を飲む時間が物語の中身になった。平沢唯のこの一言は、人間関係が冒険を支える「脇」から、それ自体が愛でられる「主題」へ移ったことを端的に示す。</p>
+<blockquote class="quote">やっぱり音楽っていいね！ 今日みんなと始めて合わせてみて、楽しかったもん！<span class="qby">— 平沢唯（CV：豊崎愛生）／TVアニメ『けいおん!』（2009年放送）。軽音部で初めて全員で演奏を合わせた場面の台詞。</span></blockquote>
+<h3>② 広い網から小さな円へ——他者との距離をめぐる「ヤマアラシのジレンマ」（1995年）</h3>
+<p>エヴァは「中間の社会描写を省いて、きみとぼくの小さな関係が世界の危機に直結する」セカイ系の起点とされ、関係網から共同体の厚みを抜き取った。赤木リツコが語るこの寓話は、近づきたいのに近づけば傷つけ合う――広い網に身を置けない登場人物たちの心性を言い当て、90s末〜00sの広さ縮小と整合する。</p>
+<blockquote class="quote">ヤマアラシのジレンマ……身を寄せれば寄せるほど、体中のトゲでお互いを傷つけてしまう。<span class="qby">— 赤木リツコ（CV：山口由里子）／TVアニメ『新世紀エヴァンゲリオン』第四話「雨、逃げ出した後」（1996年放送）。他者と距離を測りかねる碇シンジを評して。</span></blockquote>
+<h3>③ 擬似家族の伝統——血より濃い仲間という共闘大作の系譜（1999年）</h3>
+<p>「血より濃い仲間＝擬似家族」は新しい発明ではなく、ガッチャマン・ヤマト・ガンダム・星矢と続く共闘大作の太い伝統だ。その集大成『ONE PIECE』では、仲間が助けを求めて初めてルフィは動く。アーロンパーク編、涙をこらえてきたナミの「助けて」に対するルフィの応答は、選び取った仲間への無条件の応答＝擬似家族の論理そのものである。</p>
+<blockquote class="quote">ナミ「ルフィ……助けて」／ルフィ「当ったりめェだ!!!」<span class="qby">— ナミ（CV：岡村明美）と モンキー・D・ルフィ（CV：田中真弓）／TVアニメ『ONE PIECE』アーロンパーク編（1999年放送開始）。仲間と認めた者の窮地に迷わず応える場面。</span></blockquote>
+<h3>④ 孤立から構築へ——「ひとりぼっち」が少数の円を築く（2022年）</h3>
+<p>孤立スタートが上昇し単独が絶滅する近年、主人公は「孤独から少数の絆へ橋を架ける過程」を生きる。コミュ障の後藤ひとりがバンドに出会う『ぼっち・ざ・ろっく!』のこの独白は、つながりが既にあるのではなく、孤立から一から作るものになった現代の関係観を映す。</p>
+<blockquote class="quote">バンド組んだら、私みたいな人間でも、もしかしたら輝ける？<span class="qby">— 後藤ひとり（CV：青山吉能）／TVアニメ『ぼっち・ざ・ろっく!』（2022年放送）。バンド加入の誘いに揺れる場面の心の声。</span></blockquote>
+</div>
+
 <h2>1. 主要指数の年代変遷</h2>
 <div class="grid2">
-<div class="card"><h3>主題化（単調上昇）／広さ（∩字）／擬似家族（70s峰→10s谷）</h3><canvas id="c1"></canvas></div>
-<div class="card"><h3>擬似家族(顕著)・孤立スタート・恋愛絆のシェア</h3><canvas id="c2"></canvas></div>
+<div class="card"><h3>主題化（単調上昇）／広さ（∩字）／擬似家族（70s峰→10s谷）</h3><div class="cbox"><canvas id="c1"></canvas></div></div>
+<div class="card"><h3>擬似家族(顕著)・孤立スタート・恋愛絆のシェア</h3><div class="cbox"><canvas id="c2"></canvas></div></div>
 </div>
 
 <h2>2. 構成の年代別変遷（100%積み上げ）</h2>
 <div class="grid2">
-<div class="card"><h3>チーム構成（単独／コンビ／小チーム／大所帯／群像）</h3><canvas id="c3"></canvas></div>
-<div class="card"><h3>絆の質（仲間／友情／疑似家族／家族／恋愛／他）</h3><canvas id="c4"></canvas></div>
+<div class="card"><h3>チーム構成（単独／コンビ／小チーム／大所帯／群像）</h3><div class="cbox"><canvas id="c3"></canvas></div></div>
+<div class="card"><h3>絆の質（仲間／友情／疑似家族／家族／恋愛／他）</h3><div class="cbox"><canvas id="c4"></canvas></div></div>
 </div>
 
 <h2>3. 対象層クロス</h2>
-<div class="card"><h3>対象層別：擬似家族指数・擬似家族絆シェア・団体構成シェア</h3><canvas id="c5"></canvas></div>
-<p class="note">少年・青年＝団結する大家族の本流、児童＝疑似的な親子、少女＝少数の親密な関係（恋愛・友情）。run#2/#19/#24と同型の対象層岩盤。</p>
+<div class="card"><h3>対象層別：擬似家族指数・擬似家族絆シェア・団体構成シェア</h3><div class="cbox"><canvas id="c5"></canvas></div></div>
+<p class="note">少年・青年＝団結する大家族の本流、児童＝疑似的な親子、少女＝少数の親密な関係（恋愛・友情）。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/002_heroine_attributes/">関連分析</a>/#19/#24と同型の対象層岩盤。</p>
 
-<h2>4. 考察（要旨）</h2>
-<div class="card">
-<p><b>背景→主題。</b> 関係の主題化指数が単調上昇し2000sで頂点・高原化。人間関係が「冒険や戦いを支える脇」から「それ自体が描く対象」へ。深夜・円盤・データベース消費（東浩紀）による関係の前景化＝日常系の成立（ハルヒ/けいおん）が産業的裏面。</p>
-<p><b>広い網→小さな円。</b> 広さ指数は∩字で1990s 0.79が頂点（Zガンダム/DB/スラダン/コナンの大群像）、以後縮小し2020s 0.52で最小。少数構成は2020s 0.643で最大。駆動因は①セカイ系（中間共同体の省略・きみとぼく）②1クール化（13話に大群像は載らない・run#12）③個人化社会（大勢より少数の居場所）。</p>
-<p><b>擬似家族の逆説。</b> 「found family こそ現代の主役」は通念だが、本データは擬似家族(顕著)が70〜90s共闘大作（ガッチャマン/ヤマト/ガンダム/星矢/ワンピ/NARUTO）で最も濃く、2010sに底（0.091）を打つことを示す。2010sは友情（部活・日常系）と恋愛（ラブコメ・なろう）へ原子化。2020sにケア・郷愁の時代精神でSPY×FAMILY/フリーレン/鬼滅として回帰。「団結→個人的友情・恋愛→選び直す家族」と質を変えて推移。</p>
-<p><b>孤立から構築へ。</b> 孤立スタートが上昇（0.25→0.46）し単独はほぼ絶滅。「孤独を肯定」でなく「孤立から少数の絆へ橋を架ける過程」が主題（やはまち/ぼざろ/SPY×FAMILY/フリーレン）。個人化社会で“つながりを一から作る”困難と希望を映す。</p>
+<h2 class="h2-essay">4. 考察</h2>
+<div class="essay">
+<p class="thesis">戦後アニメの関係網は四つの運動で記述できる。①関係が物語の<b>背景</b>から<b>主題</b>へ前景化（主題化指数の単調上昇と高原化）、②<b>広い群像の網</b>から<b>親密な小さな円</b>へ（広さが∩字で縮小）、③絆の質が<b>団結の擬似家族→個人的友情・恋愛→選び直す家族</b>へ（擬似家族が共闘期に濃く2010sに原子化2020sに回帰）、④<b>所属からの出発</b>から<b>孤立からの構築</b>へ。背景には深夜・円盤・データベース消費による関係の前景化、セカイ系と1クール化と個人化社会による網の縮小、3.11・コロナ後のケアと郷愁による擬似家族の再評価がある。</p>
+
+<h3>第一の運動――「背景としての人間関係」から「主題としての人間関係」へ</h3>
+<p>6軸のうち最も滑らかに動くのは関係の主題化指数で、1960s 0.63から段差を経て2000s 0.87で頂点に達し、以後は高原で安定する。1960〜70sのアニメは勧善懲悪・冒険・スポ根が骨格で、仲間や師は主人公の目的（敵を倒す／優勝する）を支援する機能だった。ところが深夜枠と円盤ビジネスが立ち上がる2000s前後、視聴者が物語の結末よりキャラと関係そのものを消費するようになる。涼宮ハルヒ・らき☆すた・けいおん!のように「事件のない関係の時間」を描く日常系が成立し、関係が目的になった。この転倒は、物語のテーマが外的善悪から自己と日常の実存へ移った流れ（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">物語テーマの自己探求化</a>）や、脇役が萌え属性でカタログ化された地殻変動（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/035_supporting_cast_archetypes/">脇役の萌え属性カタログ化</a>）と同じ地層の、関係軸での現れである。産業面では、放送が100話超のお茶の間から13話の深夜・配信へ反転したこと（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/012_broadcast_format/">放送形態・話数規模の半世紀</a>）と、円盤を買う固定ファンに刺す設計（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">円盤一極の収益構造</a>）が、関係の前景化を後押しした。</p>
+
+<h3>第二の運動――∩字の広さ。「広い群像の網」から「親密な小さな円」へ</h3>
+<p>主題化が単調に上がる一方、関係網の広さは∩字を描く。1980s 0.75・1990s 0.79で頂点をつけ、以後は単調に縮んで2020s 0.52で最小になる。1980〜90sはZガンダムの戦争群像、ドラゴンボールの拡大する大家族、スラムダンク・キャプテン翼の部活＋他校網、名探偵コナンの広い人脈と、「大勢の網」を描く時代だった。これに対し2000s以降は、SOS団5人・古典部4人・軽音部5人・ぼっちのバンド4人・千束とたきなのように、ごく少数の親密な円へ縮む。少数構成シェアは2020s 0.64で最高、単独はほぼ絶滅した。縮小の駆動因は三つ重なる。第一にセカイ系――エヴァ以降、「きみとぼくの小さな関係が中間の社会描写を省いて世界の危機に直結する」構造が、関係網から共同体の厚みを抜いた。第二に1クール化で、13話という尺は大群像を運用できず少人数を深く描くほうが構造的に適合する（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/012_broadcast_format/">1クール化と尺の制約</a>）。第三に社会の個人化――少子化・核家族化・希薄な紐帯のなかで「大勢の仲間」より「少数の確かな居場所」が受け手の実感に響く。</p>
+
+<h3>第三の運動――擬似家族の逆説。「いま流行り」ではなく「むしろ共闘期に強かった」</h3>
+<p>ファン言説は「擬似家族＝found family こそ現代アニメ最大のテーマ」と語る。だが本データはこの通念を部分的に反証する。擬似家族（顕著）シェアは1970s・1990sの0.33で高く、2010sに0.09まで底を打ってから2020sに0.14へ戻る。指数でみても1970s 0.57が頂点で、2010s 0.27が谷だ。「血より濃い仲間」は新しい発明でなく、科学忍者隊ガッチャマン・宇宙戦艦ヤマト・機動戦士ガンダム・聖闘士星矢・ONE PIECE・NARUTOといった共闘大作の伝統であり、70〜90sに最も濃い。2010sにそれが薄まったのは、関係が友情（部活・日常系：氷菓・響け・ゆるキャン）と恋愛（ラブコメ・なろう：とらドラ・SAO・Re:ゼロ）へ分散したからだ。仲間／友情シェアは2010s 0.50で最高、恋愛も漸増する。関係は「団結する大家族」から「個人的な友情と一対の恋愛」へ原子化した。そして2020s、擬似家族はケア・郷愁の時代精神（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/020_zeitgeist_reflection/">時代背景の反映の重心移動</a>）のなかで回帰する。SPY×FAMILY（偽装で結ばれた他人が本物の家族になる）、葬送のフリーレン（喪った仲間と弟子をめぐる時間越しの絆）、鬼滅の刃（家族愛と鬼殺隊の疑似家族）。死を「遺される者」の視点で描くようになった近年の死生観（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/029_death_depiction/">死の描き方・グリーフの主題化</a>）とも響き合う。擬似家族は消えて戻ったのではなく、「団結→個人的友情→選び直す家族」と質を変えながら推移した、と読むのが正確だろう。</p>
+
+<h3>第四の運動――孤立スタートの上昇。「最初から仲間がいる」から「ひとりで始めて円を築く」へ</h3>
+<p>もう一つの静かなトレンドが、孤立スタート・シェアの上昇（0.25→2010s 0.46）だ。北斗の拳の孤高とは違い、近年の主人公は「孤立から出発し、少数の選び取った円を築いていく過程そのものが物語になる」。やはり俺の青春ラブコメ（ぼっち八幡が奉仕部で本物を探す）、ぼっち・ざ・ろっく!（コミュ障がバンドで関係を結ぶ）、SPY×FAMILY（孤独な暗殺者・スパイ・超能力者が家族を演じる）、フリーレン（人と関わらなかったエルフが弟子と旅する）。単独がほぼ絶滅していること（5/116）と合わせると、「孤独を肯定する物語」ではなく「孤独から少数の絆へ橋を架ける物語」が現代の基調だと分かる。これは個人化した社会で「つながりを一から作る」ことの困難と希望を映す。</p>
+
+<h3>通奏する岩盤――対象層という文法</h3>
+<p>関係網の形は対象層に強く規定される。少年向けは擬似家族指数0.53・団体0.48で「団結する大家族」の本流（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/024_jump_formula_influence/">努力・友情・勝利の友情軸</a>）。児童向けは擬似家族絆0.42で最も「疑似的な親子・家族」を描く（アトム、ドラえもん、ハイジ）。対照的に少女向けは団体0.14・擬似家族絆0.14と低く、少数の親密な関係（恋愛・友情）に寄る（キャンディ、カードキャプターさくら、夏目友人帳）。これはヒロインの役割が対象層に依存する構造（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/002_heroine_attributes/">ヒロインの役割の対象層依存</a>）や、ジェンダー表象の対象層岩盤（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/019_gender_representation/">ジェンダー表象の対象層岩盤</a>）と同型で、「関係網」もまた対象層の文法に深く埋め込まれている。</p>
+
+<h3>反証・留保――線引きへの戒め</h3>
+<p>最大の留保は「友情／擬似家族」の線引きだ。本稿は日常系の部活の絆を「友情」とコードし、その結果2010sの擬似家族が「低下」したと読んだ。だが日常系の共同体こそ「行き場を失った者を迎える擬似家族・アジール」だとみる立場（後述D論評）に立てば、2010sは擬似家族を失ったのでなく、戦う大家族から脆い小さな居場所へ移し替えたことになる。つまりfound_familyの「低下」は解釈依存であり絶対的な減少ではない。加えて母集団は代表作に寄る選定バイアスを持ち、2020sはn=14と薄い。主張は機械的な「関係の縮小・深化」でなく、関係の分布が「広く浅い網→狭く濃い円」「団結→個人→選び直し」へ系統的に移動し、それが個人化する社会史と緩やかに共変動している、という点に置く。</p>
 </div>
 
-<h2>5. 他者の論評との対話</h2>
-<div class="quotes">
-<div class="q pro">「2022年秋アニメ（SPY×FAMILY・チェンソーマン等）を貫くテーマは擬似家族（found family）＝血より濃い選び取った関係」。少年向けで擬似家族指数が最高という結果と一致。ただし本データは“発明”でなく“回帰”だと留保（70〜90sで最も濃かった）。<span class="src">CBR / ScreenRant（found family）<br><a href="https://www.cbr.com/found-family-best-theme-fall-2022-anime/">cbr.com</a> ／ <a href="https://screenrant.com/best-shonen-anime-found-families/">screenrant.com</a></span></div>
-<div class="q con">「擬似家族トロープの暗部：鬼滅の累は found family の論理を歪に内面化し“各人が役割を演じる家族”を強制する」。絆＝無条件に善という読みへの解毒。bond_qualityを価値中立にコードした根拠。<span class="src">Reactor「Darker Side of Found Family」<br><a href="https://reactormag.com/exploring-the-darker-side-of-found-family/">reactormag.com</a></span></div>
-<div class="q neu">セカイ系＝「きみとぼくの小さな関係が中間の社会描写を省いて世界の危機に直結する」（エヴァ起点）。90s末〜00sの広さ縮小・恋愛絆上昇と整合。<span class="src">「セカイ系」Wikipedia / pixiv百科<br><a href="https://ja.wikipedia.org/wiki/%E3%82%BB%E3%82%AB%E3%82%A4%E7%B3%BB">ja.wikipedia.org</a></span></div>
-<div class="q con">日常系の共同体（部室・専売所）は「行き場を失った者を迎えるアジール＝擬似家族」だが「いつか破綻しうる」。この立場では2010sは擬似家族を“失った”のでなく“脆い小円へ移し替えた”ことに ―― 本稿の擬似家族“低下”は線引き依存だと反証。<span class="src">志津史比古「日常における遠景／生誕の喜劇」週末批評<br><a href="https://worldend-critic.com/2023/08/12/nichijo-endlesseight-ashizu/">worldend-critic.com</a></span></div>
-<div class="q neu">東浩紀『動物化するポストモダン』：消費は物語でなくキャラ設定の「データベース」へ＝設定（関係）が先・物語は後。主題化指数の上昇は“深化”と“記号的消費”の両義。<span class="src">東浩紀（講談社）<br><a href="https://www.kodansha.co.jp/book/products/0000147035">kodansha.co.jp</a></span></div>
-<div class="q con">しんかい37「データベース消費論はどこがまちがっているか」：一般化・反証可能性の弱さを批判。関係の記号化を機械的に当てはめないための反証。<span class="src">山川賢一 note<br><a href="https://note.com/shinkai35/n/n01e8e2ccebaa">note.com</a></span></div>
+<h2 class="h2-essay">5. 他者の論評との対話</h2>
+<p class="mut">擬似家族を「現代の主役テーマ」とみる論、その暗部を撃つ論、関係の前景化を「データベース消費」として理論化する論、日常系の共同体を擬似家族と読み替える論――立場は分かれるが、いずれも本データの「主題化0.87／広さ∩字／擬似家族の2010s谷」という構造を別々の角度から照らす。</p>
+<div class="views">
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>CBR / ScreenRant（英語アニメ批評メディア）</b></p>
+<div class="vt">「2022年秋アニメ（SPY×FAMILY・チェンソーマン等）を貫く最大のテーマは擬似家族＝血より濃い、選び取った関係」 <span class="stance sup">一致（留保つき）</span></div>
+<p>欧米のアニメ言説では「found family」は近年の中心テーマとして語られ、少年向けで擬似家族が最も濃いという観測と一致する。</p>
+<div class="match"><b>データとの照合：</b>対象層クロスで<b>少年向け擬似家族指数0.53が最高</b>、2020sの擬似家族（顕著）回帰（0.09→0.14）とも整合。ただし本データは「発明」でなく「回帰」と留保する――擬似家族は70〜90sの共闘大作で最も濃かった。</div>
+<div class="src">CBR <a href="https://www.cbr.com/found-family-best-theme-fall-2022-anime/">cbr.com/found-family-best-theme-fall-2022-anime</a> ／ ScreenRant <a href="https://screenrant.com/best-shonen-anime-found-families/">screenrant.com/best-shonen-anime-found-families</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">批評</span><b>Reactor（旧Tor.com）「Exploring the Darker Side of Found Family」</b></p>
+<div class="vt">「擬似家族トロープには暗部がある――各人が役割を演じることを強いる歪な家族にもなりうる」 <span class="stance cau">批判・解毒</span></div>
+<p>絆＝無条件に善という読みへの解毒。鬼滅の累のように found family の論理を歪に内面化した造形は、擬似家族を一律に肯定的に扱えないことを示す。</p>
+<div class="match"><b>データとの照合：</b>本稿が絆の質を価値中立にコードし、共依存（おそ松さん）や歪んだ支配（少女革命ウテナ）も同じ枠で記述した方針と合う。温かさだけが擬似家族ではない。</div>
+<div class="src">Reactor <a href="https://reactormag.com/exploring-the-darker-side-of-found-family/">reactormag.com/exploring-the-darker-side-of-found-family</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>東浩紀『動物化するポストモダン』（講談社現代新書, 2001）</b></p>
+<div class="vt">消費は物語でなくキャラ設定の「データベース」へ＝設定（関係）が先、物語は後 <span class="stance neu">両義</span></div>
+<p>東は、オタクが大きな物語を失い、萌え要素＝設定（関係も含む）のデータベースを参照して消費すると論じた。関係の主題化の上昇は、関係が「描くべき主題」になった面と、関係が「記号的に消費される」面の両方を含む。</p>
+<div class="match"><b>データとの照合：</b>主題化指数2000sピークは「深化」と「記号的消費」の両義として読むべきで、単純な深化とは言い切れない。脇役の属性カタログ化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/035_supporting_cast_archetypes/">脇役のDB消費</a>）と同じ転換の関係版。</div>
+<div class="src">講談社 <a href="https://www.kodansha.co.jp/book/products/0000147035">kodansha.co.jp/book/products/0000147035</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">批評</span><b>志津史比古「日常における遠景／生誕の喜劇」（週末批評, 2023）</b></p>
+<div class="vt">日常系の共同体（部室）は「行き場を失った者を迎えるアジール＝擬似家族」だが、いつか破綻しうる <span class="stance cau">反証ポイント</span></div>
+<p>本稿最大の反証点。私が日常系の絆を「友情」とコードしたために2010sの擬似家族が「低下」したが、志津に倣えば2010sは擬似家族を失ったのでなく、戦う大家族から脆い小さな居場所へ移し替えたと読める。</p>
+<div class="match"><b>データとの照合：</b>found_familyの「2010s谷」は線引き依存であり絶対的減少ではない。志津の言う「理想の関係はいつか破綻しうる」不安は、喪失を描くあの花・まどマギの脆い小円と響き合う。</div>
+<div class="src">週末批評 <a href="https://worldend-critic.com/2023/08/12/nichijo-endlesseight-ashizu/">worldend-critic.com/2023/08/12/nichijo-endlesseight-ashizu</a></div>
+</div>
 </div>
 
 <h2>6. 作品一覧（ソート・絞り込み可）</h2>

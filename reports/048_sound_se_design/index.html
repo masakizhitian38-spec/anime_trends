@@ -2,24 +2,68 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>音響・SE（効果音）の特徴 ― 変遷分析</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0d1117;--card:#161b22;--ink:#e6edf3;--sub:#9da7b3;--ac:#5ab0ff;--ac2:#ff8c6b;--ac3:#7ee0b0;--line:#2a3240}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.7}
-.wrap{max-width:1100px;margin:0 auto;padding:32px 20px 80px}
-h1{font-size:1.8rem;margin:.2em 0}h2{font-size:1.3rem;border-left:5px solid var(--ac);padding-left:.5em;margin-top:2em}
-h3{font-size:1.05rem;color:var(--ac);margin-top:1.6em}
-.sub{color:var(--sub)}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:780px){.grid{grid-template-columns:1fr}}
-table{width:100%;border-collapse:collapse;font-size:.86rem}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
-th{color:var(--ac);cursor:pointer;position:sticky;top:0;background:var(--card)}
-.tag{display:inline-block;padding:1px 7px;border-radius:10px;font-size:.74rem;border:1px solid var(--line)}
-.kpi{display:flex;gap:14px;flex-wrap:wrap}.kpi .b{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;flex:1;min-width:150px}
-.kpi .v{font-size:1.5rem;font-weight:700;color:var(--ac)}
-.quote{background:#11202e;border-left:4px solid var(--ac);border-radius:8px;padding:12px 16px;margin:10px 0}
-.quote .src{font-size:.8rem;color:var(--sub);margin-top:6px}
-a{color:var(--ac)}.scroll{max-height:520px;overflow:auto}
-input,select{background:#0d1117;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:5px 8px}
-.note{font-size:.8rem;color:var(--sub)}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/048_sound_se_design/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -32,61 +76,112 @@ input,select{background:#0d1117;color:var(--ink);border:1px solid var(--line);bo
 </head><body><div id="__home"><a href="../../">← 視点一覧トップへ</a></div><div class="wrap">
 <h1>音響・SE（効果音）の特徴 ― 変遷分析</h1>
 <p class="sub">戦後〜2024年 / 102作 / 効果音の作り込み・環境音のリアリティ・無音/静寂の演出をコード化。<br>
-run#48・視点048（音グループ id27）。絶対値は選定バイアスにより信用せず、<b>年代間の相対変化</b>を読む。</p>
+関連分析・視点048（音グループ id27）。絶対値は選定バイアスにより信用せず、<b>年代間の相対変化</b>を読む。</p>
 
-<div class="kpi">
-<div class="b"><div class="v" id="k1"></div><div class="sub">作品数</div></div>
-<div class="b"><div class="v" id="k2"></div><div class="sub">音響洗練指数ピーク(2010s)</div></div>
-<div class="b"><div class="v" id="k3"></div><div class="sub">強い静寂シェア 2010s</div></div>
-<div class="b"><div class="v" id="k4"></div><div class="sub">劇場 vs TV 指数差</div></div>
+<div class="kpis">
+<div class="kpi"><span class="v" id="k1"></span><span class="l">作品数</span></div>
+<div class="kpi"><span class="v" id="k2"></span><span class="l">音響洗練指数ピーク(2010s)</span></div>
+<div class="kpi"><span class="v" id="k3"></span><span class="l">強い静寂シェア 2010s</span></div>
+<div class="kpi"><span class="v" id="k4"></span><span class="l">劇場 vs TV 指数差</span></div>
 </div>
+
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">アニメの「音の地面」は、現実感の担い手を<b>記号 → 環境 → 静寂と音圧の二極</b>へと交代させてきた。最も固有なのは、無音を演出言語へ昇格させたことである。</p>
+<ul class="tldr-list">
+<li><b>最大の発見＝「無音」の指標化。</b> 静けさが作品の核になる作品が累積し、強い静寂演出のシェアは0→86%(2010s)へ上昇。火垂るの墓→蟲師→聲の形→葬送のフリーレン→ルックバックという「沈黙の系譜」が一つのジャンルを形づくった。</li>
+<li><b>1970sの段差はハイジ(1974)。</b> 効果音が「意味を伝える記号」から「空間を立ち上げる環境」へ役割を変え、指数が0.25→0.51へ跳ねた。</li>
+<li><b>1995がデジタル化の象徴年。</b> エヴァの沈黙と攻殻の静謐を境に、音響は無音の演出と重低音・音圧のデザインへ同時に裂けた。</li>
+<li><b>1990s谷・2020s微減は退行でなく両極化＋分母効果。</b> 頂点作と量産記号SEの距離が開いた構成効果である。</li>
+<li><b>勾配は劇場0.79≫TV0.56、青年・一般≫少年・児童。</b> 辺境が先鋭化し本流が普遍化する。音響監督という職能も2010s以降に名指しで語られ始めた。</li>
+</ul>
+</div>
+
+<h2>具体例 — 時代ごとの「音の作り方」</h2>
+<p class="mut">効果音は批評言説が薄く、台詞のように引用できる一次資料が乏しい。確認できた掛け声は出典付きで併記し、それ以外は場面の音の設計を描写にとどめた。</p>
+<div class="ex"><h3>記号としての効果音（1960–70年代）</h3>
+<p>黎明期の効果音は「漫画の描き文字の代用」だった。1972年『マジンガーZ』のロケットパンチ音やブレストファイヤー音は、現実の物理音ではなく<b>意味を届ける記号</b>であり、必殺技は声の掛け声と一体で発動する。鉄人28号の足音や駆動音も同じく記号化されていた。お茶の間のTVで子供に意味を伝える機能が、音響を記号に縛った。</p>
+<blockquote class="quote">「ロケットパンチ！」「ブレストファイヤー！」<span class="qby">— 兜甲児（声・石丸博也）／『マジンガーZ』(1972)。必殺技の発動音が掛け声と一体化した記号的効果音の代表例</span></blockquote></div>
+<div class="ex"><h3>環境音の発明（1974年〜）</h3>
+<p>転換点は1974年『アルプスの少女ハイジ』。高畑勲が日常生活描写のために牛の鈴や自然音を写実的に敷き、効果音が「意味の記号」から「空間を立ち上げる環境」へと役割を変えた。1988年『となりのトトロ』の、過剰なほど精緻な虫・風・水の環境音はこの相の頂点である。場面に台詞がなくても、音だけで田園の空気が立ち上がる。</p></div>
+<div class="ex"><h3>静寂の主題化（1995年〜）</h3>
+<p>デジタル録音・編集が普及した1995年前後、効果音は二つの方向へ同時に裂けた。『新世紀エヴァンゲリオン』は電車の走行音・蝉時雨・そして突然の沈黙を演出言語に昇格させ、『攻殻機動隊』は川井憲次のミニマルな音響で電脳都市の静謐な空間を立ち上げた。「鳴らさないこと」が初めて積極的な選択になった年である。</p></div>
+<div class="ex"><h3>ASMR的フォーリーと音圧の二極（2010–20年代）</h3>
+<p>2010年代に二つの潮流が合流する。京都アニメーション系の<b>ASMR的フォーリー</b>——『リズと青い鳥』(2018)は足音・息・衣擦れを楽曲に組み込み、生演奏で「あらゆる息」まで収録した——と、ufotable／MAPPA系の<b>音圧デザイン</b>（鬼滅の刃・呪術廻戦）である。一方『聲の形』(2016)は聾の主人公の主観で音をこもらせ、現実のノイズを排した「完璧な沈黙」で観客の注意を映像へ集中させた。静寂と音圧が同じ十年に並び立った。</p></div>
 
 <h2>1. 音の担い手は「記号 → 環境 → 静寂と音圧の二極」へ</h2>
 <div class="grid">
-<div class="card"><h3>音響洗練指数の年代変遷（∩字＋1990s谷）</h3><canvas id="cIdx"></canvas>
+<div class="card"><h3>音響洗練指数の年代変遷（∩字＋1990s谷）</h3><div class="cbox"><canvas id="cIdx"></canvas></div>
 <p class="note">1970s段差（記号→環境、ハイジ）／2010s頂点／1990s谷＝両極化・分母効果。</p></div>
-<div class="card"><h3>高作り込みSE・強い静寂シェアの上昇</h3><canvas id="cShare"></canvas>
+<div class="card"><h3>高作り込みSE・強い静寂シェアの上昇</h3><div class="cbox"><canvas id="cShare"></canvas></div>
 <p class="note">写実フォーリー＋誇張音響シェア／意図的な間＋構造的静寂シェア。共に1990sで凹む。</p></div>
 </div>
 <div class="grid">
-<div class="card"><h3>効果音の作り込み（年代別構成）</h3><canvas id="cSe"></canvas></div>
-<div class="card"><h3>無音・静寂の演出（年代別構成）</h3><canvas id="cSil"></canvas></div>
+<div class="card"><h3>効果音の作り込み（年代別構成）</h3><div class="cbox"><canvas id="cSe"></canvas></div></div>
+<div class="card"><h3>無音・静寂の演出（年代別構成）</h3><div class="cbox"><canvas id="cSil"></canvas></div></div>
 </div>
 <div class="grid">
-<div class="card"><h3>種別別 音響洗練指数</h3><canvas id="cType"></canvas></div>
-<div class="card"><h3>対象層別 音響洗練指数</h3><canvas id="cDemo"></canvas></div>
+<div class="card"><h3>種別別 音響洗練指数</h3><div class="cbox"><canvas id="cType"></canvas></div></div>
+<div class="card"><h3>対象層別 音響洗練指数</h3><div class="cbox"><canvas id="cDemo"></canvas></div></div>
 </div>
 
-<h2>2. 考察（要旨）</h2>
-<div class="card">
-<h3>幹：現実感の担い手の三段交代</h3>
-<p>① <b>記号</b>（1960-70s）＝マジンガーの必殺技音のように、効果音は漫画の描き文字の代用。お茶の間TV・子供向けが記号経済を縛る（stylized が基底）。② <b>環境</b>（1974ハイジ〜）＝高畑勲が日常描写のため自然音を写実化し、効果音が「意味の記号」から「空間を立ち上げる環境」へ。run#08世界観密度・run#44背景美術の1970s段差と<b>同一の地震</b>。③ <b>静寂と音圧の二極</b>（1995エヴァ/攻殻〜）＝デジタル録音/編集の普及で、無音を演出言語に昇格させる方向（エヴァの蝉と沈黙）と重低音・音圧をデザインする方向（後のufotable/MAPPA）に同時に裂けた。</p>
-<h3>最大の発見：「無音」という日本的音響の指標化</h3>
-<p>強い静寂シェアが 0→0.86(2010s) へ上昇し、<b>構造的静寂</b>（静けさが核）が一ジャンルを形成（火垂る→蟲師→聲の形→少女終末旅行→フリーレン→ルックバック）。宮崎/久石の「間=ma」論、聲の形の「完璧な沈黙」論を定量裏づけ。ただし静寂は「鳴らさない＝低コスト」でもあり、深夜枠の制約が生んだ様式の側面も（run#45「制約が様式を生む」の音響版）。</p>
-<h3>1990s谷・2020s微減＝退行でなく両極化・分母効果</h3>
-<p>1990sは攻殻/エヴァ/もののけ/lain/ビバップの頂点と、コナン/るろ剣/セラムン等の量産記号SEが分母を膨らませ平均が凹む（質的にはstructural初の高シェア）。2020s微減も誇張音響（チェンソー/呪術）＋静寂（フリーレン/ルックバック）に機能的本流（SPY/薬屋）が加わった構成効果。run#10/#46と同論理。</p>
-<h3>勾配：辺境が先鋭化し本流が普遍化</h3>
-<p>劇場0.79≫TV0.56、general/seinen≫shounen/kids。劇場と青年・一般向けが音響を牽引、少年・児童TVは記号SEの岩盤。run#09/#19/#21/#45の音響版。並行して<b>音響監督</b>（岩浪美和/三間雅文）の作家性が2010s以降前景化。</p>
+<h2 class="h2-essay">考察 — 「音のリアリティを誰が担うか」の六〇年</h2>
+<div class="essay">
+<p class="thesis">アニメ音響の六〇年は、現実感の担い手が「記号 → 環境 → 静寂と音圧の二極」へ移動した物語だ。これは映像史で繰り返された担い手交代のテンプレートの音響版だが、音には固有の第三相＝<b>「無音」という負の音響</b>が加わる点で決定的に違う。</p>
+
+<h3>幹＝担い手の三段交代</h3>
+<p>第一相（1960–70年代）の効果音は、マジンガーの必殺技音のように<b>意味を伝える記号</b>だった。お茶の間のTVと子供向けという受容環境が、音響を記号経済に縛った。第二相の転換点は1974年のハイジで、高畑勲が日常描写のために自然音を写実化し、効果音は「空間を立ち上げる環境」へ変わる。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/008_setting_worldview/">世界観の作り込み密度が1970sに段差を刻んだ</a>のと、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/044_color_art_tendency/">色彩・背景美術が背景画から撮影・光へ移った</a>のと同一の地震を、音で捉えたものだ。第三相（1995年〜）はデジタル録音・編集の普及で、無音を演出言語へ昇格させる方向と、重低音・音圧をデザインする方向に同時に裂けた。担い手が交代するこの構図は、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/045_directing_camerawork/">虚構のカメラの担い手が止め絵→レイアウト→撮影へ移った</a>ことや、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/046_cg_production_tech/">新しい技術がセルルックの平面に奉仕し続けた</a>ことと同型である。</p>
+
+<h3>最大の発見＝「無音」という負の音響の指標化</h3>
+<p>最も示唆的なのは、強い静寂演出のシェアが0から86%(2010s)へ上昇し、<b>構造的静寂</b>——静けさそのものが作品の核——が一つのジャンルを形成したことだ。火垂るの墓(1988)・ガンダム0080(1989)の「戦争の静寂」に始まり、蟲師・聲の形・少女終末旅行・リズと青い鳥・葬送のフリーレン・ルックバックへと累積した。これは宮崎駿・久石譲の「間＝ma」論、聲の形の「完璧な沈黙」論が指摘する日本的音響美学を定量的に裏づける。ただし因果は逆方向もありうる。静寂は「鳴らさなければよい＝低コスト」でもあり、深夜枠の予算制約と相性が良い。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/045_directing_camerawork/">制約が様式を生む</a>構造が、音響では「最も安価で最も洗練された演出」として現れた可能性は否定できない。静寂はまた、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/029_death_depiction/">物語の主役が「死ぬ者」から「遺される者」へ移り、喪を描く</a>方向の変化とも共振している。</p>
+
+<h3>1990s谷・2020s微減＝退行ではなく両極化・分母効果</h3>
+<p>指数・高作り込みSE・強い静寂のいずれも1990sで凹む。だがこれは退行ではない。1990sは一方に攻殻・エヴァ・もののけ・lain・ビバップという音響史の頂点を集めながら、他方でコナン・るろうに剣心・セーラームーンといった量産TVの記号的SEが分母を膨らませた。平均が下がったのは裾野が広がって頂点との距離が開いたためで、実際この年代に構造的静寂は初めて高シェアになっている。同じ論理は2020sの微減にも働く。チェンソーマン・呪術廻戦の誇張音響とフリーレン・ルックバックの静寂が同居する一方、機能的音響の本流大衆作が分母に加わった。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/010_animation_characteristics/">1990s作画の谷が両極化と分母効果だった</a>のと、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/046_cg_production_tech/">2020sのCG度微減が構成効果だった</a>のと同じ構造である。</p>
+
+<h3>勾配＝辺境が先鋭化し本流が普遍化</h3>
+<p>指数は劇場0.79が突出し、一般・青年向けが少年・児童向けTVを大きく上回る。劇場という時間とリソースの最前線と、静寂を受容する青年・一般の観客が音響を牽引し、少年・児童向けTVは記号的SEの岩盤に留まる。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/021_transition_positioning/">辺境が革新し本流が大衆化する</a>という変遷史全体の縮図であり、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/009_violence_morality/">暴力・道徳の描写でも辺境が先鋭化した</a>のと響き合う。並行して、長く「不可視の職人芸」だった音響設計が作家性の単位として認知され始めた。音響監督が名指しで語られる現象は、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/011_production_system/">監督の作家性が前景化した</a>こと、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/047_music_themesong_score/">作曲家の作家性が前景化した</a>ことと同期する産業・言説側の出来事である。</p>
 </div>
 
-<h2>3. 他者の論評（引用カード）</h2>
-<div class="card">
-<div class="quote">「AKIRAは能・ガムラン・電子技術を融合し、予算無制限の芸術的自由のもとで国境のない音を作った。金田のバイク音は映画音響の革新。」
-<div class="src">A群=里程標説 / <a href="https://link.springer.com/chapter/10.1007/978-981-97-0429-3_16" target="_blank">Springer "Geinō Yamashirogumi and Akira"</a>・<a href="https://www.miraikan.jst.go.jp/en/exhibitions/future/zeroone/akira.html" target="_blank">Miraikan</a></div></div>
-<div class="quote">「川井憲次の攻殻(1995)はミニマリスティック。古代的ハーモニーと合成音で電脳世界の静謐な空間を作る。」
-<div class="src">A群 / <a href="https://gamerant.com/kenji-kawai-spotlight/" target="_blank">GameRant "The Man Who Gave Ghost in the Shell Its Sound"</a></div></div>
-<div class="quote">「宮崎は『間=余白/沈黙』を信奉。西洋が沈黙を埋めるべき空白とみなすのに対し、ジブリは沈黙で雰囲気・感情・世界のリアリティを作る。久石は楽譜に『沈黙で余韻を残せ』と手書き。」
-<div class="src">B群=間/maの美学 / <a href="https://vodzilla.co/reviews/the-sound-of-studio-ghibli-joe-hisaishi-and-princess-mononoke/" target="_blank">VODzilla</a>・<a href="https://vocal.media/geeks/the-silence-trick-that-makes-studio-ghibli-s-art-so-powerful" target="_blank">Vocal Media</a></div></div>
-<div class="quote">「アニメの音はゼロから作られる。沈黙の一つ一つが意図的選択。『完璧な沈黙』が観客の注意を映像へ集中させる。聲の形は聾の主観で音がこもり、反響＝振動が聞けない音を可視化。」
-<div class="src">B群 / <a href="https://blog.sakugabooru.com/2019/09/26/koe-no-katachi-a-silent-voice-tactile-communication/" target="_blank">Sakuga Blog</a>・<a href="https://www.hearview.ai/blogs/knowledge/anime-about-a-deaf-girl" target="_blank">Hearview</a></div></div>
-<div class="quote">「山田尚子＋牛尾憲輔『リズと青い鳥』は足音・息を楽曲に組み込み、生演奏で息まで収録。譜面台を叩く等で自作したサンプルがASMR的な親密空間を作る。」
-<div class="src">B群 / <a href="https://atmafunomena.wordpress.com/2018/07/04/liz-blue-bird-composer-interview-kensuke-ushio-agraph-quiet-and-hidden/" target="_blank">ATMA & Funomena（牛尾憲輔IV）</a></div></div>
-<div class="quote">「音響監督7人（鶴岡陽太・岩浪美和ら）が音作りを語る専門書『アニメ音響の魔法』が2026年2月発売。効果音設計が職人の不可視労働から論じられる対象へ。」
-<div class="src">C群=職能の前景化 / <a href="https://natalie.mu/comic/news/613342" target="_blank">コミックナタリー</a>・<a href="https://ja.wikipedia.org/wiki/%E5%B2%A9%E6%B5%AA%E7%BE%8E%E5%92%8C" target="_blank">Wikipedia「岩浪美和」</a></div></div>
-<p class="note"><b>対立軸</b>：静寂の独自性（B群）⇔ ハリウッド型音圧への接近。本データは両極が<b>2010s-2020sに同時増加＝併存</b>を示し二分法を修正。AKIRA/攻殻の里程標性は支持するが、それらは多分に<b>劇伴の革新</b>でありSE設計とは層が違う、と留保（本分析はSE・環境音・静寂を劇伴と分離）。</p>
-</div>
+<h2>論評 — 他者の評価との対話</h2>
+<div class="views">
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>芸能山城組／山城祥二</b>（『AKIRA』音響）を論じる <b>Springer</b>『Authorship in Music and Sound Design』・<b>日本科学未来館</b></p>
+<div class="vt">AKIRA／攻殻＝サウンドデザインの里程標説 <span class="stance neu">支持＋留保</span></div>
+<p>『AKIRA』は能・ガムラン・電子技術を融合し、予算無制限の芸術的自由のもとで「国境のない音」を作った。金田のバイク音などは映画音響の革新として国内外に影響を与え続ける、と評価される。</p>
+<div class="match"><b>データとの照合：</b>里程標性は支持する。ただし本分析は効果音・環境音・静寂を<b>劇伴（音楽）と分離</b>してコード化しており、AKIRAの革新の多くは音楽層にある。「音響＝音楽」と一括りにする論には修正を加える。</div>
+<p class="src">出典: <a href="https://link.springer.com/chapter/10.1007/978-981-97-0429-3_16">link.springer.com</a> ／ <a href="https://www.miraikan.jst.go.jp/en/exhibitions/future/zeroone/akira.html">miraikan.jst.go.jp</a></p></div>
 
-<h2>4. 作品一覧（クリックでソート／絞り込み可）</h2>
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>宮崎駿・久石譲</b>「間（ま）」論 ／ <b>VODzilla</b>・<b>Vocal Media</b></p>
+<div class="vt">沈黙＝間という日本的音響美学 <span class="stance sup">支持</span></div>
+<p>宮崎は日本美術の「間＝余白／沈黙」を信奉する。西洋映画が沈黙を「埋めるべき空白」とみなすのに対し、ジブリは沈黙を雰囲気・感情・世界のリアリティを作る道具に使う。久石は楽譜に「沈黙で余韻を残せ」と手書きで指示したという。</p>
+<div class="match"><b>データとの照合：</b>本分析の最大発見（強い静寂シェア0→86%）と強く一致する。ただし「日本固有」という本質化には留保が要り、静寂は予算制約・深夜枠との相性という産業的要因とも共変動する。</div>
+<p class="src">出典: <a href="https://vodzilla.co/reviews/the-sound-of-studio-ghibli-joe-hisaishi-and-princess-mononoke/">vodzilla.co</a> ／ <a href="https://vocal.media/geeks/the-silence-trick-that-makes-studio-ghibli-s-art-so-powerful">vocal.media</a></p></div>
+
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>Sakuga Blog</b>（『聲の形』論）・<b>Hearview</b></p>
+<div class="vt">『聲の形』の「完璧な沈黙」 <span class="stance sup">支持</span></div>
+<p>アニメの音は「ゼロから作られる」。足音・衣擦れ・そして沈黙の一つ一つが意図的な芸術的選択であり、現実の環境ノイズを排した「完璧な沈黙」が観客の注意を映像へ集中させる。聾の主人公・硝子の主観で音がこもり、反響＝振動のモチーフが「彼女が聞けない音」を可視化する。</p>
+<div class="match"><b>データとの照合：</b>聲の形を silence_use=structural と評価した本分析の判定と整合する。構造的静寂が一ジャンルを成すという主張の代表例。</div>
+<p class="src">出典: <a href="https://blog.sakugabooru.com/2019/09/26/koe-no-katachi-a-silent-voice-tactile-communication/">blog.sakugabooru.com</a> ／ <a href="https://www.hearview.ai/blogs/knowledge/anime-about-a-deaf-girl">hearview.ai</a></p></div>
+
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>牛尾憲輔（agraph）</b>インタビュー ／ <b>ATMA &amp; Funomena</b></p>
+<div class="vt">『リズと青い鳥』のASMR的フォーリー <span class="stance sup">支持</span></div>
+<p>山田尚子×牛尾憲輔の『リズと青い鳥』(2018)は、登場人物の足音・息遣いを楽曲に組み込み、視覚・音楽・足音を同期させた。生演奏で「あらゆる息が聞こえる」音を収録し、譜面台を叩く・ビーカーを弓で弾くなどでサンプルを自作。環境音がASMR的な親密空間を作る。</p>
+<div class="match"><b>データとの照合：</b>2010s頂点を支えた京アニ系ASMRフォーリーの典型。本分析が ambient_realism=hyperdetailed と評価した方向と一致する。</div>
+<p class="src">出典: <a href="https://atmafunomena.wordpress.com/2018/07/04/liz-blue-bird-composer-interview-kensuke-ushio-agraph-quiet-and-hidden/">atmafunomena.wordpress.com</a></p></div>
+
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>『アニメ音響の魔法』</b>（鶴岡陽太・岩浪美和ら7人、2026年2月刊）／ <b>コミックナタリー</b></p>
+<div class="vt">音響監督という職能の前景化 <span class="stance neu">産業現象</span></div>
+<p>音響監督7人が音作りを語るインタビュー本が刊行され、岩浪美和（ガルパン／PSYCHO-PASS／SAO）や三間雅文（進撃の巨人）らの名が立体音響・音圧設計の作家として語られるようになった。効果音設計が「職人の不可視労働」から論じられる対象へと移った。</p>
+<div class="match"><b>データとの照合：</b>本データの2010s洗練ピークと同期する言説側の現象。音響が作家性の単位として認知された産業的成熟の証左。</div>
+<p class="src">出典: <a href="https://natalie.mu/comic/news/613342">natalie.mu</a> ／ <a href="https://ja.wikipedia.org/wiki/%E5%B2%A9%E6%B5%AA%E7%BE%8E%E5%92%8C">ja.wikipedia.org（岩浪美和）</a></p></div>
+</div>
+<div class="note"><b>対立軸：</b>「日本アニメの音響は静寂＝間に独自性がある」（宮崎／久石／山田）⇔「近年はハリウッド型の重低音・音圧志向（ufotable／MAPPA）に接近している」。本データは両極が2010s–2020sに<b>同時増加＝併存</b>することを示し、「日本は静寂、海外は音圧」という二分法を修正する。</div>
+
+<h2>作品一覧（クリックでソート／絞り込み可）</h2>
 <div class="card">
 <div style="margin-bottom:10px">
 <input id="q" placeholder="作品名で絞り込み" oninput="render()">
@@ -103,6 +198,8 @@ run#48・視点048（音グループ id27）。絶対値は選定バイアスに
 <script>
 const P={"stats": {"n": 102, "dist_se": {"stock_minimal": 4, "stylized": 29, "realistic_foley": 36, "designed_hyperreal": 33}, "dist_amb": {"functional": 40, "sparse": 11, "immersive": 43, "hyperdetailed": 8}, "dist_sil": {"none": 19, "incidental": 19, "deliberate_ma": 45, "structural": 19}, "se_by_decade": {"1950": {"n": 1, "stock_minimal": 1.0}, "1960": {"n": 7, "stock_minimal": 0.429, "stylized": 0.571}, "1970": {"n": 9, "stylized": 0.556, "realistic_foley": 0.333, "designed_hyperreal": 0.111}, "1980": {"n": 17, "stylized": 0.353, "designed_hyperreal": 0.294, "realistic_foley": 0.353}, "1990": {"n": 13, "stylized": 0.615, "designed_hyperreal": 0.231, "realistic_foley": 0.154}, "2000": {"n": 17, "designed_hyperreal": 0.353, "realistic_foley": 0.353, "stylized": 0.294}, "2010": {"n": 22, "designed_hyperreal": 0.5, "realistic_foley": 0.5}, "2020": {"n": 16, "designed_hyperreal": 0.438, "realistic_foley": 0.5, "stylized": 0.062}}, "amb_by_decade": {"1950": {"n": 1, "functional": 1.0}, "1960": {"n": 7, "sparse": 0.571, "functional": 0.429}, "1970": {"n": 9, "functional": 0.667, "immersive": 0.333}, "1980": {"n": 17, "sparse": 0.059, "functional": 0.412, "immersive": 0.471, "hyperdetailed": 0.059}, "1990": {"n": 13, "functional": 0.692, "immersive": 0.154, "hyperdetailed": 0.077, "sparse": 0.077}, "2000": {"n": 17, "functional": 0.412, "hyperdetailed": 0.118, "immersive": 0.353, "sparse": 0.118}, "2010": {"n": 22, "sparse": 0.091, "immersive": 0.636, "hyperdetailed": 0.182, "functional": 0.091}, "2020": {"n": 16, "functional": 0.312, "immersive": 0.625, "sparse": 0.062}}, "sil_by_decade": {"1950": {"n": 1, "none": 1.0}, "1960": {"n": 7, "none": 0.571, "incidental": 0.143, "deliberate_ma": 0.286}, "1970": {"n": 9, "incidental": 0.333, "none": 0.222, "deliberate_ma": 0.444}, "1980": {"n": 17, "none": 0.294, "deliberate_ma": 0.529, "incidental": 0.059, "structural": 0.118}, "1990": {"n": 13, "none": 0.385, "structural": 0.231, "incidental": 0.154, "deliberate_ma": 0.231}, "2000": {"n": 17, "deliberate_ma": 0.412, "incidental": 0.235, "none": 0.118, "structural": 0.235}, "2010": {"n": 22, "structural": 0.273, "deliberate_ma": 0.591, "incidental": 0.136}, "2020": {"n": 16, "deliberate_ma": 0.438, "structural": 0.25, "incidental": 0.312}}, "index_by_decade": {"1950": 0.167, "1960": 0.249, "1970": 0.511, "1980": 0.6, "1990": 0.503, "2000": 0.632, "2010": 0.773, "2020": 0.702}, "index_by_type": {"ONA": {"n": 2, "idx": 0.693}, "OVA": {"n": 4, "idx": 0.758}, "TV": {"n": 77, "idx": 0.556}, "movie": {"n": 19, "idx": 0.79}}, "index_by_demographic": {"general": {"n": 12, "idx": 0.768}, "josei": {"n": 2, "idx": 0.627}, "kids": {"n": 12, "idx": 0.408}, "seinen": {"n": 48, "idx": 0.725}, "shoujo": {"n": 2, "idx": 0.384}, "shounen": {"n": 26, "idx": 0.434}}, "silence_strong_share_by_decade": {"1950": 0.0, "1960": 0.286, "1970": 0.444, "1980": 0.647, "1990": 0.462, "2000": 0.647, "2010": 0.864, "2020": 0.688}, "se_high_craft_share_by_decade": {"1950": 0.0, "1960": 0.0, "1970": 0.444, "1980": 0.647, "1990": 0.385, "2000": 0.706, "2010": 1.0, "2020": 0.938}}, "rows": [{"t": "白蛇伝", "y": 1958, "tp": "movie", "dm": "general", "se": "stock_minimal", "amb": "functional", "sil": "none", "idx": 0.167, "n": "東映初の長編カラー。当時の限られたトラックで音楽中心、SEは控えめ"}, {"t": "鉄腕アトム", "y": 1963, "tp": "TV", "dm": "kids", "se": "stock_minimal", "amb": "sparse", "sil": "none", "idx": 0.067, "n": "週次TVの黎明期。電子的ビープ音と音楽が主、環境音は希薄"}, {"t": "鉄人28号", "y": 1963, "tp": "TV", "dm": "kids", "se": "stylized", "amb": "sparse", "sil": "none", "idx": 0.167, "n": "巨大ロボの足音・駆動音を記号化した初期様式"}, {"t": "狼少年ケン", "y": 1963, "tp": "TV", "dm": "kids", "se": "stock_minimal", "amb": "functional", "sil": "none", "idx": 0.167, "n": "東映初の連続TV。SEは類型的"}, {"t": "ジャングル大帝", "y": 1965, "tp": "TV", "dm": "kids", "se": "stock_minimal", "amb": "functional", "sil": "incidental", "idx": 0.277, "n": "自然舞台だが環境音は限定的、音楽主導"}, {"t": "オバケのQ太郎", "y": 1965, "tp": "TV", "dm": "kids", "se": "stylized", "amb": "sparse", "sil": "none", "idx": 0.167, "n": "ギャグ用の漫画的SE"}, {"t": "巨人の星", "y": 1968, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "sparse", "sil": "deliberate_ma", "idx": 0.4, "n": "出崎演出の溜め＝静止と効果音の劇的強調が萌芽"}, {"t": "ゲゲゲの鬼太郎", "y": 1968, "tp": "TV", "dm": "kids", "se": "stylized", "amb": "functional", "sil": "deliberate_ma", "idx": 0.5, "n": "妖怪の不気味なSEと静寂で怪奇演出"}, {"t": "ルパン三世", "y": 1971, "tp": "TV", "dm": "seinen", "se": "stylized", "amb": "functional", "sil": "incidental", "idx": 0.377, "n": "ジャズ劇伴下のスタイリッシュなアクションSE"}, {"t": "マジンガーZ", "y": 1972, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "none", "idx": 0.267, "n": "ロケットパンチ等必殺技SEを発明＝記号的効果音の確立"}, {"t": "科学忍者隊ガッチャマン", "y": 1972, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "none", "idx": 0.267, "n": "メカ・必殺技の様式化SE"}, {"t": "アルプスの少女ハイジ", "y": 1974, "tp": "TV", "dm": "kids", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "高畑勲の日常生活描写。牛の鈴・自然音など環境音の写実化"}, {"t": "宇宙戦艦ヤマト", "y": 1974, "tp": "TV", "dm": "shounen", "se": "designed_hyperreal", "amb": "functional", "sil": "deliberate_ma", "idx": 0.683, "n": "波動砲・主砲の重厚な作り込みSE、発進の溜め"}, {"t": "銀河鉄道999", "y": 1978, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "deliberate_ma", "idx": 0.5, "n": "汽笛・宇宙の静寂で叙情を作る"}, {"t": "未来少年コナン", "y": 1978, "tp": "TV", "dm": "kids", "se": "realistic_foley", "amb": "immersive", "sil": "incidental", "idx": 0.627, "n": "宮崎演出。風・水など自然環境音を丁寧に"}, {"t": "機動戦士ガンダム", "y": 1979, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "incidental", "idx": 0.377, "n": "ビームライフル/MS駆動音だが戦争の生々しさへ脱神話化の端緒"}, {"t": "ルパン三世 カリオストロの城", "y": 1979, "tp": "movie", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "劇場の環境音設計、追走劇の音"}, {"t": "うる星やつら", "y": 1981, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "sparse", "sil": "none", "idx": 0.167, "n": "ギャグ的記号SE"}, {"t": "超時空要塞マクロス", "y": 1982, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "none", "idx": 0.267, "n": "バルキリー変形音などメカSE"}, {"t": "北斗の拳", "y": 1984, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "none", "idx": 0.267, "n": "打撃・爆発の誇張SEだが様式的"}, {"t": "風の谷のナウシカ", "y": 1984, "tp": "movie", "dm": "general", "se": "designed_hyperreal", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.817, "n": "王蟲の鳴き・腐海の環境音をデザイン、劇場音響の作り込み"}, {"t": "機動戦士Zガンダム", "y": 1985, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "incidental", "idx": 0.377, "n": "MS戦の記号SE"}, {"t": "天空の城ラピュタ", "y": 1986, "tp": "movie", "dm": "general", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "飛行石・機械・自然の環境音、劇場フォーリー"}, {"t": "めぞん一刻", "y": 1986, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "functional", "sil": "deliberate_ma", "idx": 0.617, "n": "下宿の生活音と間"}, {"t": "ドラゴンボール", "y": 1986, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "none", "idx": 0.267, "n": "気・打撃の記号SE"}, {"t": "聖闘士星矢", "y": 1986, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "none", "idx": 0.267, "n": "小宇宙・必殺技の様式SE"}, {"t": "王立宇宙軍 オネアミスの翼", "y": 1987, "tp": "movie", "dm": "seinen", "se": "designed_hyperreal", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.817, "n": "ロケット発射の写実的かつ作り込んだ音響設計"}, {"t": "となりのトトロ", "y": 1988, "tp": "movie", "dm": "kids", "se": "realistic_foley", "amb": "hyperdetailed", "sil": "deliberate_ma", "idx": 0.817, "n": "田園の虫・風・水の過剰なほど精緻な環境音"}, {"t": "火垂るの墓", "y": 1988, "tp": "movie", "dm": "general", "se": "realistic_foley", "amb": "immersive", "sil": "structural", "idx": 0.85, "n": "空襲・蛍・死の場面で静寂を主題化"}, {"t": "AKIRA", "y": 1988, "tp": "movie", "dm": "seinen", "se": "designed_hyperreal", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.817, "n": "芸能山城組。金田のバイク音など革新的サウンドデザインの金字塔"}, {"t": "トップをねらえ!", "y": 1988, "tp": "OVA", "dm": "seinen", "se": "designed_hyperreal", "amb": "functional", "sil": "deliberate_ma", "idx": 0.683, "n": "OVA高予算のメカSEと溜め"}, {"t": "銀河英雄伝説", "y": 1988, "tp": "OVA", "dm": "seinen", "se": "designed_hyperreal", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.817, "n": "クラシック劇伴下の艦隊戦の重厚音響"}, {"t": "機動戦士ガンダム0080", "y": 1989, "tp": "OVA", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "structural", "idx": 0.85, "n": "戦争の生活音と銃声、ラストの静寂"}, {"t": "機動警察パトレイバー the Movie", "y": 1989, "tp": "movie", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "押井×川井。都市の環境音と間の設計"}, {"t": "美少女戦士セーラームーン", "y": 1992, "tp": "TV", "dm": "shoujo", "se": "stylized", "amb": "functional", "sil": "none", "idx": 0.267, "n": "変身バンクの記号SE"}, {"t": "幽☆遊☆白書", "y": 1992, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "none", "idx": 0.267, "n": "霊力・必殺技の様式SE"}, {"t": "新世紀エヴァンゲリオン", "y": 1995, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "functional", "sil": "structural", "idx": 0.783, "n": "電車・蝉・沈黙の有名な使用＝静寂を主題化したサウンド設計"}, {"t": "攻殻機動隊", "y": 1995, "tp": "movie", "dm": "seinen", "se": "designed_hyperreal", "amb": "immersive", "sil": "structural", "idx": 0.917, "n": "川井憲次。電脳都市の環境音と静寂の名作、サウンドデザインの里程標"}, {"t": "名探偵コナン", "y": 1996, "tp": "TV", "dm": "kids", "se": "stylized", "amb": "functional", "sil": "none", "idx": 0.267, "n": "推理・アクションの機能的SE"}, {"t": "るろうに剣心", "y": 1996, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "incidental", "idx": 0.377, "n": "剣戟の様式SE"}, {"t": "機動戦艦ナデシコ", "y": 1996, "tp": "TV", "dm": "seinen", "se": "stylized", "amb": "functional", "sil": "none", "idx": 0.267, "n": "メカSE"}, {"t": "もののけ姫", "y": 1997, "tp": "movie", "dm": "general", "se": "realistic_foley", "amb": "hyperdetailed", "sil": "deliberate_ma", "idx": 0.817, "n": "森・獣・タタラ場の精緻な環境音と間"}, {"t": "ベルセルク", "y": 1997, "tp": "TV", "dm": "seinen", "se": "stylized", "amb": "functional", "sil": "incidental", "idx": 0.377, "n": "剣戟・戦場SE"}, {"t": "ポケットモンスター", "y": 1997, "tp": "TV", "dm": "kids", "se": "stylized", "amb": "functional", "sil": "none", "idx": 0.267, "n": "ポケモンの鳴き声＝記号的SE"}, {"t": "少女革命ウテナ", "y": 1997, "tp": "TV", "dm": "shoujo", "se": "stylized", "amb": "functional", "sil": "deliberate_ma", "idx": 0.5, "n": "決闘の様式SEと演劇的な間"}, {"t": "serial experiments lain", "y": 1998, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "sparse", "sil": "structural", "idx": 0.683, "n": "電線のハム・ノイズ・ドローンと静寂で不安を構築"}, {"t": "カウボーイビバップ", "y": 1998, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "シネマティックな環境音とジャズ、間の演出"}, {"t": "フリクリ", "y": 2000, "tp": "OVA", "dm": "seinen", "se": "designed_hyperreal", "amb": "functional", "sil": "deliberate_ma", "idx": 0.683, "n": "ギターロックと誇張SE、テンポの緩急"}, {"t": "千と千尋の神隠し", "y": 2001, "tp": "movie", "dm": "general", "se": "realistic_foley", "amb": "hyperdetailed", "sil": "deliberate_ma", "idx": 0.817, "n": "湯屋の生活音・水・足音の精緻な環境音"}, {"t": "機動戦士ガンダムSEED", "y": 2002, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "incidental", "idx": 0.377, "n": "MS戦の記号SE"}, {"t": "攻殻機動隊 STAND ALONE COMPLEX", "y": 2002, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.817, "n": "電脳・銃器の作り込みSEと都市環境音"}, {"t": "鋼の錬金術師", "y": 2003, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "incidental", "idx": 0.377, "n": "錬成の記号SE"}, {"t": "BLEACH", "y": 2004, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "none", "idx": 0.267, "n": "斬撃・霊圧の様式SE"}, {"t": "蟲師", "y": 2005, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "hyperdetailed", "sil": "structural", "idx": 0.917, "n": "自然と蟲の環境音・静寂を主役にした音響の傑作"}, {"t": "交響詩篇エウレカセブン", "y": 2005, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "incidental", "idx": 0.377, "n": "LFOのメカSE"}, {"t": "AIR", "y": 2005, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "京アニ。夏・海辺の環境音と間"}, {"t": "涼宮ハルヒの憂鬱", "y": 2006, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "京アニの教室・街の環境音"}, {"t": "DEATH NOTE", "y": 2006, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "sparse", "sil": "structural", "idx": 0.683, "n": "緊張のための無音と突発音、心理SE"}, {"t": "ひぐらしのなく頃に", "y": 2006, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "sparse", "sil": "structural", "idx": 0.683, "n": "蝉時雨と突然の無音/異音でホラーを構築"}, {"t": "コードギアス", "y": 2006, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "incidental", "idx": 0.377, "n": "ナイトメアのメカSE"}, {"t": "天元突破グレンラガン", "y": 2007, "tp": "TV", "dm": "shounen", "se": "designed_hyperreal", "amb": "functional", "sil": "none", "idx": 0.45, "n": "巨大ロボの誇張音圧"}, {"t": "秒速5センチメートル", "y": 2007, "tp": "movie", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "structural", "idx": 0.85, "n": "新海。踏切・電車・雪の環境音と静寂の叙情"}, {"t": "電脳コイル", "y": 2007, "tp": "TV", "dm": "kids", "se": "designed_hyperreal", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.817, "n": "AR電脳のSEと郊外環境音"}, {"t": "CLANNAD", "y": 2007, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "京アニ。生活音と間で情感"}, {"t": "魔法少女まどか☆マギカ", "y": 2011, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "sparse", "sil": "structural", "idx": 0.683, "n": "劇団イヌカレー空間の異化SEと静寂"}, {"t": "STEINS;GATE", "y": 2011, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "sparse", "sil": "deliberate_ma", "idx": 0.583, "n": "ブラウン管・時間移動の電子SEと緊張の間"}, {"t": "Fate/Zero", "y": 2011, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "immersive", "sil": "incidental", "idx": 0.693, "n": "ufotable。宝具・魔術の作り込み音響"}, {"t": "氷菓", "y": 2012, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "京アニ。古典部室・校舎の環境音と間"}, {"t": "進撃の巨人", "y": 2013, "tp": "TV", "dm": "shounen", "se": "designed_hyperreal", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.817, "n": "巨人の足音・立体機動の作り込みSEと静寂の緩急"}, {"t": "のんのんびより", "y": 2013, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "田舎の環境音（蝉・風）と間"}, {"t": "ばらかもん", "y": 2014, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "島の生活・自然音"}, {"t": "響け！ユーフォニアム", "y": 2015, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "hyperdetailed", "sil": "deliberate_ma", "idx": 0.883, "n": "京アニ。楽器の演奏音・息遣いの精緻な収録と間"}, {"t": "ワンパンマン", "y": 2015, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "functional", "sil": "deliberate_ma", "idx": 0.683, "n": "一撃の誇張SEと無音オチ＝静寂のギャグ化"}, {"t": "モブサイコ100", "y": 2016, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "functional", "sil": "deliberate_ma", "idx": 0.683, "n": "超能力の実験的SEと爆発の間"}, {"t": "君の名は。", "y": 2016, "tp": "movie", "dm": "general", "se": "realistic_foley", "amb": "immersive", "sil": "structural", "idx": 0.85, "n": "新海。組紐・電車・黄昏の環境音と静寂"}, {"t": "聲の形", "y": 2016, "tp": "movie", "dm": "general", "se": "realistic_foley", "amb": "immersive", "sil": "structural", "idx": 0.85, "n": "聾の主観でこもる音・無音を演出主軸にした静寂の里程標"}, {"t": "ユーリ!!! on ICE", "y": 2016, "tp": "TV", "dm": "josei", "se": "realistic_foley", "amb": "immersive", "sil": "incidental", "idx": 0.627, "n": "スケートのエッジ音"}, {"t": "メイドインアビス", "y": 2017, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "hyperdetailed", "sil": "structural", "idx": 0.983, "n": "深界の環境音をデザイン、静寂で深淵を表現"}, {"t": "少女終末旅行", "y": 2017, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "structural", "idx": 0.85, "n": "終末世界の静寂と僅かな環境音"}, {"t": "宝石の国", "y": 2017, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.817, "n": "CGの宝石的・結晶的SE"}, {"t": "リズと青い鳥", "y": 2018, "tp": "movie", "dm": "seinen", "se": "realistic_foley", "amb": "hyperdetailed", "sil": "structural", "idx": 0.917, "n": "山田尚子。足音・息・衣擦れのASMR的精緻さと静寂"}, {"t": "ヴァイオレット・エヴァーガーデン", "y": 2018, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "hyperdetailed", "sil": "deliberate_ma", "idx": 0.817, "n": "京アニ。タイプライター・自然の精緻なフォーリー"}, {"t": "ゆるキャン△", "y": 2018, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "焚火・自然のASMR的環境音"}, {"t": "DEVILMAN crybaby", "y": 2018, "tp": "ONA", "dm": "seinen", "se": "designed_hyperreal", "amb": "immersive", "sil": "incidental", "idx": 0.693, "n": "湯浅×牛尾。エレクトロと暴力SE"}, {"t": "鬼滅の刃", "y": 2019, "tp": "TV", "dm": "shounen", "se": "designed_hyperreal", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.817, "n": "ufotable。呼吸・斬撃の作り込み音響と無音の溜め"}, {"t": "ヴィンランド・サガ", "y": 2019, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "中世戦場の生々しいフォーリー"}, {"t": "映像研には手を出すな！", "y": 2020, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "functional", "sil": "deliberate_ma", "idx": 0.683, "n": "湯浅。想像力を音で具現化する実験的SE"}, {"t": "呪術廻戦", "y": 2020, "tp": "TV", "dm": "shounen", "se": "designed_hyperreal", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.817, "n": "MAPPA。呪力の重低音作り込みと無音の緩急"}, {"t": "オッドタクシー", "y": 2021, "tp": "TV", "dm": "seinen", "se": "realistic_foley", "amb": "sparse", "sil": "deliberate_ma", "idx": 0.517, "n": "会話劇。都市の生活音と間で構築"}, {"t": "平家物語", "y": 2021, "tp": "TV", "dm": "general", "se": "realistic_foley", "amb": "immersive", "sil": "structural", "idx": 0.85, "n": "山田尚子。琵琶・自然音と無常の静寂"}, {"t": "チェンソーマン", "y": 2022, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.817, "n": "MAPPA。チェーンソー・流血の誇張音響"}, {"t": "ぼっち・ざ・ろっく！", "y": 2022, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "functional", "sil": "deliberate_ma", "idx": 0.683, "n": "ギター・ライブ音の作り込みと心理SE"}, {"t": "SPY×FAMILY", "y": 2022, "tp": "TV", "dm": "shounen", "se": "realistic_foley", "amb": "immersive", "sil": "incidental", "idx": 0.627, "n": "都市生活の環境音"}, {"t": "サイバーパンク エッジランナーズ", "y": 2022, "tp": "ONA", "dm": "seinen", "se": "designed_hyperreal", "amb": "immersive", "sil": "incidental", "idx": 0.693, "n": "TRIGGER。グリッチ・サイバーパンクSE"}, {"t": "水星の魔女", "y": 2022, "tp": "TV", "dm": "shounen", "se": "stylized", "amb": "functional", "sil": "incidental", "idx": 0.377, "n": "ガンダムMSのSE"}, {"t": "すずめの戸締まり", "y": 2022, "tp": "movie", "dm": "general", "se": "realistic_foley", "amb": "immersive", "sil": "structural", "idx": 0.85, "n": "新海。扉・地鳴り・日常音と静寂"}, {"t": "葬送のフリーレン", "y": 2023, "tp": "TV", "dm": "shounen", "se": "realistic_foley", "amb": "immersive", "sil": "structural", "idx": 0.85, "n": "魔法戦すら静かに、間と環境音で時の流れを表現"}, {"t": "推しの子", "y": 2023, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "functional", "sil": "deliberate_ma", "idx": 0.683, "n": "芸能界の心理SEと間"}, {"t": "薬屋のひとりごと", "y": 2023, "tp": "TV", "dm": "josei", "se": "realistic_foley", "amb": "immersive", "sil": "incidental", "idx": 0.627, "n": "後宮の生活環境音"}, {"t": "ダンジョン飯", "y": 2024, "tp": "TV", "dm": "seinen", "se": "designed_hyperreal", "amb": "functional", "sil": "incidental", "idx": 0.56, "n": "調理・モンスターの作り込みSE"}, {"t": "ルックバック", "y": 2024, "tp": "movie", "dm": "general", "se": "realistic_foley", "amb": "immersive", "sil": "structural", "idx": 0.85, "n": "鉛筆・雨の音と無音、静寂の演出"}, {"t": "きみの色", "y": 2024, "tp": "movie", "dm": "general", "se": "realistic_foley", "amb": "immersive", "sil": "deliberate_ma", "idx": 0.75, "n": "山田尚子。音楽と生活音、息遣いの精緻さ"}]};const S=P.stats;
 const decs=Object.keys(S.index_by_decade);
+const LM={stock_minimal:'ありもの最小',stylized:'様式化・記号',realistic_foley:'写実フォーリー',designed_hyperreal:'デザイン誇張',none:'なし',incidental:'偶発的',deliberate_ma:'意図的な「間」',structural:'構造的・主題的',ONA:'ONA(配信)',OVA:'OVA',TV:'TV',movie:'劇場',general:'一般',josei:'女性向け',kids:'児童',seinen:'青年',shoujo:'少女',shounen:'少年'};
+
 const cssv=getComputedStyle(document.documentElement);
 const AC=cssv.getPropertyValue('--ac').trim(),AC2=cssv.getPropertyValue('--ac2').trim(),AC3=cssv.getPropertyValue('--ac3').trim(),INK=cssv.getPropertyValue('--ink').trim(),SUB=cssv.getPropertyValue('--sub').trim(),LINE=cssv.getPropertyValue('--line').trim();
 Chart.defaults.color=SUB;Chart.defaults.borderColor=LINE;Chart.defaults.font.family='sans-serif';
@@ -116,12 +213,12 @@ new Chart(cShare,{type:'line',data:{labels:lab,datasets:[
 {label:'高作り込みSEシェア',data:decs.map(d=>S.se_high_craft_share_by_decade[d]),borderColor:AC2,tension:.3},
 {label:'強い静寂シェア',data:decs.map(d=>S.silence_strong_share_by_decade[d]),borderColor:AC3,tension:.3}]},options:{scales:{y:{min:0,max:1}}}});
 function stacked(canvas,byd,keys,colors){
- const ds=keys.map((k,i)=>({label:k,data:decs.map(d=>(byd[d][k]||0)),backgroundColor:colors[i]}));
+ const ds=keys.map((k,i)=>({label:(LM[k]||k),data:decs.map(d=>(byd[d][k]||0)),backgroundColor:colors[i]}));
  new Chart(canvas,{type:'bar',data:{labels:lab,datasets:ds},options:{scales:{x:{stacked:true},y:{stacked:true,min:0,max:1}}}});
 }
 stacked(cSe,S.se_by_decade,['stock_minimal','stylized','realistic_foley','designed_hyperreal'],['#5b6573','#c9a25a','#7ee0b0','#ff8c6b']);
 stacked(cSil,S.sil_by_decade,['none','incidental','deliberate_ma','structural'],['#5b6573','#8aa0b8','#5ab0ff','#c66bff']);
-function barIdx(canvas,obj){const ks=Object.keys(obj);new Chart(canvas,{type:'bar',data:{labels:ks,datasets:[{label:'指数',data:ks.map(k=>obj[k].idx),backgroundColor:AC}]},options:{indexAxis:'y',scales:{x:{min:0,max:1}}}});}
+function barIdx(canvas,obj){const ks=Object.keys(obj).sort((a,b)=>obj[b].idx-obj[a].idx);new Chart(canvas,{type:'bar',data:{labels:ks.map(k=>(LM[k]||k)),datasets:[{label:'指数',data:ks.map(k=>obj[k].idx),backgroundColor:AC,borderRadius:3,maxBarThickness:26}]},options:{indexAxis:'y',layout:{padding:{right:54}},plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',clamp:true,color:'#5b554a',font:{size:11,weight:'700'},formatter:(v,c)=>v.toFixed(2)+'（'+obj[ks[c.dataIndex]].n+'作）'}},scales:{x:{min:0,max:1}}},plugins:[ChartDataLabels]});}
 barIdx(cType,S.index_by_type);barIdx(cDemo,S.index_by_demographic);
 // table
 const rows=P.rows;let sortK='y',asc=true;

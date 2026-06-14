@@ -1,22 +1,67 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>視点044 色彩・美術の傾向</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;max-width:1080px;margin:0 auto;padding:24px;background:#faf8f5;color:#222;line-height:1.7}
-h1{font-size:1.7em;border-bottom:4px solid #c9446b;padding-bottom:8px}
-h2{font-size:1.3em;margin-top:2em;border-left:6px solid #c9446b;padding-left:10px}
-h3{color:#a33457;margin-top:1.4em}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.card{background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 6px rgba(0,0,0,.08);margin:14px 0}
-canvas{max-height:320px}
-table{border-collapse:collapse;width:100%;font-size:.86em}
-th,td{border:1px solid #e3d9d0;padding:4px 7px;text-align:center}
-th{background:#f3e7ec}
-.quote{background:#fff;border-left:4px solid #c9446b;border-radius:6px;padding:10px 14px;margin:10px 0;font-size:.92em}
-.quote a{color:#c9446b;word-break:break-all}
-.lead{font-size:1.05em;background:#fff3f6;padding:12px 16px;border-radius:8px}
-.tablewrap{max-height:430px;overflow:auto}
-@media(max-width:760px){.grid{grid-template-columns:1fr}}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/044_color_art_tendency/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -26,46 +71,113 @@ th{background:#f3e7ec}
 <style>#__home{position:sticky;top:0;z-index:99;background:#0b0d12ee;backdrop-filter:blur(6px);border-bottom:1px solid #232838;padding:8px 16px;font:14px system-ui,sans-serif}#__home a{color:#8ab4ff;text-decoration:none}#__home a:hover{text-decoration:underline}</style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-51N89XJ20Q"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-51N89XJ20Q');</script>
-</head><body><div id="__home"><a href="../../">← 視点一覧トップへ</a></div>
-<h1>視点044 色彩・美術の傾向 ― 129作の定量分析</h1>
-<p class="lead">色彩・美術の60年は「<b>画を描く</b>（背景画＝絵筆）」から「<b>光を当てる</b>（撮影＝光・発光効果）」への、craftの所在の移動として読める。彩度の伸びは緩く、本当に動いたのは<b>光の前景化</b>と<b>色の記号化</b>だった。</p>
+</head><body><div id="__home"><a href="../../">← 視点一覧トップへ</a></div><div class="wrap">
+<h1>色彩・美術の傾向</h1>
+<p class="sub">アニメ視点別分析 #44（映像）／ 彩度・背景美術・光と色の戦後60年 ／ n=129作（1963–2024）</p>
+<div class="tldr">
+<div class="tldr-lab">この視点の要旨</div>
+<p class="tldr-lead">色彩・美術の60年は、「画を描く（背景画＝絵筆）」から「光を当てる（撮影＝発光効果）」への、職人技の所在の移動として読める。彩度の伸びは緩く、本当に動いたのは<b>光の前景化</b>と<b>色の記号化</b>だった。</p>
+<ul class="tldr-list">
+<li>三つの指数は性格が違う。<b>彩度</b>は緩い単調上昇（0.55→0.71）にとどまるが、<b>背景の作り込み</b>は1960s→1970sで0.20→0.67の<b>段差</b>を作って高原化し、<b>光の前景化</b>が最も急峻に伸びて2010s 0.83で頂点を打つ。</li>
+<li><b>第一の転換点＝1970s「背景美術の発明」</b>。世界名作劇場の絵画的な自然光の風景と、ヤマト／ガンダムが持ち込んだ宇宙の闇と発光が、背景を「キャラの後ろの説明」から「世界を語る画」へ昇格させた（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/008_setting_worldview/">視点008</a>の世界観密度の段差と同一の地殻変動）。</li>
+<li><b>第二の転換点＝2000年前後のデジタル化</b>。作り込み度は落ちないのに絵画的背景率は2000sで0.17へ凹み、入れ替わりに発光・撮影効果率が0→0.50（2010s）へ。美術の衰退ではなく「<b>絵筆→撮影</b>」への職人技の移動である。</li>
+<li><b>色は意味になった</b>。象徴色使用率は2000s以降1.00で飽和。色彩が「世界の説明」から「主題の記号」へ機能を変えた（エヴァ／ギアス／まどか）。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/043_character_design/">視点043</a>の記号性・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">視点005</a>の内面化と同期する2000s段差の色彩版。</li>
+<li>対象層の分業：<b>劇場・一般＝絵画的に作り込む拠点</b>（一般0.94／絵画率0.88）、<b>青年＝光を前景化する拠点</b>（0.79）、<b>少女＝最低密度0.39の現実寄り</b>。2020sは光の極限への反動として「絵への回帰」が立ち上がる。</li>
+</ul>
+</div>
+<div class="kpis">
+<div class="kpi"><span class="l">光の前景化 2010s（頂）</span><b>0.83</b></div>
+<div class="kpi"><span class="l">背景作り込み 1970s段差</span><b>0.20→0.67</b></div>
+<div class="kpi"><span class="l">象徴色率 2000s〜</span><b>1.00</b></div>
+<div class="kpi"><span class="l">母集団</span><b>129作</b></div>
+</div>
+
 
 <h2>1. 3つの指数の年代変遷</h2>
-<div class="card"><canvas id="c1"></canvas></div>
+<div class="card"><div class="cbox"><canvas id="c1"></canvas></div></div>
 <p>彩度は緩い単調上昇（0.55→0.71）。<b>背景の作り込み</b>は1960s→1970sで0.20→0.67と<b>段差</b>（世界名作劇場＋ヤマト／ガンダムによる「背景美術の発明」）を作り高原化。<b>光の前景化</b>は最も急峻に伸び、デジタル化を経て2010s 0.83で頂点。</p>
 
 <div class="grid">
-<div class="card"><h3>絵画的背景率／発光・撮影効果率</h3><canvas id="c2"></canvas>
+<div class="card"><h3>絵画的背景率／発光・撮影効果率</h3><div class="cbox"><canvas id="c2"></canvas></div>
 <p style="font-size:.86em">絵画的背景は2000sで凹む（0.17）が、入れ替わりに発光・撮影効果が0→0.50（2010s）へ。＝美術の衰退でなく「絵筆→撮影」への移動。2020sは「絵への回帰」で絵画率微増。</p></div>
-<div class="card"><h3>象徴色（色＝記号）の使用率</h3><canvas id="c3"></canvas>
-<p style="font-size:.86em">象徴色率は2000s以降1.00で飽和。色彩が「世界の説明」から「主題の記号」へ（エヴァ／ギアス／まどか）。視点043記号性・視点005内面化と同期。</p></div>
+<div class="card"><h3>象徴色（色＝記号）の使用率</h3><div class="cbox"><canvas id="c3"></canvas></div>
+<p style="font-size:.86em">象徴色率は2000s以降1.00で飽和。色彩が「世界の説明」から「主題の記号」へ（エヴァ／ギアス／まどか）。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/043_character_design/">視点043</a>記号性・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">視点005</a>内面化と同期。</p></div>
 </div>
 
 <h2>2. 色基調の構成変遷（100%積み上げ）</h2>
-<div class="card"><canvas id="c4"></canvas></div>
+<div class="card"><div class="cbox"><canvas id="c4"></canvas></div></div>
 <p>限定・モノトーン（1960s）→原色（ロボ・少女向け）→抑制自然（名作劇場・ジブリ）→2000s以降は高彩度・象徴／暗・寒色／パステルが多極化。</p>
 
 <h2>3. 対象層クロス ― 「絵画性」と「光」の分業</h2>
 <div class="card"><div class="tablewrap"><table><thead><tr><th>対象層</th><th>n</th><th>背景作り込み</th><th>光の前景化</th><th>絵画的背景率</th></tr></thead><tbody><tr><td>一般</td><td>16</td><td>0.937</td><td>0.661</td><td>0.875</td></tr><tr><td>青年</td><td>62</td><td>0.71</td><td>0.786</td><td>0.097</td></tr><tr><td>児童</td><td>18</td><td>0.574</td><td>0.404</td><td>0.444</td></tr><tr><td>少年</td><td>26</td><td>0.551</td><td>0.638</td><td>0.038</td></tr><tr><td>少女</td><td>6</td><td>0.389</td><td>0.608</td><td>0.0</td></tr></tbody></table></div>
-<p style="font-size:.88em">劇場・一般＝絵画的に作り込む拠点（一般0.94／絵画率0.88）。青年＝光を前景化する拠点（0.79）。少女＝最低密度0.39（現実寄り、視点008と同型）。少年＝絵画率0.04だが光は高い（バトルの発光）。</p></div>
+<p style="font-size:.88em">劇場・一般＝絵画的に作り込む拠点（一般0.94／絵画率0.88）。青年＝光を前景化する拠点（0.79）。少女＝最低密度0.39（現実寄り、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/008_setting_worldview/">視点008</a>と同型）。少年＝絵画率0.04だが光は高い（バトルの発光）。</p></div>
 
-<h2>4. 考察の要点</h2>
-<div class="card">
-<p><b>第一の転換点＝1970s「背景美術の発明」</b>：簡素な平面背景→絵画的世界（ハイジ／ヤマト／ガンダム）。視点008の世界観密度の段差と同一の地殻変動。</p>
-<p><b>第二の転換点＝2000年前後のデジタル化</b>：仕上げ・撮影のソフト化で、craftが手描き絵具の絵画性から<b>写実＋撮影効果（被写界深度・フレア・グロー）</b>へ移動。AKIRA(1988)→エヴァ/攻殻(1995)→秒速5cm(2007)→Fate/Zero・まどか(2011)→君の名は(2016)→鬼滅(2019)の「光の系譜」。</p>
-<p><b>2020sの揺り戻し</b>：光の極限への反動として「絵であることの強調」（平家物語・きみの色・ルックバック・フリーレン）が出現。</p>
-<p style="color:#777;font-size:.86em"><b>留保</b>：「美術が語れる作品」を選んだ強い選定バイアスにより絶対値は過大。読めるのは相対変化のみ。デジタル化と光の前景化は観客の青年化・配信高画質需要と交絡（相関≠因果）。</p>
+<h2>4. 具体例 — 絵筆と光、二つの職人技が時代を刻む</h2>
+<div class="card ex">
+<h3>1970s ｜ 背景美術の発明（世界名作劇場）</h3>
+<p>『アルプスの少女ハイジ』（1974年・ズイヨー映像）は、アルムの山々と牧草地を絵画的な様式と自然光で描き、背景を「キャラの後ろの説明」から「世界そのものを語る画」へ昇格させた。背景の作り込み度が1960sの0.20から0.67へ跳ねる段差は、この名作劇場の風景美術と、同時期のヤマト／ガンダムの宇宙の闇から生まれている。</p>
+<h3>1980s ｜ セル彩色の極北としての色彩（AKIRA）</h3>
+<p>『AKIRA』（1988年・大友克洋監督）は<b>327色</b>もの色指定を用い、テレビアニメ的な配色を避けて「鮮やか・原色に近い色を写実のなかで使う」よう色彩設計に指示された。遠目には極彩色、近くでは退色した遊園地のような質感のネオン都市が、後年の「光の系譜」の起点に立つ。</p>
+<p class="small">出典：AKIRA（1988年の映画）色彩設計 — <a href="https://ja.wikipedia.org/wiki/AKIRA_(1988%E5%B9%B4%E3%81%AE%E6%98%A0%E7%94%BB)">ja.wikipedia.org</a></p>
+<h3>2010s ｜ 光を前景化する「撮影」（ufotable『鬼滅の刃』）</h3>
+<p>ufotableは撮影・3DCGを内製し、『空の境界』『Fate』で磨いた夜景・発光表現を『鬼滅の刃』の夜戦へ注いだ。craftの重心が背景画の絵筆から撮影（コンポジット）の光へ移ったことを、無限列車編の炎の演出が体現する。煉獄杏寿郎の最期の言葉は、その光に重なって観客の胸を打った。</p>
+<div class="quote">心を燃やせ。歯を喰いしばって前を向け。<span class="qby">煉獄杏寿郎／劇場版『鬼滅の刃』無限列車編（2020年・ufotable）</span></div>
+<p class="small">出典：煉獄杏寿郎の名言 — <a href="https://ciatr.jp/topics/317416">ciatr.jp</a> ／ ufotableと新海誠の「撮影」 — <a href="https://realsound.jp/movie/2020/12/post-677025.html">realsound.jp</a></p>
+<h3>2010s ｜ フォトリアルな光の系譜（新海誠『君の名は。』）</h3>
+<p>新海誠は、レンズフレア・グロー・被写界深度といった写真的な光を画面の主役に据えた。秒速5センチメートルから君の名は。へ続くこのフォトリアル光は、本データで「光の前景化指数だけが急峻に伸びる」事実と正確に一致する。作品のキャッチコピー自体が、光のなかで誰かを探す物語の輪郭をなぞる。</p>
+<div class="quote">まだ会ったことのない君を、探している。<span class="qby">『君の名は。』（2016年・新海誠監督）キャッチコピー</span></div>
+<p class="small">出典：君の名は。 — <a href="https://ja.wikipedia.org/wiki/%E5%90%9B%E3%81%AE%E5%90%8D%E3%81%AF%E3%80%82">ja.wikipedia.org</a></p>
+<h3>2020s ｜「絵であること」への回帰（山田尚子）</h3>
+<p>『平家物語』（2022年）『きみの色』（2024年）の山田尚子は、絵の具の滴のような効果と淡い色の主線で、写実ではなく<b>イラスト的な筆致＝「絵であること」</b>を前景化する。光の極限まで行った反動として再び「絵」を意識化する、2020sの揺り戻しの代表例である。</p>
+<p class="small">出典：山田尚子の作家性（平家物語→きみの色） — <a href="https://press.moviewalker.jp/news/article/1214998/">press.moviewalker.jp</a></p>
 </div>
-
-<h2>5. 他者の論評との対話（出典付き）</h2>
-<div class="quote"><b>氷川竜介「アニメに歴史あり」第1回《光》</b>：アニメ表現史で「光」が前景化してきた史観。本分析の光の前景化指数の上昇と方向一致。<br><a href="https://anime.eiga.com/news/column/hikawa_rekishi/105883/">anime.eiga.com/news/column/hikawa_rekishi/105883/</a></div>
-<div class="quote"><b>リアルサウンド「ufotableと新海誠から探る"撮影"の重要性」</b>：両者の成功を作画でなく撮影（コンポジット）工程に帰す。本分析の核（craftが背景画→撮影/光へ移った）と最も強く一致。<br><a href="https://realsound.jp/movie/2020/12/post-677025.html">realsound.jp/movie/2020/12/post-677025.html</a></div>
-<div class="quote"><b>Animation Obsessive / Open Culture（男鹿和雄）</b>：ジブリの絵画的背景＝職人芸。1970s〜の painterly 高原の実践的支柱。<br><a href="https://animationobsessive.substack.com/p/what-kazuo-oga-thinks-about-when">animationobsessive.substack.com/p/what-kazuo-oga-thinks-about-when</a></div>
-<div class="quote"><b>絵学Blog『君の名は。』光源は矛盾だらけ？</b>（賛否の反対側）：新海の光は物理整合より演出優先で配置＝「写実に見えて様式」。写実化史観への反証。<br><a href="http://anofelus-log.blogspot.com/2016/09/blog-post.html">anofelus-log.blogspot.com/2016/09/blog-post.html</a></div>
-<div class="quote"><b>泉津井陽一「撮影講座」第5回・第8回</b>（懐疑）：環境光・フレア・ぼかしの多用は「やりすぎ」ると動きの見せ場を殺すと警告。光の前景化を手放しで肯定しない実務者の留保。<br><a href="http://animestyle.jp/2016/03/07/9837/">animestyle.jp/2016/03/07/9837/</a></div>
-<div class="quote"><b>山田尚子の作風変化（アニメ！アニメ！）</b>：京アニの写実から『平家物語』『きみの色』で「絵であることの強調」へ。2020sの絵画率微増（揺り戻し）の代表例。<br><a href="https://animeanime.jp/article/2024/09/27/86776.html">animeanime.jp/article/2024/09/27/86776.html</a></div>
-
-<h2>6. 全129作リスト</h2>
+<h2 class="h2-essay">5. 考察 — 「画を描く」から「光を当てる」へ</h2>
+<div class="essay">
+<p class="thesis">三つの指数の性格差そのものが、この視点の核心である。色彩・美術の60年は、作り込みの担い手が「背景画（絵筆）」から「撮影（光）」へ移動した歴史として読める。彩度の伸びは緩く、本当に動いたのは光の前景化と色の記号化だった。</p>
+<h3>① 第一の転換点＝1970s「背景美術の発明」</h3>
+<p class="phase">1960s（鉄腕アトム・鉄人28号）はモノクロ／限定彩色と簡素な平面背景に縛られ、作り込み度0.20・光0.23と全項目が最低い。ここに段差を入れたのが、(a)『アルプスの少女ハイジ』（1974）に始まる世界名作劇場の絵画的・自然光の風景美術と、(b)『宇宙戦艦ヤマト』（1974）・『機動戦士ガンダム』（1979）が持ち込んだ宇宙の闇と発光である。背景が「キャラの後ろの説明」から「世界を語る画」へ昇格し、作り込み度は0.20→0.67へ跳ねた。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/008_setting_worldview/">舞台・世界観の作り込み密度が同じ1970sに段差を作った地殻変動</a>と同一で、絵としての世界と物語としての世界が同時に発明されたことを示す。男鹿和雄に代表されるポスターカラーの職人芸は、この絵画的背景の到達点として1980s（ナウシカ／トトロ／AKIRA）に高原を築く。</p>
+<h3>② 第二の転換点＝2000年前後のデジタル化＝職人技の所在の移動</h3>
+<p class="phase">ここが最も解釈を要する。背景の作り込み度は下がらないのに、絵画的背景率は2000sで0.17へ凹み、代わりに発光・撮影効果率が0→0.38→0.50（2010s）へ上昇する。これは「美術の衰退」ではなく職人技の所在の移動である。仕上げのデジタル化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/010_animation_characteristics/">作画のデジタル化＝ムラ作画の崩落と同期する地層</a>）と撮影工程のソフト化により、背景は手描き絵具の絵画性から、写真的に整い撮影でレンズ効果（被写界深度・フレア・グロー）を載せる質へ変わった。AKIRA（1988）→エヴァ／攻殻（1995）→秒速5センチメートル（2007）→Fate/Zero・まどか（2011）→君の名は（2016）→鬼滅（2019）という「光の系譜」が立ち上がる。この投資を支えたのは、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/032_disc_to_subscription/">製作委員会・円盤バブルが撮影・CGへの投資を支えた産業構造</a>と、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/015_distribution_overseas/">海外配信が要求する高画質</a>という二つの市場条件だった。</p>
+<h3>③ 色は意味になった</h3>
+<p class="phase">象徴色使用率は2000s以降1.00で飽和する。エヴァの使徒色、コードギアスやまどかの赤、化物語の色面構成のように、色彩が「世界の説明」から「主題の記号」へ機能を変えた。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/043_character_design/">キャラデザの記号性が2000sに跳ねたのと同じデータベース消費の段差</a>、そして<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">物語の主題が自己探求へ内面化した2000s段差</a>と、同じ地層から生まれている。色は塗るものから読むものへと変わったのだ。</p>
+<h3>④ 対象層の分業と「辺境／本流」</h3>
+<p class="phase">対象層クロスは明瞭な分業を見せる。劇場・一般は絵画的に作り込む拠点（一般0.94／絵画率0.88）、青年は光を前景化する拠点（0.79）、少女は最低密度0.39の現実寄りである。青年向けが光の拠点であるのは、画面の「凝り」を味わう鑑賞態度の出現と対応する。一方で劇場・一般が絵画性の拠点であり続けるのは、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/021_transition_positioning/">劇場が常に美術の最前線で、辺境が先鋭化し本流が普遍化する法則</a>の色彩版である。ただし<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/019_gender_representation/">可視性が必ずしも主体性と一致しないジェンダー表象の逆説</a>が示すように、画面の精緻化は表象の精密化と二重写しでありうる。</p>
+<h3>⑤ 2020s ―「絵への回帰」という揺り戻し</h3>
+<p class="phase">発光・撮影効果率は2010s 0.50で頂点を打ち、2020sは0.38へ下がる。同時に絵画的背景率は微増（0.21→0.24）。『平家物語』『きみの色』（山田尚子）、『ルックバック』『君たちはどう生きるか』『葬送のフリーレン』のような、フォトリアルでなく筆致・様式を見せる潮流の出現である。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/011_production_system/">作家性の担い手が個人監督から内製スタジオの集団様式へ移った構造</a>とも響き合い、光の極限まで行った反動として再び「絵」を意識化する弁証法として読める。</p>
+<p class="small">留保：「美術が語れる作品」を選んだ強い選定バイアスにより各指数の絶対値は過大で、読めるのは相対変化のみ。デジタル化と光の前景化は観客の青年化・配信の高画質需要と交絡する（相関≠因果）。「写実に見えて様式」という両義性（新海の光源は物理整合より演出優先で配置される）は、写実化という単線史観への反証である。</p>
+</div>
+<h2>6. 論評との対話</h2>
+<div class="views">
+<div class="view">
+<div class="who"><span class="wl">映画評論</span>Real Sound（リアルサウンド 映画部）<span class="stance sup">補強</span></div>
+<div class="vt">『鬼滅の刃』『君の名は。』大ヒットの要因＝アニメの「撮影」</div>
+<p>ufotableと新海誠の成功を、作画でなく<b>撮影（コンポジット）工程</b>に帰す論考。原画と背景をコンピュータ上で組み上げ、光源設定・フィルター・被写界深度を載せる「撮影」が表現の主役になったと説く。</p>
+<div class="match"><b>データとの照合：</b>本分析の核（職人技が背景画→撮影／光へ移った）と最も強く一致する。発光・撮影効果率が0→0.50へ伸び、光の前景化指数だけが急峻に上がる事実を裏づける。</div>
+<div class="src">出典：Real Sound「ufotableと新海誠から探る“撮影”の重要性」 — <a href="https://realsound.jp/movie/2020/12/post-677025.html">realsound.jp</a></div>
+</div>
+<div class="view">
+<div class="who"><span class="wl">アニメ評論</span>氷川竜介「アニメに歴史あり」<span class="stance sup">補強</span></div>
+<div class="vt">アニメ表現史における「光」の前景化</div>
+<p>アニメの映像表現史で、撮影技術の進展とともに「光」が前景化してきたとする史観。レンズ効果の模倣史としてのデジタル撮影の系譜を整理する。</p>
+<div class="match"><b>データとの照合：</b>本分析の光の前景化指数の単調な上昇と方向が一致する。1970sの発光（ヤマト）から2010sの撮影効果ピークへ至る曲線を裏打ちする。</div>
+<div class="src">出典：氷川竜介「アニメに歴史あり」第1回《光》 — <a href="https://anime.eiga.com/news/column/hikawa_rekishi/105883/">anime.eiga.com</a></div>
+</div>
+<div class="view">
+<div class="who"><span class="wl">展覧会・美術</span>「ジブリの絵職人 男鹿和雄展」（東京都現代美術館）<span class="stance sup">補強</span></div>
+<div class="vt">ポスターカラーで世界を塗る背景美術の職人芸</div>
+<p>『となりのトトロ』の美術監督・男鹿和雄の仕事を「絵職人」として紹介。ニッカーのポスターカラー（ガッシュ）で濡れ紙に塗る手描き背景の技術が、1970s以降の絵画的高原の実践的支柱だったことを示す。</p>
+<div class="match"><b>データとの照合：</b>絵画的背景率が1970s–80sに厚く立ち上がる本データの「背景美術の発明」期を、職人技の具体として裏づける。デジタル化以前の craft の所在がまさに「絵筆」にあったことを示す。</div>
+<div class="src">出典：「ジブリの絵職人 男鹿和雄展」東京都現代美術館 — <a href="https://www.mot-art-museum.jp/exhibitions/16/">mot-art-museum.jp</a></div>
+</div>
+<div class="view">
+<div class="who"><span class="wl">考察ブログ</span>絵学Blog『君の名は。』光源論<span class="stance cau">留保つき</span></div>
+<div class="vt">新海の光は「写実に見えて様式」</div>
+<p>『君の名は。』の光源は物理的整合より演出優先で配置されており、写実に見えて実は様式である、とする反証。フォトリアル＝写実化という単線史観への警鐘。</p>
+<div class="match"><b>データとの照合：</b>本データの palette／light コードも、演出意図を写実と混同しうる限界を持つ。光の前景化を「写実への一本道」と読むことへの留保として、本分析の反証・留保節と整合する。</div>
+<div class="src">出典：絵学Blog「『君の名は。』光源は矛盾だらけ？」 — <a href="http://anofelus-log.blogspot.com/2016/09/blog-post.html">anofelus-log.blogspot.com</a></div>
+</div>
+</div>
+<h2>7. 全129作リスト</h2>
 <div class="card"><div class="tablewrap"><table><thead><tr><th>作品</th><th>年</th><th>種別</th><th>対象層</th><th>色基調</th><th>背景</th><th>光と影</th></tr></thead><tbody><tr><td>鉄腕アトム</td><td>1963</td><td>TV</td><td>児童</td><td>限定・モノトーン</td><td>簡素・平面</td><td>平板・均一</td></tr><tr><td>鉄人28号</td><td>1963</td><td>TV</td><td>児童</td><td>限定・モノトーン</td><td>簡素・平面</td><td>平板・均一</td></tr><tr><td>ジャングル大帝</td><td>1965</td><td>TV</td><td>児童</td><td>原色・鮮やか</td><td>標準</td><td>平板・均一</td></tr><tr><td>オバケのQ太郎</td><td>1965</td><td>TV</td><td>児童</td><td>原色・鮮やか</td><td>簡素・平面</td><td>平板・均一</td></tr><tr><td>魔法使いサリー</td><td>1966</td><td>TV</td><td>少女</td><td>原色・鮮やか</td><td>簡素・平面</td><td>平板・均一</td></tr><tr><td>巨人の星</td><td>1968</td><td>TV</td><td>少年</td><td>抑制・自然</td><td>標準</td><td>陰影強調・劇的</td></tr><tr><td>ゲゲゲの鬼太郎</td><td>1968</td><td>TV</td><td>児童</td><td>暗・寒色基調</td><td>標準</td><td>陰影強調・劇的</td></tr><tr><td>サザエさん</td><td>1969</td><td>TV</td><td>一般</td><td>原色・鮮やか</td><td>標準</td><td>平板・均一</td></tr><tr><td>アタックNo.1</td><td>1969</td><td>TV</td><td>少女</td><td>抑制・自然</td><td>標準</td><td>標準的陰影</td></tr><tr><td>タイガーマスク</td><td>1969</td><td>TV</td><td>少年</td><td>抑制・自然</td><td>標準</td><td>陰影強調・劇的</td></tr><tr><td>ルパン三世(1st)</td><td>1971</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>マジンガーZ</td><td>1972</td><td>TV</td><td>少年</td><td>原色・鮮やか</td><td>標準</td><td>平板・均一</td></tr><tr><td>アルプスの少女ハイジ</td><td>1974</td><td>TV</td><td>児童</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>宇宙戦艦ヤマト</td><td>1974</td><td>TV</td><td>青年</td><td>暗・寒色基調</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>フランダースの犬</td><td>1975</td><td>TV</td><td>児童</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>UFOロボ グレンダイザー</td><td>1975</td><td>TV</td><td>少年</td><td>原色・鮮やか</td><td>標準</td><td>平板・均一</td></tr><tr><td>母をたずねて三千里</td><td>1976</td><td>TV</td><td>児童</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>超電磁ロボ コン・バトラーV</td><td>1976</td><td>TV</td><td>少年</td><td>原色・鮮やか</td><td>標準</td><td>平板・均一</td></tr><tr><td>宇宙海賊キャプテンハーロック</td><td>1978</td><td>TV</td><td>青年</td><td>暗・寒色基調</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>銀河鉄道999</td><td>1978</td><td>TV</td><td>青年</td><td>暗・寒色基調</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>ルパン三世 カリオストロの城</td><td>1979</td><td>映画</td><td>青年</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>機動戦士ガンダム</td><td>1979</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>標準</td><td>標準的陰影</td></tr><tr><td>ベルサイユのばら</td><td>1979</td><td>TV</td><td>少女</td><td>原色・鮮やか</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>赤毛のアン</td><td>1979</td><td>TV</td><td>児童</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>ドラえもん(1979)</td><td>1979</td><td>TV</td><td>児童</td><td>原色・鮮やか</td><td>標準</td><td>平板・均一</td></tr><tr><td>うる星やつら</td><td>1981</td><td>TV</td><td>青年</td><td>原色・鮮やか</td><td>標準</td><td>標準的陰影</td></tr><tr><td>Dr.スランプ アラレちゃん</td><td>1981</td><td>TV</td><td>児童</td><td>原色・鮮やか</td><td>簡素・平面</td><td>平板・均一</td></tr><tr><td>超時空要塞マクロス</td><td>1982</td><td>TV</td><td>少年</td><td>原色・鮮やか</td><td>標準</td><td>光重視・撮影効果</td></tr><tr><td>装甲騎兵ボトムズ</td><td>1983</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>風の谷のナウシカ</td><td>1984</td><td>映画</td><td>青年</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>超時空要塞マクロス 愛・おぼえていますか</td><td>1984</td><td>映画</td><td>青年</td><td>原色・鮮やか</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>北斗の拳</td><td>1984</td><td>TV</td><td>少年</td><td>抑制・自然</td><td>標準</td><td>陰影強調・劇的</td></tr><tr><td>天使のたまご</td><td>1985</td><td>OVA</td><td>青年</td><td>暗・寒色基調</td><td>絵画・様式</td><td>陰影強調・劇的</td></tr><tr><td>天空の城ラピュタ</td><td>1986</td><td>映画</td><td>児童</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>王立宇宙軍 オネアミスの翼</td><td>1987</td><td>映画</td><td>青年</td><td>抑制・自然</td><td>緻密・写実</td><td>自然光・写実</td></tr><tr><td>となりのトトロ</td><td>1988</td><td>映画</td><td>児童</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>火垂るの墓</td><td>1988</td><td>映画</td><td>一般</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>AKIRA</td><td>1988</td><td>映画</td><td>青年</td><td>高彩度・象徴的</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>機動警察パトレイバー</td><td>1988</td><td>OVA</td><td>青年</td><td>抑制・自然</td><td>緻密・写実</td><td>自然光・写実</td></tr><tr><td>魔女の宅急便</td><td>1989</td><td>映画</td><td>児童</td><td>原色・鮮やか</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>らんま1/2</td><td>1989</td><td>TV</td><td>少年</td><td>原色・鮮やか</td><td>標準</td><td>標準的陰影</td></tr><tr><td>ふしぎの海のナディア</td><td>1990</td><td>TV</td><td>少年</td><td>原色・鮮やか</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>おもひでぽろぽろ</td><td>1991</td><td>映画</td><td>一般</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>美少女戦士セーラームーン</td><td>1992</td><td>TV</td><td>少女</td><td>原色・鮮やか</td><td>標準</td><td>光重視・撮影効果</td></tr><tr><td>紅の豚</td><td>1992</td><td>映画</td><td>一般</td><td>原色・鮮やか</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>幽☆遊☆白書</td><td>1992</td><td>TV</td><td>少年</td><td>原色・鮮やか</td><td>標準</td><td>陰影強調・劇的</td></tr><tr><td>平成狸合戦ぽんぽこ</td><td>1994</td><td>映画</td><td>一般</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>新世紀エヴァンゲリオン</td><td>1995</td><td>TV</td><td>青年</td><td>高彩度・象徴的</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>攻殻機動隊 GHOST IN THE SHELL</td><td>1995</td><td>映画</td><td>青年</td><td>暗・寒色基調</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>名探偵コナン</td><td>1996</td><td>TV</td><td>少年</td><td>原色・鮮やか</td><td>標準</td><td>標準的陰影</td></tr><tr><td>もののけ姫</td><td>1997</td><td>映画</td><td>一般</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>少女革命ウテナ</td><td>1997</td><td>TV</td><td>少女</td><td>高彩度・象徴的</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>ポケットモンスター</td><td>1997</td><td>TV</td><td>児童</td><td>原色・鮮やか</td><td>標準</td><td>平板・均一</td></tr><tr><td>カウボーイビバップ</td><td>1998</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>serial experiments lain</td><td>1998</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>劇場版ポケモン ミュウツーの逆襲</td><td>1998</td><td>映画</td><td>児童</td><td>暗・寒色基調</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>カードキャプターさくら</td><td>1998</td><td>TV</td><td>少女</td><td>パステル・淡</td><td>標準</td><td>光重視・撮影効果</td></tr><tr><td>∀ガンダム</td><td>1999</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>緻密・写実</td><td>自然光・写実</td></tr><tr><td>デジモンアドベンチャー</td><td>1999</td><td>TV</td><td>児童</td><td>原色・鮮やか</td><td>標準</td><td>標準的陰影</td></tr><tr><td>ONE PIECE</td><td>1999</td><td>TV</td><td>少年</td><td>原色・鮮やか</td><td>標準</td><td>平板・均一</td></tr><tr><td>フリクリ</td><td>2000</td><td>OVA</td><td>青年</td><td>原色・鮮やか</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>人狼 JIN-ROH</td><td>2000</td><td>映画</td><td>青年</td><td>暗・寒色基調</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>千と千尋の神隠し</td><td>2001</td><td>映画</td><td>一般</td><td>原色・鮮やか</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>メトロポリス</td><td>2001</td><td>映画</td><td>青年</td><td>高彩度・象徴的</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>最終兵器彼女</td><td>2002</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>標準</td><td>自然光・写実</td></tr><tr><td>攻殻機動隊 STAND ALONE COMPLEX</td><td>2002</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>ほしのこえ</td><td>2002</td><td>OVA</td><td>青年</td><td>抑制・自然</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>千年女優</td><td>2002</td><td>映画</td><td>一般</td><td>抑制・自然</td><td>緻密・写実</td><td>自然光・写実</td></tr><tr><td>鋼の錬金術師</td><td>2003</td><td>TV</td><td>少年</td><td>抑制・自然</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>攻殻機動隊 S.A.C. 2nd GIG</td><td>2004</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>AIR</td><td>2005</td><td>TV</td><td>青年</td><td>パステル・淡</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>交響詩篇エウレカセブン</td><td>2005</td><td>TV</td><td>少年</td><td>原色・鮮やか</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>涼宮ハルヒの憂鬱</td><td>2006</td><td>TV</td><td>青年</td><td>原色・鮮やか</td><td>緻密・写実</td><td>自然光・写実</td></tr><tr><td>時をかける少女</td><td>2006</td><td>映画</td><td>一般</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>DEATH NOTE</td><td>2006</td><td>TV</td><td>青年</td><td>暗・寒色基調</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>コードギアス 反逆のルルーシュ</td><td>2006</td><td>TV</td><td>青年</td><td>高彩度・象徴的</td><td>標準</td><td>陰影強調・劇的</td></tr><tr><td>パプリカ</td><td>2006</td><td>映画</td><td>青年</td><td>高彩度・象徴的</td><td>幻想・空想的</td><td>光重視・撮影効果</td></tr><tr><td>天元突破グレンラガン</td><td>2007</td><td>TV</td><td>少年</td><td>高彩度・象徴的</td><td>標準</td><td>光重視・撮影効果</td></tr><tr><td>電脳コイル</td><td>2007</td><td>TV</td><td>児童</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>空の境界</td><td>2007</td><td>映画</td><td>青年</td><td>暗・寒色基調</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>CLANNAD</td><td>2007</td><td>TV</td><td>青年</td><td>パステル・淡</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>秒速5センチメートル</td><td>2007</td><td>映画</td><td>青年</td><td>高彩度・象徴的</td><td>絵画・様式</td><td>光重視・撮影効果</td></tr><tr><td>らき☆すた</td><td>2007</td><td>TV</td><td>青年</td><td>パステル・淡</td><td>標準</td><td>自然光・写実</td></tr><tr><td>化物語</td><td>2009</td><td>TV</td><td>青年</td><td>高彩度・象徴的</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>魔法少女まどか☆マギカ</td><td>2011</td><td>TV</td><td>青年</td><td>高彩度・象徴的</td><td>幻想・空想的</td><td>陰影強調・劇的</td></tr><tr><td>Fate/Zero</td><td>2011</td><td>TV</td><td>青年</td><td>暗・寒色基調</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>あの日見た花の名前を僕達はまだ知らない</td><td>2011</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>緻密・写実</td><td>自然光・写実</td></tr><tr><td>シュタインズ・ゲート</td><td>2011</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>緻密・写実</td><td>自然光・写実</td></tr><tr><td>ソードアート・オンライン</td><td>2012</td><td>TV</td><td>青年</td><td>原色・鮮やか</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>PSYCHO-PASS</td><td>2012</td><td>TV</td><td>青年</td><td>暗・寒色基調</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>進撃の巨人</td><td>2013</td><td>TV</td><td>少年</td><td>抑制・自然</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>劇場版 魔法少女まどか☆マギカ 叛逆の物語</td><td>2013</td><td>映画</td><td>青年</td><td>高彩度・象徴的</td><td>幻想・空想的</td><td>陰影強調・劇的</td></tr><tr><td>四月は君の嘘</td><td>2014</td><td>TV</td><td>青年</td><td>高彩度・象徴的</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>SHIROBAKO</td><td>2014</td><td>TV</td><td>青年</td><td>原色・鮮やか</td><td>標準</td><td>自然光・写実</td></tr><tr><td>響け!ユーフォニアム</td><td>2015</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>ユーリ!!! on ICE</td><td>2016</td><td>TV</td><td>女性</td><td>原色・鮮やか</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>君の名は。</td><td>2016</td><td>映画</td><td>一般</td><td>高彩度・象徴的</td><td>絵画・様式</td><td>光重視・撮影効果</td></tr><tr><td>この世界の片隅に</td><td>2016</td><td>映画</td><td>一般</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>モブサイコ100</td><td>2016</td><td>TV</td><td>少年</td><td>原色・鮮やか</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>リトルウィッチアカデミア</td><td>2017</td><td>TV</td><td>少年</td><td>原色・鮮やか</td><td>標準</td><td>光重視・撮影効果</td></tr><tr><td>宝石の国</td><td>2017</td><td>TV</td><td>青年</td><td>パステル・淡</td><td>幻想・空想的</td><td>光重視・撮影効果</td></tr><tr><td>メイドインアビス</td><td>2017</td><td>TV</td><td>青年</td><td>原色・鮮やか</td><td>幻想・空想的</td><td>光重視・撮影効果</td></tr><tr><td>夜は短し歩けよ乙女</td><td>2017</td><td>映画</td><td>青年</td><td>高彩度・象徴的</td><td>幻想・空想的</td><td>光重視・撮影効果</td></tr><tr><td>リズと青い鳥</td><td>2018</td><td>映画</td><td>青年</td><td>パステル・淡</td><td>緻密・写実</td><td>自然光・写実</td></tr><tr><td>ヴァイオレット・エヴァーガーデン</td><td>2018</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>絵画・様式</td><td>光重視・撮影効果</td></tr><tr><td>約束のネバーランド</td><td>2019</td><td>TV</td><td>少年</td><td>暗・寒色基調</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>天気の子</td><td>2019</td><td>映画</td><td>一般</td><td>高彩度・象徴的</td><td>絵画・様式</td><td>光重視・撮影効果</td></tr><tr><td>鬼滅の刃</td><td>2019</td><td>TV</td><td>少年</td><td>高彩度・象徴的</td><td>幻想・空想的</td><td>光重視・撮影効果</td></tr><tr><td>ドロヘドロ</td><td>2020</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>幻想・空想的</td><td>陰影強調・劇的</td></tr><tr><td>劇場版 鬼滅の刃 無限列車編</td><td>2020</td><td>映画</td><td>少年</td><td>高彩度・象徴的</td><td>幻想・空想的</td><td>光重視・撮影効果</td></tr><tr><td>呪術廻戦</td><td>2020</td><td>TV</td><td>少年</td><td>暗・寒色基調</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>映像研には手を出すな!</td><td>2020</td><td>TV</td><td>青年</td><td>原色・鮮やか</td><td>幻想・空想的</td><td>自然光・写実</td></tr><tr><td>BNA ビー・エヌ・エー</td><td>2020</td><td>TV</td><td>青年</td><td>高彩度・象徴的</td><td>標準</td><td>光重視・撮影効果</td></tr><tr><td>SPY×FAMILY</td><td>2022</td><td>TV</td><td>少年</td><td>原色・鮮やか</td><td>緻密・写実</td><td>自然光・写実</td></tr><tr><td>チェンソーマン</td><td>2022</td><td>TV</td><td>青年</td><td>暗・寒色基調</td><td>緻密・写実</td><td>陰影強調・劇的</td></tr><tr><td>サイバーパンク エッジランナーズ</td><td>2022</td><td>配信</td><td>青年</td><td>高彩度・象徴的</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>ぼっち・ざ・ろっく!</td><td>2022</td><td>TV</td><td>青年</td><td>原色・鮮やか</td><td>幻想・空想的</td><td>自然光・写実</td></tr><tr><td>リコリス・リコイル</td><td>2022</td><td>TV</td><td>青年</td><td>原色・鮮やか</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>その着せ替え人形は恋をする</td><td>2022</td><td>TV</td><td>青年</td><td>原色・鮮やか</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>平家物語</td><td>2022</td><td>TV</td><td>一般</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>葬送のフリーレン</td><td>2023</td><td>TV</td><td>少年</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>【推しの子】</td><td>2023</td><td>TV</td><td>青年</td><td>原色・鮮やか</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>君たちはどう生きるか</td><td>2023</td><td>映画</td><td>一般</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>薬屋のひとりごと</td><td>2023</td><td>TV</td><td>青年</td><td>原色・鮮やか</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>スキップとローファー</td><td>2023</td><td>TV</td><td>青年</td><td>抑制・自然</td><td>緻密・写実</td><td>自然光・写実</td></tr><tr><td>ルックバック</td><td>2024</td><td>映画</td><td>一般</td><td>抑制・自然</td><td>絵画・様式</td><td>自然光・写実</td></tr><tr><td>ダンダダン</td><td>2024</td><td>TV</td><td>少年</td><td>高彩度・象徴的</td><td>幻想・空想的</td><td>陰影強調・劇的</td></tr><tr><td>怪獣8号</td><td>2024</td><td>TV</td><td>少年</td><td>暗・寒色基調</td><td>緻密・写実</td><td>光重視・撮影効果</td></tr><tr><td>きみの色</td><td>2024</td><td>映画</td><td>一般</td><td>パステル・淡</td><td>絵画・様式</td><td>自然光・写実</td></tr></tbody></table></div></div>
 
 <script>
@@ -83,4 +195,4 @@ const palColors={vivid:'#e84c4c',muted:'#8a9a5b',pastel:'#f3a9c4',dark:'#3a4a6b'
 new Chart(c4,{type:'bar',data:{labels:P.decs,datasets:P.pals.map(p=>({label:P.pal_jp[p],data:P.pal_stack[p],backgroundColor:palColors[p]}))},
 options:{responsive:true,plugins:{title:{display:true,text:'色基調の構成 (%)'},legend:{position:'bottom'}},scales:{x:{stacked:true},y:{stacked:true,max:100}}}});
 </script>
-</body></html>
+</div></body></html>

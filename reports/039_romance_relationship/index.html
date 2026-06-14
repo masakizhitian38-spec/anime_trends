@@ -2,40 +2,67 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>恋愛・関係性の描写 — アニメ60年分析</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#fff5f7;--card:#fff;--ink:#2b2030;--accent:#e0507a;--accent2:#7a5fc0;--line:#f0d3dd;--muted:#8a7785}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}
-.wrap{max-width:1080px;margin:0 auto;padding:26px 18px 80px}
-h1{font-size:1.7rem;margin:.2em 0 .1em;color:var(--accent)}
-.sub{color:var(--muted);font-size:.92rem;margin-bottom:18px}
-h2{font-size:1.25rem;margin:36px 0 12px;border-left:6px solid var(--accent);padding-left:10px}
-h3{font-size:1.05rem;margin:20px 0 6px;color:var(--accent2)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0;box-shadow:0 2px 10px rgba(180,100,140,.06)}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
-.kpi .n{font-size:1.5rem;font-weight:700;color:var(--accent)}
-.kpi .l{font-size:.8rem;color:var(--muted)}
-.chart-box{position:relative;height:340px;margin:8px 0}
-.chart-box.tall{height:420px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:760px){.grid2{grid-template-columns:1fr}}
-table{width:100%;border-collapse:collapse;font-size:.84rem;margin-top:10px}
-th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
-th{cursor:pointer;background:#fbe7ee;position:sticky;top:0}
-.tablewrap{max-height:520px;overflow:auto;border:1px solid var(--line);border-radius:10px}
-.controls{margin:10px 0;display:flex;gap:8px;flex-wrap:wrap}
-select,input{padding:6px 10px;border:1px solid var(--line);border-radius:8px;font-size:.85rem}
-.quote{border-left:4px solid var(--accent2);background:#f6f1fc;padding:10px 14px;margin:10px 0;border-radius:0 10px 10px 0}
-.quote.pro{border-color:#2e9e6b;background:#eefaf3}
-.quote.con{border-color:#d9534f;background:#fdf0ef}
-.quote .src{font-size:.78rem;color:var(--muted);margin-top:4px}
-.quote a{color:var(--accent2)}
-.warn{background:#fff8e6;border:1px solid #f0d98a;border-radius:10px;padding:12px 16px;font-size:.88rem;margin:14px 0}
-.tag{display:inline-block;font-size:.72rem;background:#fbe7ee;color:var(--accent);padding:1px 7px;border-radius:6px;margin-right:4px}
-p{margin:.5em 0}
-ul{margin:.4em 0 .4em 1.2em}
-.lead{font-weight:600}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/039_romance_relationship/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -48,12 +75,38 @@ ul{margin:.4em 0 .4em 1.2em}
 </head>
 <body><div id="__home"><a href="../../">← 視点一覧トップへ</a></div><div class="wrap">
 <h1>恋愛・関係性の描写</h1>
-<div class="sub">戦後アニメ60年の統計分析と考察 ／ run#39 ／ 母集団 127作（1960s–2020s）／ 2026-06-10</div>
+<div class="sub">戦後アニメ60年の統計分析と考察 ／ 関連分析 ／ 母集団 127作（1960s–2020s）／ 2026-06-10</div>
 
 <div class="kpis" id="kpis"></div>
 
 <div class="warn"><b>読み方の注意（選定バイアス）：</b> 恋愛を語れる作品を意図的に厚く採ったため、比重指数などの<b>絶対水準</b>（=アニメの何%が恋愛中心か）は信用できません。読むべきは<b>年代間の相対的な分布の移動</b>です。百合・BLの判定は解釈依存で、本分析のシェアは<b>下限値</b>です。</div>
 
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">戦後アニメの恋愛は、活劇の脇役から「商品の核」へと押し上げられ、やがて再び数ある主題のひとつへ戻った。その60年は、恋愛の比重が山型を描き、関係の組み方が〈三角関係→ハーレム→一対一〉と入れ替わり、恋に求める快が〈手の届かぬ憧れ→獲得し所有する達成→ケアと余韻〉へ移っていく物語である。127作を年代均等にコード化すると、恋愛がいかに産業の器と対象層に規定されてきたかが見えてくる。</p>
+<ul class="tldr-list">
+<li><b>比重の山型（∩字）</b>：恋愛の比重は1960s 0.25→2000s <b>0.83</b>でピークを打ち、2020s 0.71へ。だが「恋愛が存在する率」はなお0.94＝退潮ではなく、唯一の主題から強力な一主題への<b>相対化</b>。</li>
+<li><b>構成の三段史</b>：三角関係は1970s 31%が頂点で2020sサンプルでは<b>0%へ消滅</b>、入れ替わりにハーレム系が2000s <b>34.8%</b>へ突出、そして一対一が2020s <b>64.7%</b>へ復権する。</li>
+<li><b>成就の谷と頂</b>：成就率は1970s <b>0.08</b>の極小（悲恋・片思い・別離の時代）から2000s <b>0.59</b>の頂へ。1990sは曖昧・保留が38.9%でピーク＝「決着しない関係」の実験期。</li>
+<li><b>境界の溶解とプラトニックの帰還</b>：「恋愛明示」は1990s 61%を頂に低下し、2010s–20sには<b>プラトニック・精神的</b>が新カテゴリとして出現（SPY×FAMILY／フリーレン／鬼滅）。淡い・情緒トーンも2020s 41%へ再上昇。</li>
+<li><b>対象層という岩盤</b>：青年向けは比重・親密度が最高なのに成就率は最低（0.73／0.51／<b>0.33</b>）＝重く濃いが報われない。少女向けは比重も高く成就率も最高（0.72／<b>0.62</b>）＝恋を確かに叶える。</li>
+</ul>
+</div>
+<h2 class="h2-essay">具体例——恋愛の四つの時代を映す4つの台詞</h2>
+<div class="ex">
+<h3>① 三角関係の黄金期と悲恋の美学——「届かぬ恋」を経てたどり着く成就（1985年）</h3>
+<p>1970s–80sは三角関係が物語のエンジンだった時代である。タッチは達也・南・和也の三角を、弟・和也の事故死という悲劇で断ち切る。残された達也が南へ告げるこの一言は、当時の少女漫画的な「手の届かない憧れ」（成就率は1970sで0.08まで落ち込んだ）を背負いながら、ようやく恋を成就させる転換点でもあった。三角関係は「選ぶ／選ばれる」葛藤として連載の引き延ばしと好相性で、この構成は2020sサンプルでは0%へ消える。</p>
+<blockquote class="quote">上杉達也は浅倉南を愛しています。世界中のだれよりも。<span class="qby">— 上杉達也／『タッチ』（原作1981〜86年、TVアニメ1985〜87年放送）。双子の弟・和也の死を経て、甲子園出場を果たした達也が南へ告げる告白の名台詞。原作では河原、TVアニメ版では公衆電話越しの場面。</span></blockquote>
+<h3>② 深夜の恋が「叶う」時代——獲得し所有する達成感（2008年）</h3>
+<p>2000sは深夜アニメ枠＋円盤（DVD）ビジネス＋ギャルゲー／泣きゲー原作＋製作委員会という器が、恋愛を主目的とする作品を量産した時代だ。ハーレム系が34.8%へ突出する一方で、成就率は0.59の頂に達する。とらドラ!はその象徴で、複数のヒロインを配しつつも最終的に一組を明確に結ぶ。修学旅行の夜、寝言で本音を漏らす逢坂大河のこの台詞は、恋が「憧れの対象」から「結ばれる達成」へ転じたことを示す決定的な場面である。</p>
+<blockquote class="quote">どうしたって……竜児のことが好きなんだもん……<span class="qby">— 逢坂大河／TVアニメ『とらドラ!』（2008〜09年放送）第21話「どうしたって」。気を失い寝言で本音をこぼす場面。これを聞いた竜児が大河を意識し始める転換点。</span></blockquote>
+<h3>③ 一対一への復権——関係を「ゴール」にせず冒頭で成立させる（2020年）</h3>
+<p>2020sは一対一が64.7%へ復権し、三角関係がサンプルから消える。英語圏ファン批評が「couple gets together early／no love triangle／wholesome」と名指すこのトレンドを、トニカクカワイイは極端な形で体現する――物語は主人公の告白とプロポーズの即決から始まり、以後は「付き合った後／結婚した後」の日常を描く。恋の障害や三角の引き延ばしでなく、二人の関係の内側を見たいという視聴欲の転換が、この冒頭の台詞に凝縮されている。</p>
+<blockquote class="quote">私と結婚してくれるなら、付き合ってあげる。<span class="qby">— 由崎司／TVアニメ『トニカクカワイイ』（2020年放送）第1話「結婚」。瀕死の重傷を負いながら告白したナサに、司が結婚を条件に交際を承諾する冒頭の場面。物語は関係の成立後から始まる。</span></blockquote>
+<h3>④ プラトニックと喪——成就を超えた「遅れてくる情」（2023年）</h3>
+<p>2010s–20sには、恋愛が成就を目指す二者関係から、ケア・喪・記憶を含む広い情の様式へ拡張する。「プラトニック・精神的」というカテゴリの出現がそれだ。葬送のフリーレンは、勇者ヒンメルの死後、千年を生きるエルフが彼への想いに遅れて気づく。恋愛と明示されない、しかし恋愛より深いかもしれない情――ヒンメルの葬儀で涙とともにこぼれるこの台詞は、淡い・情緒トーンが2020s 41%へ再上昇した「静かな情の機微」への重心移動を象徴している。</p>
+<blockquote class="quote">……人間の寿命は短いってわかっていたのに……なんでもっと知ろうと思わなかったんだろう……<span class="qby">— フリーレン／TVアニメ『葬送のフリーレン』（2023年放送）第1話。勇者ヒンメルの葬儀で、彼の死に涙しながらこぼす後悔の言葉。作品全体を貫く「覚えていること・遅れてくる情」のテーマを開く台詞。</span></blockquote>
+</div>
 <h2>1. 三つの大きな運動</h2>
 <div class="card">
 <p class="lead">① 恋愛の比重は山型（∩字）— 活劇の脇 → 2000s主題化 → 2020s相対化</p>
@@ -63,58 +116,87 @@ ul{margin:.4em 0 .4em 1.2em}
 
 <h2>2. 恋愛の比重・親密度・成就率の変遷</h2>
 <div class="grid2">
-<div class="card"><h3>比重指数・親密度指数・成就率（年代）</h3><div class="chart-box"><canvas id="cIndex"></canvas></div>
+<div class="card"><h3>比重指数・親密度指数・成就率（年代）</h3><div class="chart-box"><div class="cbox"><canvas id="cIndex"></canvas></div></div>
 <p style="font-size:.85rem;color:var(--muted)">比重指数=中心1.0/主要素0.75/副次0.5/点描0.25/不在0。親密度=プラトニック0.1〜性的1.0（不在除外）。成就率=成就/恋愛存在作品。</p></div>
-<div class="card"><h3>恋愛存在率（config≠不在）</h3><div class="chart-box"><canvas id="cPresent"></canvas></div>
+<div class="card"><h3>恋愛存在率（config≠不在）</h3><div class="chart-box"><div class="cbox"><canvas id="cPresent"></canvas></div></div>
 <p style="font-size:.85rem;color:var(--muted)">1990s–2010sで100%。恋愛が「ある」ことが標準化した。</p></div>
 </div>
 
 <h2>3. 構成の地殻変動 — 三角→ハーレム→一対一</h2>
-<div class="card"><h3>構成シェア × 年代（100%積み上げ）</h3><div class="chart-box tall"><canvas id="cConfig"></canvas></div>
+<div class="card"><h3>構成シェア × 年代（100%積み上げ）</h3><div class="chart-box tall"><div class="cbox"><canvas id="cConfig"></canvas></div></div>
 <p style="font-size:.85rem;color:var(--muted)">ハーレム系=2000s 34.8%突出（東浩紀データベース消費期）。三角関係=2020s 0%消滅。一対一=2020s 64.7%復権。百合・BL=1990s初出→定着。</p></div>
 
 <h2>4. 成就の有無・友情と恋の境界</h2>
 <div class="grid2">
-<div class="card"><h3>成就の有無 × 年代</h3><div class="chart-box tall"><canvas id="cConsum"></canvas></div></div>
-<div class="card"><h3>友情と恋の境界 × 年代</h3><div class="chart-box tall"><canvas id="cBound"></canvas></div>
+<div class="card"><h3>成就の有無 × 年代</h3><div class="chart-box tall"><div class="cbox"><canvas id="cConsum"></canvas></div></div></div>
+<div class="card"><h3>友情と恋の境界 × 年代</h3><div class="chart-box tall"><div class="cbox"><canvas id="cBound"></canvas></div></div>
 <p style="font-size:.85rem;color:var(--muted)">恋愛明示=1990sピーク。友情から恋へ=2000s以降主流。プラトニック・精神的=2010s–20s出現（SPY/フリーレン/鬼滅）。</p></div>
 </div>
 
 <h2>5. トーンの変遷</h2>
-<div class="card"><h3>トーン × 年代（100%積み上げ）</h3><div class="chart-box tall"><canvas id="cTone"></canvas></div>
+<div class="card"><h3>トーン × 年代（100%積み上げ）</h3><div class="chart-box tall"><div class="cbox"><canvas id="cTone"></canvas></div></div>
 <p style="font-size:.85rem;color:var(--muted)">悲恋・切ない=1970sピーク37.5%。ラブコメ=80s–2000s。淡い・情緒=2020s 41%再上昇（静かな情へ）。</p></div>
 
 <h2>6. 対象層クロス（最も鋭い分離）</h2>
 <div class="grid2">
-<div class="card"><h3>比重指数・親密度・成就率 × 対象層</h3><div class="chart-box"><canvas id="cDemo"></canvas></div>
+<div class="card"><h3>比重指数・親密度・成就率 × 対象層</h3><div class="chart-box"><div class="cbox"><canvas id="cDemo"></canvas></div></div>
 <p style="font-size:.85rem;color:var(--muted)"><b>青年=重く濃いが報われない</b>（比重0.73/親密0.51/成就0.33）。<b>少女=確かに叶う</b>（成就0.62）。</p></div>
-<div class="card"><h3>構成シェア × 対象層</h3><div class="chart-box"><canvas id="cDemoCfg"></canvas></div>
+<div class="card"><h3>構成シェア × 対象層</h3><div class="chart-box"><div class="cbox"><canvas id="cDemoCfg"></canvas></div></div>
 <p style="font-size:.85rem;color:var(--muted)">ハーレム=少年向けに集中(23%)。百合・BL=一般向けに集中(33%)。</p></div>
 </div>
 
-<h2>7. 考察ダイジェスト</h2>
-<div class="card">
+<h2 class="h2-essay">7. 考察</h2>
+<div class="essay">
+<p class="thesis">恋愛・関係性の60年は、三つの運動に要約できる。第一に<b>比重の山型</b>（活劇の脇→2000s主題化→2020s相対化）。第二に<b>構成の三段史</b>（三角関係→ハーレム→一対一）。第三に<b>成就が映す「快」の変化</b>（憧れ→獲得・所有→ケアと余韻）。通底するのは、恋愛が産業の器（深夜枠・円盤・原作市場）に強く規定される商品であり、その全てが対象層という岩盤の上で起きていることだ。</p>
+
 <h3>比重の山型＝恋愛は「主題化」されてから「相対化」された</h3>
-<p>1960sの恋愛低水準は、アニメが児童向け活劇として始まった帰結。比重を上げた第一波は1970s少女向け（ベルばら/キャンディ）と高年齢化したSF/ロボ（ヤマト/ガンダム）。頂点の2000sは<b>深夜枠＋円盤＋ギャルゲー/泣きゲー原作＋製作委員会</b>が恋愛を「商品の核」へ昇格させた結果で、円盤バブルのピークと一致する（run#13/#16と同型）。2020sの低下は退潮でなく、ヒットの主戦場がバトル/ファンタジーへ広がった相対化。</p>
+<p>恋愛の比重が1960s 0.25→2000s 0.83→2020s 0.71の山型を描くのは、アニメというメディアの観客層と編成構造の変化で説明できる。1960sの低水準は、アニメが第一義に児童向け活劇（アトム／鉄人／鬼太郎）として始まった帰結であり、恋愛は「お茶の間の子どものもの」には不要だった。比重を押し上げた第一波は1970s少女向け（ベルばら／キャンディ）と高年齢化したSF／ロボット（ヤマト／ガンダム＝青年の物語に恋を載せる器）で、これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/017_target_audience/">ターゲットの高年齢化</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/012_broadcast_format/">深夜枠の確立</a>と同じ地殻変動の恋愛側の断面である。頂点が2000sなのは偶然ではない。<b>深夜アニメ枠＋円盤ビジネス＋ギャルゲー／泣きゲー原作＋製作委員会</b>という器が、恋愛を主目的とする作品（Key系のCLANNAD／Kanon、ハーレムのラブひな／シャナ／ゼロ魔）を量産可能にし、恋愛は「物語の一要素」から「商品の核」へ昇格した。恋愛比重のピークは、原作市場のメディアミックス化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/013_source_mediamix/">VN・なろう原作の流入</a>）・円盤収益が一極化した時期（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">円盤バブルのピーク</a>）と完全に一致する。2020sの低下は恋愛の退潮でなく、ヒットの主戦場がバトル／ファンタジー（鬼滅／呪術／フリーレン）へ広がり、恋愛が再び「強力だが唯一でない主題」へ戻った相対化の結果である（恋愛存在率はなお0.94）。</p>
+
 <h3>構成の三段史＝物語のエンジンの交代</h3>
-<p>三角関係（選ぶ/選ばれる葛藤＝連載引き延ばしと好相性）→ハーレム（n人併存＝属性データベースの見本市、東浩紀の枠組み、run#2/#35と三重一致）→一対一（SNS時代の「三角疲れ」＋ジェンダー観更新＋百合BL多様化）。2020sの「冒頭で成立／非ポリゴン／wholesome」は英語圏批評の観察と一致。</p>
-<h3>成就が映す「快」の変化＋境界の溶解</h3>
-<p>70s少女漫画は「手の届かない憧れ＝悲恋」を理想化（成就率0.08）。2000sは恋愛が「獲得し所有する快」へ転じ成就率0.59（run#30の達成志向の恋愛版）。2010s–20sは「プラトニック・精神的」「淡い情緒」が出現＝恋愛が成就を目指す二者関係から<b>ケア・喪・記憶を含む広い情の様式</b>へ拡張（run#36擬似家族回帰/run#29死生観と共振）。</p>
+<p>本視点で最も雄弁なのは構成の変遷だ。<b>第一相（1970s–80s）＝三角関係の黄金期</b>。タッチ、きまぐれオレンジ☆ロード、マクロス（一条・ミンメイ・未沙）――三角関係は「選ぶ／選ばれる」葛藤＝物語のエンジンであり、週刊連載の引き延ばしとも相性が良かった。1970sはこの三角が31%でピークを打つ。<b>第二相（2000s）＝ハーレムの時代（34.8%）</b>。三角が「一人を巡る二人の対立」だったのに対し、ハーレムは「一人を巡るn人の併存」へ多角化した。これは東浩紀のデータベース消費（各ヒロインがツンデレ／妹／クーデレ等の萌え属性の見本市として並ぶ）で説明されるのが通例で、本データのハーレム2000sピークはヒロインのハーレム化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/002_heroine_attributes/">ヒロイン属性のハーレム化</a>）・脇役の萌え属性カタログ化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/035_supporting_cast_archetypes/">脇役カタログ化の2000s跳躍</a>）と三重に一致する。<b>第三相（2020s）＝一対一への復権（64.7%）と三角関係の消滅（0%）</b>。Horimiya・トニカクカワイイ・僕ヤバが体現するこの転換の背景は三つ置ける。(a) SNS時代の「三角疲れ」――「どっちとくっつくか」の引き延ばしを嫌い二人の関係の内側を見たい欲求、(b) ジェンダー観の更新――複数ヒロインを主人公が「獲得」するハーレム構造への批判（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/019_gender_representation/">ジェンダー表象の流動化</a>）、(c) 百合・BLによる関係様式の多様化、である。</p>
+
+<h3>成就が映す「快」の変化</h3>
+<p>成就率が1970s 0.08で底、2000s–2010sで0.57–0.59に達する変遷は、観客が恋愛に何を求めたかの変化を映す。1970sの少女漫画系は「手の届かない憧れ＝悲恋」を理想とした。ベルばら（オスカル・アンドレの死）、キャンディ（アンソニーの死）は、叶わないからこそ美しいというロマン主義であり、同時代の青年向け（ガンダムのララァ、Zのフォウ）も戦争による死別＝悲恋を共有した。これは敵役・戦争描写が脱神話化した1979年の転換（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/028_war_military/">ガンダムによる戦争描写の転換</a>）や死生観の深化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/029_death_depiction/">死の重みの単調深化</a>）と地続きである。成就率が2000sで跳ね上がるのは、恋愛が「憧れの対象」から「獲得し所有する快」へ転じたからだ。深夜枠・円盤の顧客（主に青年男性）が求めたのは片思いの切なさより「ヒロインと結ばれる達成感」であり、これは力を「勝ち取る」達成志向（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/030_overpowered_protagonist/">最強主人公化＝勝ち取る快</a>）の恋愛版と解釈できる。ただし1990sの曖昧・保留ピーク（38.9%）はその過渡期で、エヴァ・ウテナ・ビバップが「決着しない関係」を実験した（オープン結末が1990sに突出した流れ＝<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/006_ending_tone/">1990sのオープン結末ピーク</a>と一致）。</p>
+
+<h3>境界の溶解と再分節——プラトニックの帰還</h3>
+<p>友情と恋の境界軸は近年最も動いた。1990sに「恋愛明示」が61%でピークを打った後、2000s以降は「友情から恋へ」が主流化し、2010s–20sには<b>プラトニック・精神的</b>が新カテゴリとして出現する。担い手はSPY×FAMILY（偽装夫婦＝疑似家族）、フリーレン（死者ヒンメルへの遅れてくる情）、鬼滅であり、恋愛が「成就を目指す二者関係」から、ケアや喪・記憶を含む広い情の様式へ拡張したことを示す。これは関係網における擬似家族の回帰（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/036_character_relationship_network/">擬似家族の2020s回帰</a>）、死生観が「遺される者」へ移った変化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/029_death_depiction/">遺される者への重心移動</a>）、中心主題が喪失と再生へ向かった流れ（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">喪失・回復への主題移動</a>）と完全に共振する。2020sの淡い・情緒トーン41%への回帰も同じ流れで、「ドラマチックな恋」から「静かな情の機微」へ重心が移った。百合・BLの台頭（2010s 17%／2020s 12%）はこの境界溶解の最前線で、やがて君になる・リコリス・リコイルは「友情か恋か」の判定そのものを宙吊りにし、<b>境界の曖昧さが商品価値になった</b>点が明示を志向した1990sとの決定的な差である。</p>
+
+<h3>対象層クロスの逆説——青年は「重いのに報われない」、少女は「確かに叶う」</h3>
+<p>最も鋭い発見は対象層クロスにある。<b>青年向けは比重(0.73)・親密度(0.51)が最高なのに成就率は最低(0.33)</b>。これは青年向け恋愛が、ハーレムの未決（Re:ゼロ／ニセコイ）、悲恋（秒速／School Days）、josei的な満たされぬ欲望（ハチクロ／NANA／クズの本懐）に厚いためで、「濃く描くが叶えない」のが青年恋愛の様式である。新海作品の「心の距離＝すれ違い」はその典型だが、君の名は。で「あきらめない＝成就」へ転回した点も2010s成就率回復と符合する。対して<b>少女向けは比重0.72・成就率0.62</b>＝恋を確かに結実させる（君に届け／俺物語／ゆびさきと恋々）。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/002_heroine_attributes/">ヒロイン属性</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/017_target_audience/">対象層の高年齢化</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/019_gender_representation/">ジェンダー表象</a>で繰り返された「対象層の岩盤」が、恋愛軸でも最強の説明変数として再現された。<b>変遷の相当部分は各年代の対象層構成の分母効果</b>でもある（2000s比重ピーク＝深夜青年向けの厚み、2020s淡い情緒＝一般・少年向けの回復）。だからこそ留保が重い――母集団は恋愛を語れる作品を厚く採った選定バイアスを持ち、比重の絶対水準は信用できない。読むべきは相対的な分布の移動であり、メディア構造と物語形式の関係は共変動であって機械的因果ではない。</p>
 </div>
 
-<h2>8. 他者の論評との対話</h2>
-<div class="quote pro"><b>東浩紀『動物化するポストモダン』(2001)＝データベース消費</b><br>物語でなく萌え属性の記号を消費する受容。本データのハーレム2000sピークと一致（run#2/#35と三重一致）。
-<div class="src">出典: <a href="https://ja.wikipedia.org/wiki/%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E6%B6%88%E8%B2%BB">データベース消費 Wikipedia</a> / <a href="https://www.ticket.co.jp/entx/entertainment/2000s-anime/">エンタメクロス</a></div></div>
-<div class="quote con"><b>【反証】しんかい37（山川賢一）</b><br>データベース消費論は反証可能性に乏しく歴史的断絶を誇張、物語性を取りこぼす。CLANNAD/AIRのように2000sでも物語性を核とする泣きゲー系がハーレムと併存し、破局・別離21.7%も同居＝「2000s＝萌えだけ」は誤り。
-<div class="src">出典: <a href="https://note.com/shinkai35/n/n01e8e2ccebaa">『動物化するポストモダン』はどこがまちがっているか｜note</a></div></div>
-<div class="quote pro"><b>2020s「早期成立・非ポリゴン・wholesome」（英語圏批評）</b><br>「関係をゴールにせず冒頭で成立させ付き合った後を描く」「三角関係疲れ」。Horimiya/トニカクカワイイ/ヲタ恋が代表＝本データの一対一64.7%・三角0%を独立に裏づけ（外部妥当性）。
-<div class="src">出典: <a href="https://www.cbr.com/romance-anime-couples-that-got-together-early/">CBR</a> / <a href="https://gamerant.com/best-romance-anime-without-love-triangles/">GameRant</a></div></div>
-<div class="quote"><b>少女漫画史（70年代＝憧れの悲恋→80年代の日常接近）</b><br>金髪・海外舞台で「手の届かない恋」を描く夢の装置。本データの1970s成就率0.08・悲恋37.5%ピークと一致。
-<div class="src">出典: <a href="https://www.e-aidem.com/ch/jimocoro/entry/murayama01">ジモコロ少女マンガ史</a> / <a href="https://www.oricon.co.jp/special/70525/">ORICON</a></div></div>
-<div class="quote"><b>百合・BLの台頭と「リコリコは百合か」論争</b><br>2011『ゆるゆり』で定着、やが君・リコリコが近年人気。「百合と読むか」で割れる＝本コードの friendship_boundary 解釈依存を象徴（百合BLシェアは下限値）。
-<div class="src">出典: <a href="https://animeanime.jp/article/2024/06/25/85068.html">アニメ！アニメ！</a> / <a href="https://note.com/tokimura_aki/n/nabe581f10a90">リコリコは百合か｜note</a></div></div>
-<div class="quote con"><b>新海誠＝「心の距離」のすれ違い／賛否</b><br>セカイ系の「叶わぬ恋」は青年向け低成就率の典型。一方「秒速が気持ち悪い」という女性視点批評も＝悲恋＝美という70年代的価値が普遍でない傍証。
-<div class="src">出典: <a href="https://cinema.ne.jp/article/detail/50343">CINEMAS+</a> / <a href="https://atsu-blog.com/byosoku5cm-feel-ill/">atsu-blog</a></div></div>
+<h2 class="h2-essay">8. 他者の論評との対話</h2>
+<p class="mut">ハーレム2000sを「物語より属性」と読むデータベース消費論、その反証、2020s一対一を「進化／改善」と価値づける英語圏批評、そして悲恋＝美を歴史化する少女漫画史――立場は分かれるが、いずれも本データの「ハーレムの山／一対一の復権／悲恋の谷／境界の溶解」を別々の角度から照らす。</p>
+<div class="views">
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>東浩紀『動物化するポストモダン』(2001)</b></p>
+<div class="vt">ハーレム＝萌え属性の見本市＝「物語でなくデータベースを消費」する受容 <span class="stance sup">一致</span></div>
+<p>東は、オタクが作品を物語としてでなく「猫耳」「ツンデレ」「メイド服」といった萌え要素＝データベースの組み合わせとして消費すると論じた。各ヒロインが属性を分担して並ぶハーレム構造は、まさにこの「属性の見本市」を物語形式として実装したものと読める。</p>
+<div class="match"><b>データとの照合：</b>本データのハーレム系2000s <b>34.8%</b>突出は、ヒロイン属性のハーレム化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/002_heroine_attributes/">関連分析</a>）・脇役の萌え属性カタログ化（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/035_supporting_cast_archetypes/">関連分析</a>）と三重に一致し、同一現象の三つの計測値になっている。</div>
+<div class="src"><a href="https://www.kodansha.co.jp/book/products/0000147035">講談社（書誌）</a> ／ <a href="https://ja.wikipedia.org/wiki/%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E6%B6%88%E8%B2%BB">データベース消費 Wikipedia</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">反証</span><b>しんかい37（山川賢一）</b></p>
+<div class="vt">データベース消費論は反証可能性に乏しく歴史的断絶を誇張し、物語性を取りこぼす <span class="stance cau">留保・反証</span></div>
+<p>山川は、東のデータベース消費論が歴史的断絶を過大評価し、作品の物語性を捨象していると批判する。同じ2000sでも、CLANNAD／AIRのように喪失・家族という物語性を核とする泣きゲー系がハーレムと併存した事実は、「ハーレム＝データベース消費」の一元的説明を退ける。</p>
+<div class="match"><b>データとの照合：</b>本データでも2000sは破局・別離が21.7%同居しており、「2000s＝萌えだけ」は誤り。両論を一致と留保として併走させるのが妥当で、本分析はどちらが正しいかを決めない。</div>
+<div class="src"><a href="https://note.com/shinkai35/n/n01e8e2ccebaa">『動物化するポストモダン』はどこがまちがっているか｜note</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">批評（英語圏）</span><b>CBR ／ Ranker（Anna Lindwasser）</b></p>
+<div class="vt">2020sは「冒頭で成立／三角関係なし／wholesome」へ＝関係をゴールにせず「付き合った後」を描く <span class="stance sup">独立に裏づけ</span></div>
+<p>CBR／Rankerは、近年の恋愛アニメが関係の成立をゴールに置かず冒頭で成立させ、その後の関係の深まりを描く傾向を指摘する。Horimiya（数話で交際）、トニカクカワイイ（冒頭で結婚）が代表例で、「障害ばかり描く従来型」からの転換とする。</p>
+<div class="match"><b>データとの照合：</b>本データの「2020s一対一 <b>64.7%</b>・三角 <b>0%</b>」を外部から独立に裏づける（外部妥当性）。ただし英語圏の語りは「進化／改善」という価値判断を含みがちで、本データは価値判断せず分布の移動のみを確実とする。ハーレムも紹介記事が多数成立するほど健在で、消滅でなく相対的縮小と修正する。</div>
+<div class="src"><a href="https://www.cbr.com/romance-anime-couples-that-got-together-early/">cbr.com</a> ／ <a href="https://www.ranker.com/list/romance-anime-with-early-relationships/anna-lindwasser">ranker.com</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">史料・論争</span><b>少女マンガ史（ジモコロ）／「リコリコは百合か」論争</b></p>
+<div class="vt">70年代＝「手の届かない憧れの悲恋」を理想化／百合・BLは「友情か恋か」の判定が割れる <span class="stance neu">一致＋解釈依存</span></div>
+<p>少女漫画史は、1970年代が金髪・海外舞台で「手の届かない恋」を描く夢の装置だったと整理する。一方、リコリス・リコイルややがて君になるをめぐる「百合と読むか」の論争は、関係の性質の判定そのものが視聴者で割れることを示す。</p>
+<div class="match"><b>データとの照合：</b>「70年代＝憧れの悲恋」は本データの1970s成就率0.08・悲恋トーン37.5%ピークと一致。一方、百合・BL判定の解釈依存は本コードの friendship_boundary に直結し、リコリコ／けいおん／ぼざろの分類次第で2010s–20sの百合・BLシェアは大きく動く＝本分析の値は<b>下限値</b>である。</div>
+<div class="src"><a href="https://www.e-aidem.com/ch/jimocoro/entry/murayama01">ジモコロ 少女マンガ史</a> ／ <a href="https://note.com/tokimura_aki/n/nabe581f10a90">「リコリコは百合か」｜note</a></div>
+</div>
+</div>
 
 <h2>9. 反証・留保</h2>
 <div class="card"><ul>
@@ -157,7 +239,7 @@ var kp=[
  ["0%","三角関係(2020s)"],
  ["0.08→0.59","成就率(1970s→2000s)"]
 ];
-document.getElementById("kpis").innerHTML=kp.map(function(k){return '<div class="kpi"><div class="n">'+k[0]+'</div><div class="l">'+k[1]+'</div></div>';}).join("");
+document.getElementById("kpis").innerHTML=kp.map(function(k){return '<div class="kpi"><div class="v">'+k[0]+'</div><div class="l">'+k[1]+'</div></div>';}).join("");
 
 function line(id,datasets,opts){
  new Chart(document.getElementById(id),{type:"line",data:{labels:decLabels,datasets:datasets},

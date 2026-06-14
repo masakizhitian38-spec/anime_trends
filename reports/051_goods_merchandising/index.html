@@ -1,33 +1,68 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>グッズ・商品展開からみるアニメ60年</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1115;--card:#191c23;--ink:#e8e6e0;--mut:#9aa0aa;--ac:#e0a23b;--ac2:#5aa9e6;--ac3:#7bc47f;--ac4:#d96b8a;--line:#2a2e37}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;line-height:1.85}
-.wrap{max-width:980px;margin:0 auto;padding:40px 22px 80px}
-h1{font-size:1.9rem;line-height:1.35;margin:0 0 6px;font-weight:700}
-.sub{color:var(--mut);font-size:.95rem;margin-bottom:30px}
-h2{font-size:1.35rem;margin:46px 0 14px;padding-left:12px;border-left:4px solid var(--ac)}
-h3{font-size:1.08rem;margin:28px 0 8px;color:var(--ac)}
-p{margin:12px 0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:18px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-@media(max-width:760px){.grid{grid-template-columns:1fr}}
-canvas{max-width:100%}
-table{border-collapse:collapse;width:100%;font-size:.86rem;margin:10px 0}
-th,td{border:1px solid var(--line);padding:6px 9px;text-align:center}
-th{background:#222631;color:var(--ac)}
-td.l{text-align:left}
-.kpi{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0}
-.kpi div{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
-.kpi b{display:block;font-size:1.5rem;color:var(--ac)}
-.kpi span{color:var(--mut);font-size:.82rem}
-blockquote{border-left:3px solid var(--ac2);margin:10px 0;padding:6px 14px;color:#cfd3da;background:#1d2029;font-style:normal}
-.qc{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac2);border-radius:8px;padding:14px 16px;margin:12px 0}
-.qc .src{font-size:.8rem;color:var(--mut);margin-top:6px}
-.qc a{color:var(--ac2);text-decoration:none}
-.tag{display:inline-block;font-size:.72rem;padding:1px 8px;border-radius:10px;background:#2a2e37;color:var(--mut);margin-right:4px}
-small{color:var(--mut)}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/051_goods_merchandising/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -41,57 +76,115 @@ small{color:var(--mut)}
 <h1>グッズ・商品展開からみるアニメ60年</h1>
 <div class="sub">関連商品の規模・玩具連動・コレクタブル・収益構造で 108 作をコード化 ／ 視点051・id35</div>
 
-<div class="kpi">
-<div><b>108</b><span>分析作品数(1963–2024、各年代12–18作)</span></div>
-<div><b>0.53→0.06</b><span>玩具主導シェア 1970s頂点→2010s崩落</span></div>
-<div><b>0→0.50</b><span>コレクタブル・ガチャ 2010sで最大派へ</span></div>
-<div><b>2.8兆円</b><span>キャラビジネス市場(2024,矢野経済)</span></div>
+<div class="kpis">
+<div class="kpi"><b>108</b><span>分析作品数（1963–2024・各年代12–18作）</span></div>
+<div class="kpi"><b>0.53→0.06</b><span>玩具主導シェア 1970s頂点→2010s崩落</span></div>
+<div class="kpi"><b>0→0.50</b><span>コレクタブル・ガチャ 2010sで最大派へ</span></div>
+<div class="kpi"><b>2.8兆円</b><span>キャラビジネス市場（2024・矢野経済）</span></div>
+</div>
+
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">アニメの「グッズ」は作品の余白ではなく、しばしば作品そのものを成立させる経済的な土台だった。60年を通して問うべきは「アニメは商業的か否か」ではない。変わったのは<b>売られる物の物質性</b>——亜鉛合金の塊から、画面の中の確率と、その場限りの時間へ、商品の重心が軽くなっていった過程である。</p>
+<ul class="tldr-list">
+<li><b>「グッズで稼ぐ」構造は1970年代に固まって以来ずっと続く</b>：グッズが主収益を担う作品比率は70年代に0.40へ段差をつくり、以後0.4〜0.5で高止まり。変わったのは稼ぎ方の中身のほうだ。</li>
+<li><b>玩具主導モデルは弧を描く</b>：1970sに0.53で頂点（超合金・ロボ玩具）→2010s 0.06へ崩落→2020s 0.14へ微回復。入れ替わるようにコレクタブル・ガチャが2010sで最大派（0.50）に。</li>
+<li><b>物質性が三段で軽くなった</b>：超合金→ガンプラ→フィギュア→トレカ→ガチャの確率→ライブ・コラボの時間。手に取れる物の重さが、所有の証へ、さらにアクセス権と体験へと希薄化した。</li>
+<li><b>だが物理商品は終わっていない</b>：キャラビジネス市場は2024年度で約2.8兆円、人気グッズ1位は今もフィギュア。立体物は「子供が遊ぶ玩具」から「ファンが所有し飾るコレクタブル」へ性格を変えた。</li>
+<li><b>2020sは多元化と海外開花の年代</b>：配信で世界に広がった作品が物販・ガチャ・体験を同時に並走させ、収益が一点に集中しなくなった。海外ECでは「最近のアニメ」グッズが85.3%を占める。</li>
+</ul>
+</div>
+<h2 class="h2-essay">具体例——商品が物語に語らせた四つの時代</h2>
+<div class="ex">
+<h3>① 物語が玩具の取扱説明だった——超合金期（1972年）</h3>
+<p>『マジンガーZ』は超合金第1号（1974年）の母体であり、合体・換装のギミックがそのまま物語の見せ場になった。兜甲児が乗るホバーパイルダーがマジンガーZの頭部へ合体する毎回の号令は、合体玩具の遊び方の提示であると同時に、物語の高揚の合図でもあった。物語の構造が商品の構造に従属していた点で、この時期の作品は批判者の言う「30分CM」に最も近い。</p>
+<blockquote class="quote">パイルダー・オン！<span class="qby">— 兜甲児／『マジンガーZ』（1972年）。ホバーパイルダーがマジンガーZ頭部に合体し、操縦可能になる毎回の掛け声。</span></blockquote>
+<h3>② 「集める」を主人公に宣言させる——コレクタブル化の先触れ（1997年）</h3>
+<p>『ポケットモンスター』のサトシの決め台詞は、捕獲＝「集める」という行為そのものを毎話の高揚として描く。次回予告もこの一言で締められ、主題歌もここから始まる。集めること自体が物語の駆動力になったこの作品が、ポケモンカードという世界最大級のトレーディングカード経済を背負ったのは偶然ではない。遊ぶ玩具から、集めて所有するコレクタブルへ——商品の性格の交代を、主人公の口上が先取りしていた。</p>
+<blockquote class="quote">ゲットだぜ！<span class="qby">— サトシ／『ポケットモンスター』（1997年〜）。ポケモンや貴重品を手に入れた際の決め台詞で、次回予告の結びでもある。</span></blockquote>
+<h3>③ 物が「参加の時間」に溶ける——体験型期（2013年）</h3>
+<p>『ラブライブ!』はライブ・コラボカフェ・コンビニキャンペーンで、所有できる物より「その場の参加」を売った。プロジェクト全体を象徴するこのキャッチコピーは、ファンが演者と共に物語を作る——売られているのは物ではなく経験だ——という体験型収益の思想を一言で言い表す。</p>
+<blockquote class="quote">みんなで叶える物語<span class="qby">— 『ラブライブ!』プロジェクト公式キャッチコピー（2010年〜、TVアニメ2013年）。ファン参加型＝体験型収益を象徴する標語。</span></blockquote>
+<h3>④ 抵抗が新しい商業基盤を立てた——ガンプラの逆説（1979年）</h3>
+<p>玩具スポンサーの制約への反骨から生まれた『機動戦士ガンダム』は、その反骨の産物でありながら、ガンプラというプラモデル産業の金字塔を立ち上げた。富野由悠季は後年、「おもちゃ屋スポンサーは敵」という見方を被害妄想だったと振り返り、関連商品販売のためのCMという論理と作り手の個性が高い次元で融合したからこそ作品が長く存続しえた、と語っている。商業主義への抵抗が新しい商業基盤を立ち上げる——玩具主導の功罪は片側だけでは評価できない。<span class="small">（出典：ORICON NEWS「ガンプラと歩んだ40年、富野由悠季が語る」。「30分CM」批判への富野の回顧。）</span></p>
 </div>
 
 <h2>1. 商品様式の重心が動いた</h2>
 <p>最も明瞭なのは玩具主導モデルの弧だ。1970年代に頂点を打ち、2010年代に崩落して2020年代にわずかに戻す。入れ替わるようにコレクタブル・ガチャ型(フィギュア・くじ・トレカ・課金)が80年代から立ち上がり、2010年代に最大派になる。汎用キャラ商品は全年代の底流で、2020年代に跳ねる。</p>
 <div class="grid">
-<div class="card"><canvas id="c1"></canvas><small>主商品モデルの年代別シェア。玩具主導(橙)とコレクタブル・ガチャ(青)が交差する。</small></div>
-<div class="card"><canvas id="c2"></canvas><small>商品規模指数(乏しい0〜メガ1.0)。70年代に段差、2010年代0.82で頂点、2020年代は多元化で微減。</small></div>
+<div class="card"><div class="cbox"><canvas id="c1"></canvas></div><small>主商品モデルの年代別シェア。玩具主導(橙)とコレクタブル・ガチャ(青)が交差する。</small></div>
+<div class="card"><div class="cbox"><canvas id="c2"></canvas></div><small>商品規模指数(乏しい0〜メガ1.0)。70年代に段差、2010年代0.82で頂点、2020年代は多元化で微減。</small></div>
 </div>
 <div class="grid">
-<div class="card"><canvas id="c3"></canvas><small>玩具連動high・コレクタブル(カード/ガチャ・フィギュア)・主収益化の推移。</small></div>
-<div class="card"><canvas id="c4"></canvas><small>108作の主商品モデル構成。キャラ商品とコレクタブル・ガチャで6割超。</small></div>
+<div class="card"><div class="cbox"><canvas id="c3"></canvas></div><small>玩具連動high・コレクタブル(カード/ガチャ・フィギュア)・主収益化の推移。</small></div>
+<div class="card"><div class="cbox"><canvas id="c4"></canvas></div><small>108作の主商品モデル構成。キャラ商品とコレクタブル・ガチャで6割超。</small></div>
 </div>
 
-<h2>2. 物質性が三段で軽くなった</h2>
-<p>幹は、商品の物質性が段階的に軽くなる過程として読める。亜鉛合金の塊(超合金)→組み立てるプラスチック(ガンプラ)→飾る樹脂(フィギュア)→紙片(トレカ)→画面の中の確率(ガチャ)→その場限りの時間(ライブ・コラボ)。手に取れる物の重さが、所有の証へ、さらにアクセス権と体験へと希薄化していく。収益源(run#16)や円盤→サブスク(run#32)で見た「モノ→所有→アクセス権」の川上遡上が、グッズという窓から見えている。</p>
-<p>転換点は名指しできる。1974年マジンガーZの超合金がロボ玩具という産業を発明し(玩具主導70年代頂点と一致)、合体・換装のギミックがそのまま物語の見せ場になった。「パイルダー・オン」の号令は合体玩具の取扱説明でもあった。物語の構造が商品の構造に従属していた点で、批判者の言う<span class="tag">30分CM</span>に最も近い時期だ。</p>
+<h2 class="h2-essay">2. 考察——「物を売る」から「所有・体験・アクセスを売る」へ</h2>
+<div class="essay">
+<p class="thesis">この視点の幹は、商品の物質性が段階的に軽くなっていく過程として読める。手に取れる物の重さが、所有の証へ、さらにアクセス権と体験へと希薄化していく。だがそれは「物が終わった」物語ではない。玩具主導の崩落とコレクタブル・ガチャ・体験型の台頭は置換ではなく堆積であり、物理的に手元に残る商品はむしろ今も市場の核として強い。変わったのは商品の性格と、収益が一点に集中しなくなった構成のほうである。</p>
 
-<h3>玩具主導の「功罪」は片方だけ取り出せない</h3>
-<p>その批判には強い反作用が組み込まれている。玩具スポンサーの制約への怒りが富野由悠季に『機動戦士ガンダム』(1979)を作らせ、その反骨の産物がガンプラというプラモ産業の金字塔を生んだ。SEED(2002)・00(2007)・水星の魔女(2022)とガンプラは40年以上更新され、商業主義への抵抗が新しい商業基盤を立ち上げるねじれを示す。制約が様式を生むという、演出(run#45)・省力作画(run#10)で見た構造が、産業の規模そのもので起きている。玩具主導の崩落も志でなく市場構造——玩具会社のバンダイ・タカラトミー2社集約、ゲーム/トレカへの趣味移動、少子化——の問題だ。</p>
+<h3>物質性が三段で軽くなった</h3>
+<p>亜鉛合金の塊（超合金）→組み立てるプラスチック（ガンプラ）→飾る樹脂（フィギュア）→紙片（トレカ）→画面の中の確率（ガチャ）→その場限りの時間（ライブ・コラボカフェ）。商品の重心は、遊ぶ物から、所有する証へ、さらにアクセス権と体験へと軽くなっていく。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">収益源の世代交代で見た「モノ→所有→アクセス権」の川上遡上</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/032_disc_to_subscription/">円盤からサブスクへの収益の器の交代</a>と同じ運動が、グッズという別の窓から見えているにすぎない。アニメ産業のメタ視点（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/013_source_mediamix/">原作・メディアミックス</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/049_production_committee_financing/">製作委員会</a>）が描いてきた「主導権の周期交代」テンプレの、商品版である。</p>
 
-<h2>3. 物理商品は終わっていない</h2>
-<p>コレクタブル化は「物理商品の終わり」ではない。矢野経済のキャラビジネス市場は2024年度約2.8兆円と微増を続け、世界のフィギュア&トイ市場でフィギュア区分が38%で最大、日本が53%を占める。変わったのは、立体物が「子供が遊ぶ玩具」から「ファンが所有し飾るコレクタブル」へ性格を変えたこと。超合金のロケットパンチ(遊ぶ機能)とフィギュアの造形再現(所有する価値)は別の欲望に応える。</p>
-<p>2010年代固有なのがソシャゲ・ガチャ課金(艦これ・デレマス・ウマ娘)で商品が確率に溶けたこと、そして体験型(ガルパンの聖地大洗・ライブ、ラブライブのコラボカフェ)の出現だ。ただし2020年代は体験型シェアが0に戻り、汎用キャラ商品が0.57へ跳ねる——SPY×FAMILYのアーニャがあらゆる物販に乗り、鬼滅・呪術が一番くじで品切れを起こす、コラボ物販回帰の年代。規模指数の微減は衰退でなく、配信で世界に広がった作品が物販・ガチャ・体験を同時に並走させる多元化(構成効果)と読める。</p>
+<h3>玩具主導の「功罪」は片側だけ取り出せない</h3>
+<p>転換点は名指しできる。1974年のマジンガーZの超合金がロボ玩具という産業カテゴリそのものを発明し、本データの玩具主導シェア70年代頂点→以降漸減と一致する。その「30分CM」批判には強い反作用が組み込まれていた。玩具スポンサーの制約への怒りが富野由悠季にガンダムを作らせ、その反骨の産物がガンプラというプラモ産業の金字塔を生んだ。制約が様式を生むという、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/045_directing_camerawork/">演出・カメラワークで見た「制約の様式化」</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/010_animation_characteristics/">省力作画が独自の美学を生んだ構造</a>が、ここでは産業の規模そのもので起きている。玩具主導の崩落も志でなく市場構造——玩具会社のバンダイ・タカラトミー2社集約、家庭用ゲーム／トレカへの趣味移動、少子化——の問題だ。玩具主導が2010sに0.06まで落ちるのは「ロボットが描かれなくなった」のではなく（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/026_robot_mecha_stance/">ロボとの向き合い方では機体は描かれ続けている</a>）、「ロボットで玩具を回す経済」が縮んだことの反映と読むのが整合的である。</p>
 
-<h2>4. 他者の論評との対話</h2>
-<div class="qc">「アニメは<b>キャラクター・マーチャンダイジング</b>のトランスメディア実践=アニメ・システムなしには理解できない。鉄腕アトム(1963)は制作費を割って番組を売り、ライセンス収入で差額を埋めた。商品化は後付けでなく最初から制作の屋台骨だった。」
-<div class="src">Marc Steinberg <i>Anime's Media Mix</i> (2012) — <a href="https://ijoc.org/index.php/ijoc/article/download/3171/1216">ijoc</a> / <a href="https://blogs.lse.ac.uk/lsereviewofbooks/2013/01/12/book-review-animes-media-mix-franchising-toys-and-characters-in-japan/">LSE書評</a>。本データのアトム/ガンダムの収益構造はこの主張を支持。ただし劇場作家もの等は「作品が先・商品が後」で全作には当てはまらない。</div></div>
-<div class="qc">「玩具会社のスポンサー制約で『いかに玩具を売るか』が中心化し<b>『30分CM』</b>と揶揄された。これに怒った富野がガンダムを生んだ。ロボアニメ減少の主因はゲーム/TCGへの趣味多様化・スポンサー撤退・少子化。」
-<div class="src">数土直志(note) / Wikipedia「ロボットアニメ」 — <a href="https://note.com/sudotadashi/n/n5eeda0d16f57">note</a>。本データの玩具主導2010s崩落(0.06)を市場構造で裏づけ。</div></div>
-<div class="qc">「超合金第1号は1974年マジンガーZ=ロボ玩具産業の原点。80年前後が黄金期、80年代後半にファミコン普及でブーム沈静。1997年『超合金魂』で大人コレクター市場へ。」
-<div class="src">BANDAI SPIRITS「誕生から50年 超合金」 — <a href="https://www.bandaispirits.co.jp/story/001/">公式</a>。玩具主導70年代頂点→以降漸減と一致。「大人コレクター市場へ」はコレクタブル化の先取り。</div></div>
-<div class="qc">「2024年度キャラビジネス市場 約2.8兆円。2023年人気グッズ1位はフィギュア(61.8%)、海外ECでは『最近のアニメ』が85.3%で『昔』(11.8%)を圧倒。日本発コンテンツ海外売上は約5.8兆円。」
-<div class="src">矢野経済研究所/Shopee Japan/Grand View Research — <a href="https://www.yano.co.jp/market_reports/C66103600">矢野</a> / <a href="https://prtimes.jp/main/html/rd/p/000000082.000075777.html">Shopee</a> / <a href="https://www.grandviewresearch.com/industry-analysis/anime-figures-action-toys-market-report">GVR</a>。物理商品が今も市場の核で、商品は配信で世界・最近ものへ傾斜。</div></div>
+<h3>2000年代の地殻変動——コレクタブルと深夜キャラ商品</h3>
+<p>玩具に代わって主役を取ったのがコレクタブル・ガチャ型だ。その起点は、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/035_supporting_cast_archetypes/">キャラ造形で見た「萌え属性のカタログ化」</a>と同じ2000年代に置ける。深夜枠・円盤・ギャルゲ由来の消費が合流し、フィギュア（海洋堂・グッスマ系、一番くじ、ねんどろいど）が量産された。涼宮ハルヒ（2006）やまどか☆マギカ（2011）は円盤・フィギュア・くじが束になって主収益を担うモデルの象徴で、エヴァンゲリオン（1995）はこの様式の先触れだった。重要なのは、コレクタブル化が「物理商品の終わり」ではないことだ。同じ立体物でも、超合金のロケットパンチ（遊ぶ機能）とフィギュアの造形再現（所有する価値）は別の欲望に応えている。</p>
 
-<h2>5. 具体例</h2>
-<div class="card">
-<p><b>超合金/ガンプラ期(1970s)</b> マジンガーZ(1972)は超合金第1号の母体で、合体・換装ギミックが物語の見せ場に。ガンダム(1979)は「30分CM」批判への反骨から生まれながらガンプラの金字塔を立てた。スポンサー玩具が初動で振るわず後発プラモが歴史を変えた逆転も、商品と作品の複雑な関係を示す。</p>
-<p><b>コレクタブル期(2000s)</b> 涼宮ハルヒ(2006)・けいおん!(2009、ギブソン楽器コラボ)は円盤・フィギュア・コラボが束で主収益を担う深夜型の典型。遊ぶ玩具でなく飾るフィギュアが中心に。</p>
-<p><b>ガチャ・体験期(2010s)</b> 艦これ(2013)はブラウザゲーム課金が核、立体物は後付け。ラブライブ(2013)はライブ・コラボカフェで「参加」を売った。妖怪ウォッチ(2014)は妖怪メダルの物理玩具で社会現象級の収益を作り、玩具主導が条件次第でまだ機能することを示した。</p>
-<p><b>コラボ物販回帰期(2020s)</b> SPY×FAMILY(2022)のアーニャが衣料・食品・文具に展開、鬼滅は一番くじとコラボ品で品切れ連発、水星の魔女(2022)はガンプラに女性新規層を呼び込み玩具主導を再起動した。</p>
+<h3>2010年代の非物質化、そして2020年代の物販回帰</h3>
+<p>2010年代に固有なのが、艦これ（2013）やデレマス（2015）、ウマ娘（2021）に代表されるソシャゲ・ガチャ課金で、商品が画面の中の確率に溶けた。同じ年代に体験型が初めて立つ——ガルパン（2012）の聖地大洗とライブ、ラブライブ（2013）のコラボカフェは、所有できる物から「その場の時間」へ収益チャネルを広げた。ただし体験型を「物の終わり」と読むのは早い。2020年代に体験型のシェアは0に戻り、代わって汎用キャラ商品が0.57へ跳ねる。SPY×FAMILYのアーニャがあらゆる物販に乗り、鬼滅・呪術が一番くじとコラボ品で品切れを起こす——むしろコラボ物販への回帰の年代だ。規模指数の2010s 0.82→2020s 0.76の微減は衰退ではなく、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/015_distribution_overseas/">配信で世界へ同時に広がった作品</a>が物販・ガチャ・体験を同時に並走させ、どれか一つに収益が集中しなくなった構成効果（分母効果）と読むのが自然である。</p>
+
+<h3>海外と「最近もの」への傾斜</h3>
+<p>商品市場は近年いよいよ海外に開いた。2023年の日本発コンテンツ海外売上は自動車に次ぐ規模に達し、海外ECでは「最近のアニメ」グッズが85.3%と「昔のアニメ」（11.8%）を圧倒する。<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/015_distribution_overseas/">海外サイマル配信</a>で同時に世界へ届いた作品が、間を置かず世界で物販に変換される回路ができた。一方で「最近もの」偏重は、玩具主導期の名作群が現役の商品力を失いつつあること、商品の寿命がコンテンツの鮮度に縛られるようになったことも意味する。</p>
+
+<h3>反証・留保</h3>
+<p>商品規模は累積量で、古い作品ほど時間をかけて積み増す余地がある（右側打ち切り）。だから規模の絶対値より各年代の型の構成比のほうが信頼でき、「玩具主導2010s 0.06」を「玩具市場が6%に縮んだ」と読み替えてはならない。年代別シェアは構成比であって市場規模ではない。選んだ108作は商品展開で語る価値のある作品に寄っており、市場全体の縮図ではない。商品化が制作の起点だったというSteinbergの命題は鉄腕アトムにはよく当てはまるが、劇場作家もの（未来少年コナン、君の名は。）には「作品が先・商品が後」の常識的な順序も残る。少子化・ゲーム・配信・SNSが同時に動いた時代に、商品様式の変化だけを一因に帰すこともできない。言えるのは、商品展開の重心の系統的な移動が、産業構造の方向と緩やかに共変動している、という程度のことだ。</p>
 </div>
 
-<h2>6. 結論と留保</h2>
+<h2 class="h2-essay">3. 他者の論評との対話</h2>
+<p class="mut">グッズ・商品展開をめぐる論は、メディアミックス論・玩具産業史・市場統計の三層に分かれる。いずれも本データの「玩具主導の弧／コレクタブル化／物理商品の根強さ／海外・最近もの傾斜」を別々の角度から照らす。</p>
+<div class="views">
+
+<div class="view">
+<p class="who"><span class="wl">研究</span><b>Marc Steinberg『Anime\'s Media Mix』（2012, University of Minnesota Press）</b></p>
+<div class="vt">アニメはキャラクター・マーチャンダイジングのトランスメディア実践＝「アニメ・システム」なしには理解できない <span class="stance sup">一致（ただし全作には及ばず）</span></div>
+<p>スタインバーグは、鉄腕アトム（1963）が制作費を割って番組を安く売り、キャラクター・ライセンス収入で差額を埋めた構造に注目する。商品化は後付けの余録ではなく、最初から制作を成立させる屋台骨だった——アニメは商品と作品が相互に循環する「メディアミックス」のシステムとして生まれた、と論じる。</p>
+<div class="match"><b>データとの照合：</b>本データのアトム／ガンダムを「キャラ商品・主要収益」「玩具主導・主収益」とコードした根拠とよく合う。グッズ主収益化率が70年代に0.40へ段差をつくり以後高止まりする事実は、彼の言う「商品が制作の土台」を裏づける。ただし108作すべてに当てはめるのは行き過ぎで、劇場作家ものや一部深夜作品はグッズが付随的にとどまり「作品が先・商品が後」の順序も残る。</div>
+<div class="src">IJoC書評 <a href="https://ijoc.org/index.php/ijoc/article/download/3171/1216">ijoc.org</a> ／ LSE書評 <a href="https://blogs.lse.ac.uk/lsereviewofbooks/2013/01/12/book-review-animes-media-mix-franchising-toys-and-characters-in-japan/">blogs.lse.ac.uk</a></div>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">ジャーナリスト</span><b>数土直志（アニメ産業ジャーナリスト）ほか／「ロボットアニメ」をめぐる整理</b></p>
+<div class="vt">玩具スポンサー制約が「いかに玩具を売るか」を中心化し「30分CM」と揶揄された。ロボアニメ減少の主因はゲーム／TCGへの趣味多様化・スポンサー撤退・少子化 <span class="stance sup">一致</span></div>
+<p>玩具会社の出資に支えられたロボットアニメは、極論すれば玩具を売るためのコマーシャルだった——その制約への怒りが富野にガンダムを作らせた、という経緯が繰り返し整理されてきた。ロボアニメの退潮も作品の質ではなく、玩具を回す市場構造（スポンサー集約・趣味の多様化・少子化）の問題だと指摘される。</p>
+<div class="match"><b>データとの照合：</b>本データの玩具主導2010s崩落（0.06）を市場構造で裏づける。玩具連動highの70-80s頂点→2010s 0.17の谷も、ロボ玩具経済の縮小と整合する。</div>
+<div class="src">数土直志（note） <a href="https://note.com/sudotadashi/n/n5eeda0d16f57">note.com</a> ／ 富野回顧 <a href="https://www.oricon.co.jp/special/52812/">oricon.co.jp/special/52812</a></div>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">公式資料</span><b>BANDAI SPIRITS「誕生から50年 超合金」</b></p>
+<div class="vt">超合金第1号は1974年マジンガーZ＝ロボ玩具産業の原点。80年前後が黄金期、80年代後半にファミコン普及でブーム沈静、1997年「超合金魂」で大人コレクター市場へ <span class="stance neu">補強</span></div>
+<p>玩具メーカー自身による商品史の整理。超合金がロボ玩具という産業を発明し、ファミコン普及で沈静化したのち、1997年の「超合金魂」で子供の玩具から大人が所有するコレクターアイテムへと客層を移したと位置づける。</p>
+<div class="match"><b>データとの照合：</b>玩具主導の70年代頂点→以降漸減という弧と一致。「大人コレクター市場へ」という転回は、本データのコレクタブル化（飾るための立体物への性格転換）を産業側から先取りした証言として読める。</div>
+<div class="src">BANDAI SPIRITS公式 <a href="https://www.bandaispirits.co.jp/story/001/">bandaispirits.co.jp/story/001</a></div>
+</div>
+
+<div class="view">
+<p class="who"><span class="wl">市場統計</span><b>矢野経済研究所／Shopee Japan／Grand View Research</b></p>
+<div class="vt">2024年度キャラビジネス市場 約2.8兆円。2023年人気グッズ1位はフィギュア（61.8%）。海外ECでは「最近のアニメ」が85.3%で「昔」（11.8%）を圧倒 <span class="stance neu">物理商品は今も核</span></div>
+<p>各種市場調査は、キャラクタービジネスが微増を続け、世界のフィギュア＆トイ市場でフィギュア区分が最大（日本が過半）であることを示す。同時に、海外向けでは新しい作品のグッズが圧倒的で、日本発コンテンツの海外売上が自動車に次ぐ規模に達したと報告する。</p>
+<div class="match"><b>データとの照合：</b>「物質性が軽くなる」という幹の議論に対する重要な反証——物理商品（フィギュア）は今も市場の核として強い。本データの2020s汎用キャラ商品0.57への跳ね、海外・最近もの傾斜とも整合する。変わったのは物の有無でなく性格（遊ぶ玩具→飾るコレクタブル）と販路（国内→世界）だ。</div>
+<div class="src">矢野経済研究所 <a href="https://www.yano.co.jp/market_reports/C66103600">yano.co.jp</a> ／ Shopee <a href="https://prtimes.jp/main/html/rd/p/000000082.000075777.html">prtimes.jp</a> ／ Grand View Research <a href="https://www.grandviewresearch.com/industry-analysis/anime-figures-action-toys-market-report">grandviewresearch.com</a></div>
+</div>
+
+</div>
+
+<h2>4. 結論と留保</h2>
 <p>「グッズで稼ぐ」構造は70年代に固まって以来ずっと続き、変わったのは売られる物の物質性だった。亜鉛合金から確率と時間へ——重い物から軽い体験へ商品の重心が移り、しかしフィギュアは今も市場の核として残る。玩具主導の崩落とコレクタブル・ガチャ・体験型の台頭は置換でなく堆積で、2020年代は配信を背に世界へ開いた作品が全方位の物販を同時に回す多元化に入った。</p>
 <p><small>留保：商品規模は累積量で古い作品ほど積み増す余地がある(右側打ち切り)ため、絶対値より年代別の構成比で読む。年代シェアは構成比であって市場規模ではない(玩具主導0.06=玩具市場6%ではない)。選定108作は商品展開で語る価値のある作品に寄り、市場の縮図ではない。少子化・ゲーム・配信・SNSが同時に動いた中で商品様式の変化だけを一因に帰せない。言えるのは商品展開の重心移動が産業構造の方向と緩やかに共変動している、という程度。</small></p>
-<p><small>関連視点：run#16(収益源)・run#32(円盤→サブスク)・run#13(原作・メディアミックス)・run#26(ロボとの向き合い方)・run#35(キャラ造形の萌え属性化)・run#49(製作委員会)・run#50(続編展開)。</small></p>
+<p><small>関連視点：<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">関連分析</a>(収益源)・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/032_disc_to_subscription/">関連分析</a>(円盤→サブスク)・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/013_source_mediamix/">関連分析</a>(原作・メディアミックス)・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/026_robot_mecha_stance/">関連分析</a>(ロボとの向き合い方)・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/035_supporting_cast_archetypes/">関連分析</a>(キャラ造形の萌え属性化)・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/049_production_committee_financing/">関連分析</a>(製作委員会)・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/050_sequel_series_expansion/">関連分析</a>(続編展開)。</small></p>
 
 <script>
 const P={"decs": ["1960", "1970", "1980", "1990", "2000", "2010", "2020"], "scale": [0.528, 0.711, 0.746, 0.746, 0.779, 0.816, 0.763], "toy": [0.333, 0.533, 0.412, 0.353, 0.267, 0.056, 0.143], "char": [0.5, 0.333, 0.353, 0.412, 0.4, 0.333, 0.571], "coll": [0.0, 0.0, 0.059, 0.176, 0.333, 0.5, 0.286], "exp": [0.0, 0.0, 0.0, 0.0, 0.0, 0.111, 0.0], "vid": [0.0, 0.0, 0.118, 0.0, 0.0, 0.0, 0.0], "mini": [0.167, 0.133, 0.059, 0.059, 0.0, 0.0, 0.0], "toyhigh": [0.417, 0.6, 0.647, 0.588, 0.333, 0.167, 0.286], "cardg": [0.0, 0.0, 0.118, 0.235, 0.067, 0.111, 0.071], "fig": [0.5, 0.733, 0.706, 0.529, 0.867, 0.722, 0.857], "revp": [0.0, 0.4, 0.412, 0.412, 0.4, 0.5, 0.429], "overall": {"character_goods": 44, "toy_driven": 32, "minimal": 6, "collectible_gacha": 22, "video_software": 2, "experiential": 2}, "n": 108};
@@ -114,12 +207,17 @@ new Chart(c3,{type:"line",data:{labels:P.decs,datasets:[
  {label:"フィギュア",data:P.fig,borderColor:"#7bc47f",tension:.3},
  {label:"グッズ主収益",data:P.revp,borderColor:"#d96b8a",borderDash:[5,4],tension:.3},
 ]},options:{...gx,plugins:{title:{display:true,text:"連動・コレクタブル・収益の推移"}}}});
-const ov=P.overall;const labels=Object.keys(ov);
-new Chart(c4,{type:"doughnut",data:{labels:labels,datasets:[{data:labels.map(k=>ov[k]),
- backgroundColor:["#e0a23b","#7bc47f","#5aa9e6","#d96b8a","#9aa0aa","#b08bd6"]}]},
- options:{plugins:{title:{display:true,text:"主商品モデル構成(108作)"},legend:{position:"right"}}}});
+(function(){var ov=P.overall;
+ var lab={character_goods:"汎用キャラ商品",toy_driven:"玩具主導",collectible_gacha:"コレクタブル・ガチャ",minimal:"乏しい",video_software:"映像ソフト",experiential:"体験型"};
+ var col={character_goods:"#7bc47f",toy_driven:"#e0a23b",collectible_gacha:"#5aa9e6",minimal:"#9aa7b5",video_software:"#b79cff",experiential:"#d96b8a"};
+ var keys=Object.keys(ov).sort(function(a,b){return ov[b]-ov[a];});var tot=keys.reduce(function(a,k){return a+ov[k];},0);
+ new Chart(c4,{type:"bar",
+  data:{labels:keys.map(function(k){return lab[k]||k;}),datasets:[{data:keys.map(function(k){return ov[k];}),backgroundColor:keys.map(function(k){return col[k]||"#9aa7b5";}),borderRadius:3,maxBarThickness:28}]},
+  options:{indexAxis:"y",layout:{padding:{right:64}},plugins:{title:{display:true,text:"主商品モデル構成（108作）"},legend:{display:false},
+   datalabels:{anchor:"end",align:"end",clamp:true,color:"#5b554a",font:{size:11,weight:"700"},formatter:function(v){return v+"件（"+Math.round(100*v/tot)+"%）";}}},
+   scales:{x:{beginAtZero:true,grace:"15%",ticks:{precision:0}},y:{ticks:{font:{size:12}}}}},plugins:[ChartDataLabels]});})();
 // table
-let t='<h2>付表：作品一覧</h2><div class="card" style="overflow:auto;max-height:520px"><table><tr><th>年</th><th class="l">作品</th><th>モデル</th><th>規模</th><th>玩具</th><th>コレクタブル</th><th>収益</th></tr>';
+let t='<h2>付表：作品一覧</h2><div class="tablewrap"><table><tr><th>年</th><th class="l">作品</th><th>モデル</th><th>規模</th><th>玩具</th><th>コレクタブル</th><th>収益</th></tr>';
 D.forEach(r=>{t+=`<tr><td>${r[1]}</td><td class="l">${r[0]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td></tr>`});
 t+='</table></div>';
 document.querySelector('.wrap').insertAdjacentHTML('beforeend',t);

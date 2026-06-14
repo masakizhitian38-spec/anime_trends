@@ -1,27 +1,68 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>視点042 魔法・能力・超自然の体系</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0e1020;--card:#191c32;--ink:#e9ecf6;--sub:#a3a9c9;--acc:#a78bfa;--acc2:#67e8f9;--line:#2c3050}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#0e1020,#141228);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.75}
-.wrap{max-width:1080px;margin:0 auto;padding:32px 20px 80px}
-h1{font-size:26px;margin:0 0 4px}h2{font-size:20px;margin:38px 0 12px;border-left:4px solid var(--acc);padding-left:12px}
-.sub{color:var(--sub);font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
-.kpi .n{font-size:26px;font-weight:700;color:var(--acc2)}.kpi .l{font-size:12px;color:var(--sub);margin-top:4px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:16px 0}
-canvas{max-height:340px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.two{grid-template-columns:1fr}}
-p{margin:10px 0}.note{color:var(--sub);font-size:13px}
-.quote{background:#20243f;border-left:3px solid var(--acc2);border-radius:8px;padding:12px 14px;margin:12px 0}
-.quote a{color:var(--acc2);text-decoration:none;font-size:12px;word-break:break-all}
-table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}
-th{position:sticky;top:0;background:#20243f;cursor:pointer;user-select:none}
-.tbox{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:12px}
-.ctrl{margin:10px 0}.ctrl input,.ctrl select{background:#20243f;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px}
-.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11px;background:#2c3050;color:var(--acc)}
-b.hl{color:var(--acc2)}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/042_magic_power_system/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -35,49 +76,112 @@ b.hl{color:var(--acc2)}
 <h1>魔法・能力・超自然の体系 — 視点別分析</h1>
 <div class="sub">アニメ視点別統計分析 #042　母集団 113作（1958–2024）／力の正当化様式の60年史</div>
 
-<div class="grid">
-<div class="kpi"><div class="n">113</div><div class="l">対象作品（1958–2024）</div></div>
-<div class="kpi"><div class="n">0.21→0.77→0.67</div><div class="l">体系性指数（60s→90s山→20s）</div></div>
-<div class="kpi"><div class="n">0.07→0.33</div><div class="l">代償(顕著)シェア 90s跳躍</div></div>
-<div class="kpi"><div class="n">0→0.23</div><div class="l">ゲーム的源泉 2010s突出</div></div>
+<div class="kpis">
+<div class="kpi"><b>113</b><span>対象作品（1958–2024）</span></div>
+<div class="kpi"><b>0.21→0.77→0.67</b><span>体系性指数 60s→90s山→20s</span></div>
+<div class="kpi"><b>0.07→0.33</b><span>代償(顕著)シェア 90s跳躍</span></div>
+<div class="kpi"><b>0→0.23</b><span>ゲーム的源泉 2010s突出</span></div>
 </div>
 
-<div class="card"><b class="hl">要旨：</b>魔法・能力体系の歴史は「力をどう正当化し観客に納得させるか」の様式史。<b>①神秘・伝承で語る黎明期</b>（おまじない魔法少女／妖怪）→<b>②ルールと代償で語る能力バトル期</b>（1990sが転換点・念能力と等価交換が双璧、ルール明示0.87ピーク）→<b>③2010s以降の二極化</b>（なろうのゲーム的インターフェース化＋2020sの和の民俗オカルト再神話化）。深層トレンドは<b>力の有償化・条件化</b>（無償の贈り物→ルールに縛られ代償を伴う力）。</div>
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">アニメの魔法・超能力・妖怪・神話とは、突き詰めれば<b>「なぜこのキャラはこの力を使えるのか、なぜこの勝負はこの結果になるのか」を観客に納得させる装置</b>である。その正当化の様式は60年で三つの体制を経た——<b>説明しない神秘</b>（〜1970s）、<b>ルールと代償で説明する力</b>（1980s–2000s・1990sが最大の転換点）、そして<b>ゲーム的インターフェースと再神話化に二極化した力</b>（2010s〜）。深層を貫くのは「力は無償の贈り物から、ルールに縛られ代償を伴うものへ」という<b>力の有償化・条件化</b>である。1958〜2024年の113作を年代横断でコード化した。</p>
+<ul class="tldr-list">
+<li><b>体系性・ルール明示の段階上昇と1990sピーク</b>：体系性指数は1960s 0.21→1990s <b>0.77</b>、ルール明示は1990s <b>0.87</b>。念能力（1999）が制約と誓約で「説明できる力」の極北に達した。</li>
+<li><b>代償の前景化</b>：顕著な代償シェアは1980s 0.07→1990s <b>0.33</b>へ跳ね、以後定着。中身が「MP消費＝リソース」から「魂・人間性・寿命＝取り返しのつかない喪失＝テーマ」へ質的転換した。</li>
+<li><b>2010sのゲーム的源泉の突如出現</b>：スキル・ステータス・レベルでの記法が0→<b>0.23</b>。なろう／異世界がRPG世代の読者リテラシーに乗って力を「数値とスキル欄」で表した。</li>
+<li><b>2020sの再神話化</b>：神話引用（顕著）が0.43→<b>0.67</b>へ再上昇。呪術廻戦の呪力、鬼滅の呼吸、チェンソーマンの悪魔と、和の民俗オカルトが体系化様式として復権した。</li>
+<li><b>2000sの凹みは退化でなく分母効果</b>：体系性指数1990s 0.77→2000s 0.62の低下は、深夜枠拡大でソフト情緒型（夏目友人帳／精霊の守り人）が同時供給され平均が薄まっただけ。ソフト魔法（フリーレン／王様ランキング）の継続的成功は体系化＝進歩という単調史観への恒常的反証。</li>
+</ul>
+</div>
+<h2 class="h2-essay">具体例——「力の正当化」が変わった四つの時代を映す台詞</h2>
+<div class="ex">
+<h3>① 神秘の時代——おまじないで叶う力（1969年）</h3>
+<p>第I体制では、力は問われず、与えられたものとして物語が回る。魔法使いサリー（1966）もアッコちゃん（1969）も、力の出どころは「おまじない」であって、ルールも代償も説明されない。Sanderson の語彙で言えば純然たる<b>ソフト・マジック</b>であり、神秘性そのものが価値だった。鏡の精にもらった魔法のコンパクトに向かってアッコが唱えるこの呪文は、力の体系を一切問わない黎明期の象徴である。</p>
+<blockquote class="quote">テクマクマヤコン テクマクマヤコン……○○になぁれ！<span class="qby">— 加賀美あつ子（アッコ）／TVアニメ『ひみつのアッコちゃん』（第1作・1969年放送、原作 赤塚不二夫）。鏡の精から授かった魔法のコンパクトで望むものに変身する際の呪文。東映魔女っ子シリーズ歴代最高視聴率を記録した作品の象徴的フレーズ。</span></blockquote>
+<h3>② ルールと代償の時代——力には「等価の代価」がいる（2009年）</h3>
+<p>第II体制では、体系性が1980s 0.50→1990s 0.77へ段階上昇し、ルール明示は1990s 0.87でピークを打つ。同時に代償が「魔力消費」という限定コストから<b>世界法則・物語テーマへ昇格</b>する。鋼の錬金術師の「等価交換」はその到達点だ。冒頭ナレーションが宣言するこの原則は、力を無償の贈り物から「何かを得れば何かを失う」条件付きの取引へと作り替えた。重要なのは、作品の核がやがて「人の命は等価交換できない＝原則の否定」へ向かう点で、代償は計算式でなく倫理的・実存的主題になった。</p>
+<blockquote class="quote">人は何かの犠牲なしに何も得ることはできない。何かを得るためには、それと同等の代価が必要になる。それが錬金術における等価交換の原則だ。<span class="qby">— アルフォンス・エルリックのナレーション／TVアニメ『鋼の錬金術師 FULLMETAL ALCHEMIST』（2009年放送、原作 荒川弘。2003年版アニメでも同主題）。物語全体の基盤となる象徴的テーマ。</span></blockquote>
+<h3>③ 代償が悲劇になる——契約という名のファウスト型取引（2011年）</h3>
+<p>1990s以降に現れた「顕著な代償」は、力を手に入れる行為そのものが取り返しのつかない喪失を伴う——魂、人間性、寿命、死後の地獄。その極限が魔法少女まどか☆マギカである。キュゥべえが少女たちに持ちかけるこの誘い文句は、「願い事を何でもひとつ叶える」見返りに魂を物体化（ソウルジェム）するファウスト型契約の入口だ。可愛らしい口調が代償の重さを隠す構造そのものが、力の有償化を最も残酷に主題化した。</p>
+<blockquote class="quote">僕と契約して、魔法少女になってよ！<span class="qby">— キュゥべえ／TVアニメ『魔法少女まどか☆マギカ』（2011年放送、脚本 虚淵玄）。願いと引き換えに魔法少女となる契約を持ちかける決め台詞。2011年度ネット流行語大賞銅賞。</span></blockquote>
+<h3>④ 再神話化の時代——RPG文法と和の民俗オカルト（2020年）</h3>
+<p>第III体制は二極化する。一方でなろう／異世界が力を「スキル欄とステータス」で表す<b>ゲーム的リアリズム</b>（SAO・このすば・転スラがステータス画面やスキル選択を画面に出す）が2010sに突如出現する。他方で2020sには和の民俗オカルトの再体系化が起き、神話引用が再上昇する。呪術廻戦の「呪力」と「領域展開」は、妖怪研究者・小松和彦が「負の感情から生まれる呪い＝アニミズムの反映」「日本版ハリー・ポッター」と評したように、ロジカルで戦略的な体系として力を語り直した。五条悟が目隠しを外して放つこの宣言は、力が依然として"説明される"が、その文法が民俗へ回帰したことを示す。</p>
+<blockquote class="quote">領域展開——無量空処（むりょうくうしょ）。<span class="qby">— 五条悟／TVアニメ『呪術廻戦』第1期 第7話「急襲」（2020年放送、原作 芥見下々）。無限の知覚を相手に強制する領域展開の発動宣言。呪力という体系化された力を象徴する。</span></blockquote>
+</div>
+
 
 <h2>1. 体系性とルール明示度の変遷</h2>
-<div class="card"><canvas id="c1"></canvas>
+<div class="card"><div class="cbox"><canvas id="c1"></canvas></div>
 <p class="note">体系性指数（体系的=1/半体系的=0.5/曖昧・なし=0）とルール明示指数（明示=1/部分=0.5/暗黙=0）は黎明期0近傍から段階上昇し<b class="hl">1990sでピーク</b>。2000sの凹みは退化でなく<b>分母効果</b>（深夜枠拡大でソフト情緒型〔夏目/精霊の守り人〕が同時供給され平均が薄まった）。1990s n=15と小さく選定効果の留保あり。</p></div>
 
 <h2>2. 体系性タイプの構成比（年代別）</h2>
-<div class="card"><canvas id="c2"></canvas>
+<div class="card"><div class="cbox"><canvas id="c2"></canvas></div>
 <p class="note">「体系的＋半体系的」が1980s以降に過半を占め定着。一方「曖昧（ソフト魔法）」は2020sにも健在（フリーレン/王様ランキング）で、体系化＝進歩という単調史観への恒常的反証。</p></div>
 
 <h2>3. 代償・神話引用・ゲーム的源泉</h2>
 <div class="two">
-<div class="card"><canvas id="c3"></canvas><p class="note">代償(顕著)は1990s 0.33で跳躍し定着。中身が「MP消費＝限定リソース」から「魂・人間性・寿命＝取り返しのつかない喪失＝テーマ」へ質的転換（等価交換／ソウルジェム／縛り）。</p></div>
-<div class="card"><canvas id="c4"></canvas><p class="note">ゲーム的源泉（スキル/ステータス）は2010sにのみ突出（なろう/RPG世代）。神話引用(顕著)は2020sで0.67へ再上昇（呪術/鬼滅/もののがたり＝和の民俗オカルト回帰）。二様式が併走。</p></div>
+<div class="card"><div class="cbox"><canvas id="c3"></canvas></div><p class="note">代償(顕著)は1990s 0.33で跳躍し定着。中身が「MP消費＝限定リソース」から「魂・人間性・寿命＝取り返しのつかない喪失＝テーマ」へ質的転換（等価交換／ソウルジェム／縛り）。</p></div>
+<div class="card"><div class="cbox"><canvas id="c4"></canvas></div><p class="note">ゲーム的源泉（スキル/ステータス）は2010sにのみ突出（なろう/RPG世代）。神話引用(顕著)は2020sで0.67へ再上昇（呪術/鬼滅/もののがたり＝和の民俗オカルト回帰）。二様式が併走。</p></div>
 </div>
 
 <h2>4. 力の源泉の全体分布</h2>
-<div class="card"><canvas id="c5"></canvas><p class="note">魔法28が最多、和の妖怪霊17、改造遺伝13、固有異能11、気内功10、ゲーム的9と続く。源泉は多源的で、時代ごとに重心が移動する。</p></div>
+<div class="card"><div class="cbox"><canvas id="c5"></canvas></div><p class="note">魔法28が最多、和の妖怪霊17、改造遺伝13、固有異能11、気内功10、ゲーム的9と続く。源泉は多源的で、時代ごとに重心が移動する。</p></div>
 
-<h2>5. 考察（要点）</h2>
-<div class="card">
-<p><b class="hl">力の正当化様式の三体制。</b>第I（〜70s）＝説明しない神秘（Soft Magic）。第II（80s–2000s）＝説明できるルール（Hard Magic、念能力で頂点）＋代償の世界法則化（等価交換）。第III（2010s〜）＝ゲーム的インターフェース化（なろう）と再神話化（和オカルト）への二極化。</p>
-<p><b class="hl">なぜ体系化したか。</b>①少年バトル漫画のフェアプレイ要請（Sanderson第一法則：読者が理解できる力ほど対立解決に使える）。②データベース消費（東浩紀）＝力の属性・系統のカタログ化（run#35萌え属性カタログ化と同期）。</p>
-<p><b class="hl">代償の前景化。</b>1990s以降、力を得る行為自体が取り返しのつかない喪失を伴う物語が定着。run#29（喪失の死生観）・run#9（道徳の灰色化）・run#24/37（努力主義の退潮）と通底し、バブル崩壊後の喪失感（run#20）と緩やかに共変動。</p>
-<p class="note">留保：選定バイアスで体系性の絶対水準は過大評価されうる→信頼できるのは分布の相対的移動。ソフト魔法の継続的成功は体系化史観への反証として併走。相関≠因果。</p>
+<h2 class="h2-essay">5. 考察</h2>
+<div class="essay">
+<p class="thesis">魔法・能力の体系とは「力をどう正当化し、観客に納得させるか」の装置である。本データはその様式が三体制を経たことを示す——説明しない神秘（〜1970s）、ルールと代償で説明する力（1980s–2000s、1990sが転換点）、ゲーム的インターフェースと再神話化に二極化した力（2010s〜）。一貫した深層は「力の有償化・条件化」であり、それは努力主義の退潮・道徳の灰色化・喪失の死生観という同時代の地殻変動と通底する。</p>
+
+<h3>第I体制＝神秘の時代（〜1970s）：説明しない力</h3>
+<p>黎明期は体系性指数0.2前後、ルール明示0.3前後、代償ほぼ0。魔法使いサリーやアッコちゃんはおまじないで、鬼太郎や白蛇伝は妖怪・伝承で力を語る。力は問われず、与えられたものとして物語が回った。Sanderson の語彙で言えば純然たるソフト・マジックであり、神秘性こそが価値である。マジンガーZが「叫んでから放つ必殺武器」を定型化し力を可視化し始めるが、それでも「なぜその力が在るか」は問われない。</p>
+
+<h3>第II体制＝ルールと代償の時代（1980s–2000s）：説明できる力</h3>
+<p>体系性が1980s 0.50→1990s 0.77へ段階上昇し、ルール明示は1990s 0.87でピーク。北斗神拳の経絡秘孔、聖闘士星矢の小宇宙、ドラゴンボールの気の数値化を経て、念能力（1999）が6系統＋制約と誓約という<b>ハード・マジックの極北</b>に到達する。駆動因は二つだ。第一に<b>少年バトル漫画の構造的要請</b>——トーナメントと連戦を読者が予測・納得するには、勝敗を支えるフェアなルールが要る。これは Sanderson 第一法則そのもので、念能力はこの要請への最も自覚的な解答だった。戦闘の知性化は<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/040_action_battle_depiction/">必殺技が「叫ぶもの」から「理解するもの」へ転じた運動</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/003_antagonist_design/">敵役の動機が複雑化した2000s段差</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/005_story_theme/">物語の問いが深まった2000sピーク</a>と同じ地殻変動の別側面である。第二に<b>データベース消費</b>（東浩紀）——力の属性・系統がカタログ化され組み合わせ可能になった。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/035_supporting_cast_archetypes/">萌え属性のカタログ化</a>と同期し、キャラの属性も力の属性も同じ"データベース"化の波に洗われた。</p>
+
+<h3>代償の前景化——「リソース」から「テーマ」へ</h3>
+<p>顕著な代償シェアは1980s 0.07→1990s 0.33で跳躍し、以後0.3前後で定着する。中身の質的転換が肝だ。初期の代償はMP消費・体力消耗という<b>限定的リソース</b>にすぎなかった。1990s以降の「顕著な代償」は、力を得る行為そのものが取り返しのつかない喪失を伴う——魂（まどか）、人間性（ベルセルク／メイドインアビス）、寿命（DEATH NOTE／チェンソーマン）、死後の地獄（地獄少女）。力が"無償の贈り物"でなくなったことは、努力・成長を美徳とした楽観（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/024_jump_formula_influence/">ジャンプ定式の「努力」要素の変質</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/037_growth_arc/">成長の内面化</a>）が退潮し、「何かを得れば何かを失う」等価交換的世界観が前景化した時代精神（バブル崩壊後の喪失感、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/020_zeitgeist_reflection/">時代精神の反映</a>）と緩やかに共変動する。これは<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/009_violence_morality/">道徳の灰色化</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/029_death_depiction/">英雄的犠牲から喪失受容への死生観</a>と深く共鳴する。念能力の「制約と誓約」が代償を<b>自己賦課して強くなる装置</b>へ反転させ、それが呪術廻戦の「縛り」へ継承されたことは、代償が罰から戦術へ洗練された系譜を示す。</p>
+
+<h3>第III体制＝二極化の時代（2010s〜）：インターフェース化と再神話化</h3>
+<p>最も鮮烈なのが<b>2010sのゲーム的源泉の突如出現（0→0.23）</b>だ。SAO・このすば・ダンまち・オーバーロード・転スラ・盾の勇者が、魔法を"詠唱"でなく"スキル欄とステータス"で表す。東浩紀の言うゲーム的リアリズム——RPGをネイティブに育った世代の読者リテラシー——に支えられた潮流で、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/025_narou_template_influence/">なろうテンプレの部品化</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/031_isekai_type/">異世界転生のゲーム的世界</a>と完全に同根である。ところが2020sにはこの流れと逆向きに<b>神話引用（顕著）が0.43→0.67へ再上昇</b>する。呪術廻戦の呪力、鬼滅の呼吸と鬼、チェンソーマンの概念の悪魔、もののがたりの付喪神、地獄楽の神仙。ゲーム的インターフェースと和の民俗オカルトという二つの体系化様式が2020sに併走しており、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/020_zeitgeist_reflection/">2020sの郷愁・ケアへの回帰ムード</a>と符合する。グローバルなRPG文法と、土着の民俗への回帰欲求が同時に作品群を駆動している。なお力の源泉は一貫して多源的で、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/030_overpowered_protagonist/">最強主人公化</a>が示す「与えられた力（チート）」の正当化も、このRPG化の文脈で読める。</p>
+
+<h3>2000sの凹みという罠——分母効果</h3>
+<p>体系性指数は1990s 0.77→2000s 0.62へ下がる。これは「体系化の後退」ではなく<b>分母効果</b>である。2000sはNARUTO・BLEACH・鋼錬・とある・DEATH NOTE という超体系的作品を含む一方、深夜アニメの拡大で夏目友人帳・精霊の守り人といったソフトな情緒型が同時に大量供給された。母集団が多様化し平均指数が薄まったにすぎない。本シリーズで繰り返し現れた「両極化の罠」（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/009_violence_morality/">暴力描写</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/029_death_depiction/">死の描写</a>）と同型で、平均値の凹みを退化と読み違えてはならない。</p>
+
+<h3>反証・留保</h3>
+<p class="mut">選定バイアス——体系的で有名な作品を選びやすく、地味なソフト魔法を取りこぼし体系性を過大評価しうる。信頼できるのは絶対水準でなく<b>分布の相対的移動</b>である。1990sのピーク自体も n=15 と小さく、念能力等の象徴作に引っ張られた選定効果を含みうる。ソフト魔法の継続的成功——体系性「曖昧」のフリーレンや王様ランキングが2020sに大ヒットし、呪術廻戦にさえ「設定の説明過多でつまらない」という批判が存在する事実——は、体系化＝進歩という単調史観への恒常的反証として併走させるべきだ。体系化は"主流の一傾向"であって"唯一の正解"ではない。相関≠因果——代償の前景化を時代精神で説明したが、これは共変動であって直接因果の証明ではない。</p>
 </div>
 
-<h2>6. 他者の論評（出典つき）</h2>
-<div class="card">
-<div class="quote">Sanderson第一法則：「作者が魔法で対立を解決できる度合いは、読者がその魔法をどれだけ理解しているかに比例する」。FMA等価交換＝Hard、DB気＝中間。<br><a href="https://tvtropes.org/pmwiki/pmwiki.php/Main/SandersonsFirstLaw">tvtropes.org — Sanderson's First Law</a> / <a href="https://gamerant.com/hard-soft-magic-explained/">gamerant.com</a></div>
-<div class="quote">念能力「制約と誓約」＝自らルールを課して威力を上げるケルト神話のゲッシュ型。代償を「罰」から「自己賦課で強くなる装置」へ反転。<br><a href="https://huncyclopedia.com/336">huncyclopedia.com</a> / <a href="https://note.com/maku1560/n/n23d68752810c">note(maku) 念能力と少年漫画バトルの進化</a></div>
-<div class="quote">等価交換は世界原理・人生訓として提示されるが、核は「人の命は等価交換できない＝原則の否定」。代償の倫理的・実存的テーマ化。<br><a href="https://note.com/soramine8/n/n0d8b79e0fa29">note(池橋弥助)</a> / <a href="https://hijikichi.hatenablog.com/entry/2019/07/15/200000">はてな 等価交換の否定</a></div>
-<div class="quote">ソウルジェムは契約の代償で魂を物体化＝魔法少女の本体。願いを代償に契約するファウスト型悲劇。<br><a href="https://zero-animelife.com/mado-magi">虹見式 まどマギ「願いの代償」</a> / <a href="https://note.com/chi_ba/n/n31c48bf1062e">note(千葉) 契約の論理</a></div>
-<div class="quote">東浩紀『ゲーム的リアリズムの誕生』：異世界のステータス/ギルド/ランクは「ゲーム的リアリズム」が舞台設定に浸透した例。データベース消費の最新型がなろう系。<br><a href="https://www.kinokuniya.co.jp/f/dsg-01-9784061498839">紀伊國屋書店</a> / <a href="https://www.jstage.jst.go.jp/article/jinbunxshakai/2/7/2_39/_pdf/-char/ja">J-STAGE 異世界もののゲーム的世界考察</a></div>
-<div class="quote">妖怪研究の小松和彦：呪術廻戦の呪い＝「負の感情から生まれる」アニミズムの反映、「日本版ハリポタ」。呪力・領域展開＝ロジカルで戦略的な体系。<br><a href="https://voice.php.co.jp/detail/9187">PHP voice 小松和彦</a> / <a href="https://www.maruhan.co.jp/east/media/new/1413/">ヲトナ基地 螺旋進化する異能バトル</a></div>
-<div class="quote">反論：体系化＝進歩ではない。「設定の説明過多でつまらない」批判（呪術）／「ステータス画面が出るのはおかしい」没入派の違和感。ソフト魔法の支持は健在。<br><a href="https://manga-collection.com/jujutsukaisen-boring/">manga-collection</a> / <a href="https://animanch.com/archives/17899444.html">あにまんch</a></div>
+<h2 class="h2-essay">6. 他者の論評との対話</h2>
+<p class="mut">魔法システム論のハード／ソフト枠組み、ゲーム的リアリズム論、民俗オカルトの再体系化論、そして体系化＝進歩への反論——立場は分かれるが、いずれも本データの「体系性・ルール明示の上昇」「代償のテーマ化」「2010sのRPG化と2020sの再神話化」を別々の角度から照らす。</p>
+<div class="views">
+<div class="view">
+<p class="who"><span class="wl">理論</span><b>ブランドン・サンダーソン（ファンタジー作家）／第一法則</b></p>
+<div class="vt">「作者が魔法で対立を解決できる度合いは、読者がその魔法をどれだけ理解しているかに比例する」 <span class="stance sup">一致</span></div>
+<p>ハード・マジック（ルールが明示され読者が仕組みを理解する）でこそ魔法は問題解決に使え、ソフト・マジック（神秘で説明されない）はむしろ問題を作るために使うべきだという。読者が理解できない魔法で勝負を解決すれば「ご都合主義（デウス・エクス・マキナ）」になる。</p>
+<div class="match"><b>データとの照合：</b>本データの体系性・ルール明示の上昇トレンドはこの枠組みと整合し、「読者が理解できる力ほど対立解決に使える」力学が能力バトルの精緻化（念能力＝極北）を促したという読みを支持する。</div>
+<div class="src"><a href="https://www.brandonsanderson.com/blogs/blog/sandersons-first-law">brandonsanderson.com — Sanderson's First Law</a> ／ <a href="https://tvtropes.org/pmwiki/pmwiki.php/Main/SandersonsFirstLaw">TV Tropes</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">理論</span><b>東浩紀（批評家）／『ゲーム的リアリズムの誕生』</b></p>
+<div class="vt">異世界のステータス・スキル・ギルド・ランクは「ゲーム的リアリズム」が舞台設定に浸透した例 <span class="stance neu">分布の説明に整合</span></div>
+<p>データベース消費の最新型が、RPG的記法をネイティブに受容する世代に支えられたなろう系である。一方で「異世界なのにステータス画面が出るのはおかしい」という没入派の違和感も根強く、両者は対立する。</p>
+<div class="match"><b>データとの照合：</b>2010sのゲーム的源泉の突如出現（0→0.23）と、2000sのデータベース消費的なカタログ化を質的に裏づける。本データはどちらの感性が正しいかは裁定できず、"どの記法で力を表すか"の分布が動いた事実のみを示す。</div>
+<div class="src"><a href="https://www.kinokuniya.co.jp/f/dsg-01-9784061498839">東浩紀『ゲーム的リアリズムの誕生』（講談社現代新書）</a> ／ <a href="https://animanch.com/archives/17899444.html">あにまんch（ステータス画面論）</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">専門家</span><b>小松和彦（妖怪研究の第一人者・国際日本文化研究センター名誉教授）</b></p>
+<div class="vt">呪術廻戦の呪い＝「負の感情から生まれる」アニミズムの反映、「日本版ハリー・ポッター」 <span class="stance sup">一致</span></div>
+<p>呪いは負の感情から生まれるが、その源は人間に限らずあらゆる動植物・物に宿る——万物に魂が宿るとするアニミズムの反映だという。呪術廻戦・鬼滅の刃はいずれも恋愛より正義と人情を重んじる週刊少年ジャンプ作品で、術や登場人物の名が異様に複雑で難しい点も共通すると指摘する。</p>
+<div class="match"><b>データとの照合：</b>神話引用（顕著）の2020s再上昇（0.43→0.67）と、力の源泉の和（妖怪霊・気・呪い）への回帰を裏づける。ルール明示が2020sで0.83へ再び高まる本データとも符合する。</div>
+<div class="src"><a href="https://voice.php.co.jp/detail/9187">Web Voice（PHP研究所）— 妖怪研究の第一人者が語る両作の類似点</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">反論（ファン言説）</span><b>manga-collection ／ あにまんch</b></p>
+<div class="vt">体系化＝進歩ではない——「設定の説明過多でつまらない」批判とソフト魔法の健在 <span class="stance cau">留保・反証</span></div>
+<p>呪術廻戦に対してさえ「ルール・設定の説明が過多でつまらない」という批判が存在し、「異世界なのにステータス画面が出るのはおかしい」という没入派の違和感も根強い。一方で体系性「曖昧」のフリーレンや王様ランキングは2020sに大ヒットしており、神秘・情緒の価値は消えていない。</p>
+<div class="match"><b>データとの照合：</b>体系性「曖昧」が2020sにも健在（フリーレン／王様ランキング）という本データの事実と一致。体系化は"主流の一傾向"であって"唯一の正解"ではないという留保を、受け手の体感が裏づける。</div>
+<div class="src"><a href="https://manga-collection.com/jujutsukaisen-boring/">manga-collection（呪術＝説明過多批判）</a> ／ <a href="https://animanch.com/archives/17899444.html">あにまんch</a></div>
+</div>
 </div>
 
 <h2>7. 作品一覧（ソート・絞り込み）</h2>
@@ -95,19 +199,24 @@ const ink='#e9ecf6',sub='#a3a9c9',line='#2c3050';
 Chart.defaults.color=sub;Chart.defaults.borderColor=line;Chart.defaults.font.family='sans-serif';
 const L=DATA.labels;
 new Chart(c1,{type:'line',data:{labels:L,datasets:[
-{label:'体系性指数',data:DATA.sysidx,borderColor:'#a78bfa',backgroundColor:'#a78bfa33',tension:.3,fill:true},
-{label:'ルール明示指数',data:DATA.ruleidx,borderColor:'#67e8f9',backgroundColor:'#67e8f922',tension:.3}
+{label:'体系性指数',data:DATA.sysidx,borderColor:'#b14a2b',backgroundColor:'#b14a2b22',tension:.3,fill:true},
+{label:'ルール明示指数',data:DATA.ruleidx,borderColor:'#3b7ea1',backgroundColor:'#3b7ea122',tension:.3}
 ]},options:{scales:{y:{min:0,max:1}}}});
-const palette=['#a78bfa','#67e8f9','#f0abfc','#94a3b8'];
+const palette=['#b14a2b','#3b7ea1','#c98a1a','#9aa7b5'];
 new Chart(c2,{type:'bar',data:{labels:L,datasets:DATA.cats.map((c,i)=>({label:c,data:DATA.stack[c],backgroundColor:palette[i]}))},
 options:{scales:{x:{stacked:true},y:{stacked:true,min:0,max:1}}}});
-new Chart(c3,{type:'line',data:{labels:L,datasets:[{label:'代償(顕著)シェア',data:DATA.cost,borderColor:'#f0abfc',backgroundColor:'#f0abfc33',tension:.3,fill:true}]},options:{scales:{y:{min:0,max:.5}}}});
+new Chart(c3,{type:'line',data:{labels:L,datasets:[{label:'代償(顕著)シェア',data:DATA.cost,borderColor:'#c25b7e',backgroundColor:'#c25b7e33',tension:.3,fill:true}]},options:{scales:{y:{min:0,max:.5}}}});
 new Chart(c4,{type:'line',data:{labels:L,datasets:[
-{label:'神話引用(顕著)',data:DATA.myth,borderColor:'#fbbf24',tension:.3},
-{label:'ゲーム的源泉',data:DATA.game,borderColor:'#34d399',tension:.3}
+{label:'神話引用(顕著)',data:DATA.myth,borderColor:'#a9781a',backgroundColor:'#a9781a22',tension:.3},
+{label:'ゲーム的源泉',data:DATA.game,borderColor:'#2f8f5b',backgroundColor:'#2f8f5b22',tension:.3}
 ]},options:{scales:{y:{min:0,max:1}}}});
 const pk=Object.keys(DATA.psd),pv=Object.values(DATA.psd);
-new Chart(c5,{type:'bar',data:{labels:pk,datasets:[{label:'作品数',data:pv,backgroundColor:'#a78bfa'}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
+const PAL27=["#b14a2b","#3b7ea1","#c98a1a","#2f8f5b","#c25b7e","#7a5bd0","#a9781a","#1f6f4a","#9aa7b5"];
+const ptot=pv.reduce((a,b)=>a+b,0);
+new Chart(c5,{type:'bar',data:{labels:pk,datasets:[{label:'作品数',data:pv,backgroundColor:pk.map((k,i)=>PAL27[i%PAL27.length]),borderRadius:3,maxBarThickness:24}]},
+ options:{indexAxis:'y',layout:{padding:{right:56}},plugins:{legend:{display:false},
+  datalabels:{anchor:'end',align:'end',clamp:true,color:'#5b554a',font:{size:11,weight:'700'},formatter:function(v){return v+'（'+Math.round(100*v/ptot)+'%）';}}},
+  scales:{x:{beginAtZero:true,grace:'12%',ticks:{precision:0}}}},plugins:[ChartDataLabels]});
 
 // table
 const tb=document.querySelector('#tbl tbody');

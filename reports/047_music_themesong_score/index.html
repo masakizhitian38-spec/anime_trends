@@ -2,24 +2,69 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>アニメ音楽（主題歌・劇伴）の変遷</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.plugins.datalabels={display:false};}</script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1020;--card:#1a1c33;--ink:#eef0ff;--sub:#a8aede;--ac:#ff5da2;--ac2:#5db8ff;--ac3:#ffd45d;--line:#2b2e50}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;line-height:1.7}
-.wrap{max-width:1000px;margin:0 auto;padding:28px 18px 80px}
-h1{font-size:26px;margin:0 0 6px}h2{font-size:20px;margin:36px 0 12px;border-left:5px solid var(--ac);padding-left:10px}
-h3{font-size:16px;color:var(--ac2);margin:20px 0 6px}
-.sub{color:var(--sub);font-size:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:760px){.grid{grid-template-columns:1fr}}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
 table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
-th{color:var(--ac3);position:sticky;top:0;background:var(--card);cursor:pointer}
-.tw{max-height:420px;overflow:auto;border-radius:10px}
-.q{background:#16182e;border-left:4px solid var(--ac2);padding:12px 14px;border-radius:8px;margin:10px 0}
-.q a{color:var(--ac2);font-size:12px;word-break:break-all}
-.tag{display:inline-block;background:#2a2d4d;border-radius:6px;padding:1px 7px;font-size:11px;margin:2px 2px 0 0;color:var(--sub)}
-.kpi{font-size:30px;font-weight:700;color:var(--ac)}
-p{margin:8px 0}
-input,select{background:#16182e;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:13px}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/047_music_themesong_score/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -33,41 +78,110 @@ input,select{background:#16182e;color:var(--ink);border:1px solid var(--line);bo
 <h1>アニメ音楽の60年 — 主題歌・劇伴・挿入歌の変遷</h1>
 <p class="sub">対象120作（1960s–2020s）／視点047・音楽（主題歌・劇伴）。指数は年代間の相対変化として読む。</p>
 
-<div class="card grid">
-<div><div class="kpi">6段階</div><div class="sub">主題歌の機能交代：命名歌→アニソン歌手→J-POPタイアップ→アニソン自立／作中音楽→ストリーミング商品</div></div>
-<div><div class="kpi">0.40→0.68</div><div class="sub">タイアップ度指数の上昇（商業化）。作家性は2020s 0.47で最高</div></div>
+<div class="kpis">
+<div class="kpi"><b>6段階</b><span>主題歌の「機能」交代：命名歌→アニソン歌手→J-POPタイアップ→アニソン自立／作中音楽→配信商品</span></div>
+<div class="kpi"><b>0.40→0.68</b><span>タイアップ度指数の上昇（商業化）。2020sが最高</span></div>
+<div class="kpi"><b>0.15→0.47</b><span>劇伴作家性指数。V字を描き2020sで最高（菅野→梶浦／澤野／牛尾）</span></div>
+<div class="kpi"><b>0.71</b><span>挿入歌・作中音楽の中心性は2010sで頂点（ラブライブ／けいおん／ユーフォ）</span></div>
+</div>
+
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">アニメ音楽の六〇年は、主題歌が<b>何のために存在するか（機能）</b>を約二〇年周期で塗り替えてきた歴史である。<b>作品の付属物（命名歌）→ 外部音楽産業の宣伝枠（J-POPタイアップ）→ アニメ固有の自立ジャンル（アニソン／作中音楽）→ 国境を越えて自走するグローバル商品（配信ヒット）</b>。音楽の主導権は作品の外へ移り、やがて作品と世界市場の双方向へ反転した。120作（1960s–2020s）を年代横断でコード化した。</p>
+<ul class="tldr-list">
+<li><b>命名歌から職能へ</b>：1960sは作品名・主人公名を連呼する子供向け命名歌が<b>約77%</b>。テレビにかじりつく児童に番組を覚えさせる「記憶装置」だった。1970sに水木一郎・ささきいさおの<b>アニソン歌手</b>が台頭し、音楽が鑑賞に堪える職能へ自立し始める。</li>
+<li><b>三〇年のタイアップ全盛</b>：1980s–2000sはJ-POPタイアップが<b>44–50%</b>の最頻モードで高原化。タイアップ度指数は0.40→0.62へ段差を踏み、音楽の主導権が<b>作品の外（レコード会社・事務所）</b>へ移った。</li>
+<li><b>音楽の「内在化」</b>：2010sに最頻モードが初めてタイアップを離れ、自立アニソン（LiSA／Aimer）と<b>作中音楽</b>（ラブライブ／けいおん／ユーフォ）の二本柱に。挿入歌中心性は<b>0.71</b>、音楽=主題指数は<b>0.41</b>でいずれも頂点——音楽が外付けの宣伝から物語の素材になった。</li>
+<li><b>配信で自走する世界商品</b>：2020sはボカロ／配信出自のトップアーティスト（米津玄師／YOASOBI／Ado／Creepy Nuts）が支配。タイアップ度<b>0.68</b>・作家性<b>0.47</b>がともに最高。LiSA「炎」やYOASOBI「アイドル」のように、主題歌それ自体が世界チャートに乗り作品を牽引する段階に達した。</li>
+<li><b>劇伴は別軸で進化</b>：オーケストラが通奏低音（全体最多）。作家性指数はV字（1970s→2000s凹→2020s回復）で、菅野よう子→梶浦由記／澤野弘之／牛尾憲輔という<b>劇伴作家のスター化</b>が、主題歌の商業性とは独立に進んだ。</li>
+</ul>
+</div>
+<h2 class="h2-essay">具体例——主題歌が「何のために鳴ったか」を映す四つの声</h2>
+<div class="ex">
+<h3>① 番組を覚えさせる装置——命名歌（1963年）</h3>
+<p>起点は「作品の付属物」だった。手塚治虫『鉄腕アトム』（1963、日本初の30分連続TVアニメ）の主題歌は、谷川俊太郎の詞・高井達雄の曲で、サビでひたすら主人公の名を呼ぶ。これは詩であると同時に、テレビにかじりつく児童に番組名を刷り込む<b>記憶装置</b>だった。本データで1960sの命名歌が約77%を占めるのは、音楽が物語の従属物だったことの定量痕跡である。</p>
+<blockquote class="quote">空をこえて ラララ 星のかなた ゆくぞ アトム ジェットのかぎり<span class="qby">— 主題歌「鉄腕アトム」（1963年放送、作詞 谷川俊太郎／作曲 高井達雄／歌 上高田少年合唱団）。主人公名を連呼する「命名歌（kids_named）」の典型。</span></blockquote>
+<h3>② アニソンという職能の確立——歌手の声（1972年）</h3>
+<p>1970sには水木一郎・ささきいさおら<b>アニソン専門歌手</b>が登場し、力強い咆哮が一ジャンルを立ち上げる。命名連呼は残るが、宮川泰（ヤマト）の交響的劇伴、大野雄二（ルパン三世）のジャズが示すように、アニメ音楽が鑑賞に堪える職能へ自立し始めた。</p>
+<blockquote class="quote">空にそびえる くろがねの城　スーパーロボット マジンガーＺ<span class="qby">— 主題歌「マジンガーＺ」（1972年放送、作詞 東文彦／作曲 渡辺宙明／歌 水木一郎）。アニソン歌手（anison_singer）台頭の象徴。</span></blockquote>
+<h3>③ タイアップを離れた国民的アニソン——自立の声（1995年）</h3>
+<p>J-POPタイアップが三〇年続いたのち、その外で「アニソンとして自立した名曲」が現れる。高橋洋子「残酷な天使のテーゼ」（1995、『新世紀エヴァンゲリオン』）は、命名歌でもタイアップでもなく、作品と共に生き世代を越えて歌い継がれる国民的アニソンとなり、自立アニソンの相への橋を架けた。</p>
+<blockquote class="quote">残酷な天使のように 少年よ 神話になれ<span class="qby">— 主題歌「残酷な天使のテーゼ」（1995年放送、作詞 及川眠子／作曲 佐藤英敏／歌 高橋洋子）。タイアップでも命名歌でもない自立アニソンの代表。</span></blockquote>
+<h3>④ 主題歌が世界チャートを牽引する——配信の声（2023年）</h3>
+<p>2020sには、ボカロ・配信を出自とするトップアーティストの主題歌が、作品の付属物でも宣伝媒体でもなく<b>それ自体が世界的なストリーミング商品</b>になった。YOASOBI「アイドル」（2023、『【推しの子】』OP）は、Billboard「Global Excl. U.S.」で日本語楽曲として史上初の首位を獲り、公開からわずか5週で1億再生を突破——日本音楽史上最速だった。主題歌の機能が「作品を売る」から「作品と相互に世界市場で稼ぐ」へ反転したことを示す。<span class="small">出典：KAI-YOU／Billboard JAPAN（2023年）。日本語楽曲として初の Global Excl. U.S. 首位、ストリーミング最速の1億再生。</span></p>
 </div>
 
 <h2>1. 主題歌モードの年代別シェア</h2>
-<div class="card"><canvas id="modeChart" height="150"></canvas>
+<div class="card"><div class="cbox"><canvas id="modeChart" height="150"></canvas></div>
 <p class="sub">付属物（命名歌）→外部産業の宣伝枠（タイアップ）→アニメ固有の自立ジャンル（アニソン/作中音楽）→世界市場で自走する商品（配信）へ。</p></div>
 
 <h2>2. 主要指数の変遷</h2>
-<div class="card"><canvas id="idxChart" height="160"></canvas>
+<div class="card"><div class="cbox"><canvas id="idxChart" height="160"></canvas></div>
 <p class="sub">タイアップ度＝商業化、作家性＝劇伴のスター化、音楽=主題＝アイドル/バンドアニメ、挿入歌中心性。音楽=主題と挿入歌は2010sがピーク。</p></div>
 
 <div class="grid">
-<div class="card"><h3>劇伴ジャンル（全体）</h3><canvas id="genreChart" height="200"></canvas></div>
-<div class="card"><h3>「音楽=主題」シェアの年代変遷</h3><canvas id="mtChart" height="200"></canvas></div>
+<div class="card"><h3>劇伴ジャンル（全体）</h3><div class="cbox"><canvas id="genreChart" height="200"></canvas></div></div>
+<div class="card"><h3>「音楽=主題」シェアの年代変遷</h3><div class="cbox"><canvas id="mtChart" height="200"></canvas></div></div>
 </div>
 
-<h2>3. 考察（要点）</h2>
-<div class="card">
-<h3>幹＝主題歌の「機能」の交代</h3>
-<p>最も堅牢な発見は、主題歌が<b>何のために存在するか</b>が約20年周期で交代したこと。①1960s 命名歌＝児童に番組を覚えさせる記憶装置（作品の付属物、kids_named 77%）。②1970s 水木一郎/ささきいさお＝アニソンという職能の確立（anison_singer 44%）。③1980s–2000s J-POPタイアップの三十年（jpop_tieup 44–50%、音楽の主導権が作品の外＝レコード会社へ）。④2010s アニソンの自立（LiSA/梶浦/澤野）＋作中音楽の噴出（ラブライブ/けいおん）。⑤2020s 米津/YOASOBI/Adoがストリーミングで自走する世界商品へ。</p>
-<h3>なぜ：流通・受容・技術の三駆動</h3>
-<p>タイアップ全盛はCD全盛期にレコード会社と製作委員会の利害が一致した帰結（run#13/#14と同期）。ストリーミング化はCDの死と世界同時配信（run#32/#15）が直接の駆動。受容層がお茶の間の児童→深夜の青年→世界の配信視聴者へ移動し（run#12/#17）、主題歌の機能を規定した。劇伴作家性のV字（2000s凹みは萌え/キャラソンの分母効果）は、菅野→梶浦/澤野/牛尾の作家スター化と打ち込み環境の普及の合成。</p>
+<h2 class="h2-essay">3. 考察 ——「主題歌は何のために鳴るのか」の六〇年</h2>
+<div class="essay">
+<p class="thesis">本視点で最も堅牢な発見は、アニメ音楽の変化が旋律やジャンルの流行ではなく、主題歌が<b>作品に対して何のために存在するか（機能）</b>の交代だったことである。六〇年は、音楽の主導権が <b>作品の内（付属物）→ 作品の外（外部産業の宣伝枠）→ アニメ固有の自立ジャンル → 作品と世界市場の双方向</b> へ移っていく一本の物語として読める。駆動したのは流通技術・産業構造・受容層の三つで、その交絡ゆえに「技術が音楽を変えた」という単線説には留保が要る。</p>
+
+<h3>第一相＝作品の付属物（1960s）</h3>
+<p>命名歌が約四分の三を占める。主人公の名を連呼する歌は、児童に番組を覚えさせる記憶装置であり、音楽は物語に従属していた。劇伴もオーケストラ調が定型で、冨田勲（ジャングル大帝）のような例外を除き作家性は最低水準。音楽はまだ「作品のしるし」にすぎなかった。</p>
+
+<h3>第二相＝アニソンという職能の確立（1970s）</h3>
+<p>水木一郎・ささきいさおのアニソン歌手が四割超の最頻モードになる。命名連呼は残るが、宮川泰の交響的劇伴や大野雄二のジャズが、アニメ音楽を「鑑賞に堪える職能」へ引き上げ、作家性指数が跳ねる。1978年『銀河鉄道999』のゴダイゴあたりから「命名連呼からオシャレさへ」の転換が始まり、音楽が物語と並ぶ価値を持ち始めた。</p>
+
+<h3>第三相＝J-POPの宣伝媒体（1980s–2000s）</h3>
+<p>三〇年にわたりJ-POPタイアップが最頻モードとして高原化する。北斗の拳→シティーハンター（「Get Wild」）→スラムダンク（ビーイング系）→るろうに剣心→BLEACHと連なるこの相で、主題歌は<b>J-POP楽曲の販促タイアップ枠</b>へ転じ、音楽の主導権は作品の外（レコード会社・事務所）へ移った。これは音楽単独の現象ではなく、CD全盛期にレコード会社と製作委員会の利害が一致した産業的帰結であり、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/013_source_mediamix/">原作のメディアミックス化</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/014_marketing_promotion/">マーケティングのタイアップ依存</a>と同じ構造に根を持つ。「アニメ＝楽曲の広告／楽曲＝アニメの広告」の相互宣伝が最も効率的な時代だった。一方この相では、2000sに<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/035_supporting_cast_archetypes/">深夜枠・円盤・データベース消費が脇役を「萌え属性カタログ」化した地殻変動</a>と同期して、声優ユニットのキャラソン（「ハレ晴レユカイ」「もってけ!セーラーふく」）が「踊ってみた」を誘発するファン参加装置として突出する。</p>
+
+<h3>第四相＝アニソンの自立と作中音楽の噴出（2010s）</h3>
+<p>最頻モードが初めてJ-POPタイアップを離れ、自立アニソン（LiSA・Aimer・ClariS）と作中音楽の二本柱になる。J-POP歌手の片手間ではなく「アニメと共に生きるアニソンアーティスト」が確立し、梶浦由記・澤野弘之の劇伴作家性がこれと対をなす。同時にラブライブ・ガルパン・ユーフォニアム・四月は君の嘘といった作中音楽作品が急増し、挿入歌中心性と音楽=主題指数をともに頂点へ押し上げた。<b>音楽が「外付けの主題歌」から「物語そのものの素材」へ内在化した</b>のである。</p>
+
+<h3>第五相＝配信で自走するグローバル商品（2020s）</h3>
+<p>ボカロ・配信出自のトップアーティスト（米津玄師「KICK BACK」／YOASOBI「アイドル」／Ado／Creepy Nuts）が支配し、タイアップ度・作家性がともに最高に達する。決定的なのは、これらの楽曲が作品の付属物でも宣伝媒体でもなく<b>それ自体が世界的なストリーミング商品</b>になった点だ。これを可能にしたのはCDの死とサブスクの世界同時配信で、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/032_disc_to_subscription/">収益の器が円盤から配信へ移った段差</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/015_distribution_overseas/">海外同時配信の離陸</a>が直接の駆動である。主題歌は今や、世界二〇〇か国の視聴者がオープニングで初めて触れ、その場でストリーミングに飛ぶ<b>入口</b>になった。</p>
+
+<h3>なぜそうなったか——受容層の移動と作家性の別軸</h3>
+<p>主題歌の機能を最終的に規定したのは受容層の移動である。お茶の間の児童（命名歌が要る）→ 深夜枠の青年（オシャレなタイアップ／キャラソンを愛好）→ グローバルな配信視聴者（言語を超える楽曲を消費）という移動は、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/012_broadcast_format/">放送の深夜化</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/017_target_audience/">受容層の専有化</a>と同型に進んだ。一方、劇伴作家性のV字（1970s高→2000s凹→2020s最高）は退潮と復活の物語ではない。菅野よう子がカウボーイビバップで多ジャンルを横断して劇伴を「独立に鑑賞される芸術」へ引き上げ、梶浦・澤野・牛尾憲輔がその系譜を継いだ——この作家性の進化は主題歌の商業性とは<b>別の軸</b>で動いた。2000sの凹みは退行ではなく、萌え・キャラソン作品が大量に分母を占めた構成効果であり、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/010_animation_characteristics/">作画</a>や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/042_magic_power_system/">魔法・能力体系</a>で繰り返し観測した「分母効果」の音楽版と読むべきである。</p>
+
 <h3>反証・留保</h3>
-<p>2020sの音楽=主題指数の下落（0.41→0.29）は退行でなく、配信ヒット作品が分母を割った構成効果（両極化＋分母効果の音楽版、run#41/#10と同型）。「アニソン＝固有文化（水木）」か「J-POPへの溶解（Nippon.com）」かは、本データでは<b>両方が同時進行</b>。選定バイアスにより絶対値は不可信、相対変化のみ読む。</p>
+<p class="mut">①<b>選定バイアス</b>：母集団は「音楽が語られやすい代表作」に寄るため、無名の量産深夜アニメの平凡な主題歌は過小代表。指数の絶対値は信頼せず、相対変化のみ読む。②<b>2020sの音楽=主題指数の下落（0.41→0.29）は退行ではない</b>：呪術・フリーレン・水星の魔女など「配信ヒット主題歌だが音楽は主題でない」作品が大量に分母を割った構成効果で、ぼっち・ざ・ろっく!／推しの子のように音楽中心作品はむしろ強化されている（<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/041_gag_comedy/">ギャグ</a>・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/010_animation_characteristics/">作画</a>と同型の両極化＋分母効果）。③<b>「アニソン＝固有文化」か「J-POPへの溶解」か</b>は論者で割れるが、本データは<b>両方が同時進行した</b>ことを示す——タイアップでJ-POPに溶けつつ（第三相）、アニソンアーティストとして固有性を再獲得した（第四相）。④<b>相関≠因果</b>：モード交代を流通技術（CD→配信）だけで説明すると単純化に陥る。受容層の世代交代・製作委員会の出資構造が交絡しており分離できない。⑤今後の問い——配信ヒット主題歌が作品世界から自立しすぎて「タイアップ第二の波」（歌詞の作品適合度の再低下）になっていないか。</p>
 </div>
 
-<h2>4. 他者の論評（出典つき）</h2>
-<div class="q">「1990年代にアニメソングとJ-POPの境界が曖昧化。ZARD/WANDS/B'z…が提供しミリオン連発、アニソンは『ポップ/ロック市場向けに意図的に書かれたキャッチー曲』へ再定義された」<br><span class="sub">Nippon.com — How Anime Songs Rose to Conquer the World</span><br><a href="https://www.nippon.com/en/in-depth/d01109/how-anime-songs-rose-to-conquer-the-world.html">nippon.com</a></div>
-<div class="q">「アニメソングは世界に誇る日本固有の文化。主人公や武器の名を連呼せずとも、魂のこもった歌ならアニソンと呼べる」<br><span class="sub">水木一郎（カルチャ／日本コロムビア）— 商業タイアップ化への肯定的再定義</span><br><a href="https://ticketjam.jp/magazine/music/anison/19438">ticketjam.jp（前編）</a></div>
-<div class="q">「菅野よう子はアニメ音楽の歴史を変えた。カウボーイビバップはジャズを軸にカントリー/ブルース/ファンクを横断、黒人音楽の使用は当時のシーンで極めてラディカルだった」<br><span class="sub">Dazed — Yoko Kanno reinvented what anime scores could be</span><br><a href="https://www.dazeddigital.com/music/article/51208/1/how-yoko-kanno-created-the-cowboy-bebop-soundtrack">dazeddigital.com</a></div>
-<div class="q">「ラブライブの音楽は、架空キャラを定義しメディアミックスで物語を循環させるプラットフォーム。大きな物語を欠き断片化した萌え要素が豊富（東浩紀的フレーム）」<br><span class="sub">UC eScholarship — Anime Idol Music in the Media Mix: Love Live</span><br><a href="https://escholarship.org/uc/item/2m63z7dr">escholarship.org</a></div>
-<div class="q">「マクロスは1980年代から diegetic pop を物語の核に統合。ガンダムに対する最大の優位は一貫して音楽」<br><span class="sub">The Art Archive / ComicBook — Macross & Idol Culture</span><br><a href="https://comicbook.com/anime/news/macross-gundam-mecha-rival-music/">comicbook.com</a></div>
-<div class="q">「LiSA『炎』はBTS『Dynamite』より速い7週で100M再生に到達。YOASOBI『アイドル』はBillboard Global（除く米国）で日本曲初の首位。結束バンド（ぼざろ）のアルバムはK-POP Stray Kidsを抑えオリコン1位・プラチナ」<br><span class="sub">Anime News Network / CBR / Wikipedia — 配信時代のグローバル・ヒット</span><br><a href="https://en.wikipedia.org/wiki/Homura_(song)">en.wikipedia.org/Homura</a> / <a href="https://www.cbr.com/bocchi-the-rock-kessoku-band-tops-stray-kids-sales/">cbr.com</a></div>
+<h2 class="h2-essay">4. 他者の論評との対話</h2>
+<p class="mut">「J-POPへの溶解」と見る論、「固有文化」と擁護する論、劇伴作家性を別軸で評価する論、作中アイドル音楽をデータベース消費として批判する論——立場は割れるが、いずれも本データの「付属物→宣伝枠→自立ジャンル→世界商品」という機能交代の幹を別々の角度から照らす。</p>
+<div class="views">
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>Nippon.com「How Anime Songs Rose to Conquer the World」</b></p>
+<div class="vt">1990年代にアニソンとJ-POPの境界が曖昧化し、アニソンは「ポップ／ロック市場向けに意図的に書かれたキャッチー曲」へ再定義された <span class="stance sup">一致</span></div>
+<p>ZARD／WANDS／B'zらがアニメに楽曲を提供してミリオンを連発し、主題歌がJ-POP市場に吸収された経緯を整理する。さらに2020sのストリーミング・ヒットは、かつての「他の日本文化と一緒に音楽を輸出する」段階を超え、主題歌が単独で世界チャートに乗り作品を牽引する段階へ達したと記す。</p>
+<div class="match"><b>データとの照合：</b>タイアップ度指数が1980sに0.40→0.62へ段差を作り高原化する第三相、および2020sタイアップ度0.68・配信ヒットの第五相と一致。</div>
+<div class="src"><a href="https://www.nippon.com/en/in-depth/d01109/how-anime-songs-rose-to-conquer-the-world.html">nippon.com — How Anime Songs Rose to Conquer the World</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">当事者</span><b>水木一郎（アニソン歌手・日本コロムビア／カルチャ誌インタビュー）</b></p>
+<div class="vt">アニメソングは世界に誇る日本固有の文化。名を連呼せずとも、魂のこもった歌ならアニソンと呼べる <span class="stance neu">別軸の留保</span></div>
+<p>商業タイアップによるJ-POPへの溶解に対し、アニソンを固有のジャンル文化として擁護・再定義する立場。本データが示す「J-POPへの吸収」と「固有性の再獲得」が同時進行したという両義性の、後者を担う当事者の証言である。</p>
+<div class="match"><b>データとの照合：</b>第三相のタイアップ全盛と、第四相の自立アニソン（artist_anison）台頭が併存する本データの「両方が同時進行」という観察を裏づける。</div>
+<div class="src"><a href="https://ticketjam.jp/magazine/music/anison/19438">ticketjam.jp／カルチャ「アニソンの歴史」（水木一郎）</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>Dazed「How Yoko Kanno reinvented what anime scores could be」</b></p>
+<div class="vt">菅野よう子はアニメ音楽の歴史を変えた。カウボーイビバップはジャズを軸にカントリー／ブルース／ファンクを横断した <span class="stance sup">一致</span></div>
+<p>菅野が劇伴を「作品と独立に鑑賞される芸術」へ引き上げたと評価する。当時のシーンで黒人音楽を全面的に使うことは極めてラディカルだったという。劇伴作家性が主題歌の商業性とは別軸で動くという本データの観察と整合する。</p>
+<div class="match"><b>データとの照合：</b>作家性指数と音楽=主題指数が別々のカーブを描く（作家性は2020s 0.47で最高、菅野→梶浦／澤野／牛尾の系譜）という本データの「別軸」観察を支持。</div>
+<div class="src"><a href="https://www.dazeddigital.com/music/article/51208/1/how-yoko-kanno-created-the-cowboy-bebop-soundtrack">dazeddigital.com — Yoko Kanno</a></div>
+</div>
+<div class="view">
+<p class="who"><span class="wl">研究</span><b>UC eScholarship「Anime Idol Music in the Media Mix: Love Live!」</b></p>
+<div class="vt">ラブライブの音楽は、架空キャラを定義しメディアミックスで物語を循環させるプラットフォーム。大きな物語を欠き断片化した萌え要素が豊富（東浩紀的フレーム） <span class="stance cau">批判的・留保あり</span></div>
+<p>作中アイドル音楽を「商業的に断片化したデータベース消費の装置」と読む立場。ただし四月は君の嘘・ユーフォニアム・ぼっち・ざ・ろっく!のように、音楽が成長や関係性の主題と不可分に統合された作品も多く、「商業的断片化」一元論には本データからも留保が要る。</p>
+<div class="match"><b>データとの照合：</b>2010sの音楽=主題指数0.41ピーク・挿入歌中心性0.71ピークという「作中音楽の噴出」を裏づける一方、それを単なる商品消費に還元できない作品群の存在も同じデータが示す。</div>
+<div class="src"><a href="https://escholarship.org/uc/item/2m63z7dr">escholarship.org — Anime Idol Music in the Media Mix</a></div>
+</div>
+</div>
 
 <h2>5. 作品一覧（120作）</h2>
 <div class="card">
@@ -86,12 +200,16 @@ var Cm={kids_named:'#ff5da2',anison_singer:'#ffd45d',anime_dedicated:'#7de08f',j
 var Lm={kids_named:'命名歌',anison_singer:'アニソン歌手',anime_dedicated:'専用書下し',jpop_tieup:'J-POPタイアップ',artist_anison:'自立アニソン',character_song:'キャラソン',in_story_music:'作中音楽',vocaloid_streaming:'配信世代'};
 var modes=['kids_named','anison_singer','anime_dedicated','jpop_tieup','artist_anison','character_song','in_story_music','vocaloid_streaming'];
 function ds(){return modes.map(function(m){return{label:Lm[m],backgroundColor:Cm[m],data:decs.map(function(d){return (S.theme_song_mode_by_decade[d]||{})[m]||0})}})}
-new Chart(document.getElementById('modeChart'),{type:'bar',data:{labels:decs.map(function(d){return d+'s'}),datasets:ds()},options:{responsive:true,scales:{x:{stacked:true,ticks:{color:'#a8aede'}},y:{stacked:true,max:1,ticks:{color:'#a8aede'}}},plugins:{legend:{labels:{color:'#eef0ff',boxWidth:12,font:{size:11}}}}}});
+new Chart(document.getElementById('modeChart'),{type:'bar',data:{labels:decs.map(function(d){return d+'s'}),datasets:ds()},options:{responsive:true,scales:{x:{stacked:true,ticks:{color:'#33312c'}},y:{stacked:true,max:1,ticks:{color:'#33312c'}}},plugins:{legend:{labels:{color:'#33312c',boxWidth:12,font:{size:11}}}}}});
 function ln(k,c){return{label:k,borderColor:c,backgroundColor:c,tension:.3,data:decs.map(function(d){return S[({'タイアップ度':'tieup_index','作家性':'auteur_index','音楽=主題':'music_theme_index','挿入歌中心性':'insert_index'})[k]][d]})}}
-new Chart(document.getElementById('idxChart'),{type:'line',data:{labels:decs.map(function(d){return d+'s'}),datasets:[ln('タイアップ度','#5db8ff'),ln('作家性','#ffd45d'),ln('音楽=主題','#ff5da2'),ln('挿入歌中心性','#4de0d0')]},options:{scales:{x:{ticks:{color:'#a8aede'}},y:{min:0,max:1,ticks:{color:'#a8aede'}}},plugins:{legend:{labels:{color:'#eef0ff',boxWidth:12}}}}});
+new Chart(document.getElementById('idxChart'),{type:'line',data:{labels:decs.map(function(d){return d+'s'}),datasets:[ln('タイアップ度','#5db8ff'),ln('作家性','#ffd45d'),ln('音楽=主題','#ff5da2'),ln('挿入歌中心性','#4de0d0')]},options:{scales:{x:{ticks:{color:'#33312c'}},y:{min:0,max:1,ticks:{color:'#33312c'}}},plugins:{legend:{labels:{color:'#33312c',boxWidth:12}}}}});
 var g=S.score_genre_overall;
-new Chart(document.getElementById('genreChart'),{type:'doughnut',data:{labels:Object.keys(g),datasets:[{data:Object.values(g),backgroundColor:['#5db8ff','#ff5da2','#ffd45d','#b18cff','#4de0d0','#7de08f','#ff9d5d']}]},options:{plugins:{legend:{labels:{color:'#eef0ff',boxWidth:12,font:{size:11}}}}}});
-new Chart(document.getElementById('mtChart'),{type:'line',data:{labels:decs.map(function(d){return d+'s'}),datasets:[{label:'central',borderColor:'#ff5da2',backgroundColor:'#ff5da2',tension:.3,data:decs.map(function(d){return (S.music_is_theme_by_decade[d]||{})['central']||0})},{label:'partial',borderColor:'#ffd45d',backgroundColor:'#ffd45d',tension:.3,data:decs.map(function(d){return (S.music_is_theme_by_decade[d]||{})['partial']||0})}]},options:{scales:{x:{ticks:{color:'#a8aede'}},y:{min:0,max:1,ticks:{color:'#a8aede'}}},plugins:{legend:{labels:{color:'#eef0ff',boxWidth:12}}}}});
+var GLM={orchestral:'オーケストラ／シンフォニック',pop:'歌謡・J-POP調',rock:'ロック',electronic:'エレクトロニック',piano:'ピアノ・室内楽',ethnic:'民族・エスニック',jazz:'ジャズ'};
+(function(){var keys=Object.keys(g).filter(function(k){return g[k];});keys.sort(function(a,b){return g[b]-g[a];});
+var tot=keys.reduce(function(a,k){return a+g[k];},0);
+var cols=['#3b7ea1','#c98a1a','#2f8f5b','#c25b7e','#7a5bd0','#9aa7b5','#b14a2b'];
+new Chart(document.getElementById('genreChart'),{type:'bar',data:{labels:keys.map(function(k){return GLM[k]||k;}),datasets:[{data:keys.map(function(k){return g[k];}),backgroundColor:keys.map(function(k,i){return cols[i%cols.length];}),borderRadius:3,maxBarThickness:26}]},options:{indexAxis:'y',layout:{padding:{right:64}},plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'end',clamp:true,color:'#5b554a',font:{size:11,weight:'700'},formatter:function(v){return v+'件（'+Math.round(100*v/tot)+'%）';}}},scales:{x:{beginAtZero:true,grace:'15%',ticks:{precision:0}},y:{ticks:{font:{size:12}}}}},plugins:[ChartDataLabels]});})();
+new Chart(document.getElementById('mtChart'),{type:'line',data:{labels:decs.map(function(d){return d+'s'}),datasets:[{label:'中心（物語の核）',borderColor:'#ff5da2',backgroundColor:'#ff5da2',tension:.3,data:decs.map(function(d){return (S.music_is_theme_by_decade[d]||{})['central']||0})},{label:'部分（一部に関与）',borderColor:'#ffd45d',backgroundColor:'#ffd45d',tension:.3,data:decs.map(function(d){return (S.music_is_theme_by_decade[d]||{})['partial']||0})}]},options:{scales:{x:{ticks:{color:'#33312c'}},y:{min:0,max:1,ticks:{color:'#33312c'}}},plugins:{legend:{labels:{color:'#33312c',boxWidth:12}}}}});
 // table
 var sel=document.getElementById('md');modes.forEach(function(m){var o=document.createElement('option');o.value=m;o.textContent=Lm[m];sel.appendChild(o)});
 var sortDir=1;

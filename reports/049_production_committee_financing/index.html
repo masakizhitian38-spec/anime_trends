@@ -2,32 +2,68 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>製作委員会・出資構造の変遷</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>if(window.Chart){Chart.defaults.maintainAspectRatio=false;Chart.defaults.responsive=true;Chart.defaults.font.size=12;}</script>
 <style>
-:root{--bg:#0f1220;--card:#181c2e;--ink:#e8eaf6;--sub:#9aa3c4;--ac:#ff8a5c;--ac2:#5cc8ff;--ac3:#9d7bff;--gd:#2a3050}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.75}
-.wrap{max-width:1000px;margin:0 auto;padding:32px 20px 80px}
-h1{font-size:26px;margin:0 0 6px;border-left:6px solid var(--ac);padding-left:12px}
-.sub{color:var(--sub);margin:0 0 28px;font-size:14px}
-h2{font-size:20px;margin:40px 0 14px;border-bottom:1px solid var(--gd);padding-bottom:8px}
-h3{font-size:16px;color:var(--ac2);margin:24px 0 8px}
-.card{background:var(--card);border:1px solid var(--gd);border-radius:12px;padding:18px 20px;margin:14px 0}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid2{grid-template-columns:1fr}}
-canvas{background:#11142440;border-radius:8px}
-table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0}
-th,td{border:1px solid var(--gd);padding:6px 9px;text-align:center}th{background:#1f2540;color:var(--ac2)}
-td.l,th.l{text-align:left}
-.kpi{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0}
-.kpi div{background:var(--card);border:1px solid var(--gd);border-radius:10px;padding:12px 16px;flex:1;min-width:150px}
-.kpi b{display:block;font-size:24px;color:var(--ac)}
-.kpi span{font-size:12px;color:var(--sub)}
-p{margin:10px 0}
-.quote{border-left:4px solid var(--ac3);background:#1a1f36;border-radius:8px;padding:12px 16px;margin:12px 0}
-.quote .src{display:block;margin-top:6px;font-size:12px;color:var(--sub)}
-.quote a{color:var(--ac2);text-decoration:none}.quote a:hover{text-decoration:underline}
-.pro{border-left-color:#4caf82}.con{border-left-color:#ff6b6b}.mid{border-left-color:#ffd166}
-.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;margin-right:6px}
-.tag.p{background:#173a2c;color:#7fe0b0}.tag.c{background:#3a1a1a;color:#ff9a9a}.tag.m{background:#3a3417;color:#ffe08a}
-small{color:var(--sub)}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+:root{--paper:#faf7f1;--ink:#23201a;--mut:#8c8475;--soft:#5b554a;--line:#e6ded0;--rule:#ddd3c2;--accent:#b14a2b;--accent2:#1f6f4a;--con:#9a3550;--amber:#a9781a;--card:#fff;--c1:#3b7ea1;--c2:#c98a1a;--c3:#2f8f5b;--c4:#c25b7e;--c5:#7a5bd0;--c6:#9aa7b5;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP",-apple-system,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 22px 70px}
+h1{font-family:"Noto Serif JP",serif;font-weight:700;font-size:27px;line-height:1.35;margin:0 0 8px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:20px;margin:34px 0 10px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:13.5px;font-weight:700;color:var(--soft);margin:0 0 6px}
+p{font-size:15px;color:#2c2820;margin:10px 0;max-width:760px}
+small,.small{color:var(--soft);font-size:12.5px;line-height:1.6;display:block;margin-top:6px;max-width:760px}
+.mut{color:var(--soft);font-size:13.5px;line-height:1.7;max-width:760px}
+.card{background:transparent;border:0;padding:0;margin:12px 0}
+.grid,.grid2,.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid,.grid2,.g2{grid-template-columns:1fr}}
+.card:has(canvas){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 12px 8px;margin:12px 0;display:flex;flex-direction:column;min-height:290px}
+.card:has(canvas) h3{flex:0 0 auto}
+.cbox{position:relative;flex:1 1 auto;min-height:240px}
+.cbox canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.tldr{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:16px 20px;margin:6px 0 16px}
+.tldr-lab{font-family:"Noto Serif JP",serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);margin-bottom:8px}
+.tldr-lead{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.65;margin:0 0 12px;color:#2a2620;max-width:none}
+.tldr-list{list-style:none;margin:0;padding:0;max-width:none}
+.tldr-list li{position:relative;padding-left:18px;margin:8px 0;font-size:14px;line-height:1.7;color:#34302a}
+.tldr-list li:before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.tldr-list b{color:#1f1c17}
+.h2-essay{margin-top:46px}
+.essay{background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px 28px;margin:10px 0 18px;max-width:none}
+.essay .thesis{font-family:"Noto Serif JP",serif;font-size:15.5px;line-height:1.75;color:#2a2620;margin:0 0 18px;padding:2px 0 2px 15px;border-left:3px solid var(--accent);max-width:none}
+.essay h3{font-family:"Noto Serif JP",serif;font-size:14.5px;color:var(--accent);margin:24px 0 6px;font-weight:700}
+.essay p{font-size:14.5px;line-height:1.9;color:#2c2820;margin:9px 0;max-width:none}
+.essay .phase{margin:11px 0;padding:2px 0 2px 15px;border-left:2px solid #ecddc2;line-height:1.85;font-size:14.5px;color:#2c2820}
+.essay .phase b{color:#1f1c17}
+.tlink{color:var(--accent);text-decoration:none;border-bottom:1px solid #e3b9a8;font-weight:500}.tlink:hover{background:#f6ece6}
+.ex h3{color:var(--accent);font-size:14px;margin:16px 0 2px}.ex p{margin:6px 0}
+.quote{font-family:"Noto Serif JP",serif;font-size:16px;line-height:1.7;color:#2a2620;border-left:3px solid var(--accent);background:#f6f0e4;border-radius:0 5px 5px 0;margin:8px 0;padding:10px 16px;max-width:760px}
+.quote .qby{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12px;color:var(--mut);margin-top:6px}
+.views{display:flex;flex-direction:column;gap:12px;margin:12px 0}.qc,.qcards{display:flex;flex-direction:column;gap:12px}
+.view{background:#fff;border:1px solid var(--line);border-radius:7px;padding:15px 18px}
+.who{font-size:13.5px;color:#23201a;margin:0 0 8px}
+.who .wl{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--mut);border:1px solid var(--line);border-radius:3px;padding:1px 7px;margin-right:9px;vertical-align:middle}
+.view .vt{font-family:"Noto Serif JP",serif;font-weight:700;font-size:15.5px;color:#23201a;margin:0 0 7px}
+.stance{font-size:11px;font-weight:700;padding:1px 8px;border-radius:3px;margin-left:8px;vertical-align:middle}
+.stance.sup{color:var(--accent2);background:#eef4f0}.stance.cau{color:var(--con);background:#f6edf0}.stance.neu{color:var(--amber);background:#f5efe1}
+.view p{font-size:14px;line-height:1.7;margin:6px 0;max-width:none;color:#34302a}
+.view .match{background:#f7f1e6;border-radius:5px;padding:8px 11px;font-size:13.2px;color:#3a2410;margin:9px 0 7px}
+.view .match b{color:var(--accent)}.view .src{font-size:11.8px;color:var(--mut)}.view .src a{color:var(--accent);word-break:break-all}
+.kpis{display:flex;flex-wrap:wrap;gap:0;margin:16px 0 2px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{border:0;border-right:1px solid var(--rule);border-radius:0;padding:10px 18px 10px 0;margin-right:18px;flex:0 0 auto}
+.kpi:last-child{border-right:0}.kpi b,.kpi .v{display:block;font-family:"Noto Serif JP",serif;font-size:22px;font-weight:700;color:var(--accent)}.kpi span,.kpi .l{display:block;font-size:11px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--soft);cursor:pointer;position:sticky;top:0;background:#f3ece0;font-weight:700}tr:nth-child(even) td{background:#fbf8f2}
+.tablewrap,.tw,.tbox,.tbl-wrap,.tbl_wrap{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.controls,.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font-size:13px}
+.pill,.badge,.tag,.lbl{display:inline-block;padding:1px 7px;border-radius:3px;font-size:11px;border:1px solid var(--line);color:var(--soft)}
+.note,.warn{background:#f7f1e6;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:#43331f;max-width:760px}
+.warn{background:#f7ece6;border-color:#e6cdbf}
+ul{font-size:15px;color:#2c2820;padding-left:1.1em;max-width:760px}li{margin:4px 0}
 </style><link rel="canonical" href="https://masakizhitian38-spec.github.io/anime_trends/reports/049_production_committee_financing/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
@@ -41,27 +77,57 @@ small{color:var(--sub)}
 <h1>製作委員会・出資構造の変遷</h1>
 <p class="sub">視点049 / 109作 / 戦後〜2024 ｜ 「誰が金を出し誰が権利を握るか」の60年</p>
 
-<div class="kpi">
-<div><b>0→94%</b><span>製作委員会浸透率（1960s→2010sピーク）</span></div>
-<div><b>2.0→4.1</b><span>参加業種の広さ（平均, 1960s→2010s）</span></div>
-<div><b>11.8%</b><span>2020s 配信単独出資シェア（新台頭）</span></div>
-<div><b>76.5%</b><span>2020s 委員会率（10sから多極化で低下）</span></div>
+<div class="kpis">
+<div class="kpi"><b>0→94%</b><span>製作委員会浸透率（1960s→2010sピーク）</span></div>
+<div class="kpi"><b>2.0→4.1</b><span>参加業種の広さ（平均, 60s→10s）</span></div>
+<div class="kpi"><b>11.8%</b><span>2020s 配信単独出資シェア（新台頭）</span></div>
+<div class="kpi"><b>76.5%</b><span>2020s 委員会率（多極化で低下）</span></div>
+</div>
+
+<div class="tldr">
+<div class="tldr-lab">要旨</div>
+<p class="tldr-lead">アニメの出資構造の60年は、「誰が確実に回収できるか」に従って金の出し手＝主役が約20年ごとに交代してきた歴史であり、製作委員会はその一形態にすぎない。</p>
+<ul class="tldr-list">
+<li><b>主役の周期交代。</b> スポンサー単独（60s）→玩具（70s）→ビデオ/OVA（80s）→<b>製作委員会という多業種連合</b>（90s 47%→00s 84%→10s 94%ピーク）→配信・海外・スタジオ自社へ多極化（20s）。</li>
+<li><b>2020sの委員会率“低下”は退行でなく分母の多様化。</b> 94%→76.5%の低下は委員会の機能不全ではなく、配信単独（5.9→11.8%）・国際共同・スタジオ自社という新しい出口が同時に開いた結果。資金規模指数はむしろ2020sで最高。</li>
+<li><b>「広く薄い出資」の逆説。</b> 参加業種の広さは2.0→4.1へ拡大しリスクは徹底分散される一方、スタジオが委員会に出資できなければ大ヒットしても利益が還元されない。</li>
+<li><b>恩恵は偏在する。</b> 委員会率は青年0.69 ⇔ 児童0.07。OVAは映像ソフト単独出資ゆえ構造的に非委員会（0.00）。</li>
+<li><b>留保。</b> 委員会の出資比率・幹事構成は非公開が多く、絶対値でなく分布の系統的変化として読む。</li>
+</ul>
+</div>
+
+<h2>具体例 — 時代ごとの代表作と出資構造</h2>
+<div class="ex">
+<h3>スポンサー単独と玩具主導（1960–70年代）</h3>
+<p>テレビが唯一の出口だった黎明期、『鉄腕アトム』（1963）は明治製菓の単独スポンサーで成立した。1970年代に入ると『マジンガーZ』のポピー（バンダイ）製超合金、『機動戦士ガンダム』打ち切り後のガンプラが、それぞれ「番組＝玩具の宣伝媒体」という出資論理を確立する。ロボットアニメの隆盛は玩具開発の都合と不可分だった。</p>
+
+<h3>ビデオ資本とOVA、そして委員会の初出（1980年代）</h3>
+<p>『ダロス』（1983）を起点に、ビデオというパッケージ販売が放送に依存しない新たな出口を生んだ。映像ソフト会社が出資する愛好者直販モデルである。大型予算の『AKIRA』（1988）は「アキラ製作委員会」を組み、講談社・バンダイ・博報堂らで巨費を分散した早期事例となった。</p>
+
+<h3>製作委員会の標準化と円盤の黄金期（1990s–2000s）</h3>
+<p>バブル崩壊でスタジオが単独リスクを負えなくなり、複数社が出資・著作権を共有してリスクを分散する委員会が台頭。『新世紀エヴァンゲリオン』（1995）の委員会が深夜・円盤時代の象徴となった。2000年代にはDVD（円盤）が最強の回収装置となり委員会率は84%へ。『涼宮ハルヒの憂鬱』に代表される角川の自社IP統合型が主導した。</p>
+
+<h3>「委員会の外」への多極化（2020年代）</h3>
+<p>MAPPAは『チェンソーマン』（2022）を一社100%自社出資し、利益不還元問題に正面から答えた。『Cyberpunk: Edgerunners』は海外資本・国際共同、『DEVILMAN crybaby』『PLUTO』は配信単独出資の典型である。</p>
+
+<blockquote class="quote">「グッズや配信の権利を持つ会社はかなりの利益を稼いでいる一方、制作会社は業界の中で一番稼げない構造になっている。制作会社が利益を得るために必要な手段として『100％出資』にチャレンジした」<span class="qby">— 大塚学（MAPPA 代表取締役）／『チェンソーマン』100%自社出資について（東洋経済オンライン 2023・Real Sound 2022 の要旨）</span></blockquote>
+<blockquote class="quote">「Netflixが日本アニメに大金を出すフェーズは終わった」<span class="qby">— 週刊アスキー 記事見出し（2025）。配信資本が大型オリジナルから委員会への“部分出資”へと転じた2020s多極化を映すコピー</span></blockquote>
 </div>
 
 <h2>1. 委員会浸透と新モデルの台頭</h2>
 <div class="grid2">
-<div class="card"><h3>委員会方式の浸透率（年代別）</h3><canvas id="c1" height="220"></canvas>
+<div class="card"><h3>委員会方式の浸透率（年代別）</h3><div class="cbox"><canvas id="c1" height="220"></canvas></div>
 <p><small>0 →(80s)6.7% →(90s)47% →(00s)84% →(10s)94%ピーク →(20s)76.5%。AKIRA(1988)で初出、エヴァ(1995)で標準化、円盤期に圧倒。</small></p></div>
-<div class="card"><h3>配信単独・国際共同・スタジオ自社（新出資, 年代別）</h3><canvas id="c2" height="220"></canvas>
+<div class="card"><h3>配信単独・国際共同・スタジオ自社（新出資, 年代別）</h3><div class="cbox"><canvas id="c2" height="220"></canvas></div>
 <p><small>2020sに配信単独11.8%・国際共同5.9%・スタジオ自社が同時台頭＝委員会率“低下”の正体は「分母の多様化」。</small></p></div>
 </div>
 
 <h2>2. 出資モデルの重心移動</h2>
-<div class="card"><h3>funding_model シェア（年代別・積み上げ）</h3><canvas id="c3" height="260"></canvas>
+<div class="card"><h3>funding_model シェア（年代別・積み上げ）</h3><div class="cbox"><canvas id="c3" height="260"></canvas></div>
 <p><small>スポンサー単独(60s)→玩具主導(70s)→ビデオ/OVA(80s)→製作委員会(90s–10s)→配信・海外・自社へ拡散(20s)。</small></p></div>
 
 <div class="grid2">
-<div class="card"><h3>資金規模指数 & 業種の広さ</h3><canvas id="c4" height="220"></canvas>
+<div class="card"><h3>資金規模指数 & 業種の広さ</h3><div class="cbox"><canvas id="c4" height="220"></canvas></div>
 <p><small>規模指数 0→0.63 単調増、業種の広さ 2.0→4.1。リスク分散の徹底＝広く薄い出資。</small></p></div>
 <div class="card"><h3>主導業種の世代交代</h3>
 <table><tr><th>年代</th><th class="l">主導業種トップ</th></tr>
@@ -76,7 +142,7 @@ small{color:var(--sub)}
 
 <h2>3. クロス集計</h2>
 <div class="grid2">
-<div class="card"><h3>対象層別 委員会率</h3><canvas id="c5" height="220"></canvas>
+<div class="card"><h3>対象層別 委員会率</h3><div class="cbox"><canvas id="c5" height="220"></canvas></div>
 <p><small>青年0.69＞一般0.46＞少年0.43＞少女0.20＞児童0.07。委員会の恩恵は青年・深夜に偏在、児童向けは今も玩具・スポンサー型。</small></p></div>
 <div class="card"><h3>種別 委員会率・業種の広さ</h3>
 <table><tr><th>種別</th><th>委員会率</th><th>業種の広さ</th><th>n</th></tr>
@@ -86,35 +152,62 @@ small{color:var(--sub)}
 <p><small>OVAは映像ソフト単独出資＝構造的に非委員会。劇場は業種最大（大型分散出資）。</small></p></div>
 </div>
 
-<h2>4. 考察（要旨）</h2>
-<div class="card">
-<p><b>大きな弧＝「主導権の周期交代」</b>：出資の主役はスポンサー(60s)→玩具(70s)→映像ソフト(80s)→製作委員会という多業種連合(90s–10s)→配信・海外・スタジオ自社(20s)へ移った。各交代は美学でなく<b>「その時代に最も確実に回収できる窓口は何か」</b>への最適応答。産業メタ群（run#11/13/14/16/32）と同型の「○○の所在が約20年周期で交代」テンプレの、最も根源的（資金source）な現れ。</p>
-<p><b>2020sの委員会率低下は退行でなく分母の多様化</b>：10s 94%→20s 76.5%の低下は委員会の機能不全ではなく、配信単独・国際共同・スタジオ自社という<b>新しい出資の出口が同時に開いた</b>結果。資金規模指数は2020sで最高(0.63)。run#10/#12/#46の「平均の凹み＝構成効果」と同じ読み。</p>
-<p><b>「最も金が集まるのに作り手が貧しい」逆説</b>：業界に史上最高の資金が流入する一方、スタジオが委員会に出資できねば大ヒットしても不還元（児童向け委員会率0.07の偏りに対応）。広く薄い出資（業種の広さ拡大）が、裏面で個別予算の頭打ちを生む。この不満が配信・海外・自社出資という「委員会の外」を育てた。</p>
-<p>→ 詳細は <b>analysis.md</b>（時代背景・転換点・反証・他者論評との対話）を参照。</p>
+<h2 class="h2-essay">考察</h2>
+<div class="essay">
+<p class="thesis">出資構造の60年は、美学ではなく「その時代に最も確実に回収できる窓口はどこか」という問いへの最適応答の連鎖である。製作委員会はその答えの一形態にすぎず、回収の場が円盤からサブスク・世界市場へ移れば、出資の器もまた静かに姿を変える。</p>
+
+<h3>「主導権の周期交代」という産業メタの、最も根源的な現れ</h3>
+<p>本視点は、<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/011_production_system/">視点011</a>（制作体制）・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">視点016</a>（商業的成否）・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/032_disc_to_subscription/">視点032</a>（円盤からサブスクへの移行）・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/014_marketing_promotion/">視点014</a>（マーケティング）で繰り返し現れた「○○の所在が約20年周期で交代する」というテンプレの、最も上流（＝資金source）における現れである。出資の主役はスポンサー（局・代理店）→玩具メーカー→映像ソフト会社→製作委員会という多業種連合→配信・海外・スタジオ自社へと移った。各段の交代は趣味の問題ではなく、その時代に「最も確実に金が戻る窓口」を選び続けた結果にすぎない。</p>
+
+<h3>2020sの委員会率“低下”は退行でなく「分母の多様化」</h3>
+<p><a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/010_animation_characteristics/">視点010</a>（作画のN字谷）や<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/046_cg_production_tech/">視点046</a>（CG度の微減）で繰り返した「平均の凹みは退行でなく構成効果」が、ここでも当てはまる。2010s 94%→2020s 76.5%の低下は委員会が機能不全になったからではなく、委員会の外側に配信単独・国際共同・スタジオ自社という新しい出口が同時に開いたためだ。実際、資金規模指数は2020sで最高を更新し、参加業種の広さも高原を保つ。多様化は衰退ではなく、出資チャネルの選択肢が増えた成熟と読むべきである。</p>
+
+<h3>「最も金が集まるのに作り手が貧しい」逆説</h3>
+<p><a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/016_commercial_success/">視点016</a>で見た「最も稼げた円盤の2000sが最も社会から遠かった」逆説と同型の捻れが、出資面でも立つ。業界には史上最高の資金が流入しているのに、スタジオが委員会に出資していなければ大ヒットしても利益が還元されない（対象層別で青年0.69／児童0.07という偏りがこれに対応する）。さらに、幹事会社が各社の支出上限を事前に決める運用は個別作品の予算を低く抑える。広く薄く出資してリスクを散らす構造そのものが、裏面では作り手への集中投下を妨げているのである。</p>
+
+<h3>「委員会の外」を育てた三つの逃げ道</h3>
+<p>この不満が、2020sの三つの新チャネルを育てた。第一に<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/015_distribution_overseas/">視点015</a>（配信・海外展開）・<a class="tlink" href="https://masakizhitian38-spec.github.io/anime_trends/reports/032_disc_to_subscription/">視点032</a>と連動する<b>配信プラットフォーム出資</b>——個別作品に一括出資でき予算の頭打ちを突破しうるが、委員会の窓口に名を連ねず契約で権利を確保する不透明性を伴う。第二に<b>海外資本・国際共同製作</b>——『攻殻機動隊』（1995）の英資本共同出資が、『Cyberpunk: Edgerunners』で再帰した。第三に<b>スタジオ自社出資</b>——MAPPAのチェンソーマンが象徴だが、クールジャパン機構のブリッジ融資が裏支えしており「完全な自立」には留保が要る。いずれも、出口（流通）がサブスク・グローバルへ動けば入口（出資）もそこへ動く、という当然の力学の現れである。</p>
+
+<h3>反証・留保</h3>
+<p>「出資構造が語れる代表作」に偏った選定ゆえ、深夜の無数の凡庸な委員会作品を過小代表し、委員会率の絶対値は実態より高く出ている可能性がある。また配信単独出資は契約が非公開で、「製作出資」か「単なる配信ライセンス」かを外から見分けにくい。「委員会→予算頭打ち→作り手貧困」という筋は説得的だが、人手不足・多作化・単価据え置きなど他要因との交絡を切り分けたわけではなく、相関は因果ではない。</p>
 </div>
 
-<h2>5. 他者の論評（賛否両論・出典付き）</h2>
+<h2>他者の論評</h2>
+<div class="views">
 
-<h3>功（リスク分散・作品数爆発）</h3>
-<div class="quote pro"><span class="tag p">功</span>委員会は複数社が出資・著作権を共有してリスクを分散し、放送局＝放送、玩具＝商品化、出版社＝出版と「得意な窓口を分担」できる合理的装置。1989年77本→2017年340本という作品数の激増を支えた。
-<span class="src"><a href="https://fullfrontal.moe/production-committees/">fullfrontal.moe — Production Committees</a> ／ <a href="https://chizai-faq.com/2__copyright/2920">知財FAQ</a></span></div>
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>知財FAQ</b> ／ <b>fullfrontal.moe</b>（アニメ産業論）<span class="stance sup">功</span></p>
+<p class="vt">リスク分散と窓口分業の合理的装置だった</p>
+<p>委員会は複数社が出資・著作権を共有してリスクを分散し、放送局＝放送、玩具＝商品化、出版社＝出版と「得意な窓口を分担」できる仕組み。1989年77本→2017年340本という年間制作本数の激増を、この資金インフラが支えた。</p>
+<div class="match"><b>データとの照合：</b>委員会率0→94%の上昇は、この「量の爆発」を支えた資金インフラの拡大として整合する。</div>
+<p class="src">出典：<a href="https://fullfrontal.moe/production-committees/">fullfrontal.moe — Production Committees</a> ／ <a href="https://chizai-faq.com/2__copyright/2920">知財FAQ</a></p>
+</div>
 
-<h3>罪（不還元・予算上限・保守化）</h3>
-<div class="quote con"><span class="tag c">罪</span>「業界は史上最も金を集めているのにアニメーターは貧しい」。幹事会社が各社の支出上限を事前に決める談合的運用で予算が抑えられ、中国企業の$10M単独出資も委員会は20本に$50,000ずつ分散して主導権を保つ——と岡田斗司夫は告発。
-<span class="src"><a href="https://crazyforanimetrivia.com/anime-production-committee/">Crazy for Anime Trivia</a> ／ <a href="https://www.animenewsnetwork.com/interest/2023-03-02/animator-supporters-project-posts-toshio-okada-criticisms-of-production-committee-system-with-/.195481">Anime News Network</a></span></div>
-<div class="quote con"><span class="tag c">罪</span>スタジオが委員会に出資していなければ大ヒットしても利益が還元されない。出資したくても資金的余裕のないスタジオが多い。権利分散で意思決定が遅く、国際共同製作を遠ざけ、原作付きに投資が偏る。
-<span class="src"><a href="https://paradigm-shift.co.jp/column/139/detail">パラダイムシフト</a> ／ <a href="https://chizai-faq.com/2__copyright/2920">知財FAQ</a></span></div>
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>岡田斗司夫</b>（評論家・元GAINAX）<span class="stance cau">罪</span></p>
+<p class="vt">業界は史上最も金を集めているのに、作り手は貧しい</p>
+<p>製作委員会では初期出資比率に応じて利益が分配されるため、出資余力のないスタジオには大ヒットの利益が回らない。幹事会社が各社の支出上限を事前に決める運用が個別予算を抑え、作品本数が増えても制作現場の貧困は解消されない、と岡田は繰り返し指摘してきた。</p>
+<div class="match"><b>データとの照合：</b>対象層別の偏り（児童0.07）と2020sのスタジオ自社・配信への離反は、この不満が構造的に蓄積し「逃げ道」を生んだ証左と読める。</div>
+<p class="src">出典：<a href="https://ch.nicovideo.jp/okadatoshio-archive/blomaga/ar1251751">岡田斗司夫プレミアムブロマガ「どうしてアニメの制作現場はいつまで経っても貧乏なの？」</a> ／ <a href="https://www.animenewsnetwork.com/interest/2023-03-02/animator-supporters-project-posts-toshio-okada-criticisms-of-production-committee-system-with-/.195481">Anime News Network</a></p>
+</div>
 
-<h3>中庸（「委員会＝悪」説への留保）</h3>
-<div class="quote mid"><span class="tag m">中庸</span>「製作委員会悪者説」の提唱者・岩堀利樹自身が委員会を全否定しない。問題は方式そのものより運用（予算分配・スタジオの交渉力）にある——委員会は「悪」でも「善」でもなく、その時代の回収構造に最適化した器。
-<span class="src"><a href="https://note.com/musing/n/nfb9fed9c38bb">岩堀利樹（note）</a></span></div>
+<div class="view">
+<p class="who"><span class="wl">論者</span><b>岩堀利樹</b>（プロデューサー／note）<span class="stance neu">中庸</span></p>
+<p class="vt">「製作委員会悪者説」の提唱者自身が、委員会を全否定しない</p>
+<p>問題は方式そのものより、運用（予算分配のあり方・スタジオの交渉力）にある——委員会は「悪」でも「善」でもなく、その時代の回収構造に最適化した器にすぎない、とする。</p>
+<div class="match"><b>データとの照合：</b>本分析もこれに与する。回収の場が円盤からサブスク・世界市場へ移れば器も変わる、という適応の物語をデータは示す。</div>
+<p class="src">出典：<a href="https://note.com/musing/n/nfb9fed9c38bb">岩堀利樹（note）</a></p>
+</div>
 
-<h3>新潮流（配信・海外・機関投資家・スタジオ自社）</h3>
-<div class="quote"><span class="tag m">潮流</span>NetflixはIG PortにFY2024で$24.3Mを直接支払う規模。配信は委員会の窓口に名を連ねず契約で権利を確保する不透明性を持つが、個別作品に一括出資できる。アニメに機関投資家マネーも流入。
-<span class="src"><a href="https://animecorner.me/anime-ig-port-netflix-24-3-million-2024/">Anime Corner</a> ／ <a href="https://variety.com/2024/film/news/comic-con-japan-anime-industry-finance-1236084281/">Variety</a></span></div>
-<div class="quote"><span class="tag m">潮流</span>MAPPAはチェンソーマンを100%自社出資。大塚学社長「制作だけでなく全権を注ぎたかった」＝利益不還元問題への直接回答。ただしクールジャパン機構のブリッジ融資が裏支えしており「完全な自立」には留保が要る。
-<span class="src"><a href="https://automaton-media.com/en/news/chainsaw-man-embodies-the-reason-why-i-chose-to-work-in-animation-mappa-president-reflects-on-the-studios-bold-decision-to-100-self-fund-the-project/">AUTOMATON WEST</a> ／ <a href="https://www.animenewsnetwork.com/interest/2023-05-18/mappa-ceo-reflects-on-financial-performance-of-chainsaw-man/.198194">ANN</a></span></div>
+<div class="view">
+<p class="who"><span class="wl">媒体</span><b>週刊アスキー</b> ／ <b>ORICON NEWS</b> ／ <b>Variety</b><span class="stance neu">新潮流</span></p>
+<p class="vt">配信・海外・機関投資家が「委員会の外」と「小型化」を進める</p>
+<p>2020s半ばには、Netflixが大型オリジナルへの直接出資から、国内ヒット見込み作の委員会への“部分出資＋海外独占権取得”へと戦略を転換。委員会自体も6〜8社から2〜3社へと小型化し、リスクとリターンの均衡を取り直す動きが報じられる。アニメに機関投資家マネーも流入し始めた。</p>
+<div class="match"><b>データとの照合：</b>2020sの配信単独11.8%・国際共同5.9%・スタジオ自社の同時台頭という「多極化」の延長線上にある。</div>
+<p class="src">出典：<a href="https://weekly.ascii.jp/elem/000/004/119/4119759/4/">週刊アスキー</a> ／ <a href="https://www.oricon.co.jp/special/59095/">ORICON NEWS</a> ／ <a href="https://variety.com/2024/film/news/comic-con-japan-anime-industry-finance-1236084281/">Variety</a></p>
+</div>
+
+</div>
 
 <p style="margin-top:30px"><small>母集団109作の選定・コード化基準・confidenceは titles.md / data.json、統計の全数値は stats.json、考察全文は analysis.md を参照。委員会の出資比率・幹事構成は非公開が多くlead_backer等はconfidence=medium〜low。絶対値でなく分布の系統的変化を読む。</small></p>
 </div>
